@@ -2,30 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductResource;
 
-class CategoryController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
+        $product_type_id = $request->query('product_type_id');
         $order = $request->query('order');
-        
-        $categories = Category::where('state_id', 1)->orderBy('order', 'ASC');
-        
-        if ($order) 
-        {
-            $categories = $categories->orderBy('name', $order);
-        }
-        
-        // convert a query builder into collection
-        $categories = $categories->get();
+        $limit = $request->query('limit');
 
-        return CategoryResource::collection($categories);
+        $products = Product::where('state_id', 1);
+
+        if($product_type_id)
+        {
+            $products = $products->where('product_type_id', $product_type_id);
+        }
+        if($order)
+        {
+            $products = $products->orderBy('name', $order);
+        }
+
+        $products = $products->get();
+
+        return ProductResource::collection($products);
     }
 
     /**
@@ -33,6 +38,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        //
     }
 
     /**
@@ -40,9 +46,7 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        $category = Category::findOrFail($id);
-
-        return new CategoryResource($category);
+        //
     }
 
     /**

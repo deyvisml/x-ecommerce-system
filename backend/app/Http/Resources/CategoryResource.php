@@ -22,6 +22,7 @@ class CategoryResource extends JsonResource
             'display_in_column' => $this->display_in_column,
             'image_height' => $this->image_height,
             'url' => $this->url,
+            'order' => $this->order,
             'state_id' => $this->state_id,
         ];
     }
