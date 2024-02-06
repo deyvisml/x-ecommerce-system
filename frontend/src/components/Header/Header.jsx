@@ -2,6 +2,7 @@ import React from "react";
 
 import logo from "../../assets/logo.png";
 import FlyoutMenu from "./FlyoutMenu";
+import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
   const menu_items = [
@@ -97,6 +98,23 @@ const Header = () => {
                 </li>
               );
             })}
+            <li className="w-full transition-all duration-300 ease-in-out md:w-auto border-neutral-300 hover:text-purple-700">
+              <a href="#" className="inline-block px-4 py-2 font-semibold">
+                <div className="relative">
+                  <ShoppingBagIcon className="w-10 text-purple-800" />
+                  <div className="absolute flex justify-center items-center top-1/2 mt-1 text-xs left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-purple-800 bg-white w-5 h-5 rounded-full">
+                    <span
+                      className="font-bold inline-block"
+                      style={{
+                        marginBottom: 1.5,
+                      }}
+                    >
+                      2
+                    </span>
+                  </div>
+                </div>
+              </a>
+            </li>
           </ul>
         </nav>
       </div>
