@@ -1,9 +1,14 @@
 import React from "react";
+import useECommerce from "../../hooks/useECommerce";
 
 import Carousel from "../Carousel";
 import Categories from "../Categories";
 
 const Home = () => {
+  const { hola } = useECommerce();
+
+  console.log(hola);
+
   return (
     <>
       <Carousel />
