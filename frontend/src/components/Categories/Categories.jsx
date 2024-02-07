@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios_client from "../../helpers/axios";
 
 import Category from "./Category";
 import { useState, useEffect } from "react";
@@ -10,12 +10,10 @@ const Categories = () => {
   const [error, setError] = useState(null);
 
   const fetch_categories = async () => {
-    const response = await axios.get(
-      "http://127.0.0.1:8000/api/categories?order=asc"
-    );
-    console.log(response);
+    const { data } = await axios_client("/api/categories?order=asc");
+    console.log(data);
 
-    setCategories(response.data.data);
+    setCategories(data.data);
     setLoading(false);
   };
 
@@ -82,7 +80,7 @@ const Categories = () => {
   ];*/
 
   return (
-    <section className="text-gray-800">
+    <div className="text-gray-800">
       <div className="mb-5 header-categories">
         <h3 className="mb-2 text-xl font-bold">Florecer contigo</h3>
         <p>Tienes para ti, el detalle que necesitas segun la ocasión.</p>
@@ -96,6 +94,7 @@ const Categories = () => {
               return (
                 <Category
                   key={category.id}
+                  id={category.id}
                   name={category.name}
                   description={category.description}
                   image_url={category.image_url}
@@ -112,6 +111,7 @@ const Categories = () => {
               return (
                 <Category
                   key={category.id}
+                  id={category.id}
                   name={category.name}
                   description={category.description}
                   image_url={category.image_url}
@@ -128,6 +128,7 @@ const Categories = () => {
               return (
                 <Category
                   key={category.id}
+                  id={category.id}
                   name={category.name}
                   description={category.description}
                   image_url={category.image_url}
@@ -137,7 +138,7 @@ const Categories = () => {
             })}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

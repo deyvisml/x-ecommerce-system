@@ -1,14 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Category = ({
+  id,
   name = "Sample category",
   description = "Sample description",
   image_url = "https://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png",
   image_height = "h-80",
 }) => {
   return (
-    <a
-      href=""
+    <Link
+      to={`categorias/${id}/productos`}
       className={`relative overflow-hidden group bg-gray-300 shadow-md category ${image_height} `}
     >
       <img
@@ -25,7 +27,7 @@ const Category = ({
             : description}
         </p>
       </div>
-    </a>
+    </Link>
   );
 };
 
