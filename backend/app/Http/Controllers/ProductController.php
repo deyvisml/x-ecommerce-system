@@ -44,9 +44,12 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $product_id)
     {
-        //
+        $product = Product::findOrFail($product_id)->where('state_id', 1);
+        $product = $product->first();
+
+        return new ProductResource($product);
     }
 
     /**
@@ -63,5 +66,27 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function products_by_category(Request $request, string $category_id)
+    {
+        $product_type_id = $request->query('product_type_id');
+        $order = $request->query('order');
+        $limit = $request->query('limit');
+
+        $products = Product::where('category_id', $category_id)->where('state_id', 1);
+
+        if($product_type_id)
+        {
+            $products = $products->where('product_type_id', $product_type_id);
+        }
+        if($order)
+        {
+            $products = $products->orderBy('name', $order);
+        }
+
+        $products = $products->get();
+
+        return ProductResource::collection($products);
     }
 }
