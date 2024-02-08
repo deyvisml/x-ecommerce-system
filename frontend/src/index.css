@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "isidora-regular";
+  src: url("../public/fonts/isidora-regular.otf");
+}
+
+* {
+  font-family: isidora-regular, sans-serif;
+}

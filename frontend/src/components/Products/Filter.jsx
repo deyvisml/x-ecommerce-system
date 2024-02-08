@@ -29,7 +29,7 @@ const Filter = ({ items, filter_item_id, setFilterItemId }) => {
                 {name}
               </li>
             );
-          })) || <Skeleton containerClassName="flex-1" height={25} />}
+          })) || <Skeleton containerClassName="flex-1" height={30} />}
       </ul>
     </div>
   );

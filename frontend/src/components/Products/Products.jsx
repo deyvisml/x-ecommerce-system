@@ -54,11 +54,12 @@ const Products = () => {
 
   return (
     <div className="text-gray-800">
-      <div className="mb-2">
+      <div className="mb-3">
         <h3 className="text-2xl font-bold">
           {(category && category.name) || <Skeleton />}
         </h3>
       </div>
+      <hr className="mb-2" />
       <div className="flex flex-col items-start mb-3 sm:items-end">
         {
           <Filter
@@ -68,7 +69,6 @@ const Products = () => {
           />
         }
       </div>
-
       <section className="grid grid-cols-1 gap-4 md:gap-x-3 md:gap-y-4 md:grid-cols-3 lg:grid-cols-5 ">
         {products ? (
           products.map(({ id, name, image_url, price }) => {
