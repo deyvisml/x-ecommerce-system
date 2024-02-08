@@ -16,15 +16,16 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for($i = 0 ; $i < 20 ; $i++){
+        for($i = 0 ; $i < 200 ; $i++){
+            $product_type_id = $faker->numberBetween(1, 45);
             Product::create([
                 'id' => $i+1,
                 'name' => $faker->sentence(3),
                 'description'  => $faker->paragraph(),
-                'image_url'     => 'https://picsum.photos/768/1024/?random',
+                'image_url'     => 'https://floresparatucasa.com/cdn/shop/files/Fotoscuadradas-2023-08-29T123925.453_640x640.png',
                 'price'     => $faker->numberBetween(10, 40),
-                'product_type_id'   => 1,
-                'category_id'   => 6,
+                'product_type_id'   => $product_type_id,
+                'category_id'   => (int)(($product_type_id - 1) / 5 + 1),
                 'state_id'   => 1,
             ]);
         }

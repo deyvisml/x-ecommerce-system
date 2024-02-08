@@ -18,15 +18,14 @@ class CategorySeeder extends Seeder
 
         $image_heights = array('h-64', 'h-72', 'h-80');
 
-        for($i = 0 ; $i < 10 ; $i++){
+        for($i = 0 ; $i < 9 ; $i++){
             Category::create([
+                'id' => $i + 1,
                 'name' => $faker->sentence(3),
                 'description'  => $faker->paragraph(),
                 'image_url'     => 'https://picsum.photos/768/1024/?random',
                 'display_in_column'     => $faker->numberBetween(0, 2),
-                'image_height'   => $image_heights[array_rand($image_heights)],
-                'url'   => '/url',
-                'state_id'   => '1',
+                'image_height'   => $image_heights[array_rand($image_heights)]
             ]);
         }
     }

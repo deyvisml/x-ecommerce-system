@@ -13,12 +13,13 @@ class Category extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'id',
         'name',
         'description',
         'image_url',
         'display_in_column',
         'image_height',
-        'url',
+        'order',
         'state_id',
     ];
 }

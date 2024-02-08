@@ -16,11 +16,12 @@ class ProductTypeSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for($i = 0 ; $i < 20 ; $i++){
+        for($i = 0 ; $i < 45 ; $i++){
             ProductType::create([
                 'id' => $i + 1,
                 'name' => $faker->word(),
-                'category_id'     => $faker->numberBetween(5, 13),
+                'order' => 1,
+                'category_id'     => (int)(($i) / 5) + 1,
             ]);
         }
     }
