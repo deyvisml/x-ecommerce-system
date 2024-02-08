@@ -11,6 +11,7 @@ const Products = () => {
 
   const [product_types, setProductTypes] = useState([]);
   const [products, setProducts] = useState([]);
+  const [filter_item_id, setFilterItemId] = useState("");
 
   const fetch_product_types_by_category = async (category_id) => {
     const { data } = await axios_client(
@@ -20,9 +21,9 @@ const Products = () => {
     setProductTypes(data.data);
   };
 
-  const fetch_products_by_category = async (category_id) => {
+  const fetch_products_by_category = async (category_id, filter_item_id) => {
     const { data } = await axios_client(
-      `api/categories/${category_id}/products`
+      `api/categories/${category_id}/products?product_type_id=${filter_item_id}`
     );
 
     setProducts(data.data);
@@ -30,8 +31,11 @@ const Products = () => {
 
   useEffect(() => {
     fetch_product_types_by_category(category_id);
-    fetch_products_by_category(category_id);
   }, []);
+
+  useEffect(() => {
+    fetch_products_by_category(category_id, filter_item_id);
+  }, [filter_item_id]);
 
   return (
     <div className="text-gray-800">
@@ -39,7 +43,11 @@ const Products = () => {
         <h3 className="text-2xl font-bold">Ramo de flores</h3>
       </div>
       <div className="flex flex-col items-start mb-3 sm:items-end">
-        <Filter items={product_types} />
+        <Filter
+          items={product_types}
+          filter_item_id={filter_item_id}
+          setFilterItemId={setFilterItemId}
+        />
       </div>
 
       <section className="grid grid-cols-1 gap-4 md:gap-x-3 md:gap-y-4 md:grid-cols-3 lg:grid-cols-5 ">
