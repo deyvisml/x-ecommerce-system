@@ -7,6 +7,6 @@
   src: url("../public/fonts/isidora-regular.otf");
 }
 
-* {
+p {
   font-family: isidora-regular, sans-serif;
 }

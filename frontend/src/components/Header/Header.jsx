@@ -68,7 +68,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="border-b-4 border-purple-500">
+    <header className="border-b-4 border-purple-600">
       <div className="flex flex-wrap items-center justify-between border md:px-16 bg-neutral-50">
         <div className="m-auto mb-2 bg-neutral-50 md:m-0 logo-container">
           <Link to="/" className="inline-block m-auto">
