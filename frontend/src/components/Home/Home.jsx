@@ -5,9 +5,9 @@ import Carousel from "../Carousel";
 import Categories from "../Categories";
 
 const Home = () => {
-  const { hola } = useECommerce();
+  const { var_to_past } = useECommerce();
 
-  console.log(hola);
+  console.log(var_to_past);
 
   return (
     <>

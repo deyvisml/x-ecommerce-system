@@ -2,8 +2,9 @@ import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
-import carousel_image_01 from "../../assets/carousel-image-01.jpg";
-import carousel_image_02 from "../../assets/carousel-image-02.jpg";
+import carousel_image_01 from "../../assets/images/carousel/image-01.png";
+import carousel_image_02 from "../../assets/images/carousel/image-02.png";
+import carousel_image_03 from "../../assets/images/carousel/image-03.png";
 
 // Import Swiper styles
 import "swiper/css";
@@ -39,15 +40,21 @@ export default function Carousel() {
       >
         <SwiperSlide>
           <img src={carousel_image_01} className="object-cover w-full h-full" />
-          <h1 className="absolute text-xl font-semibold text-center text-white transform -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:text-4xl top-1/2 left-1/2">
+          <h4 className="absolute hidden text-xl font-semibold text-center text-white transform -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:text-4xl top-1/2 left-1/2">
             Estamos cuando nos necesitas...
-          </h1>
+          </h4>
         </SwiperSlide>
         <SwiperSlide>
           <img src={carousel_image_02} className="object-cover w-full h-full" />
-          <h1 className="absolute text-xl font-semibold text-center text-white transform -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:text-4xl top-1/2 left-1/2">
+          <h4 className="absolute hidden text-xl font-semibold text-center text-white transform -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:text-4xl top-1/2 left-1/2">
             Estamos cuando nos necesitas...
-          </h1>
+          </h4>
+        </SwiperSlide>
+        <SwiperSlide>
+          <img src={carousel_image_03} className="object-cover w-full h-full" />
+          <h4 className="absolute hidden text-xl font-semibold text-center text-white transform -translate-x-1/2 -translate-y-1/2 sm:text-2xl md:text-4xl top-1/2 left-1/2">
+            Estamos cuando nos necesitas...
+          </h4>
         </SwiperSlide>
       </Swiper>
     </>

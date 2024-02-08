@@ -68,7 +68,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="border-b-4 border-purple-300">
+    <header className="border-b-4 border-purple-500">
       <div className="flex flex-wrap items-center justify-between border md:px-16 bg-neutral-50">
         <div className="m-auto mb-2 bg-neutral-50 md:m-0 logo-container">
           <Link to="/" className="inline-block m-auto">
@@ -76,12 +76,12 @@ const Header = () => {
           </Link>
         </div>
         <nav>
-          <ul className="flex flex-wrap items-center text-sm text-purple-400 divide-x divide-y md:divide-y-0">
+          <ul className="flex flex-wrap items-center text-sm text-purple-500 divide-x divide-y md:divide-y-0">
             {menu_items.map((menu_item) => {
               return (
                 <li
                   key={menu_item.id}
-                  className="w-full transition-all duration-300 ease-in-out md:w-auto border-neutral-300 hover:text-purple-700"
+                  className="w-full transition-all duration-300 ease-in-out md:w-auto border-neutral-300 hover:text-purple-800"
                 >
                   {menu_item.has_subitems ? (
                     <FlyoutMenu
@@ -103,9 +103,9 @@ const Header = () => {
               <Link to="#" className="inline-block px-4 py-2 font-semibold">
                 <div className="relative">
                   <ShoppingBagIcon className="w-10 text-purple-800" />
-                  <div className="absolute flex justify-center items-center top-1/2 mt-1 text-xs left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-purple-800 bg-white w-5 h-5 rounded-full">
+                  <div className="absolute flex items-center justify-center w-5 h-5 mt-1 text-xs text-purple-800 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full top-1/2 left-1/2">
                     <span
-                      className="font-bold inline-block"
+                      className="inline-block font-bold"
                       style={{
                         marginBottom: 1.5,
                       }}

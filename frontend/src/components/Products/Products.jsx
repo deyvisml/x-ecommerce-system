@@ -1,65 +1,37 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios_client from "../../helpers/axios";
+
 import Filter from "./Filter";
 import ProductItem from "./ProductItem";
 
 const Products = () => {
-  const product_types = [
-    {
-      id: 1,
-      name: "type 1",
-    },
-    {
-      id: 2,
-      name: "type 2",
-    },
-    {
-      id: 3,
-      name: "type 3",
-    },
-  ];
+  const { category_id } = useParams();
 
-  const products = [
-    {
-      id: 1,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 2,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 3,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 4,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 5,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 6,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 7,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-    {
-      id: 8,
-      name: "Lorem ipsum dolor sit.",
-      price: "S/ 40.00",
-    },
-  ];
+  const [product_types, setProductTypes] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  const fetch_product_types_by_category = async (category_id) => {
+    const { data } = await axios_client(
+      `api/categories/${category_id}/product-types?order=asc`
+    );
+
+    setProductTypes(data.data);
+  };
+
+  const fetch_products_by_category = async (category_id) => {
+    const { data } = await axios_client(
+      `api/categories/${category_id}/products`
+    );
+
+    setProducts(data.data);
+  };
+
+  useEffect(() => {
+    fetch_product_types_by_category(category_id);
+    fetch_products_by_category(category_id);
+  }, []);
 
   return (
     <div className="text-gray-800">
@@ -70,9 +42,17 @@ const Products = () => {
         <Filter items={product_types} />
       </div>
 
-      <section className="grid grid-cols-1 gap-4 md:gap-x-2 md:gap-y-4 md:grid-cols-3 lg:grid-cols-5 ">
-        {products.map(({ id, name, price }) => {
-          return <ProductItem key={id} id={id} name={name} price={price} />;
+      <section className="grid grid-cols-1 gap-4 md:gap-x-3 md:gap-y-4 md:grid-cols-3 lg:grid-cols-5 ">
+        {products.map(({ id, name, image_url, price }) => {
+          return (
+            <ProductItem
+              key={id}
+              id={id}
+              name={name}
+              image_url={image_url}
+              price={price}
+            />
+          );
         })}
       </section>
     </div>

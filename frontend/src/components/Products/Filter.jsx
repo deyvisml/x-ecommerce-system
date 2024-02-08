@@ -3,7 +3,9 @@ import React from "react";
 const Filter = ({ items = [] }) => {
   return (
     <div className="text-sm">
-      <span className="block mb-1">Filtrar por tipo</span>
+      <span className="block mb-1 font-semibold text-gray-700">
+        Filtrar por tipo
+      </span>
 
       <ul className="flex flex-wrap gap-1 text-xs">
         {items.map(({ name, id }) => {

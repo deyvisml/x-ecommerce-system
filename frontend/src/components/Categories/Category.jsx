@@ -11,12 +11,12 @@ const Category = ({
   return (
     <Link
       to={`categorias/${id}/productos`}
-      className={`relative overflow-hidden group bg-gray-300 shadow-md category ${image_height} `}
+      className={`relative h-auto block overflow-hidden group bg-gray-300 shadow-md  `}
     >
       <img
         src={image_url}
         alt=""
-        className="z-0 object-cover w-full h-full transition-transform transform group-hover:scale-125"
+        className={`z-0 object-cover w-full ${image_height} transition-transform transform group-hover:scale-125`}
       />
       <div className="absolute top-0 left-0 z-10 w-full h-full opacity-40 bg-gradient-to-t from-gray-800 to-transparent"></div>
       <div className="absolute bottom-0 z-20 m-5 text-white category-information">
