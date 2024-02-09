@@ -1,6 +1,7 @@
 import React from "react";
-import QuantityButton from "./QuantityButton";
 import { FaWhatsapp } from "react-icons/fa";
+
+import QuantityButton from "./QuantityButton";
 
 const Product = () => {
   return (
@@ -24,35 +25,35 @@ const Product = () => {
       </div>
 
       <div className="flex flex-wrap items-start">
-        <div className="w-1/2 bg-blue-100 flex justify-center">
+        <div className="flex justify-center w-1/2 bg-blue-100">
           <div
-            className="overflow-hidden border bg-red-200"
+            className="bg-red-200 border "
             style={{ width: 500, height: 500 }}
           >
-            <img
+            {/*<img
               src="https://lima.enviaflores.pe/wp-content/uploads/2022/08/corazon-recostado.png"
               alt=""
-              className="w-full h-full object-cover"
-            />
+              className="object-cover w-full h-full"
+            />*/}
           </div>
         </div>
         <div className="w-1/2">
           <div className="flex flex-col gap-4 mx-10">
             <a
               href="#"
-              className="uppercase hover:text-purple-800 transition-all ease-in-out duration-100"
+              className="uppercase transition-all duration-100 ease-in-out hover:text-purple-800"
             >
               Arreglos florales
             </a>
-            <h2 className="font-extrabold text-3xl">
+            <h2 className="text-3xl font-extrabold">
               Símbolo del amor 29 rosas
             </h2>
-            <p className="font-bold text-2xl">
+            <p className="text-2xl font-bold">
               S/ 129.00{" "}
-              <span className="font-normal text-sm">(impuestos incluidos)</span>
+              <span className="text-sm font-normal">(impuestos incluidos)</span>
             </p>
             <div>
-              <span className="text-sm uppercase font-semibold mb-2 block">
+              <span className="block mb-2 text-sm font-semibold uppercase">
                 Descripción:
               </span>
               <p className="text-sm">
@@ -64,14 +65,14 @@ const Product = () => {
               </p>
             </div>
             <div>
-              <span className="text-sm uppercase font-semibold mb-2 block">
+              <span className="block mb-2 text-sm font-semibold uppercase">
                 Disponibilidad:
               </span>
-              <p className="text-sm text-green-600 font-bold">En stock 🗸</p>
-              <p className="text-sm text-red-600 font-bold">Agotado ✗</p>
+              <p className="text-sm font-bold text-green-600">En stock 🗸</p>
+              <p className="text-sm font-bold text-red-600">Agotado ✗</p>
             </div>
             <div>
-              <span className="text-sm uppercase font-semibold mb-2 block">
+              <span className="block mb-2 text-sm font-semibold uppercase">
                 Cantidad:
               </span>
               <QuantityButton />
