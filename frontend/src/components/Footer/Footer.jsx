@@ -5,37 +5,37 @@ import complaints_book from "../../assets/complaints-book.png";
 
 const Footer = () => {
   return (
-    <footer className="text-sm text-gray-800 bg-purple-200 ">
+    <footer className="text-sm text-white bg-sky-950 ">
       <div className="flex flex-wrap justify-between px-4 py-10 md:px-32 gap-y-10">
         <div>
           <p className="mb-3 font-bold">POLÍTICAS</p>
           <ul className="flex flex-col gap-y-3">
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-900">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-900">
               <a href="">Horarios de atención</a>
             </li>
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-900">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-900">
               <a href="">Términos y condiciones</a>
             </li>
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-900">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-900">
               <a href="">Politicas de entrega y devolución</a>
             </li>
           </ul>
         </div>
 
         <div className="w-full md:w-auto">
-          <ul className="flex items-center justify-center mb-4 text-gray-600 md:justify-end social-networks gap-x-3">
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-800">
-              <a href="" className="block p-1 text-xl">
+          <ul className="flex items-center justify-center mb-4 text-white md:justify-end social-networks gap-x-3">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-200">
+              <a href="" className="block p-2 text-xl">
                 <FaFacebookF />
               </a>
             </li>
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-800">
-              <a href="" className="block p-1 text-xl">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-200">
+              <a href="" className="block p-2 text-xl">
                 <FaWhatsapp />
               </a>
             </li>
-            <li className="transition-all duration-500 ease-in-out hover:text-purple-800">
-              <a href="" className="block p-1 text-xl">
+            <li className="transition-all duration-500 ease-in-out hover:text-rose-200">
+              <a href="" className="block p-2 text-xl">
                 <FaInstagram />
               </a>
             </li>

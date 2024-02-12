@@ -86,7 +86,7 @@ const Products = () => {
           <div className="col-span-5 text-center h-60 py-14">
             <GridLoader
               className="w-full text-center text-gray-300"
-              color="#a855f7"
+              color="#075985"
             />
           </div>
         )}

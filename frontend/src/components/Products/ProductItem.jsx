@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductItem = ({ id, name, image_url, price }) => {
   return (
-    <article className="p-2.5 overflow-hidden bg-white  rounded-md shadow shadow-gray-300 group hover:text-purple-700">
+    <article className="p-2.5 overflow-hidden bg-white  rounded-md shadow shadow-gray-300 group hover:text-rose-600">
       <Link to={`${id}`} className="block">
         <div className="w-full mb-1 overflow-hidden h-52">
           <img
@@ -24,7 +24,7 @@ const ProductItem = ({ id, name, image_url, price }) => {
           onClick={() => {
             alert("Added");
           }}
-          className="w-full p-1 inline-block py-1.5 font-semibold hover:shadow-lg text-xs text-center text-white uppercase bg-purple-800 rounded-xl"
+          className="w-full p-1 inline-block py-1.5 font-semibold hover:shadow-lg text-xs text-center text-white uppercase bg-rose-600 rounded-xl"
         >
           Agregar
         </button>

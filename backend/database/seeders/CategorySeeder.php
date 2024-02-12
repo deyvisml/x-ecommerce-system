@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $image_heights = array('h-64', 'h-72', 'h-80');
+        $image_heights = array('h-64', 'h-80', 'h-96'); // it's not included 72 because there is problems when it's rendering
 
         for($i = 0 ; $i < 9 ; $i++){
             Category::create([

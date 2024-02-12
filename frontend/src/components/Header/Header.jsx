@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.webp";
 import FlyoutMenu from "./FlyoutMenu";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 
@@ -68,20 +68,20 @@ const Header = () => {
   ];
 
   return (
-    <header className="border-b-4 border-purple-600">
-      <div className="flex flex-wrap items-center justify-between border md:px-16 bg-neutral-50">
-        <div className="m-auto mb-2 bg-neutral-50 md:m-0 logo-container">
+    <header className="border-rose-500 border-b-4">
+      <div className="flex flex-wrap items-center justify-between bg-neutral-100 md:px-16 border">
+        <div className="bg-neutral-50 m-auto md:m-0 mb-2 logo-container">
           <Link to="/" className="inline-block m-auto">
-            <img src={logo} className="object-contain h-16 w-36" alt="" />
+            <img src={logo} className="w-36 h-16 object-contain" alt="" />
           </Link>
         </div>
         <nav>
-          <ul className="flex flex-wrap items-center text-sm text-purple-500 divide-x divide-y md:divide-y-0">
+          <ul className="flex flex-wrap items-center text-rose-400 text-xs divide-x divide-y md:divide-y-0 uppercase">
             {menu_items.map((menu_item) => {
               return (
                 <li
                   key={menu_item.id}
-                  className="w-full transition-all duration-300 ease-in-out md:w-auto border-neutral-300 hover:text-purple-800"
+                  className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out"
                 >
                   {menu_item.has_subitems ? (
                     <FlyoutMenu
@@ -99,11 +99,11 @@ const Header = () => {
                 </li>
               );
             })}
-            <li className="w-full transition-all duration-300 ease-in-out md:w-auto border-neutral-300 hover:text-purple-700">
+            <li className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out">
               <Link to="#" className="inline-block px-4 py-2 font-semibold">
                 <div className="relative">
-                  <ShoppingBagIcon className="w-10 text-purple-800" />
-                  <div className="absolute flex items-center justify-center w-5 h-5 mt-1 text-xs text-purple-800 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full top-1/2 left-1/2">
+                  <ShoppingBagIcon className="w-10 text-rose-500" />
+                  <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
                     <span
                       className="inline-block font-bold"
                       style={{

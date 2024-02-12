@@ -82,7 +82,7 @@ export default function FlyoutMenu({
               className="px-4 py-2 text-left outline-none"
             >
               <div
-                className="inline-block font-semibold "
+                className="inline-block font-semibold uppercase text-xs"
                 onClick={() => handleClick(open)}
               >
                 <span>{name}</span>
@@ -107,7 +107,7 @@ export default function FlyoutMenu({
                   className={classNames(
                     "relative grid space-y-[2px]",
                     "bg-white border border-gray-300 border-solid",
-                    "rounded-md text-center"
+                    "rounded-md text-center text-xs"
                   )}
                 >
                   {subitems.map(({ name, url }) => {
