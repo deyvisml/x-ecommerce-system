@@ -46,7 +46,7 @@ class ProductController extends Controller
      */
     public function show(string $product_id)
     {
-        $product = Product::findOrFail($product_id)->where('state_id', 1);
+        $product = Product::where('id', $product_id)->where('state_id', 1);
         $product = $product->first();
 
         return new ProductResource($product);
