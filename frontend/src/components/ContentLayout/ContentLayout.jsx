@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const ContentLayout = () => {
   return (
-    <div className="px-2 py-10 mx-2 mb-16 md:mx-20 lg:mx-40">
+    <div className="mx-2 md:mx-20 lg:mx-40 px-2 py-0">
       <Outlet />
     </div>
   );
