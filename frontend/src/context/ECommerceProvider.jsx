@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { createContext } from "react";
 
 const ECommerceContext = createContext();
 
 const ECommerceProvider = ({ children }) => {
-  const var_to_past = "value";
+  const [cart, setCart] = useState({
+    items: [],
+  });
 
   return (
-    <ECommerceContext.Provider value={{ var_to_past }}>
+    <ECommerceContext.Provider value={{ cart, setCart }}>
       {children}
     </ECommerceContext.Provider>
   );

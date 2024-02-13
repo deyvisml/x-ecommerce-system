@@ -5,14 +5,12 @@ import Carousel from "../Carousel";
 import Categories from "../Categories";
 
 const Home = () => {
-  const { var_to_past } = useECommerce();
-
-  console.log(var_to_past);
+  const { cart } = useECommerce();
 
   return (
     <>
       <Carousel />
-      <div className="px-2 py-10 mx-2 mb-16 sm:mx-20 md:mx-48">
+      <div className="mx-2 sm:mx-20 md:mx-48 mb-16 px-2 py-10">
         <Categories />
       </div>
     </>

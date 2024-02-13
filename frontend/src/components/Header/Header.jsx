@@ -1,11 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useECommerce from "../../hooks/useECommerce";
 
 import logo from "../../assets/logo.webp";
 import FlyoutMenu from "./FlyoutMenu";
 import { ShoppingBagIcon } from "@heroicons/react/24/solid";
 
 const Header = () => {
+  const { cart } = useECommerce();
+
   const menu_items = [
     {
       id: "01",
@@ -69,9 +72,9 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 z-50 sticky bg-white shadow-md border-b w-full">
+      <header className="top-0 z-50 md:sticky bg-white shadow-md border-b w-full">
         <div className="flex flex-wrap items-center justify-between md:px-16 border">
-          <div className="bg-neutral-50 m-auto md:m-0 mb-2 logo-container">
+          <div className="m-auto md:m-0 mb-2 logo-container">
             <Link to="/" className="inline-block m-auto">
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>
@@ -104,16 +107,24 @@ const Header = () => {
                 <Link to="#" className="inline-block px-4 py-2 font-semibold">
                   <div className="relative">
                     <ShoppingBagIcon className="w-10 text-rose-500" />
-                    <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
-                      <span
-                        className="inline-block font-bold"
-                        style={{
-                          marginBottom: 1.5,
-                        }}
-                      >
-                        2
-                      </span>
-                    </div>
+                    {cart &&
+                      (cart.items.length ? (
+                        <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
+                          <span
+                            className="inline-block font-bold"
+                            style={{
+                              marginBottom: -1,
+                            }}
+                          >
+                            {cart.items.reduce(
+                              (sum, item) => sum + item.quantity,
+                              0
+                            )}
+                          </span>
+                        </div>
+                      ) : (
+                        ""
+                      ))}
                   </div>
                 </Link>
               </li>

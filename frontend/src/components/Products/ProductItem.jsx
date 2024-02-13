@@ -10,7 +10,7 @@ const ProductItem = ({ category_id, product_id, name, image_url, price }) => {
       >
         <div className="mb-1 w-full h-52 overflow-hidden">
           <img
-            src={image_url}
+            src={`/images/products/${image_url}`}
             alt=""
             className="group-hover:scale-125 w-full h-full transform transition-transform object-contain"
           />
@@ -19,7 +19,7 @@ const ProductItem = ({ category_id, product_id, name, image_url, price }) => {
           <p className="mb-1 h-11 leading-5">
             {name.length > 40 ? name.substring(0, 40) + ".." : name}
           </p>
-          <p className="font-semibold text-xl">S/ {price}</p>
+          <p className="font-semibold text-xl">S/ {price.toFixed(2)}</p>
         </div>
       </Link>
       <div className="mx-4">

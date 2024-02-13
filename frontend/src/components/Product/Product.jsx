@@ -1,9 +1,9 @@
 import React from "react";
-import ImageZoom from "react-image-zooom";
 import axios_client from "../../helpers/axios";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import useECommerce from "../../hooks/useECommerce";
 
 import { FaWhatsapp } from "react-icons/fa";
 
@@ -12,10 +12,11 @@ import ProductsGrid from "../ProductsGrid";
 
 const Product = () => {
   const { category_id, product_id } = useParams();
-  console.log(product_id);
+  const { cart, setCart } = useECommerce();
   const [category, setCategory] = useState();
   const [product, setProduct] = useState();
   const [product_type_id, setProductTypeId] = useState();
+  const [quantity_to_buy, setQuantityToBuy] = useState(1);
 
   const fetch_category = async (category_id) => {
     const { data } = await axios_client(`api/categories/${category_id}`);
@@ -27,6 +28,7 @@ const Product = () => {
     const { data } = await axios_client(`api/products/${product_id}`);
 
     setProduct(data.data);
+    setQuantityToBuy(1);
 
     setProductTypeId(data.data.product_type_id);
   };
@@ -45,23 +47,20 @@ const Product = () => {
       title: "SERVICIO DE DELIVERY",
       description:
         "Envío de flores en Lima y Callao. Entregas para el mismo dia.",
-      image_url:
-        "https://cdn.shopify.com/s/files/1/0567/4352/6574/files/enviado_1.png",
+      image_url: "delivery.webp",
     },
     {
       id: 2,
       title: "PAGOS SEGUROS",
       description: "Compras de manera simple y segura con unos clicks.",
-      image_url:
-        "https://cdn.shopify.com/s/files/1/0567/4352/6574/files/Group.png",
+      image_url: "security.png",
     },
     {
       id: 3,
       title: "SERVICIOS PERSONALIZADOS",
       description:
         "Cuidamos cada detalle para ti y la persona que tienes en el corazón.",
-      image_url:
-        "https://cdn.shopify.com/s/files/1/0567/4352/6574/files/servicio-al-cliente_1.png",
+      image_url: "client-service.webp",
     },
   ];
 
@@ -88,6 +87,14 @@ const Product = () => {
   }, [product_type_id, product]);
   /* ====== END FETCH PRODUCTS ====== */
 
+  const handle_add_product_to_cart_btn = () => {
+    const item = {
+      product,
+      quantity: quantity_to_buy,
+    };
+    setCart({ items: [...cart.items, item] });
+  };
+
   return (
     <div className="text-gray-800 ">
       <div className="my-5">
@@ -109,15 +116,24 @@ const Product = () => {
 
       <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
         <div className="flex items-center justify-center w-full md:w-1/2">
-          <div className="sm:mx-5 w-full leading-none overflow-hidden">
+          <div className="bg-blue-400 sm:mx-5 w-full leading-none">
             {product && (
-              <ImageZoom
-                src={product.image_url}
-                alt="Product image"
-                className="border border-gray-400"
-                zoom="180"
+              <img
+                src={`/images/products/${product.image_url}`}
+                alt="product image"
+                className="shadow border-2 w-full"
               />
             )}
+
+            {/* product && (
+              <ImageZoom
+                src={`/images/products/${product.image_url}`}
+                alt="Product image"
+                className="border-2 border-gray-400"
+                width="50%"
+                zoom="180"
+              />
+            ) */}
           </div>
         </div>
 
@@ -133,7 +149,7 @@ const Product = () => {
               {product && product.name}
             </h2>
             <p className="font-bold text-2xl">
-              S/ {product && product.price}
+              S/ {product && product.price.toFixed(2)}
               <span className="font-normal text-sm ms-2">
                 (impuestos incluidos)
               </span>
@@ -148,26 +164,65 @@ const Product = () => {
               <span className="block mb-2 font-semibold text-sm uppercase">
                 Disponibilidad:
               </span>
-              <p className="font-bold text-green-600 text-sm">En stock 🗸</p>
-              <p className="font-bold text-red-600 text-sm">Agotado ✗</p>
+              {product &&
+                (product.quantity ? (
+                  <p className="font-bold text-green-600 text-sm">En stock 🗸</p>
+                ) : (
+                  <p className="font-bold text-red-600 text-sm">Agotado ✗</p>
+                ))}
             </div>
             <div>
               <span className="block mb-2 font-semibold text-sm uppercase">
                 Cantidad:
               </span>
-              <QuantityButton />
+              {product && (
+                <QuantityButton
+                  quantity={quantity_to_buy}
+                  setQuantity={setQuantityToBuy}
+                  min_quantity={1}
+                  max_quantity={product.quantity}
+                />
+              )}
             </div>
-            <div>
-              <button className="bg-rose-600 hover:bg-rose-700 mb-1.5 py-2.5 p-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded">
-                Añadir al carrito
-              </button>
-              <a
-                href="#"
-                className="flex items-center justify-center gap-x-2 bg-green-500 hover:bg-green-600 py-2.5 p-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded"
-              >
-                <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
-              </a>
-            </div>
+
+            {product && (
+              <div>
+                <button
+                  onClick={
+                    product.quantity
+                      ? handle_add_product_to_cart_btn
+                      : (e) => {
+                          e.preventDefault;
+                        }
+                  }
+                  className={`${
+                    product.quantity
+                      ? "bg-rose-600 hover:bg-rose-700"
+                      : "bg-rose-300 cursor-not-allowed"
+                  }   mb-1.5 py-2.5 p-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                >
+                  Añadir al carrito
+                </button>
+                <a
+                  href={
+                    product.quantity
+                      ? `https://wa.me/${"+51975032529"}?text=${
+                          "Deseo realizar mi pedido de este producto: " +
+                          product.name.toUpperCase()
+                        }`
+                      : "javascript:void(0)"
+                  }
+                  target={product.quantity ? "_blank" : "_self"}
+                  className={`${
+                    product.quantity
+                      ? "bg-green-500 hover:bg-green-600"
+                      : "bg-green-300 cursor-not-allowed"
+                  }   flex items-center justify-center gap-x-2  py-2.5 p-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                >
+                  <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -177,7 +232,7 @@ const Product = () => {
           <p className="inline-block z-40 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
             Productos relacionados
           </p>
-          <hr className="top-3 md:top-3.5 left-0 z-10 absolute border border-gray-400 w-full" />
+          <hr className="top-3 md:top-3.5 left-0 z-10 absolute border border-gray-300 w-full" />
         </div>
 
         <div>
@@ -193,7 +248,11 @@ const Product = () => {
                     key={id}
                     className="flex items-start gap-4 w-full md:w-1/3"
                   >
-                    <img src={image_url} alt="" className="w-12 h-auto" />
+                    <img
+                      src={`/images/benefits/${image_url}`}
+                      alt=""
+                      className="w-12 h-auto"
+                    />
                     <div className="text-sm">
                       <p className="mb-1 font-bold uppercase">{title}</p>
                       <p>{description}</p>

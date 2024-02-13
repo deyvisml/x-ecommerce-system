@@ -1,9 +1,12 @@
 import React from "react";
 import { useState } from "react";
 
-const QuantityButton = ({ min_quantity = 1, max_quantity = 10 }) => {
-  const [quantity, setQuantity] = useState(1);
-
+const QuantityButton = ({
+  quantity,
+  setQuantity,
+  min_quantity = 1,
+  max_quantity = 10,
+}) => {
   const handle_change_quantity_input = (e) => {
     const new_quantity = e.target.value;
 
@@ -30,21 +33,21 @@ const QuantityButton = ({ min_quantity = 1, max_quantity = 10 }) => {
     <div className="flex gap-x-1">
       <button
         onClick={() => handle_change_quantity_button(-1)}
-        className="rounded-full border border-gray-400 bg-slate-100 font-semibold flex items-center content-center text-xl  w-8 h-8 overflow-hidden"
+        className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className=" w-full pb-1 select-none">-</span>
+        <span className="pb-1 w-full select-none ">-</span>
       </button>
       <input
         onChange={handle_change_quantity_input}
-        className="border-2 border-gray-600 outline-none text-sm text-center w-12 rounded-full"
+        className="border-2 border-gray-600 rounded-full w-12 text-center text-sm outline-none"
         value={quantity}
         type="text"
       />
       <button
         onClick={() => handle_change_quantity_button(+1)}
-        className="rounded-full border border-gray-400 bg-slate-100 font-semibold flex items-center content-center text-xl  w-8 h-8 overflow-hidden"
+        className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className=" w-full pb-1 select-none">+</span>
+        <span className="pb-1 w-full select-none ">+</span>
       </button>
     </div>
   );
