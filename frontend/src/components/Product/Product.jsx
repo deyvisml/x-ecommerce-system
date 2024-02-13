@@ -65,6 +65,29 @@ const Product = () => {
     },
   ];
 
+  /* ====== FETCH PRODUCTS ====== */
+  const [products, setProducts] = useState();
+
+  const fetch_products_by_category = async (
+    category_id,
+    product_type_id,
+    product_id
+  ) => {
+    const { data } = await axios_client(
+      `api/categories/${category_id}/products?product_type_id=${product_type_id}&exclude_product_id=${product_id}&order=random&limit=`
+    );
+
+    setProducts(data.data);
+  };
+
+  useEffect(() => {
+    setProducts();
+    setTimeout(() => {
+      fetch_products_by_category(category_id, product_type_id, product_id);
+    }, 1000);
+  }, [product_type_id, product]);
+  /* ====== END FETCH PRODUCTS ====== */
+
   return (
     <div className="text-gray-800 ">
       <div className="my-5">
@@ -158,12 +181,7 @@ const Product = () => {
         </div>
 
         <div>
-          {product_type_id && (
-            <ProductsGrid
-              category_id={category_id}
-              product_type_id={product_type_id}
-            />
-          )}
+          <ProductsGrid products={products} />
         </div>
 
         <div className="bg-neutral-100 my-10">

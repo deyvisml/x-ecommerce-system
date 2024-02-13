@@ -38,6 +38,25 @@ const Products = () => {
     fetch_product_types_by_category(category_id);
   }, []);
 
+  /* ====== FETCH PRODUCTS ====== */
+  const [products, setProducts] = useState();
+
+  const fetch_products_by_category = async (category_id, product_type_id) => {
+    const { data } = await axios_client(
+      `api/categories/${category_id}/products?product_type_id=${product_type_id}`
+    );
+
+    setProducts(data.data);
+  };
+
+  useEffect(() => {
+    setProducts();
+    setTimeout(() => {
+      fetch_products_by_category(category_id, product_type_id);
+    }, 1000);
+  }, [product_type_id]);
+  /* ====== END FETCH PRODUCTS ====== */
+
   return (
     <div className="text-gray-800">
       <div className="my-5">
@@ -56,10 +75,7 @@ const Products = () => {
         }
       </div>
       <div className="mb-10">
-        <ProductsGrid
-          category_id={category_id}
-          product_type_id={product_type_id}
-        />
+        <ProductsGrid products={products} />
       </div>
     </div>
   );

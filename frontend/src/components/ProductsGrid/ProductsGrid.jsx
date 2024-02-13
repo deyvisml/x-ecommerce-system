@@ -6,7 +6,8 @@ import { GridLoader } from "react-spinners";
 
 import ProductItem from "../Products/ProductItem";
 
-const ProductsGrid = ({ category_id, product_type_id }) => {
+const ProductsGrid = ({ products }) => {
+  /*
   const [products, setProducts] = useState();
 
   const fetch_products_by_category = async (category_id, product_type_id) => {
@@ -23,11 +24,12 @@ const ProductsGrid = ({ category_id, product_type_id }) => {
       fetch_products_by_category(category_id, product_type_id);
     }, 1000);
   }, [product_type_id]);
+  */
 
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-x-3 md:gap-y-4 ">
       {products ? (
-        products.map(({ id, name, image_url, price }) => {
+        products.map(({ id, category_id, name, image_url, price }) => {
           return (
             <ProductItem
               key={id}

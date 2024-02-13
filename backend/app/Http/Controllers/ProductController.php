@@ -71,18 +71,35 @@ class ProductController extends Controller
     public function products_by_category(Request $request, string $category_id)
     {
         $product_type_id = $request->query('product_type_id');
+        $exclude_product_id = $request->query('exclude_product_id');
         $order = $request->query('order');
         $limit = $request->query('limit');
 
         $products = Product::where('category_id', $category_id)->where('state_id', 1);
+        
 
         if($product_type_id)
         {
             $products = $products->where('product_type_id', $product_type_id);
         }
+        if($exclude_product_id)
+        {
+            $products = $products->where('id', '<>', $exclude_product_id);
+        }
         if($order)
         {
-            $products = $products->orderBy('name', $order);
+            if ($order == "random") 
+            {
+                $products = $products->inRandomOrder();
+            }
+            else 
+            {
+                $products = $products->orderBy('name', $order);
+            }
+        }
+        if($limit)
+        {
+            $products = $products->limit($limit);
         }
 
         $products = $products->get();
