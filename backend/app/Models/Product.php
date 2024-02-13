@@ -19,6 +19,7 @@ class Product extends Model
         'image_url',
         'price',
         'quantity',
+        'has_stock',
         'product_type_id',
         'category_id',
         'state_id',

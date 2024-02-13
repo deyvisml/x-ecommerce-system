@@ -14,9 +14,9 @@ const Filter = ({ items, filter_item_id, setFilterItemId }) => {
         Filtrar por tipo
       </span>
 
-      <ul className="flex flex-wrap gap-1 text-xs min-w-20 min-h-4">
+      <ul className="flex flex-wrap gap-1 min-w-20 min-h-4 text-xs">
         {(items &&
-          items.map(({ name, id }) => {
+          items.map(({ id, name }) => {
             return (
               <li
                 key={id}

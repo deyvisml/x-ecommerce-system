@@ -29,17 +29,8 @@ const ProductsGrid = ({ products }) => {
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-x-3 md:gap-y-4 ">
       {products ? (
-        products.map(({ id, category_id, name, image_url, price }) => {
-          return (
-            <ProductItem
-              key={id}
-              category_id={category_id}
-              product_id={id}
-              name={name}
-              image_url={image_url}
-              price={price}
-            />
-          );
+        products.map((product) => {
+          return <ProductItem key={product.id} product={product} />;
         })
       ) : (
         <div className="col-span-5 py-14 h-60 text-center">

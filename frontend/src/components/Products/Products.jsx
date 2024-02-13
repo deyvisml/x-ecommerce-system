@@ -30,7 +30,8 @@ const Products = () => {
       `api/categories/${category_id}/product-types?order=asc`
     );
 
-    setProductTypes(data.data);
+    const all_type = { id: "", name: "todos" };
+    setProductTypes([all_type, ...data.data]);
   };
 
   useEffect(() => {

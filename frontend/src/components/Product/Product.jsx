@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { FaWhatsapp } from "react-icons/fa";
@@ -97,11 +97,7 @@ const Product = () => {
     };
     setCart({ items: [...cart.items, item] });
 
-    toast.success("Agregado al carrito de compras!", {
-      className: "black-background",
-      bodyClassName: "grow-font-size",
-      progressClassName: "fancy-progress-bar",
-    });
+    toast.success("Agregado al carrito de compras!");
   };
 
   return (
