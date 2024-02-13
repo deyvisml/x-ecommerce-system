@@ -92,12 +92,12 @@ const Product = () => {
     <div className="text-gray-800 ">
       <div className="my-5">
         <div className="flex items-center gap-1.5 text-gray-500 text-xs md:text-sm">
-          <Link className="hover:text-gray-900 hover:underline" to="/">
+          <Link className="hover:text-rose-600 hover:underline" to="/">
             Home
           </Link>
           <span>/</span>
           <Link
-            className="hover:text-gray-900 hover:underline"
+            className="hover:underline hover:text-rose-600"
             to={`/categorias/${category_id}/productos`}
           >
             {category && category.name}

@@ -82,7 +82,7 @@ export default function FlyoutMenu({
               className="px-4 py-2 text-left outline-none"
             >
               <div
-                className="inline-block font-semibold uppercase text-xs"
+                className="inline-block font-bold text-sm uppercase"
                 onClick={() => handleClick(open)}
               >
                 <span>{name}</span>
@@ -101,13 +101,13 @@ export default function FlyoutMenu({
             >
               <Popover.Panel
                 static
-                className="absolute z-10 mx-auto w-36 top-8"
+                className="top-8 z-10 absolute mx-auto w-36"
               >
                 <div
                   className={classNames(
                     "relative grid space-y-[2px]",
                     "bg-white border border-gray-300 border-solid",
-                    "rounded-md text-center text-xs"
+                    "rounded-md text-center text-sm"
                   )}
                 >
                   {subitems.map(({ name, url }) => {
@@ -115,7 +115,7 @@ export default function FlyoutMenu({
                       <Fragment key={"PopoverPanel<>" + name + url}>
                         <a
                           href={url}
-                          className="p-1 duration-200 ease-in-out text-neutral-500 hover:bg-neutral-100"
+                          className="hover:bg-neutral-100 p-1 text-neutral-500 duration-200 ease-in-out"
                         >
                           {name}
                         </a>

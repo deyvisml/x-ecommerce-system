@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "isidora-regular";
-  src: url("../public/fonts/isidora-regular.otf");
+  font-family: "isidora-medium";
+  src: url("../public/fonts/isidora-medium.otf");
 }
 
-p {
-  font-family: isidora-regular, sans-serif;
+p, li, h1, h2, h3, h4, h5 {
+  font-family: isidora-medium, sans-serif;
 }

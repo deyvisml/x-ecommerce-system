@@ -68,58 +68,60 @@ const Header = () => {
   ];
 
   return (
-    <header className="border-rose-500 border-b-4">
-      <div className="flex flex-wrap items-center justify-between bg-neutral-100 md:px-16 border">
-        <div className="bg-neutral-50 m-auto md:m-0 mb-2 logo-container">
-          <Link to="/" className="inline-block m-auto">
-            <img src={logo} className="w-36 h-16 object-contain" alt="" />
-          </Link>
-        </div>
-        <nav>
-          <ul className="flex flex-wrap items-center text-rose-400 text-xs divide-x divide-y md:divide-y-0 uppercase">
-            {menu_items.map((menu_item) => {
-              return (
-                <li
-                  key={menu_item.id}
-                  className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out"
-                >
-                  {menu_item.has_subitems ? (
-                    <FlyoutMenu
-                      name={menu_item.name}
-                      subitems={menu_item.subitems}
-                    />
-                  ) : (
-                    <Link
-                      to={menu_item.url}
-                      className="inline-block px-4 py-2 font-semibold"
-                    >
-                      {menu_item.name}
-                    </Link>
-                  )}
-                </li>
-              );
-            })}
-            <li className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out">
-              <Link to="#" className="inline-block px-4 py-2 font-semibold">
-                <div className="relative">
-                  <ShoppingBagIcon className="w-10 text-rose-500" />
-                  <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
-                    <span
-                      className="inline-block font-bold"
-                      style={{
-                        marginBottom: 1.5,
-                      }}
-                    >
-                      2
-                    </span>
+    <>
+      <header className="top-0 z-50 sticky bg-white shadow-md border-b w-full">
+        <div className="flex flex-wrap items-center justify-between md:px-16 border">
+          <div className="bg-neutral-50 m-auto md:m-0 mb-2 logo-container">
+            <Link to="/" className="inline-block m-auto">
+              <img src={logo} className="w-36 h-16 object-contain" alt="" />
+            </Link>
+          </div>
+          <nav>
+            <ul className="flex flex-wrap items-center text-rose-500 text-sm uppercase divide-x divide-y md:divide-y-0">
+              {menu_items.map((menu_item) => {
+                return (
+                  <li
+                    key={menu_item.id}
+                    className="border-neutral-300 w-full md:w-auto hover:text-rose-300 transition-all duration-300 ease-in-out"
+                  >
+                    {menu_item.has_subitems ? (
+                      <FlyoutMenu
+                        name={menu_item.name}
+                        subitems={menu_item.subitems}
+                      />
+                    ) : (
+                      <Link
+                        to={menu_item.url}
+                        className="inline-block px-4 py-2 font-bold"
+                      >
+                        {menu_item.name}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+              <li className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out">
+                <Link to="#" className="inline-block px-4 py-2 font-semibold">
+                  <div className="relative">
+                    <ShoppingBagIcon className="w-10 text-rose-500" />
+                    <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
+                      <span
+                        className="inline-block font-bold"
+                        style={{
+                          marginBottom: 1.5,
+                        }}
+                      >
+                        2
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </header>
+    </>
   );
 };
 
