@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
+import { PulseLoader } from "react-spinners";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,6 +21,7 @@ const Product = () => {
   const [product, setProduct] = useState();
   const [product_type_id, setProductTypeId] = useState();
   const [quantity_to_buy, setQuantityToBuy] = useState(1);
+  const [add_to_cart_loader, setAddToCartLoader] = useState(false);
 
   const fetch_category = async (category_id) => {
     const { data } = await axios_client(`api/categories/${category_id}`);
@@ -83,21 +85,27 @@ const Product = () => {
   };
 
   useEffect(() => {
-    setProducts();
-    setTimeout(() => {
-      fetch_products_by_category(category_id, product_type_id, product_id);
-    }, 1000);
+    if (product_type_id) {
+      setProducts();
+      setTimeout(() => {
+        fetch_products_by_category(category_id, product_type_id, product_id);
+      }, 3000);
+    }
   }, [product_type_id, product]);
   /* ====== END FETCH PRODUCTS ====== */
 
   const handle_add_product_to_cart_btn = () => {
+    setAddToCartLoader(true);
     const item = {
       product,
       quantity: quantity_to_buy,
     };
-    setCart({ items: [...cart.items, item] });
 
-    toast.success("Agregado al carrito de compras!");
+    setTimeout(() => {
+      setCart({ items: [...cart.items, item] });
+      setAddToCartLoader(false);
+      toast.success("Agregado al carrito de compras!");
+    }, 1500);
   };
 
   return (
@@ -204,9 +212,18 @@ const Product = () => {
                     product.quantity
                       ? "bg-purple-600 hover:bg-purple-700"
                       : "bg-purple-300 cursor-not-allowed"
-                  }   mb-1.5 py-2.5 p-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                  }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                 >
-                  Añadir al carrito
+                  {add_to_cart_loader ? (
+                    <PulseLoader
+                      color="#ffffff"
+                      loading
+                      size={9}
+                      className="m-0 p-0 pt-1 "
+                    />
+                  ) : (
+                    "Añadir al carrito"
+                  )}
                 </button>
                 <a
                   href={
@@ -222,7 +239,7 @@ const Product = () => {
                     product.quantity
                       ? "bg-green-500 hover:bg-green-600"
                       : "bg-purple-300 cursor-not-allowed"
-                  }   flex items-center justify-center gap-x-2  py-2.5 p-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                  }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                 >
                   <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
                 </a>
