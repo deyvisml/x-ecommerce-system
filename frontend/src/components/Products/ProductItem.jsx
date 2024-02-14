@@ -19,7 +19,7 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    <article className="bg-white shadow shadow-gray-300 p-2.5 rounded-md hover:text-rose-600 overflow-hidden group">
+    <article className="bg-white shadow shadow-gray-300 p-2.5 rounded-md hover:text-purple-600 overflow-hidden group">
       <Link
         to={`/categorias/${product.category_id}/productos/${product.id}`}
         className="block"
@@ -49,7 +49,7 @@ const ProductItem = ({ product }) => {
                   e.preventDefault;
                 }
           }
-          className="inline-block bg-rose-600 hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase"
+          className="inline-block bg-purple-600 hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase"
         >
           Agregar
         </button>

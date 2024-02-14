@@ -53,7 +53,7 @@ export default function FlyoutMenu({
     "py-5 px-1 w-48",
     "text-base text-gray-900 uppercase font-bold",
     "transition duration-500 ease-in-out",
-    "bg-gray-100 hover:text-blue-700 hover:bg-blue-100"
+    "bg-gray-100 hover:text-purple-700 hover:bg-purple-100"
   );
 
   const handleClickOutside = (event) => {

@@ -35,11 +35,11 @@ const QuantityButton = ({
         onClick={() => handle_change_quantity_button(-1)}
         className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className="pb-1 w-full select-none ">-</span>
+        <span className="pt-0.5 w-full select-none ">-</span>
       </button>
       <input
         onChange={handle_change_quantity_input}
-        className="border-2 border-gray-600 rounded-full w-12 text-center text-sm outline-none"
+        className="border-2 border-gray-600 rounded-full w-12 text-center text-sm  outline-none"
         value={quantity}
         type="text"
       />
@@ -47,7 +47,7 @@ const QuantityButton = ({
         onClick={() => handle_change_quantity_button(+1)}
         className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className="pb-1 w-full select-none ">+</span>
+        <span className="pt-0.5 w-full select-none ">+</span>
       </button>
     </div>
   );

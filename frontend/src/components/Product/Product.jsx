@@ -104,12 +104,12 @@ const Product = () => {
     <div className="text-gray-800 ">
       <div className="my-5">
         <div className="flex items-center gap-1.5 text-gray-500 text-xs md:text-sm">
-          <Link className="hover:text-rose-600 hover:underline" to="/">
+          <Link className="hover:text-purple-600 hover:underline" to="/">
             Home
           </Link>
           <span>/</span>
           <Link
-            className="hover:underline hover:text-rose-600"
+            className="hover:underline hover:text-purple-600"
             to={`/categorias/${category_id}/productos`}
           >
             {category && category.name}
@@ -121,7 +121,7 @@ const Product = () => {
 
       <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
         <div className="flex items-center justify-center w-full md:w-1/2">
-          <div className="bg-blue-400 sm:mx-5 w-full leading-none">
+          <div className="bg-purple-400 sm:mx-5 w-full leading-none">
             {product && (
               <img
                 src={`/images/products/${product.image_url}`}
@@ -146,7 +146,7 @@ const Product = () => {
           <div className="flex flex-col gap-4 sm:mx-10">
             <Link
               to={`/categorias/${category_id}/productos`}
-              className="hover:text-rose-600 uppercase transition-all duration-100 ease-in-out"
+              className="hover:text-purple-600 uppercase transition-all duration-100 ease-in-out"
             >
               {category && category.name}
             </Link>
@@ -202,8 +202,8 @@ const Product = () => {
                   }
                   className={`${
                     product.quantity
-                      ? "bg-rose-600 hover:bg-rose-700"
-                      : "bg-rose-300 cursor-not-allowed"
+                      ? "bg-purple-600 hover:bg-purple-700"
+                      : "bg-purple-300 cursor-not-allowed"
                   }   mb-1.5 py-2.5 p-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                 >
                   Añadir al carrito
@@ -221,7 +221,7 @@ const Product = () => {
                   className={`${
                     product.quantity
                       ? "bg-green-500 hover:bg-green-600"
-                      : "bg-green-300 cursor-not-allowed"
+                      : "bg-purple-300 cursor-not-allowed"
                   }   flex items-center justify-center gap-x-2  py-2.5 p-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                 >
                   <FaWhatsapp className="text-xl" /> Comprar por WhatsApp

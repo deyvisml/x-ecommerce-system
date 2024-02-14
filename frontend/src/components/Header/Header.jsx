@@ -80,12 +80,12 @@ const Header = () => {
             </Link>
           </div>
           <nav>
-            <ul className="flex flex-wrap items-center text-rose-500 text-sm uppercase divide-x divide-y md:divide-y-0">
+            <ul className="flex flex-wrap items-center text-purple-500 text-sm uppercase divide-x divide-y md:divide-y-0">
               {menu_items.map((menu_item) => {
                 return (
                   <li
                     key={menu_item.id}
-                    className="border-neutral-300 w-full md:w-auto hover:text-rose-300 transition-all duration-300 ease-in-out"
+                    className="border-neutral-300 w-full md:w-auto hover:text-purple-300 transition-all duration-300 ease-in-out"
                   >
                     {menu_item.has_subitems ? (
                       <FlyoutMenu
@@ -103,13 +103,13 @@ const Header = () => {
                   </li>
                 );
               })}
-              <li className="border-neutral-300 w-full md:w-auto hover:text-rose-600 transition-all duration-300 ease-in-out">
+              <li className="border-neutral-300 w-full md:w-auto hover:text-purple-600 transition-all duration-300 ease-in-out">
                 <Link to="#" className="inline-block px-4 py-2 font-semibold">
                   <div className="relative">
-                    <ShoppingBagIcon className="w-10 text-rose-500" />
+                    <ShoppingBagIcon className="w-10 text-purple-500" />
                     {cart &&
                       (cart.items.length ? (
-                        <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-rose-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-purple-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
                           <span
                             className="inline-block font-bold"
                             style={{
