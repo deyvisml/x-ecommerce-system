@@ -6,9 +6,11 @@ import { ECommerceProvider } from "./context/ECommerceProvider";
 
 import App from "./components/App";
 import Home from "./components/Home";
-import ContentLayout from "./components/ContentLayout";
+import CenterLayout from "./components/CenterLayout";
 import Products from "./components/Products";
 import Product from "./components/Product";
+import Cart from "./components/Cart/Cart";
+import FullWidthLayout from "./components/FullWidthLayout/FullWidthLayout";
 
 const router = createBrowserRouter([
   {
@@ -20,7 +22,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        element: <ContentLayout />,
+        element: <CenterLayout />,
         children: [
           {
             path: "categorias/:category_id/productos",
@@ -29,6 +31,15 @@ const router = createBrowserRouter([
           {
             path: "categorias/:category_id/productos/:product_id",
             element: <Product />,
+          },
+        ],
+      },
+      {
+        element: <FullWidthLayout />,
+        children: [
+          {
+            path: "carrito-compras",
+            element: <Cart />,
           },
         ],
       },

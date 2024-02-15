@@ -89,7 +89,7 @@ const Product = () => {
       setProducts();
       setTimeout(() => {
         fetch_products_by_category(category_id, product_type_id, product_id);
-      }, 3000);
+      }, 1000);
     }
   }, [product_type_id, product]);
   /* ====== END FETCH PRODUCTS ====== */
@@ -105,7 +105,7 @@ const Product = () => {
       setCart({ items: [...cart.items, item] });
       setAddToCartLoader(false);
       toast.success("Agregado al carrito de compras!");
-    }, 1500);
+    }, 1000);
   };
 
   return (
