@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import addItemToCart from "../../utils/addItemToCart";
 
 import useECommerce from "../../hooks/useECommerce";
 
@@ -13,9 +14,13 @@ const ProductItem = ({ product }) => {
       quantity: 1,
     };
 
-    setCart({ items: [...cart.items, item] });
+    const [error_occurred, message] = addItemToCart(item, cart, setCart);
 
-    toast.success("Agregado al carrito de compras!");
+    if (!error_occurred) {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
 
   return (

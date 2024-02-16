@@ -7,25 +7,6 @@ import { GridLoader } from "react-spinners";
 import ProductItem from "../Products/ProductItem";
 
 const ProductsGrid = ({ products }) => {
-  /*
-  const [products, setProducts] = useState();
-
-  const fetch_products_by_category = async (category_id, product_type_id) => {
-    const { data } = await axios_client(
-      `api/categories/${category_id}/products?product_type_id=${product_type_id}`
-    );
-
-    setProducts(data.data);
-  };
-
-  useEffect(() => {
-    setProducts();
-    setTimeout(() => {
-      fetch_products_by_category(category_id, product_type_id);
-    }, 1000);
-  }, [product_type_id]);
-  */
-
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-x-3 md:gap-y-4 ">
       {products ? (

@@ -5,6 +5,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import { PulseLoader } from "react-spinners";
+import { cloneDeep } from "lodash";
+import addItemToCart from "../../utils/addItemToCart";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -96,16 +98,19 @@ const Product = () => {
 
   const handle_add_product_to_cart_btn = () => {
     setAddToCartLoader(true);
+
     const item = {
       product,
       quantity: quantity_to_buy,
     };
 
-    setTimeout(() => {
-      setCart({ items: [...cart.items, item] });
-      setAddToCartLoader(false);
-      toast.success("Agregado al carrito de compras!");
-    }, 1000);
+    const [error_occurred, message] = addItemToCart(item, cart, setCart);
+
+    if (!error_occurred) {
+      toast.success(message);
+    } else {
+      toast.error(message);
+    }
   };
 
   return (

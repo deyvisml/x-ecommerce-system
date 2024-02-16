@@ -67,11 +67,11 @@ const Cart = () => {
                     <div className="px-2 py-3 w-2/12 text-left ">Subtotal</div>
                   </li>
                   {cart.items.map((item) => {
-                    return <CartItem key={item.id} item={item} />;
+                    return <CartItem key={item.product.id} item={item} />;
                   })}
                 </ul>
               ) : (
-                <p className="text-sm">
+                <p className="inline-block my-10 w-full text-center text-gray-700 text-sm">
                   <ShoppingBagIcon className="inline-block mb-1 w-5 me-2" />
                   Lo sentimos, aún no hay productos seleccionados en tu carrito
                   de compras.

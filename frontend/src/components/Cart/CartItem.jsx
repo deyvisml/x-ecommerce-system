@@ -3,7 +3,6 @@ import QuantityButton from "../Product/QuantityButton";
 import { XCircleIcon, ArrowPathIcon } from "@heroicons/react/24/outline";
 
 const CartItem = ({ item }) => {
-  console.log("debug:", item);
   return (
     <li className="flex flex-col sm:flex-row bg-gray-50 sm:bg-white border sm:border-b-2 border-gray-300 sm:border-0 rounded-lg sm:rounded-none">
       <div className="px-2 py-3 border-b sm:border-b-0 border-gray-400 ">
@@ -23,7 +22,9 @@ const CartItem = ({ item }) => {
             <p className="sm:block text-gray-500 hidden">
               {item.product.description}
             </p>
-            <p className="text-purple-700 text-xl">S/ {item.product.price}</p>
+            <p className="text-purple-700 text-xl">
+              S/ {item.product.price.toFixed(2)}
+            </p>
           </div>
         </div>
       </div>
