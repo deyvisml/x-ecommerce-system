@@ -111,6 +111,8 @@ const Product = () => {
     } else {
       toast.error(message);
     }
+
+    setAddToCartLoader(false);
   };
 
   return (
