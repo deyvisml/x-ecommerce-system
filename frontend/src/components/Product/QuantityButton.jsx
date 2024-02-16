@@ -1,4 +1,5 @@
 import React from "react";
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 
 const QuantityButton = ({
   quantity = 1,
@@ -29,12 +30,12 @@ const QuantityButton = ({
   };
 
   return (
-    <div className="flex gap-x-1 w-auto">
+    <div className="flex gap-x-1 w-auto text-gray-800">
       <button
         onClick={() => handle_change_quantity_button(-1)}
-        className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex items-center justify-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className="pt-0.5 w-full select-none ">-</span>
+        <MinusIcon strokeWidth={3} className="w-4" />
       </button>
       <input
         onChange={handle_change_quantity_input}
@@ -44,9 +45,9 @@ const QuantityButton = ({
       />
       <button
         onClick={() => handle_change_quantity_button(+1)}
-        className="flex items-center content-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex items-center justify-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
-        <span className="pt-0.5 w-full select-none ">+</span>
+        <PlusIcon strokeWidth={3} className="w-4" />
       </button>
     </div>
   );

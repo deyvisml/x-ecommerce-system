@@ -31,7 +31,7 @@ const CartItem = ({ item }) => {
       <div className="px-2 py-3 border-b sm:border-b-0 border-gray-400 sm:w-3/12">
         <div className="flex justify-between">
           <p className="font-semibold sm:hidden w-2/6">Cantidad:</p>
-          <div className="">
+          <div className="sm:w-full ">
             <QuantityButton />
             <button className="flex items-center gap-x-1 mt-2 mb-2 text-green-600">
               <ArrowPathIcon className="mb-1 w-5 " />
