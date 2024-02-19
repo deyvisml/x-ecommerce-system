@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import addItemToCart from "../../utils/addItemToCart";
+import { v4 as uuidv4 } from "uuid";
 
 import useECommerce from "../../hooks/useECommerce";
 
@@ -10,6 +11,7 @@ const ProductItem = ({ product }) => {
 
   const handle_add_product_to_cart_btn = () => {
     const item = {
+      id: uuidv4(),
       product,
       quantity: 1,
     };

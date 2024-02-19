@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 
-const addItemToCart = ({ product, quantity }, cart, setCart) => {
+const addItemToCart = ({ id, product, quantity }, cart, setCart) => {
   const cart_copy = cloneDeep(cart); // usefull, copy a var state (to not change the state directly)
   const product_id = product.id;
   let error_occurred = false;
@@ -20,10 +20,9 @@ const addItemToCart = ({ product, quantity }, cart, setCart) => {
     });
 
     if (!product_exists) {
-      cart_copy.items.push({ product, quantity });
+      cart_copy.items.push({ id, product, quantity });
     }
-    console.log(cart_copy);
-    //cart.items.push({ product, quantity });
+
     setCart(cart_copy);
   }
 

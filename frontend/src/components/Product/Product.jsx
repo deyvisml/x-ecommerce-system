@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import { PulseLoader } from "react-spinners";
-import { cloneDeep } from "lodash";
 import addItemToCart from "../../utils/addItemToCart";
+import { v4 as uuidv4 } from "uuid";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -117,6 +117,7 @@ const Product = () => {
     setAddToCartLoader(true);
 
     const item = {
+      id: uuidv4(),
       product,
       quantity: quantity_to_buy,
     };

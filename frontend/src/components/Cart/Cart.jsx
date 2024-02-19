@@ -16,6 +16,13 @@ import CartItem from "./CartItem";
 const Cart = () => {
   const { cart } = useECommerce();
 
+  const num_items = cart.items.reduce((acc, item) => acc + item.quantity, 0);
+
+  const total_price_items = cart.items.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
+    0
+  );
+
   const path_parts = [
     { title: "Home", url: "/", is_home: true, disabled: false },
     { title: "Carrito de Compras", url: "", is_home: false, disabled: false },
@@ -78,11 +85,13 @@ const Cart = () => {
               </p>
               <div className="flex justify-between bg-gray-100 p-2 text-sm">
                 <p>
-                  <span>8</span> articulos
+                  <span>{num_items}</span> articulos
                 </p>
-                <p>S/1,124.00</p>
+                <p>S/ {total_price_items.toFixed(2)}</p>
               </div>
-              <p className="font-semibold text-2xl text-center">S/1,124.00</p>
+              <p className="font-semibold text-2xl text-center">
+                S/ {total_price_items.toFixed(2)}
+              </p>
               <ApplyCoupon />
               <button className="bg-rose-500 hover:bg-rose-600 shadow p-2.5 font-semibold text-sm text-white uppercase transition-all ease-in-out dura300 rounded">
                 Finalizar pedido

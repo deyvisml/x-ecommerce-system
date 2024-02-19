@@ -39,7 +39,7 @@ const QuantityButton = ({
       </button>
       <input
         onChange={handle_change_quantity_input}
-        className="border-2 border-gray-600 rounded-full w-12 text-center text-sm outline-none"
+        className="pt-0.5 border-2 border-gray-600 rounded-full w-12 text-center text-sm outline-none"
         value={quantity}
         type="text"
       />
