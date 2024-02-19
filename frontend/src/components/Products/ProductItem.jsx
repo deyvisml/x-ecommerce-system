@@ -47,14 +47,11 @@ const ProductItem = ({ product }) => {
       </Link>
       <div className="mx-4">
         <button
-          onClick={
-            product.has_stock
-              ? handle_add_product_to_cart_btn
-              : (e) => {
-                  e.preventDefault;
-                }
-          }
-          className="inline-block bg-purple-600 hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase"
+          disabled={product.has_stock ? false : true}
+          onClick={handle_add_product_to_cart_btn}
+          className={`inline-block ${
+            product.has_stock ? "bg-purple-600" : "bg-red-400"
+          } hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase`}
         >
           Agregar
         </button>
