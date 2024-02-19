@@ -59,7 +59,7 @@ const Products = () => {
   /* ====== END FETCH PRODUCTS ====== */
 
   return (
-    <div className="text-gray-800">
+    <div className="mx-auto px-4 max-w-7xl text-gray-800">
       <div className="my-5">
         <h3 className="font-bold text-2xl">
           {(category && category.name) || <Skeleton />}

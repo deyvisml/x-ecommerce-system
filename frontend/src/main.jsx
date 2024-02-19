@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        element: <CenterLayout />,
+        element: <FullWidthLayout />,
         children: [
           {
             path: "categorias/:category_id/productos",

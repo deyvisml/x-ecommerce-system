@@ -134,22 +134,23 @@ const Product = () => {
 
   return (
     <div className="text-gray-800 ">
-      <div className="my-5 text-gray-600">
-        {path_parts && <BreadCrumb path_parts={path_parts} />}
-      </div>
+      <div className="mx-auto px-4 max-w-7xl">
+        <div className="my-5 text-gray-600">
+          {path_parts && <BreadCrumb path_parts={path_parts} />}
+        </div>
 
-      <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
-        <div className="flex items-center justify-center w-full md:w-1/2">
-          <div className="bg-purple-400 sm:mx-5 w-full leading-none">
-            {product && (
-              <img
-                src={`/images/products/${product.image_url}`}
-                alt="product image"
-                className="shadow border-2 w-full"
-              />
-            )}
+        <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
+          <div className="flex items-center justify-center w-full md:w-1/2">
+            <div className="bg-purple-400 sm:mx-5 w-full leading-none">
+              {product && (
+                <img
+                  src={`/images/products/${product.image_url}`}
+                  alt="product image"
+                  className="shadow border-2 w-full"
+                />
+              )}
 
-            {/* product && (
+              {/* product && (
               <ImageZoom
                 src={`/images/products/${product.image_url}`}
                 alt="Product image"
@@ -158,122 +159,126 @@ const Product = () => {
                 zoom="180"
               />
             ) */}
+            </div>
+          </div>
+
+          <div className="w-full md:w-1/2">
+            <div className="flex flex-col gap-4 sm:mx-10">
+              <Link
+                to={`/categorias/${category_id}/productos`}
+                className="hover:text-purple-600 uppercase transition-all duration-100 ease-in-out"
+              >
+                {category && category.name}
+              </Link>
+              <h2 className="font-extrabold text-3xl">
+                {product && product.name}
+              </h2>
+              <p className="font-bold text-2xl">
+                S/ {product && product.price.toFixed(2)}
+                <span className="font-normal text-sm ms-2">
+                  (impuestos incluidos)
+                </span>
+              </p>
+              <div>
+                <span className="block mb-2 font-semibold text-sm uppercase">
+                  Descripción:
+                </span>
+                <p className="text-sm">{product && product.description}</p>
+              </div>
+              <div>
+                <span className="block mb-2 font-semibold text-sm uppercase">
+                  Disponibilidad:
+                </span>
+                {product &&
+                  (product.quantity ? (
+                    <p className="font-bold text-green-600 text-sm">
+                      En stock 🗸
+                    </p>
+                  ) : (
+                    <p className="font-bold text-red-600 text-sm">Agotado ✗</p>
+                  ))}
+              </div>
+              <div>
+                <span className="block mb-2 font-semibold text-sm uppercase">
+                  Cantidad:
+                </span>
+                {product && (
+                  <QuantityButton
+                    quantity={quantity_to_buy}
+                    setQuantity={setQuantityToBuy}
+                    min_quantity={1}
+                    max_quantity={product.quantity}
+                  />
+                )}
+              </div>
+
+              {product && (
+                <div>
+                  <button
+                    onClick={
+                      product.quantity
+                        ? handle_add_product_to_cart_btn
+                        : (e) => {
+                            e.preventDefault;
+                          }
+                    }
+                    className={`${
+                      product.quantity
+                        ? "bg-purple-600 hover:bg-purple-700"
+                        : "bg-purple-300 cursor-not-allowed"
+                    }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                  >
+                    {add_to_cart_loader ? (
+                      <PulseLoader
+                        color="#ffffff"
+                        loading
+                        size={9}
+                        className="m-0 p-0 pt-1 "
+                      />
+                    ) : (
+                      "Añadir al carrito"
+                    )}
+                  </button>
+                  <a
+                    href={
+                      product.quantity
+                        ? `https://wa.me/${"+51975032529"}?text=${
+                            "Deseo realizar mi pedido de este producto: " +
+                            product.name.toUpperCase()
+                          }`
+                        : "javascript:void(0)"
+                    }
+                    target={product.quantity ? "_blank" : "_self"}
+                    className={`${
+                      product.quantity
+                        ? "bg-green-500 hover:bg-green-600"
+                        : "bg-purple-300 cursor-not-allowed"
+                    }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
+                  >
+                    <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
+                  </a>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        <div className="w-full md:w-1/2">
-          <div className="flex flex-col gap-4 sm:mx-10">
-            <Link
-              to={`/categorias/${category_id}/productos`}
-              className="hover:text-purple-600 uppercase transition-all duration-100 ease-in-out"
-            >
-              {category && category.name}
-            </Link>
-            <h2 className="font-extrabold text-3xl">
-              {product && product.name}
-            </h2>
-            <p className="font-bold text-2xl">
-              S/ {product && product.price.toFixed(2)}
-              <span className="font-normal text-sm ms-2">
-                (impuestos incluidos)
-              </span>
+        <div className="mt-14">
+          <div className="relative flex justify-center mb-5">
+            <p className="inline-block z-40 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
+              Productos relacionados
             </p>
-            <div>
-              <span className="block mb-2 font-semibold text-sm uppercase">
-                Descripción:
-              </span>
-              <p className="text-sm">{product && product.description}</p>
-            </div>
-            <div>
-              <span className="block mb-2 font-semibold text-sm uppercase">
-                Disponibilidad:
-              </span>
-              {product &&
-                (product.quantity ? (
-                  <p className="font-bold text-green-600 text-sm">En stock 🗸</p>
-                ) : (
-                  <p className="font-bold text-red-600 text-sm">Agotado ✗</p>
-                ))}
-            </div>
-            <div>
-              <span className="block mb-2 font-semibold text-sm uppercase">
-                Cantidad:
-              </span>
-              {product && (
-                <QuantityButton
-                  quantity={quantity_to_buy}
-                  setQuantity={setQuantityToBuy}
-                  min_quantity={1}
-                  max_quantity={product.quantity}
-                />
-              )}
-            </div>
-
-            {product && (
-              <div>
-                <button
-                  onClick={
-                    product.quantity
-                      ? handle_add_product_to_cart_btn
-                      : (e) => {
-                          e.preventDefault;
-                        }
-                  }
-                  className={`${
-                    product.quantity
-                      ? "bg-purple-600 hover:bg-purple-700"
-                      : "bg-purple-300 cursor-not-allowed"
-                  }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
-                >
-                  {add_to_cart_loader ? (
-                    <PulseLoader
-                      color="#ffffff"
-                      loading
-                      size={9}
-                      className="m-0 p-0 pt-1 "
-                    />
-                  ) : (
-                    "Añadir al carrito"
-                  )}
-                </button>
-                <a
-                  href={
-                    product.quantity
-                      ? `https://wa.me/${"+51975032529"}?text=${
-                          "Deseo realizar mi pedido de este producto: " +
-                          product.name.toUpperCase()
-                        }`
-                      : "javascript:void(0)"
-                  }
-                  target={product.quantity ? "_blank" : "_self"}
-                  className={`${
-                    product.quantity
-                      ? "bg-green-500 hover:bg-green-600"
-                      : "bg-purple-300 cursor-not-allowed"
-                  }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
-                >
-                  <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
-                </a>
-              </div>
-            )}
+            <hr className="top-3 md:top-3.5 left-0 z-10 absolute border border-gray-300 w-full" />
+          </div>
+          <div>
+            <ProductsGrid products={products} />
           </div>
         </div>
       </div>
 
-      <div className="mt-14">
-        <div className="relative flex justify-center mb-5">
-          <p className="inline-block z-40 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
-            Productos relacionados
-          </p>
-          <hr className="top-3 md:top-3.5 left-0 z-10 absolute border border-gray-300 w-full" />
-        </div>
-
-        <div>
-          <ProductsGrid products={products} />
-        </div>
-
-        <div className="bg-neutral-100 my-10">
-          <ul className="flex flex-wrap md:flex-nowrap gap-x-12 gap-y-8 px-5 py-10">
+      <div className="bg-neutral-100 mt-10">
+        <div className="mx-auto px-4 max-w-7xl">
+          <ul className="flex flex-wrap md:flex-nowrap gap-x-12 gap-y-8 px-5 py-10 sm:py-16">
             {benefits_information.map(
               ({ id, title, description, image_url }) => {
                 return (
