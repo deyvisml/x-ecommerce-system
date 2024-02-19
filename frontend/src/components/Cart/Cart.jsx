@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 import {
   HomeIcon,
@@ -15,6 +16,12 @@ import CartItem from "./CartItem";
 const Cart = () => {
   const { cart } = useECommerce();
 
+  const path_parts = [
+    { title: "Home", url: "/", is_home: true, disabled: false },
+    { title: "Carrito de Compras", url: "", is_home: false, disabled: false },
+    { title: "Proceso de pago", url: "", is_home: false, disabled: true },
+  ];
+
   return (
     <div className="mb-20">
       <div className="bg-purple-600 py-10 pb-24 ">
@@ -23,22 +30,9 @@ const Cart = () => {
             <h3 className="order-2 lg:order-1 font-bold text-2xl">
               Mi Carrito de compras
             </h3>
-
-            <ul className="flex order-1 gap-x-1 font-bold text-sm">
-              <li className="flex items-center">
-                <Link to="/">
-                  <HomeIcon className="inline-block mb-0.5 w-4" /> Home
-                </Link>
-              </li>
-              <li className="flex items-center gap-x-1">
-                <ChevronRightIcon className="mb-0.5 w-4" />
-                <Link to="">Carrito de Compras</Link>
-              </li>
-              <li className="flex items-center gap-x-1">
-                <ChevronRightIcon className="mb-0.5 w-4" />
-                <Link to="">Proceso de pago</Link>
-              </li>
-            </ul>
+            <div className="order-1 lg:order-2 ">
+              <BreadCrumb path_parts={path_parts} />
+            </div>
           </div>
         </div>
       </div>

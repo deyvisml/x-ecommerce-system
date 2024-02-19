@@ -15,6 +15,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 import QuantityButton from "./QuantityButton";
 import ProductsGrid from "../ProductsGrid";
+import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
 const Product = () => {
   const { category_id, product_id } = useParams();
@@ -24,6 +25,7 @@ const Product = () => {
   const [product_type_id, setProductTypeId] = useState();
   const [quantity_to_buy, setQuantityToBuy] = useState(1);
   const [add_to_cart_loader, setAddToCartLoader] = useState(false);
+  const [path_parts, setPathParts] = useState();
 
   const fetch_category = async (category_id) => {
     const { data } = await axios_client(`api/categories/${category_id}`);
@@ -39,6 +41,21 @@ const Product = () => {
 
     setProductTypeId(data.data.product_type_id);
   };
+
+  useEffect(() => {
+    if (product && category) {
+      setPathParts([
+        { title: "Home", url: "/", is_home: true, disabled: false },
+        {
+          title: category.name,
+          url: `/categorias/${category_id}/productos`,
+          is_home: false,
+          disabled: false,
+        },
+        { title: product.name, url: "", is_home: false, disabled: true },
+      ]);
+    }
+  }, [product, category]);
 
   useEffect(() => {
     fetch_category(category_id);
@@ -117,21 +134,8 @@ const Product = () => {
 
   return (
     <div className="text-gray-800 ">
-      <div className="my-5">
-        <div className="flex items-center gap-1.5 text-gray-500 text-xs md:text-sm">
-          <Link className="hover:text-purple-600 hover:underline" to="/">
-            Home
-          </Link>
-          <span>/</span>
-          <Link
-            className="hover:underline hover:text-purple-600"
-            to={`/categorias/${category_id}/productos`}
-          >
-            {category && category.name}
-          </Link>
-          <span>/</span>
-          <span>{product && product.name}</span>
-        </div>
+      <div className="my-5 text-gray-600">
+        {path_parts && <BreadCrumb path_parts={path_parts} />}
       </div>
 
       <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
