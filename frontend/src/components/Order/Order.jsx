@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import "./order.css";
 import {
   FaRegCreditCard,
   FaPhone,
@@ -228,11 +229,8 @@ const Order = () => {
 
   const delivery_hours = ["08:00-12:00", "13:00-17:00", "16:00-20:00"];
 
-  console.log("watch ->", watch("delivery_date"));
-  console.log("watch ->", watch("delivery_hour"));
-
   return (
-    <div className="mx-auto px-4 max-w-7xl ">
+    <div className="mx-auto px-4 max-w-7xl order">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col lg:flex-row items-start gap-x-10 gap-y-10 mt-5 mb-12"
@@ -245,12 +243,12 @@ const Order = () => {
               description={
                 "Datos para tu compra y contacto en caso de alguna consulta."
               }
-              border-gray-400
+              border-gray-300
               current_stage={stage}
               set_current_stage={setStage}
             >
               <div
-                className={`grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 p-3 border text-gray-600`}
+                className={`grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 py-3  text-gray-600`}
               >
                 <div className="">
                   <label
@@ -266,7 +264,7 @@ const Order = () => {
                       errors.document_type
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } px-3.5 py-2 border border-gray-400 rounded-3xl w-full outline-none`}
+                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value>Seleccionar</option>
                     <option value="1">DNI</option>
@@ -297,7 +295,7 @@ const Order = () => {
                       errors.document_number
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600  rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.document_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -322,7 +320,7 @@ const Order = () => {
                       errors.first_name
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.first_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -346,7 +344,7 @@ const Order = () => {
                       errors.last_name
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.last_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -369,7 +367,7 @@ const Order = () => {
                     placeholder="Ingresar Correo electronico"
                     className={`${
                       errors.email ? "border-red-400 focus:border-red-600" : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs ps-2">
@@ -393,7 +391,7 @@ const Order = () => {
                       errors.birthdate
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.birthdate && (
                     <p className="text-red-500 text-xs ps-2">
@@ -419,7 +417,7 @@ const Order = () => {
                       errors.phone_number
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.phone_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -434,7 +432,7 @@ const Order = () => {
                     onClick={() => {
                       handle_click_next_btn(1);
                     }}
-                    className="bg-rose-500 hover:bg-rose-600 px-10 py-2.5 border rounded-3xl font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="bg-rose-500 hover:bg-rose-600 px-10 py-2.5 rounded-md font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     siguiente
                   </button>
@@ -449,7 +447,7 @@ const Order = () => {
               current_stage={stage}
               set_current_stage={setStage}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 p-3 border text-gray-600">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 py-3 text-gray-600">
                 <div className="">
                   <label
                     className="block text-gray-500 text-xs"
@@ -466,7 +464,7 @@ const Order = () => {
                       errors.delivery_first_name
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_first_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -490,7 +488,7 @@ const Order = () => {
                       errors.delivery_last_name
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_last_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -513,7 +511,7 @@ const Order = () => {
                       errors.delivery_region
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } px-3.5 py-2 border border-gray-400 rounded-3xl w-full outline-none`}
+                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value>Seleccionar región</option>
                     <option value="1">R1</option>
@@ -540,7 +538,7 @@ const Order = () => {
                       errors.delivery_location
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } px-3.5 py-2 border border-gray-400 rounded-3xl w-full outline-none`}
+                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value>Seleccionar localidad</option>
                     <option value="1">L1</option>
@@ -570,7 +568,7 @@ const Order = () => {
                       errors.delivery_address
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_address && (
                     <p className="text-red-500 text-xs ps-2">
@@ -594,7 +592,7 @@ const Order = () => {
                       errors.delivery_address_reference
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_address_reference && (
                     <p className="text-red-500 text-xs ps-2">
@@ -619,7 +617,7 @@ const Order = () => {
                       errors.delivery_date
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_date && (
                     <p className="text-red-500 text-xs ps-2">
@@ -641,7 +639,7 @@ const Order = () => {
                       errors.delivery_hour
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } px-3.5 py-2 border border-gray-400 rounded-3xl w-full outline-none`}
+                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value="">Seleccionar horario</option>
                     <option value="1">08:00-12:00</option>
@@ -671,7 +669,7 @@ const Order = () => {
                       errors.delivery_phone_number
                         ? "border-red-400 focus:border-red-600"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_phone_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -686,7 +684,7 @@ const Order = () => {
                     onClick={() => {
                       handle_click_previous_btn();
                     }}
-                    className="bg-white hover:bg-gray-100 shadow px-10 py-2.5 border-2 rounded-3xl font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="bg-white hover:bg-gray-200 px-10 py-2.5 border border-gray-300 rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     anterior
                   </button>
@@ -696,7 +694,7 @@ const Order = () => {
                     onClick={() => {
                       handle_click_next_btn(2);
                     }}
-                    className="bg-rose-500 hover:bg-rose-600 shadow px-10 py-2.5 border-2 rounded-3xl font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="bg-rose-500 hover:bg-rose-600 shadow px-10 py-2.5 rounded-md font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     siguiente
                   </button>
@@ -792,7 +790,7 @@ const Order = () => {
                     onClick={() => {
                       handle_click_previous_btn();
                     }}
-                    className="bg-white hover:bg-gray-100 shadow px-10 py-2.5 border-2 rounded-3xl font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="bg-white hover:bg-gray-200 px-10 py-2.5 border border-gray-300 rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     anterior
                   </button>
@@ -819,7 +817,7 @@ const Order = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2 bg-white shadow-lg p-3 border border-gray-300 rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
+        <div className="flex flex-col gap-y-2 bg-gray-50 shadow-lg p-3 border border-gray-300 rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
           <div>
             <h5 className="font-bold uppercase">Resumen de tu pedido</h5>
             <span className="block bg-purple-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
@@ -878,8 +876,8 @@ const Order = () => {
                       </div>
                       <div className="flex-1">
                         <a href="">{item.product.name}</a>
-                        <p className="font-bold text-xs">
-                          Precio unidario{" "}
+                        <p className="font-semibold text-xs">
+                          Precio unitario{" "}
                           <span>S/ {item.product.price.toFixed(2)}</span>
                         </p>
                       </div>
@@ -902,11 +900,11 @@ const Order = () => {
                 name="coupon"
                 id="document_number"
                 placeholder="Ingrese su código."
-                className={` focus:bg-gray-50 w-9/12 px-3.5 py-2 border border-gray-400 focus:border-gray-600 rounded-3xl  transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                className={` focus:bg-gray-50 w-9/12 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md  transition-all duration-200 ease-in-out cursor-pointer outline-none`}
               />
               <button
                 type="button"
-                className="bg-white hover:bg-rose-50 px-5 py-2.5 border border-rose-600 rounded-3xl w-3/12 font-bold text-rose-500 text-xs uppercase transition-all duration-300 ease-in-out"
+                className="bg-white hover:bg-rose-50 px-5 py-2.5 border border-rose-600 rounded-md w-3/12 font-bold text-rose-500 text-xs uppercase transition-all duration-300 ease-in-out"
               >
                 Aplicar
               </button>
@@ -982,7 +980,7 @@ const Order = () => {
           <div className="my-5">
             <button
               type="submit"
-              className="bg-rose-500 hover:bg-rose-600 px-5 py-2.5 border rounded-3xl w-full font-bold text-white uppercase transition-all duration-300 ease-in-out"
+              className="bg-rose-500 hover:bg-rose-600 px-5 py-2.5 border rounded-md w-full font-semibold text-white uppercase transition-all duration-300 ease-in-out"
             >
               Realizar pedido
             </button>

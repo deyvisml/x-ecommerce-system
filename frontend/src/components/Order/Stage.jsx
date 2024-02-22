@@ -59,7 +59,7 @@ const Stage = ({
         </div>
       </div>
 
-      {children}
+      {current_stage == stage && children}
     </section>
   );
 };
