@@ -93,9 +93,12 @@ const Cart = () => {
                 S/ {total_price_items.toFixed(2)}
               </p>
               <ApplyCoupon />
-              <button className="bg-rose-500 hover:bg-rose-600 shadow p-2.5 font-semibold text-sm text-white uppercase transition-all ease-in-out dura300 rounded">
+              <Link
+                to={"/pedido"}
+                className="bg-rose-500 hover:bg-rose-600 shadow p-2.5 font-semibold text-center text-sm text-white uppercase transition-all ease-in-out dura300 rounded"
+              >
                 Finalizar pedido
-              </button>
+              </Link>
             </div>
           </div>
         </div>

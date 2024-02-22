@@ -6,11 +6,11 @@ import { ECommerceProvider } from "./context/ECommerceProvider";
 
 import App from "./components/App";
 import Home from "./components/Home";
-import CenterLayout from "./components/CenterLayout";
 import Products from "./components/Products";
 import Product from "./components/Product";
 import Cart from "./components/Cart/Cart";
 import FullWidthLayout from "./components/FullWidthLayout/FullWidthLayout";
+import Order from "./components/Order";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +40,10 @@ const router = createBrowserRouter([
           {
             path: "carrito-compras",
             element: <Cart />,
+          },
+          {
+            path: "pedido",
+            element: <Order />,
           },
         ],
       },
