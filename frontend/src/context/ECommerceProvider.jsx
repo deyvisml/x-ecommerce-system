@@ -10,13 +10,20 @@ const ECommerceProvider = ({ children }) => {
       items: [],
     }
   );
+  const [order, setOrder] = useState(
+    JSON.parse(localStorage.getItem("order")) ?? { data: {} }
+  );
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);
 
+  useEffect(() => {
+    localStorage.setItem("order", JSON.stringify(order));
+  }, [order]);
+
   return (
-    <ECommerceContext.Provider value={{ cart, setCart }}>
+    <ECommerceContext.Provider value={{ cart, setCart, order, setOrder }}>
       {children}
     </ECommerceContext.Provider>
   );
