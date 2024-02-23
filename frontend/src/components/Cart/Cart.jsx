@@ -3,12 +3,7 @@ import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 
-import {
-  HomeIcon,
-  ChevronRightIcon,
-  ChevronLeftIcon,
-  ShoppingBagIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronLeftIcon, ShoppingBagIcon } from "@heroicons/react/24/outline";
 
 import ApplyCoupon from "./ApplyCoupon";
 import CartItem from "./CartItem";
@@ -92,13 +87,17 @@ const Cart = () => {
               <p className="font-semibold text-2xl text-center">
                 S/ {total_price_items.toFixed(2)}
               </p>
-              <ApplyCoupon />
-              <Link
-                to={"/pedido"}
-                className="bg-rose-500 hover:bg-rose-600 shadow p-2.5 font-semibold text-center text-sm text-white uppercase transition-all ease-in-out dura300 rounded"
-              >
-                Finalizar pedido
-              </Link>
+              {cart.items.length > 0 && (
+                <>
+                  <ApplyCoupon />
+                  <Link
+                    to={"/pedido"}
+                    className="bg-rose-500 hover:bg-rose-600 shadow p-2.5 font-semibold text-center text-sm text-white uppercase transition-all ease-in-out dura300 rounded"
+                  >
+                    Finalizar pedido
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>

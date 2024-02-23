@@ -15,6 +15,7 @@ import niubiz_method from "../../assets/images/payment-methods/niubiz-method.jpg
 import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
 import { format, parseISO } from "date-fns";
+import { animateScroll, Element } from "react-scroll";
 
 const Order = () => {
   const { cart, order, setOrder } = useECommerce();
@@ -171,9 +172,16 @@ const Order = () => {
     if (stage == 3) {
       setValue("payment_method", null);
     }
-    setStage(stage - 1);
-
     // update order
+    setStage(stage - 1);
+  };
+
+  const test_function = () => {
+    animateScroll.scrollTo("my_test", {
+      duration: 800,
+      delay: 0,
+      smooth: "easeInOutQuart",
+    });
   };
 
   useEffect(() => {
@@ -768,7 +776,10 @@ const Order = () => {
               </div>
             </Stage>
           </div>
-          <div className="lg:flex flex-col gap-y-3 bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs hidden">
+          <Element
+            name="my_testt"
+            className="lg:flex flex-col gap-y-3 bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs hidden"
+          >
             <p className="font-bold">¿Necesitas ayuda?</p>
             <p>
               Contacta con nuestro canal de Atención al cliente en cualquier
@@ -784,7 +795,10 @@ const Order = () => {
               </span>{" "}
               +51 975032529
             </a>
-          </div>
+          </Element>
+          <Element name="my_test" className="element">
+            Scroll to element
+          </Element>
         </div>
         <div className="flex flex-col gap-y-2 bg-gray-50 shadow-lg p-3 border border-gray-300 rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
           <div>
@@ -824,7 +838,7 @@ const Order = () => {
 
           <div>
             <ul>
-              {cart.items.length &&
+              {cart.items.length > 0 ? (
                 cart.items.map((item) => {
                   return (
                     <li
@@ -857,7 +871,12 @@ const Order = () => {
                       </div>
                     </li>
                   );
-                })}
+                })
+              ) : (
+                <p className="bg-red-400 py-2 text-center text-white">
+                  No existen productos en el carrito.
+                </p>
+              )}
             </ul>
           </div>
 
@@ -966,7 +985,7 @@ const Order = () => {
           </ul>
 
           <div className="my-5">
-            {watch("payment_method") && (
+            {watch("payment_method") && cart.items.length > 0 && (
               <button
                 type="submit"
                 className={`${
@@ -978,6 +997,9 @@ const Order = () => {
                 Realizar pedido
               </button>
             )}
+            <div className="test1" onClick={test_function}>
+              Scroll to element
+            </div>
           </div>
         </div>
       </form>
