@@ -19,7 +19,7 @@ const Stage = ({
   return (
     <section>
       <Element
-        name="xd"
+        name={`stage${stage}`}
         className={`flex items-center gap-x-4 shadow p-1.5 cursor-pointer  ${
           current_stage == stage
             ? "border border-l-[7px] border-l-purple-500"

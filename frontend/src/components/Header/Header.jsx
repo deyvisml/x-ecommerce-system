@@ -72,7 +72,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 z-50 md:sticky bg-white shadow-md border-b w-full">
+      <header className="top-0 z-50 md:sticky bg-white shadow-md border-b w-full ">
         <div className="flex flex-wrap items-center justify-between md:px-16 border">
           <div className="m-auto md:m-0 mb-2 logo-container">
             <Link to="/" className="inline-block m-auto">

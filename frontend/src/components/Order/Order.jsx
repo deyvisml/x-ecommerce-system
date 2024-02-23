@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cloneDeep } from "lodash";
@@ -15,10 +15,12 @@ import niubiz_method from "../../assets/images/payment-methods/niubiz-method.jpg
 import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
 import { format, parseISO } from "date-fns";
-import { animateScroll, Element } from "react-scroll";
+import { scroller, Element } from "react-scroll";
 
 const Order = () => {
   const { cart, order, setOrder } = useECommerce();
+
+  const is_mounted = useRef(false); // it's only use to avoid the first scroll animation cause by the useeffect
 
   const {
     register,
@@ -176,16 +178,19 @@ const Order = () => {
     setStage(stage - 1);
   };
 
-  const test_function = () => {
-    animateScroll.scrollTo("my_test", {
-      duration: 800,
-      delay: 0,
-      smooth: "easeInOutQuart",
-    });
-  };
-
   useEffect(() => {
     setOrder({ ...order, stage });
+
+    if (is_mounted.current) {
+      scroller.scrollTo(`stage${stage}`, {
+        duration: 800,
+        delay: 0,
+        smooth: "easeInOutQuart",
+        offset: -85,
+      });
+    } else {
+      is_mounted.current = true;
+    }
   }, [stage]);
 
   const onSubmit = (data) => {
@@ -776,7 +781,7 @@ const Order = () => {
               </div>
             </Stage>
           </div>
-          <Element
+          <div
             name="my_testt"
             className="lg:flex flex-col gap-y-3 bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs hidden"
           >
@@ -795,10 +800,7 @@ const Order = () => {
               </span>{" "}
               +51 975032529
             </a>
-          </Element>
-          <Element name="my_test" className="element">
-            Scroll to element
-          </Element>
+          </div>
         </div>
         <div className="flex flex-col gap-y-2 bg-gray-50 shadow-lg p-3 border border-gray-300 rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
           <div>
@@ -997,9 +999,6 @@ const Order = () => {
                 Realizar pedido
               </button>
             )}
-            <div className="test1" onClick={test_function}>
-              Scroll to element
-            </div>
           </div>
         </div>
       </form>
