@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios_client from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cloneDeep } from "lodash";
@@ -15,10 +16,13 @@ import niubiz_method from "../../assets/images/payment-methods/niubiz-method.jpg
 import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
 import { format, parseISO } from "date-fns";
-import { scroller, Element } from "react-scroll";
+import { scroller } from "react-scroll";
 
 const Order = () => {
   const { cart, order, setOrder } = useECommerce();
+  const [document_types, setDocumentTypes] = useState();
+  const [regions, setRegions] = useState();
+  const [locations, setLocations] = useState();
 
   const is_mounted = useRef(false); // it's only use to avoid the first scroll animation cause by the useeffect
 
@@ -28,6 +32,7 @@ const Order = () => {
     watch,
     setValue,
     getValues,
+    reset,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -57,6 +62,36 @@ const Order = () => {
     },
     resolver: yupResolver(schema),
   });
+
+  const fetch_document_types = async () => {
+    const { data } = await axios_client(`api/document-types`);
+
+    setDocumentTypes(data.data);
+  };
+
+  const fetch_regions = async () => {
+    const { data } = await axios_client(`api/regions`);
+
+    setRegions(data.data);
+  };
+
+  const fetch_locations_by_region = async (region_id) => {
+    const { data } = await axios_client(`api/regions/${region_id}/locations`);
+
+    setLocations(data.data);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await fetch_document_types();
+
+      await fetch_regions();
+
+      await fetch_locations_by_region(watch("delivery_region"));
+
+      reset();
+    })();
+  }, []);
 
   const total_price_items = cart.items.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -132,7 +167,7 @@ const Order = () => {
           "delivery_region",
           "delivery_location",
           "delivery_address",
-          delivery_address_reference,
+          "delivery_address_reference",
           "delivery_date",
           "delivery_hour",
           "delivery_phone_number",
@@ -203,20 +238,30 @@ const Order = () => {
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
-      setOrder((previous_order) => {
-        const order_copy = cloneDeep(previous_order);
-        order_copy.data[name] = value[name];
-        return order_copy;
-      });
+      // to avoid undefined values
+      if (name) {
+        setOrder((previous_order) => {
+          const order_copy = cloneDeep(previous_order);
+          order_copy.data[name] = value[name];
+          return order_copy;
+        });
+      }
     });
     return () => subscription.unsubscribe();
   }, [watch]);
+
+  const handle_region_select_onchange = (e) => {
+    const region_id = e.target.value;
+    setValue("delivery_location", 0);
+
+    fetch_locations_by_region(region_id);
+  };
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col lg:flex-row items-start gap-x-10 gap-y-5 lg:gap-y-10 mt-5 mb-12"
+        className="flex lg:flex-row flex-col items-start gap-x-10 gap-y-5 lg:gap-y-10 mt-5 mb-12"
       >
         <div className="flex flex-col w-full lg:w-3/5 text-sm">
           <div className="flex flex-col gap-y-2 ">
@@ -247,14 +292,17 @@ const Order = () => {
                       errors.document_type
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value>Seleccionar</option>
-                    <option value="1">DNI</option>
-                    <option value="2">RUC</option>
-                    <option value="3">Pasaporte</option>
-                    <option value="4">CE - Carnet de Extranjería</option>
-                    <option value="5">CI - Cédula de Identidad</option>
+                    <option value="0">Seleccionar</option>
+                    {document_types &&
+                      document_types.map(({ id, name }) => {
+                        return (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        );
+                      })}
                   </select>
                   {errors.document_type && (
                     <p className="text-red-500 text-xs ps-2">
@@ -278,7 +326,7 @@ const Order = () => {
                       errors.document_number
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600  rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600  rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.document_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -303,7 +351,7 @@ const Order = () => {
                       errors.first_name
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.first_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -327,7 +375,7 @@ const Order = () => {
                       errors.last_name
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.last_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -350,7 +398,7 @@ const Order = () => {
                     placeholder="Ingresar Correo electronico"
                     className={`${
                       errors.email ? "border-red-400 focus:border-red-400" : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs ps-2">
@@ -374,7 +422,7 @@ const Order = () => {
                       errors.birthdate
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.birthdate && (
                     <p className="text-red-500 text-xs ps-2">
@@ -400,7 +448,7 @@ const Order = () => {
                       errors.phone_number
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.phone_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -409,7 +457,7 @@ const Order = () => {
                   )}
                 </div>
 
-                <div className="md:col-span-2 flex justify-end">
+                <div className="flex justify-end md:col-span-2">
                   <button
                     type="button"
                     onClick={() => {
@@ -430,7 +478,7 @@ const Order = () => {
               current_stage={stage}
               set_current_stage={setStage}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 py-3 text-gray-600">
+              <div className="gap-4 grid grid-cols-1 md:grid-cols-2 mt-2 py-3 text-gray-600">
                 <div className="">
                   <label
                     className="block text-gray-500 text-xs"
@@ -447,7 +495,7 @@ const Order = () => {
                       errors.delivery_first_name
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_first_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -471,7 +519,7 @@ const Order = () => {
                       errors.delivery_last_name
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_last_name && (
                     <p className="text-red-500 text-xs ps-2">
@@ -488,18 +536,25 @@ const Order = () => {
                     Región <span>*</span>
                   </label>
                   <select
-                    {...register("delivery_region")}
+                    {...register("delivery_region", {
+                      onChange: (e) => handle_region_select_onchange(e),
+                    })}
                     id="delivery_region"
                     className={`${
                       errors.delivery_region
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value>Seleccionar región</option>
-                    <option value="1">R1</option>
-                    <option value="2">R2</option>
-                    <option value="3">R3</option>
+                    <option value={0}>Seleccionar región</option>
+                    {regions &&
+                      regions.map(({ id, name }) => {
+                        return (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        );
+                      })}
                   </select>
                   {errors.delivery_region && (
                     <p className="text-red-500 text-xs ps-2">
@@ -521,12 +576,17 @@ const Order = () => {
                       errors.delivery_location
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value>Seleccionar localidad</option>
-                    <option value="1">L1</option>
-                    <option value="2">L2</option>
-                    <option value="3">L3</option>
+                    <option value="0">Seleccionar localidad</option>
+                    {locations &&
+                      locations.map(({ id, name, delivery_cost }) => {
+                        return (
+                          <option key={id} value={id}>
+                            {name} (S/ {delivery_cost.toFixed(2)})
+                          </option>
+                        );
+                      })}
                   </select>
                   {errors.delivery_location && (
                     <p className="text-red-500 text-xs ps-2">
@@ -551,7 +611,7 @@ const Order = () => {
                       errors.delivery_address
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_address && (
                     <p className="text-red-500 text-xs ps-2">
@@ -575,7 +635,7 @@ const Order = () => {
                       errors.delivery_address_reference
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_address_reference && (
                     <p className="text-red-500 text-xs ps-2">
@@ -600,7 +660,7 @@ const Order = () => {
                       errors.delivery_date
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_date && (
                     <p className="text-red-500 text-xs ps-2">
@@ -622,7 +682,7 @@ const Order = () => {
                       errors.delivery_hour
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-3.5 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value="">Seleccionar horario</option>
                     <option value="1">08:00-12:00</option>
@@ -652,7 +712,7 @@ const Order = () => {
                       errors.delivery_phone_number
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } focus:bg-gray-50 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                    } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                   />
                   {errors.delivery_phone_number && (
                     <p className="text-red-500 text-xs ps-2">
@@ -661,13 +721,13 @@ const Order = () => {
                   )}
                 </div>
 
-                <div className="md:col-span-2 flex justify-between">
+                <div className="flex justify-between md:col-span-2">
                   <button
                     type="button"
                     onClick={() => {
                       handle_click_previous_btn();
                     }}
-                    className="bg-white hover:bg-gray-200 px-10 py-2.5 border border-gray-300 rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="border-gray-300 bg-white hover:bg-gray-200 px-10 py-2.5 border rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     Regresar
                   </button>
@@ -695,7 +755,7 @@ const Order = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <ul className="grid grid-cols-1 mt-2 border text-gray-600 text-xs">
-                    <li className="flex items-center border border-gray-200 ps-5">
+                    <li className="flex items-center border-gray-200 border ps-5">
                       <input
                         type="radio"
                         {...register("payment_method")}
@@ -705,10 +765,10 @@ const Order = () => {
                       />
                       <label
                         htmlFor="niubiz"
-                        className="flex items-center justify-between gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
+                        className="flex justify-between items-center gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
                       >
                         <div className="flex items-center gap-x-4">
-                          <span className="flex items-center justify-center bg-purple-200 rounded-full min-w-10 min-h-10">
+                          <span className="flex justify-center items-center bg-purple-200 rounded-full min-w-10 min-h-10">
                             <FaRegCreditCard className="text-2xl text-purple-600" />
                           </span>
                           <div>
@@ -726,7 +786,7 @@ const Order = () => {
                       </label>
                     </li>
 
-                    <li className="flex items-center border border-gray-200 ps-5">
+                    <li className="flex items-center border-gray-200 border ps-5">
                       <input
                         type="radio"
                         {...register("payment_method")}
@@ -736,10 +796,10 @@ const Order = () => {
                       />
                       <label
                         htmlFor="paypal"
-                        className="flex items-center justify-between gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
+                        className="flex justify-between items-center gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
                       >
                         <div className="flex items-center gap-x-4">
-                          <span className="flex items-center justify-center bg-purple-200 rounded-full min-w-10 min-h-10">
+                          <span className="flex justify-center items-center bg-purple-200 rounded-full min-w-10 min-h-10">
                             <FaRegCreditCard className="text-2xl text-purple-600" />
                           </span>
                           <div>
@@ -767,13 +827,13 @@ const Order = () => {
                   )}
                 </div>
 
-                <div className="md:col-span-2 flex justify-between">
+                <div className="flex justify-between md:col-span-2">
                   <button
                     type="button"
                     onClick={() => {
                       handle_click_previous_btn();
                     }}
-                    className="bg-white hover:bg-gray-200 px-10 py-2.5 border border-gray-300 rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
+                    className="border-gray-300 bg-white hover:bg-gray-200 px-10 py-2.5 border rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
                     Regresar
                   </button>
@@ -783,7 +843,7 @@ const Order = () => {
           </div>
           <div
             name="my_testt"
-            className="lg:flex flex-col gap-y-3 bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs hidden"
+            className="lg:flex flex-col gap-y-3 hidden bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs"
           >
             <p className="font-bold">¿Necesitas ayuda?</p>
             <p>
@@ -802,7 +862,7 @@ const Order = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2 bg-gray-50 shadow-lg p-3 border border-gray-300 rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
+        <div className="flex flex-col gap-y-2 border-gray-300 bg-gray-50 shadow-lg p-3 border rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
           <div>
             <h5 className="font-bold uppercase">Resumen de tu pedido</h5>
             <span className="block bg-purple-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
@@ -855,7 +915,7 @@ const Order = () => {
                             className="border rounded-md w-16 h-16 object-contain"
                           />
                         </a>
-                        <div className="top-0 right-0 absolute flex items-center justify-center bg-gray-500 rounded-full w-5 h-5 text-white text-xs transform -translate-y-1/2 translate-x-[5px]">
+                        <div className="top-0 right-0 absolute flex justify-center items-center bg-gray-500 rounded-full w-5 h-5 text-white text-xs transform -translate-y-1/2 translate-x-[5px]">
                           <span className="mb-0.5">{item.quantity}</span>
                         </div>
                       </div>
@@ -890,7 +950,7 @@ const Order = () => {
                 name="coupon"
                 id="coupon"
                 placeholder="Ingrese su código."
-                className={` focus:bg-gray-50 w-9/12 px-3.5 py-2 border border-gray-300 focus:border-blue-600 rounded-md  transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                className={` focus:bg-gray-50 w-9/12 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md  transition-all duration-200 ease-in-out cursor-pointer outline-none`}
               />
               <button
                 type="button"
@@ -902,15 +962,15 @@ const Order = () => {
           </div>
 
           <ul className="mt-2">
-            <li className="flex items-center justify-between py-2.5 border-t text-sm">
+            <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Subtotal</p>
               <p className="font-bold">S/ {total_price_items.toFixed(2)}</p>
             </li>
-            <li className="flex items-center justify-between py-2.5 border-t text-sm">
+            <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Transporte</p>
               <p className="font-bold">S/ {12}</p>
             </li>
-            <li className="flex items-center justify-between py-2.5 border-t text-sm">
+            <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Total (impuestos inc.)</p>
               <p className="font-bold text-xl">S/ {"1,068.00"}</p>
             </li>
