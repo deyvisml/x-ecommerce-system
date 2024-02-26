@@ -4,7 +4,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DocumentTypeController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductTypeController;
+use App\Http\Controllers\RegionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +29,11 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('product-types', ProductTypeController::class);
 
+Route::apiResource('document-types', DocumentTypeController::class);
+
+Route::apiResource('regions', RegionController::class);
+
+Route::get('/regions/{region_id}/locations', [LocationController::class, 'locations_by_region']);
 
 Route::get('/categories/{category_id}/products', [ProductController::class, 'products_by_category']);
 
