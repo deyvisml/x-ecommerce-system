@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartProduct;
 use App\Models\Delivery;
 use App\Models\Location;
+use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -24,12 +27,14 @@ class OrderController extends Controller
     {
         
         $cart = $request->input('cart');
+
+        //return response()->json($cart["items"][0]);
         
 
         $document_type = $request->input('document_type');
         $document_number = $request->input('document_number');
         $first_name = $request->input('first_name');
-        $last_name = $request->input('birthdate');
+        $last_name = $request->input('last_name');
         $email = $request->input('email');
         $birthdate = $request->input('birthdate');
         $phone_number = $request->input('phone_number');
@@ -50,7 +55,7 @@ class OrderController extends Controller
         $terms_service = $request->input('terms_service');
         $subscribe_newsletter = $request->input('subscribe_newsletter');
 
-        $user = User::updateOrCreate([
+        $created_user = User::updateOrCreate([
             'email' => $email,
         ],[
             'document_type_id' => $document_type,
@@ -64,7 +69,7 @@ class OrderController extends Controller
 
         $location = Location::find($delivery_location);
 
-        $delivery = Delivery::create([
+        $created_delivery = Delivery::create([
             'first_name' => $delivery_first_name,
             'last_name' => $delivery_last_name,
             'address' => $delivery_address,
@@ -77,18 +82,39 @@ class OrderController extends Controller
             'phone_number' => $delivery_phone_number,
         ]);
 
+        // calculate total price of all products in the cart
+        $total_price_products = 0;
+        foreach ($cart['items'] as $item) {
+            $product = $item['product'];
+            $total_price_products += $product['price'] * $item['quantity'];
+        }
 
+        $created_cart = Cart::create([
+            'total_price' => $total_price_products,
+        ]);
 
-        return response()->json($user->id);
+        // save cart product relation in cart_product table
+        foreach ($cart['items'] as $item) {
+            CartProduct::create([
+                'cart_id' => $created_cart->id,
+                'product_id' => $item['product']['id'],
+                'quantity' => $item['quantity'],
+            ]);
+        }
 
-        dd($document_type,
-        $document_number,
-        $first_name,
-        $last_name,
-        $email,
-        $birthdate,
-        $phone_number);
+        $created_order = Order::create([
+            'total_price' => $total_price_products + $location->delivery_cost,
+            'payment_method' => $payment_method,
+            'paid' => false,
+            'email_sent' => false,
+            'delivery_id' => $created_delivery->id,
+            'cart_id' => $created_cart->id,
+            'user_id' => $created_user->id,
+        ]);
 
+        $response = ['error_occurred' => false, 'message' => 'Order created successfully', 'data' => ['order_id' => $created_order->id]];
+
+        return response()->json($response);
     }
 
     /**
