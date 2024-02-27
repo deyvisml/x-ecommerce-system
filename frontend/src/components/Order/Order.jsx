@@ -23,6 +23,7 @@ const Order = () => {
   const [document_types, setDocumentTypes] = useState();
   const [regions, setRegions] = useState();
   const [locations, setLocations] = useState();
+  const [delivery_cost, setDeliveryCost] = useState();
 
   const is_mounted = useRef(false); // it's only use to avoid the first scroll animation cause by the useeffect
 
@@ -228,9 +229,18 @@ const Order = () => {
     }
   }, [stage]);
 
-  const onSubmit = (data) => {
-    alert("everything is ok");
+  const onSubmit = async (data) => {
+    console.log("everything is ok");
+
     console.log(data);
+
+    const { data: response } = await axios_client(`api/orders`, {
+      method: "post",
+      data: {
+        ...data,
+        cart,
+      },
+    });
   };
 
   const delivery_hours = ["08:00-12:00", "13:00-17:00", "16:00-20:00"]; // get this from an API
@@ -256,6 +266,19 @@ const Order = () => {
 
     fetch_locations_by_region(region_id);
   };
+
+  useEffect(() => {
+    if (Number(watch("delivery_location")) && locations) {
+      // get location
+      const location = locations.find(
+        (location) => location["id"] == watch("delivery_location")
+      );
+      // set delivery cost
+      setDeliveryCost(location.delivery_cost);
+    } else {
+      setDeliveryCost();
+    }
+  }, [watch("delivery_location"), locations]);
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
@@ -968,11 +991,15 @@ const Order = () => {
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Transporte</p>
-              <p className="font-bold">S/ {12}</p>
+              <p className="font-bold">
+                {delivery_cost ? `S/ ${delivery_cost.toFixed(2)}` : "-"}
+              </p>
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Total (impuestos inc.)</p>
-              <p className="font-bold text-xl">S/ {"1,068.00"}</p>
+              <p className="font-bold text-xl">
+                S/ {total_price_items + (delivery_cost || 0)}
+              </p>
             </li>
           </ul>
 

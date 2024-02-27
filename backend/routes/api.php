@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RegionController;
 
@@ -32,6 +33,8 @@ Route::apiResource('product-types', ProductTypeController::class);
 Route::apiResource('document-types', DocumentTypeController::class);
 
 Route::apiResource('regions', RegionController::class);
+
+Route::apiResource('orders', OrderController::class);
 
 Route::get('/regions/{region_id}/locations', [LocationController::class, 'locations_by_region']);
 
