@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import { ECommerceProvider } from "./context/ECommerceProvider";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 import App from "./components/App";
 import Home from "./components/Home";
@@ -54,7 +55,15 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ECommerceProvider>
-      <RouterProvider router={router} />
+      <PayPalScriptProvider
+        options={{
+          clientId: import.meta.env.VITE_PAYPAL_CLIENT_ID,
+          currency: import.meta.env.VITE_PAYAPL_CURRENCY,
+          components: "buttons",
+        }}
+      >
+        <RouterProvider router={router} />
+      </PayPalScriptProvider>
     </ECommerceProvider>
   </React.StrictMode>
 );

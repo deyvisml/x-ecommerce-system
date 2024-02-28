@@ -8,7 +8,7 @@ const WhatsappFloatingButton = ({
     <a
       href="https://web.whatsapp.com/send?phone=51975032529"
       target="_blank"
-      className={`${x_position} ${y_position} z-50 fixed cursor-pointer group`}
+      className={`${x_position} ${y_position} z-10 fixed cursor-pointer group`}
     >
       <img
         src="https://static.techspot.com/images2/downloads/topdownload/2016/05/WhatsApp_Logo_1.png"

@@ -3,7 +3,9 @@ import axios_client from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cloneDeep } from "lodash";
+import { PulseLoader } from "react-spinners";
 import "./order.css";
+import PaypalModal from "./PaypalModal";
 import { schema } from "./schema";
 import {
   FaRegCreditCard,
@@ -229,6 +231,7 @@ const Order = () => {
     }
   }, [stage]);
 
+  const [is_open_modal, setIsOpenModal] = useState(false);
   const onSubmit = async (data) => {
     console.log("everything is ok");
 
@@ -241,6 +244,8 @@ const Order = () => {
         cart,
       },
     });
+
+    setIsOpenModal(true);
   };
 
   const delivery_hours = ["08:00-12:00", "13:00-17:00", "16:00-20:00"]; // get this from an API
@@ -814,11 +819,11 @@ const Order = () => {
                         type="radio"
                         {...register("payment_method")}
                         value="paypal"
-                        id="paypal"
+                        id="paypal-radio"
                         className="w-5 h-5"
                       />
                       <label
-                        htmlFor="paypal"
+                        htmlFor="paypal-radio"
                         className="flex justify-between items-center gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
                       >
                         <div className="flex items-center gap-x-4">
@@ -1083,12 +1088,21 @@ const Order = () => {
                     : ""
                 } bg-rose-500 hover:bg-rose-600 px-5 py-2.5 border rounded-md w-full font-semibold text-white uppercase transition-all duration-300 ease-in-out`}
               >
-                Realizar pedido
+                {!is_open_modal ? (
+                  "Realizar pedido"
+                ) : (
+                  <PulseLoader color="#fff" margin={2} size={8} />
+                )}
               </button>
             )}
           </div>
         </div>
       </form>
+      <PaypalModal
+        delivery_cost={delivery_cost}
+        is_open_modal={is_open_modal}
+        setIsOpenModal={setIsOpenModal}
+      />
     </div>
   );
 };

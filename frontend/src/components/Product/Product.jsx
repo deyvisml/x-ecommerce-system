@@ -140,14 +140,14 @@ const Product = () => {
           {path_parts && <BreadCrumb path_parts={path_parts} />}
         </div>
 
-        <div className="flex flex-col md:flex-row flex-wrap items-start gap-y-5">
-          <div className="flex items-center justify-center w-full md:w-1/2">
+        <div className="flex md:flex-row flex-col flex-wrap items-start gap-y-5">
+          <div className="flex justify-center items-center w-full md:w-1/2">
             <div className="bg-purple-400 sm:mx-5 w-full leading-none">
               {product && (
                 <img
                   src={`/images/products/${product.image_url}`}
                   alt="product image"
-                  className="shadow border-2 w-full"
+                  className="border-2 shadow w-full"
                 />
               )}
 
@@ -269,7 +269,7 @@ const Product = () => {
             <p className="inline-block z-40 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
               Productos relacionados
             </p>
-            <hr className="top-3 md:top-3.5 left-0 z-10 absolute border border-gray-300 w-full" />
+            <hr className="top-3 md:top-3.5 left-0 z-10 absolute border-gray-300 border w-full" />
           </div>
           <div>
             <ProductsGrid products={products} />

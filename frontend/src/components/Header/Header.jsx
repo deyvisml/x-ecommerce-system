@@ -72,15 +72,15 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 z-50 md:sticky bg-white shadow-md border-b w-full ">
-        <div className="flex flex-wrap items-center justify-between md:px-16 border">
+      <header className="top-0 z-30 md:sticky bg-white shadow-md border-b w-full ">
+        <div className="flex flex-wrap justify-between items-center md:px-16 border">
           <div className="m-auto md:m-0 mb-2 logo-container">
             <Link to="/" className="inline-block m-auto">
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>
           </div>
           <nav>
-            <ul className="flex flex-wrap items-center text-purple-500 text-sm uppercase divide-x divide-y md:divide-y-0">
+            <ul className="flex flex-wrap items-center divide-x divide-y md:divide-y-0 text-purple-500 text-sm uppercase">
               {menu_items.map((menu_item) => {
                 return (
                   <li
@@ -112,7 +112,7 @@ const Header = () => {
                     <ShoppingBagIcon className="w-10 text-purple-500" />
                     {cart &&
                       (cart.items.length ? (
-                        <div className="top-1/2 left-1/2 absolute flex items-center justify-center bg-white mt-1 rounded-full w-5 h-5 text-purple-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="top-1/2 left-1/2 absolute flex justify-center items-center bg-white mt-1 rounded-full w-5 h-5 text-purple-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
                           <span
                             className="inline-block font-bold"
                             style={{
