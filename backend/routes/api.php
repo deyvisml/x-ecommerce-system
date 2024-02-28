@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DocumentTypeController;
+use App\Http\Controllers\ExchangeRateController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductTypeController;
@@ -29,12 +30,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('product-types', ProductTypeController::class);
-
 Route::apiResource('document-types', DocumentTypeController::class);
-
 Route::apiResource('regions', RegionController::class);
-
 Route::apiResource('orders', OrderController::class);
+
+Route::apiResource('exchange-rates', ExchangeRateController::class);
 
 Route::get('/regions/{region_id}/locations', [LocationController::class, 'locations_by_region']);
 
