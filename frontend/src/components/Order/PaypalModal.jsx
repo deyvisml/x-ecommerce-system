@@ -1,6 +1,7 @@
 import { Fragment, useState, useEffect } from "react";
 import axios_client from "../../helpers/axios";
 import { Dialog, Transition } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { FaXmark } from "react-icons/fa6";
@@ -13,6 +14,7 @@ const PaypalModal = ({
   setIsOpenPaypalModal,
   delivery_cost,
 }) => {
+  let navigate = useNavigate();
   const { cart } = useECommerce();
 
   const closeModal = () => {
@@ -105,6 +107,7 @@ const PaypalModal = ({
             );
           } else {
             alert("El pago se realizó exitosamente!");
+            navigate("/orden-exitosa");
             // redirect to succed purchase view
           }
         });

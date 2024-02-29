@@ -253,7 +253,7 @@ const Product = () => {
                     className={`${
                       product.quantity
                         ? "bg-green-500 hover:bg-green-600"
-                        : "bg-purple-300 cursor-not-allowed"
+                        : "bg-green-300 cursor-not-allowed"
                     }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                   >
                     <FaWhatsapp className="text-xl" /> Comprar por WhatsApp

@@ -12,6 +12,7 @@ import Product from "./components/Product";
 import Cart from "./components/Cart/Cart";
 import FullWidthLayout from "./components/FullWidthLayout/FullWidthLayout";
 import Order from "./components/Order";
+import OrderSuccess from "./components/OrderSuccess/OrderSuccess";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
           {
             path: "pedido",
             element: <Order />,
+          },
+          {
+            path: "orden-exitosa",
+            element: <OrderSuccess />,
           },
         ],
       },
