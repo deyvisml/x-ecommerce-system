@@ -823,7 +823,7 @@ const Order = () => {
               <div className="flex flex-col gap-4">
                 <div>
                   <ul className="grid grid-cols-1 mt-2 border text-gray-600 text-xs">
-                    <li className="flex items-center border-gray-200 border ps-5">
+                    {/*<li className="flex items-center border-gray-200 border ps-5">
                       <input
                         type="radio"
                         {...register("payment_method")}
@@ -852,7 +852,7 @@ const Order = () => {
                           className="w-36 h-14 object-contain"
                         />
                       </label>
-                    </li>
+                    </li>*/}
 
                     <li className="flex items-center border-gray-200 border ps-5">
                       <input

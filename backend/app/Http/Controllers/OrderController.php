@@ -26,7 +26,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $cart = $request->input('cart');
-        $usd_total_price = $request->input('usd_total_price_items');
+        $usd_total_price = $request->input('usd_total_price');
 
         $document_type = $request->input('document_type');
         $document_number = $request->input('document_number');
