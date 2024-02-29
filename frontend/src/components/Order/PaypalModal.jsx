@@ -83,6 +83,13 @@ const PaypalModal = ({ is_open_modal, setIsOpenModal, delivery_cost }) => {
           items,
         },
       ],
+      payment_source: {
+        paypal: {
+          experience_context: {
+            shipping_preference: "NO_SHIPPING",
+          },
+        },
+      },
     });
   };
 
