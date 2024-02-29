@@ -26,8 +26,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $cart = $request->input('cart');
-        $usd_total_price_items = $request->input('usd_total_price_items');
-        $usd_exchange_rate = $request->input('usd_exchange_rate');
+        $usd_total_price = $request->input('usd_total_price_items');
 
         $document_type = $request->input('document_type');
         $document_number = $request->input('document_number');
@@ -103,7 +102,7 @@ class OrderController extends Controller
         $created_order = Order::create([
             'payment_method' => $payment_method,
             'total_price' => $total_price_products + $location->delivery_cost,
-            'usd_total_price' => $usd_total_price_items + number_format($location->delivery_cost / $usd_exchange_rate, 2), // fix in two decimals
+            'usd_total_price' => $usd_total_price,
             'paid' => false,
             'email_sent' => false,
             'delivery_id' => $created_delivery->id,

@@ -255,13 +255,20 @@ const Order = () => {
   const [order_id, setOrderId] = useState();
 
   const onSubmit = async (data) => {
+    const usd_delivery_cost = Number(
+      (delivery_cost / usd_exchange_rate).toFixed(2)
+    );
+
+    const usd_total_price = (usd_total_price_items + usd_delivery_cost).toFixed(
+      2
+    );
+
     const response = await axios_client(`api/orders`, {
       method: "post",
       data: {
         ...data,
-        usd_total_price_items,
-        usd_exchange_rate,
         cart,
+        usd_total_price,
       },
     });
 
