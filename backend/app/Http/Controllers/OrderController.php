@@ -25,11 +25,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
         $cart = $request->input('cart');
-
-        //return response()->json($cart["items"][0]);
-        
+        $usd_total_price_items = $request->input('usd_total_price_items');
+        $usd_exchange_rate = $request->input('usd_exchange_rate');
 
         $document_type = $request->input('document_type');
         $document_number = $request->input('document_number');
@@ -57,7 +55,7 @@ class OrderController extends Controller
 
         $created_user = User::updateOrCreate([
             'email' => $email,
-        ],[
+        ], [
             'document_type_id' => $document_type,
             'document_number' => $document_number,
             'first_name' => $first_name,
@@ -103,8 +101,9 @@ class OrderController extends Controller
         }
 
         $created_order = Order::create([
-            'total_price' => $total_price_products + $location->delivery_cost,
             'payment_method' => $payment_method,
+            'total_price' => $total_price_products + $location->delivery_cost,
+            'usd_total_price' => $usd_total_price_items + number_format($location->delivery_cost / $usd_exchange_rate, 2), // fix in two decimals
             'paid' => false,
             'email_sent' => false,
             'delivery_id' => $created_delivery->id,
@@ -130,7 +129,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data_to_update = $request->all();
+
+        $order = Order::find($id);
+        $order->update($data_to_update);
+
+        $response = ['error_occurred' => false, 'message' => 'Order updated sucessfully'];
+
+        return response()->json($response);
     }
 
     /**

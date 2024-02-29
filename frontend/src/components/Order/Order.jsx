@@ -231,21 +231,54 @@ const Order = () => {
     }
   }, [stage]);
 
-  const [is_open_modal, setIsOpenModal] = useState(false);
+  const [usd_exchange_rate, setUsdExchangeRate] = useState();
+  const fetch_exchange_rate = async (usd_exchange_rate_id) => {
+    const { data } = await axios_client(
+      `api/exchange-rates/${usd_exchange_rate_id}`
+    );
+
+    setUsdExchangeRate(data.data.price);
+  };
+
+  useEffect(() => {
+    const usd_exchange_rate_id = 1;
+    fetch_exchange_rate(usd_exchange_rate_id);
+  }, []);
+
+  const usd_total_price_items = cart.items.reduce(
+    (acc, item) =>
+      acc + (item.product.price / usd_exchange_rate).toFixed(2) * item.quantity,
+    0
+  );
+
+  const [is_open_paypal_modal, setIsOpenPaypalModal] = useState(false);
+  const [order_id, setOrderId] = useState();
+
   const onSubmit = async (data) => {
-    console.log("everything is ok");
-
-    console.log(data);
-
-    const { data: response } = await axios_client(`api/orders`, {
+    const response = await axios_client(`api/orders`, {
       method: "post",
       data: {
         ...data,
+        usd_total_price_items,
+        usd_exchange_rate,
         cart,
       },
     });
 
-    setIsOpenModal(true);
+    setOrderId(response.data.data.order_id);
+
+    console.log(order_id); // at this point is undefined because setOrderId is async, but when the modal is open it already has a value.
+
+    // handle which payment method was selected
+    switch (data.payment_method) {
+      case "paypal":
+        setIsOpenPaypalModal(true);
+        break;
+
+      default:
+        alert("Forma de pago en mantenimineto.");
+        break;
+    }
   };
 
   const delivery_hours = ["08:00-12:00", "13:00-17:00", "16:00-20:00"]; // get this from an API
@@ -1088,7 +1121,7 @@ const Order = () => {
                     : ""
                 } bg-rose-500 hover:bg-rose-600 px-5 py-2.5 border rounded-md w-full font-semibold text-white uppercase transition-all duration-300 ease-in-out`}
               >
-                {!is_open_modal ? (
+                {!is_open_paypal_modal ? (
                   "Realizar pedido"
                 ) : (
                   <PulseLoader color="#fff" margin={2} size={8} />
@@ -1099,9 +1132,11 @@ const Order = () => {
         </div>
       </form>
       <PaypalModal
+        order_id={order_id}
+        usd_exchange_rate={usd_exchange_rate}
         delivery_cost={delivery_cost}
-        is_open_modal={is_open_modal}
-        setIsOpenModal={setIsOpenModal}
+        is_open_paypal_modal={is_open_paypal_modal}
+        setIsOpenPaypalModal={setIsOpenPaypalModal}
       />
     </div>
   );

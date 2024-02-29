@@ -6,28 +6,20 @@ import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { FaXmark } from "react-icons/fa6";
 import useECommerce from "../../hooks/useECommerce";
 
-const PaypalModal = ({ is_open_modal, setIsOpenModal, delivery_cost }) => {
-  const [usd_exchange_rate, setUsdExchangeRate] = useState();
+const PaypalModal = ({
+  order_id,
+  usd_exchange_rate,
+  is_open_paypal_modal,
+  setIsOpenPaypalModal,
+  delivery_cost,
+}) => {
   const { cart } = useECommerce();
 
   const closeModal = () => {
-    setIsOpenModal(false);
+    setIsOpenPaypalModal(false);
   };
 
   const [{ isPending }] = usePayPalScriptReducer();
-
-  const fetch_exchange_rate = async (usd_exchange_rate_id) => {
-    const { data } = await axios_client(
-      `api/exchange-rates/${usd_exchange_rate_id}`
-    );
-
-    setUsdExchangeRate(data.data.price);
-  };
-
-  useEffect(() => {
-    const usd_exchange_rate_id = 1;
-    fetch_exchange_rate(usd_exchange_rate_id);
-  }, []);
 
   const createOrder = (data, actions) => {
     let item_total_price = 0;
@@ -95,13 +87,33 @@ const PaypalModal = ({ is_open_modal, setIsOpenModal, delivery_cost }) => {
 
   // check Approval
   const onApprove = (data, actions) => {
-    return actions.order.capture().then(function (details) {
-      const { payer } = details;
+    return actions.order.capture().then((details) => {
+      if (details.status == "COMPLETED") {
+        // get the amount paid
+        const usd_amount_paid = details.purchase_units[0].amount.value;
+
+        axios_client(`api/orders/${order_id}`, {
+          method: "put",
+          data: {
+            paid: true,
+            usd_amount_paid,
+          },
+        }).then(({ data }) => {
+          if (data.error_occurred) {
+            alert(
+              "Ocurrio un error al procesar el pago, intentelo nuevamente."
+            );
+          } else {
+            alert("El pago se realizó exitosamente!");
+            // redirect to succed purchase view
+          }
+        });
+      }
     });
   };
 
   return (
-    <Transition appear show={is_open_modal} as={Fragment}>
+    <Transition appear show={is_open_paypal_modal} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-40 text-gray-800"
