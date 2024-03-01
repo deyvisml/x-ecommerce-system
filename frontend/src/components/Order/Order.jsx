@@ -28,8 +28,6 @@ const Order = () => {
   const [locations, setLocations] = useState();
   const [delivery_cost, setDeliveryCost] = useState();
 
-  const is_mounted = useRef(false); // it's only use to avoid the first scroll animation cause by the useeffect
-
   const {
     register,
     setError,
@@ -210,26 +208,27 @@ const Order = () => {
   };
 
   const handle_click_previous_btn = () => {
-    if (stage == 3) {
-      setValue("payment_method", null);
-    }
     // update order
     setStage(stage - 1);
   };
 
+  const skip_first_time_stage_effect = useRef(true);
   useEffect(() => {
     setOrder({ ...order, stage });
 
-    if (is_mounted.current) {
-      scroller.scrollTo(`stage${stage}`, {
-        duration: 800,
-        delay: 0,
-        smooth: "easeInOutQuart",
-        offset: -85,
-      });
-    } else {
-      is_mounted.current = true;
+    if (skip_first_time_stage_effect.current) {
+      skip_first_time_stage_effect.current = false;
+      return;
     }
+
+    scroller.scrollTo(`stage${stage}`, {
+      duration: 800,
+      delay: 0,
+      smooth: "easeInOutQuart",
+      offset: -85,
+    });
+
+    setValue("payment_method", null); // when stage change so always set null value to payment_method
   }, [stage]);
 
   const [usd_exchange_rate, setUsdExchangeRate] = useState();
