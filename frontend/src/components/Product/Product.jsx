@@ -134,7 +134,7 @@ const Product = () => {
   };
 
   return (
-    <div className="text-gray-800 ">
+    <div className="text-gray-800">
       <div className="mx-auto px-4 max-w-7xl">
         <div className="my-5 text-gray-600">
           {path_parts && <BreadCrumb path_parts={path_parts} />}
@@ -234,7 +234,7 @@ const Product = () => {
                         color="#ffffff"
                         loading
                         size={9}
-                        className="m-0 p-0 pt-1 "
+                        className="m-0 p-0 pt-1"
                       />
                     ) : (
                       "Añadir al carrito"
@@ -266,7 +266,7 @@ const Product = () => {
 
         <div className="mt-14">
           <div className="relative flex justify-center mb-5">
-            <p className="inline-block z-40 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
+            <p className="inline-block z-20 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
               Productos relacionados
             </p>
             <hr className="top-3 md:top-3.5 left-0 z-10 absolute border-gray-300 border w-full" />

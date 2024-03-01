@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import axios_client from "../../helpers/axios";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -332,7 +333,7 @@ const Order = () => {
         className="flex lg:flex-row flex-col items-start gap-x-10 gap-y-5 lg:gap-y-10 mt-5 mb-12"
       >
         <div className="flex flex-col w-full lg:w-3/5 text-sm">
-          <div className="flex flex-col gap-y-2 ">
+          <div className="flex flex-col gap-y-2">
             <Stage
               stage={1}
               title={"Información Personal"}
@@ -930,7 +931,7 @@ const Order = () => {
             </a>
           </div>
         </div>
-        <div className="flex flex-col gap-y-2 border-gray-300 bg-gray-50 shadow-lg p-3 border rounded-md w-full lg:w-2/5 text-gray-700 text-sm ">
+        <div className="flex flex-col gap-y-2 border-gray-300 bg-gray-50 shadow-lg p-3 border rounded-md w-full lg:w-2/5 text-gray-700 text-sm">
           <div>
             <h5 className="font-bold uppercase">Resumen de tu pedido</h5>
             <span className="block bg-purple-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
@@ -976,19 +977,25 @@ const Order = () => {
                       className="flex items-center gap-x-5 py-2"
                     >
                       <div className="relative w-auto">
-                        <a href="">
+                        <Link
+                          to={`/categorias/${item.product.category_id}/productos/${item.product.id}`}
+                        >
                           <img
                             src={`images/products/${item.product.image_url}`}
                             alt="product image"
                             className="border rounded-md w-16 h-16 object-contain"
                           />
-                        </a>
+                        </Link>
                         <div className="top-0 right-0 absolute flex justify-center items-center bg-gray-500 rounded-full w-5 h-5 text-white text-xs transform -translate-y-1/2 translate-x-[5px]">
                           <span className="mb-0.5">{item.quantity}</span>
                         </div>
                       </div>
                       <div className="flex-1">
-                        <a href="">{item.product.name}</a>
+                        <Link
+                          to={`/categorias/${item.product.category_id}/productos/${item.product.id}`}
+                        >
+                          {item.product.name}
+                        </Link>
                         <p className="font-semibold text-xs">
                           Precio unitario{" "}
                           <span>S/ {item.product.price.toFixed(2)}</span>
@@ -1050,7 +1057,7 @@ const Order = () => {
 
           <ul className="flex flex-col gap-y-2">
             <li>
-              <div className="flex items-center ">
+              <div className="flex items-center">
                 <input
                   type="checkbox"
                   {...register("privacy_policies")}
@@ -1068,7 +1075,7 @@ const Order = () => {
                 </label>
               </div>
               {errors.privacy_policies && (
-                <p className="text-red-500 text-xs ">
+                <p className="text-red-500 text-xs">
                   {errors.privacy_policies.message}
                 </p>
               )}
@@ -1090,7 +1097,7 @@ const Order = () => {
                 </label>
               </div>
               {errors.terms_service && (
-                <p className="text-red-500 text-xs ">
+                <p className="text-red-500 text-xs">
                   {errors.terms_service.message}
                 </p>
               )}
@@ -1111,7 +1118,7 @@ const Order = () => {
                 </label>
               </div>
               {errors.subscribe_newsletter && (
-                <p className="text-red-500 text-xs ">
+                <p className="text-red-500 text-xs">
                   {errors.subscribe_newsletter.message}
                 </p>
               )}
