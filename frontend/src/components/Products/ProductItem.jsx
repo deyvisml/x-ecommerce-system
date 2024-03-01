@@ -38,7 +38,7 @@ const ProductItem = ({ product }) => {
             className="group-hover:scale-125 w-full h-full transform transition-transform object-contain"
           />
         </div>
-        <div className="mb-2 text-center ">
+        <div className="mb-2 text-center">
           <p className="mb-1 h-11 leading-5">
             {product.name.length > 40
               ? product.name.substring(0, 40) + ".."
@@ -55,7 +55,7 @@ const ProductItem = ({ product }) => {
             product.has_stock ? "bg-purple-600" : "bg-red-400"
           } hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase`}
         >
-          Agregar
+          {product.has_stock ? "Agregar" : "Agotado"}
         </button>
       </div>
     </article>

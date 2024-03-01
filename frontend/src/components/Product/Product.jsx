@@ -191,12 +191,14 @@ const Product = () => {
                   Disponibilidad:
                 </span>
                 {product &&
-                  (product.quantity ? (
-                    <p className="font-bold text-green-600 text-sm">
+                  (product.has_stock ? (
+                    <p className="inline-block bg-green-500 px-2 py-1 rounded font-bold text-white text-xs">
                       En stock 🗸
                     </p>
                   ) : (
-                    <p className="font-bold text-red-600 text-sm">Agotado ✗</p>
+                    <p className="inline-block bg-red-500 px-2 py-1 rounded font-bold text-white text-xs">
+                      Agotado ✗
+                    </p>
                   ))}
               </div>
               <div>
@@ -217,14 +219,14 @@ const Product = () => {
                 <div>
                   <button
                     onClick={
-                      product.quantity
+                      product.has_stock
                         ? handle_add_product_to_cart_btn
                         : (e) => {
                             e.preventDefault;
                           }
                     }
                     className={`${
-                      product.quantity
+                      product.has_stock
                         ? "bg-purple-600 hover:bg-purple-700"
                         : "bg-purple-300 cursor-not-allowed"
                     }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
@@ -242,16 +244,16 @@ const Product = () => {
                   </button>
                   <a
                     href={
-                      product.quantity
+                      product.has_stock
                         ? `https://wa.me/${"+51975032529"}?text=${
                             "Deseo realizar mi pedido de este producto: " +
                             product.name.toUpperCase()
                           }`
                         : "javascript:void(0)"
                     }
-                    target={product.quantity ? "_blank" : "_self"}
+                    target={product.has_stock ? "_blank" : "_self"}
                     className={`${
-                      product.quantity
+                      product.has_stock
                         ? "bg-green-500 hover:bg-green-600"
                         : "bg-green-300 cursor-not-allowed"
                     }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
