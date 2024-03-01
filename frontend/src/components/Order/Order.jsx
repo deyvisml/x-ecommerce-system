@@ -20,6 +20,7 @@ import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
 import { format, parseISO } from "date-fns";
 import { scroller } from "react-scroll";
+import currency from "currency.js";
 
 const Order = () => {
   const { cart, order, setOrder } = useECommerce();
@@ -651,7 +652,11 @@ const Order = () => {
                       locations.map(({ id, name, delivery_cost }) => {
                         return (
                           <option key={id} value={id}>
-                            {name} (S/ {delivery_cost.toFixed(2)})
+                            {name} (
+                            {currency(delivery_cost, {
+                              symbol: "S/ ",
+                            }).format()}
+                            )
                           </option>
                         );
                       })}
@@ -997,12 +1002,18 @@ const Order = () => {
                         </Link>
                         <p className="font-semibold text-xs">
                           Precio unitario{" "}
-                          <span>S/ {item.product.price.toFixed(2)}</span>
+                          <span>
+                            {currency(item.product.price, {
+                              symbol: "S/ ",
+                            }).format()}
+                          </span>
                         </p>
                       </div>
                       <div className="text-right w-2/12 sm:w-3/12">
                         <p>
-                          S/ {(item.quantity * item.product.price).toFixed(2)}
+                          {currency(item.quantity * item.product.price, {
+                            symbol: "S/ ",
+                          }).format()}
                         </p>
                       </div>
                     </li>
@@ -1038,18 +1049,28 @@ const Order = () => {
           <ul className="mt-2">
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Subtotal</p>
-              <p className="font-bold">S/ {total_price_items.toFixed(2)}</p>
+              <p className="font-bold">
+                {currency(total_price_items, {
+                  symbol: "S/ ",
+                }).format()}
+              </p>
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Transporte</p>
               <p className="font-bold">
-                {delivery_cost ? `S/ ${delivery_cost.toFixed(2)}` : "-"}
+                {delivery_cost
+                  ? currency(delivery_cost, {
+                      symbol: "S/ ",
+                    }).format()
+                  : "-"}
               </p>
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
               <p>Total (impuestos inc.)</p>
               <p className="font-bold text-xl">
-                S/ {total_price_items + (delivery_cost || 0)}
+                {currency(total_price_items + (delivery_cost || 0), {
+                  symbol: "S/ ",
+                }).format()}
               </p>
             </li>
           </ul>

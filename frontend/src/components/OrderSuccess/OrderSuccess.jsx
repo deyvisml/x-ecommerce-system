@@ -24,7 +24,7 @@ const OrderSuccess = () => {
               <Link
                 to="/"
                 href=""
-                className="bg-rose-500 hover:bg-rose-600 px-10 py-2.5 border rounded-md w-full text-white uppercase transition-all duration-300 ease-in-out"
+                className="bg-rose-500 hover:bg-rose-600 px-10 py-2.5 border rounded-md w-full text-sm text-white uppercase transition-all duration-300 ease-in-out"
               >
                 Continuar comprando
               </Link>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import addItemToCart from "../../utils/addItemToCart";
 import { v4 as uuidv4 } from "uuid";
+import currency from "currency.js";
 
 import useECommerce from "../../hooks/useECommerce";
 
@@ -44,7 +45,11 @@ const ProductItem = ({ product }) => {
               ? product.name.substring(0, 40) + ".."
               : product.name}
           </p>
-          <p className="font-semibold text-xl">S/ {product.price.toFixed(2)}</p>
+          <p className="font-semibold text-xl">
+            {currency(product.price, {
+              symbol: "S/ ",
+            }).format()}
+          </p>
         </div>
       </Link>
       <div className="mx-4">

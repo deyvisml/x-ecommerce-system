@@ -7,15 +7,13 @@ import useECommerce from "../../hooks/useECommerce";
 import { PulseLoader } from "react-spinners";
 import addItemToCart from "../../utils/addItemToCart";
 import { v4 as uuidv4 } from "uuid";
-
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { FaWhatsapp } from "react-icons/fa";
-
 import QuantityButton from "./QuantityButton";
 import ProductsGrid from "../ProductsGrid";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
+import currency from "currency.js";
 
 const Product = () => {
   const { category_id, product_id } = useParams();
@@ -175,7 +173,10 @@ const Product = () => {
                 {product && product.name}
               </h2>
               <p className="font-bold text-2xl">
-                S/ {product && product.price.toFixed(2)}
+                {product &&
+                  currency(product.price, {
+                    symbol: "S/ ",
+                  }).format()}
                 <span className="font-normal text-sm ms-2">
                   (impuestos incluidos)
                 </span>
