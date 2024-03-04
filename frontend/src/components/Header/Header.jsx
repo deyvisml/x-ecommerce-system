@@ -1,13 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
-
+import { useForm } from "react-hook-form";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import DropdownItem from "../DropdownItem";
 import logo from "../../assets/logo.webp";
 import FlyoutMenu from "./FlyoutMenu";
-import { ShoppingBagIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
   const { cart } = useECommerce();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const menu_items = [
     {
@@ -70,28 +78,89 @@ const Header = () => {
     },
   ];
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <>
-      <header className="top-0 z-30 md:sticky bg-white shadow-md border-b w-full ">
-        <div className="flex flex-wrap justify-between items-center md:px-16 border">
-          <div className="m-auto md:m-0 mb-2 logo-container">
-            <Link to="/" className="inline-block m-auto">
+      <header className="top-0 z-30 bg-white shadow-md border-b w-full">
+        <div className="bg-rose-700 text-white text-xs uppercase">
+          <a href="" className="block p-1.5 text-center">
+            Ofertas del dia
+          </a>
+        </div>
+
+        <div className="mx-auto px-2 max-w-7xl">
+          <div className="flex flex-wrap justify-between items-center">
+            <Link to="/" className="inline-block order-1">
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>
+
+            <div className="flex justify-end gap-x-4 order-3 md:order-2 w-full md:max-w-md text-gray-600">
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex items-center w-full text-sm"
+              >
+                <input
+                  placeholder="¿Qué estas buscando?"
+                  {...register("search", { required: true })}
+                  className="border-gray-400 py-2 border rounded-full w-full outline-none pe-11 ps-3.5"
+                />
+                <button
+                  type="submit"
+                  className="flex justify-center items-center bg-gray-600 rounded-full w-[38px] h-[38px] text-white -ms-[38px]"
+                >
+                  <MagnifyingGlassIcon className="w-6" strokeWidth={2.5} />
+                </button>
+              </form>
+            </div>
+
+            <div className="flex gap-x-4 order-2 md:order-3">
+              <DropdownItem boton1={<button type="submit">btn</button>} />
+              <Link to="carrito-compras" className="inline-block font-semibold">
+                <div className="relative">
+                  <ShoppingCartIcon className="w-10 text-rose-500" />
+                  {cart && cart.items.length && (
+                    <div className="-top-2 -right-1 absolute flex justify-center items-center border-white bg-rose-500 mt-1 border rounded-full w-5 h-5 text-white text-xs transform">
+                      <span
+                        className="inline-block font-bold"
+                        style={{
+                          marginBottom: -1,
+                        }}
+                      >
+                        {cart.items.reduce(
+                          (sum, item) => sum + item.quantity,
+                          0
+                        )}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </Link>
+            </div>
           </div>
-          <nav>
-            <ul className="flex flex-wrap items-center divide-x divide-y md:divide-y-0 text-purple-500 text-sm uppercase">
+        </div>
+
+        <nav className="mx-auto max-w-7xl">
+          <div className="flex justify-between">
+            <div>here set country</div>
+            <ul className="flex flex-wrap items-center divide-x divide-y md:divide-y-0 text-rose-500 text-xs uppercase">
               {menu_items.map((menu_item) => {
                 return (
                   <li
                     key={menu_item.id}
-                    className="border-neutral-300 w-full md:w-auto hover:text-purple-300 transition-all duration-300 ease-in-out"
+                    className="border-neutral-300 w-full md:w-auto hover:text-rose-300 transition-all duration-300 ease-in-out"
                   >
                     {menu_item.has_subitems ? (
-                      <FlyoutMenu
-                        name={menu_item.name}
-                        subitems={menu_item.subitems}
-                      />
+                      <DropdownItem subitems={menu_item.subitems}>
+                        <Link
+                          to={menu_item.url}
+                          className="inline-block px-4 py-2 font-bold"
+                        >
+                          {menu_item.name}
+                        </Link>
+                      </DropdownItem>
                     ) : (
                       <Link
                         to={menu_item.url}
@@ -103,37 +172,9 @@ const Header = () => {
                   </li>
                 );
               })}
-              <li className="border-neutral-300 w-full md:w-auto hover:text-purple-600 transition-all duration-300 ease-in-out">
-                <Link
-                  to="carrito-compras"
-                  className="inline-block px-4 py-2 font-semibold"
-                >
-                  <div className="relative">
-                    <ShoppingBagIcon className="w-10 text-purple-500" />
-                    {cart &&
-                      (cart.items.length ? (
-                        <div className="top-1/2 left-1/2 absolute flex justify-center items-center bg-white mt-1 rounded-full w-5 h-5 text-purple-600 text-xs transform -translate-x-1/2 -translate-y-1/2">
-                          <span
-                            className="inline-block font-bold"
-                            style={{
-                              marginBottom: -1,
-                            }}
-                          >
-                            {cart.items.reduce(
-                              (sum, item) => sum + item.quantity,
-                              0
-                            )}
-                          </span>
-                        </div>
-                      ) : (
-                        ""
-                      ))}
-                  </div>
-                </Link>
-              </li>
             </ul>
-          </nav>
-        </div>
+          </div>
+        </nav>
       </header>
     </>
   );

@@ -226,7 +226,7 @@ const Order = () => {
       duration: 800,
       delay: 0,
       smooth: "easeInOutQuart",
-      offset: -85,
+      offset: -80,
     });
 
     setValue("payment_method", null); // when stage change so always set null value to payment_method
