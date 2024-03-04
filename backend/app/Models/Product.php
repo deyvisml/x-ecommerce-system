@@ -20,6 +20,8 @@ class Product extends Model
         'price',
         'quantity',
         'has_stock',
+        'min_quantity_buy',
+        'max_quantity_buy',
         'product_type_id',
         'category_id',
         'state_id',

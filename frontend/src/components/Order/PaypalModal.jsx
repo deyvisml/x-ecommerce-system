@@ -60,9 +60,10 @@ const PaypalModal = ({
           description: `Florecer contigo`,
           amount: {
             currency_code: "USD",
-            value:
+            value: (
               Number(item_total_price) +
-              Number((delivery_cost / usd_exchange_rate).toFixed(2)),
+              Number((delivery_cost / usd_exchange_rate).toFixed(2))
+            ).toFixed(2),
             breakdown: {
               item_total: {
                 currency_code: "USD",
@@ -101,14 +102,13 @@ const PaypalModal = ({
             usd_amount_paid,
           },
         }).then(({ data }) => {
-          if (data.error_occurred) {
+          if (!data.error_occurred) {
+            // redirect to succed order view
+            navigate("/orden-exitosa");
+          } else {
             alert(
               "Ocurrio un error al procesar el pago, intentelo nuevamente."
             );
-          } else {
-            alert("El pago se realizó exitosamente!");
-            navigate("/orden-exitosa");
-            // redirect to succed purchase view
           }
         });
       }

@@ -210,8 +210,8 @@ const Product = () => {
                   <QuantityButton
                     quantity={quantity_to_buy}
                     setQuantity={setQuantityToBuy}
-                    min_quantity={1}
-                    max_quantity={product.quantity}
+                    min_quantity={product.min_quantity_buy}
+                    max_quantity={product.max_quantity_buy}
                   />
                 )}
               </div>

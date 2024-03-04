@@ -4,8 +4,8 @@ import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 const QuantityButton = ({
   quantity = 1,
   setQuantity,
-  min_quantity = 1,
-  max_quantity = 10,
+  min_quantity,
+  max_quantity,
 }) => {
   const handle_change_quantity_input = (e) => {
     const new_quantity = e.target.value;
@@ -33,19 +33,19 @@ const QuantityButton = ({
     <div className="flex gap-x-1 w-auto text-gray-800">
       <button
         onClick={() => handle_change_quantity_button(-1)}
-        className="flex items-center justify-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex justify-center items-center border-gray-400 bg-slate-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
         <MinusIcon strokeWidth={3} className="w-4" />
       </button>
       <input
         onChange={handle_change_quantity_input}
-        className="pt-0.5 border-2 border-gray-600 rounded-full w-12 text-center text-sm outline-none"
+        className="border-2 border-gray-600 pt-0.5 rounded-full w-12 text-center text-sm outline-none"
         value={quantity}
         type="text"
       />
       <button
         onClick={() => handle_change_quantity_button(+1)}
-        className="flex items-center justify-center bg-slate-100 border border-gray-400 rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex justify-center items-center border-gray-400 bg-slate-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
         <PlusIcon strokeWidth={3} className="w-4" />
       </button>

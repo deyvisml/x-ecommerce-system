@@ -71,7 +71,12 @@ const CartItem = ({ item }) => {
         <div className="flex justify-between">
           <p className="sm:hidden w-2/6 font-semibold">Cantidad:</p>
           <div className="sm:w-full">
-            <QuantityButton quantity={quantity} setQuantity={setQuantity} />
+            <QuantityButton
+              quantity={quantity}
+              setQuantity={setQuantity}
+              min_quantity={item.product.min_quantity_buy}
+              max_quantity={item.product.max_quantity_buy}
+            />
             {/* <button className="flex items-center gap-x-1 my-2 text-green-600">
               <ArrowPathIcon className="mb-1 w-5" />
               Actualizar

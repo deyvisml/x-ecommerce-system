@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+} from "react-router-dom";
 import "./index.css";
 import { ECommerceProvider } from "./context/ECommerceProvider";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -34,17 +38,19 @@ const router = createBrowserRouter([
             path: "categorias/:category_id/productos/:product_id",
             element: <Product />,
           },
-        ],
-      },
-      {
-        element: <FullWidthLayout />,
-        children: [
           {
             path: "carrito-compras",
             element: <Cart />,
           },
           {
             path: "pedido",
+            loader: () => {
+              const num_items =
+                JSON.parse(localStorage.getItem("cart"))?.items?.length ?? 0;
+              // if there is no products
+              if (!num_items) return redirect("/");
+              return null;
+            },
             element: <Order />,
           },
           {
