@@ -1,5 +1,8 @@
 import * as yup from "yup";
 
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
 export const schema = yup.object({
   document_type: yup
     .number()
@@ -67,6 +70,7 @@ export const schema = yup.object({
     .optional(),
   delivery_date: yup
     .date()
+    .min(today, "Eliga una fecha valida")
     .typeError("El campo debe ser una fecha")
     .required("El campo es requerido"),
   delivery_hour: yup

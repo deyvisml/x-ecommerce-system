@@ -215,7 +215,7 @@ const Order = () => {
 
   const skip_first_time_stage_effect = useRef(true);
   useEffect(() => {
-    setOrder({ ...order, stage });
+    setOrder({ ...order });
 
     if (skip_first_time_stage_effect.current) {
       skip_first_time_stage_effect.current = false;
@@ -325,6 +325,8 @@ const Order = () => {
       setDeliveryCost();
     }
   }, [watch("delivery_location"), locations]);
+
+  console.log(new Date());
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
@@ -726,6 +728,7 @@ const Order = () => {
                   </label>
                   <input
                     type="date"
+                    min={new Date().toISOString().split("T")[0]}
                     {...register("delivery_date")}
                     id="delivery_date"
                     placeholder="Fecha nacimiento"
