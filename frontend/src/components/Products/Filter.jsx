@@ -11,7 +11,7 @@ const Filter = ({ items, filter_item_id, setFilterItemId }) => {
   return (
     <div className="text-sm">
       <span className="block mb-1 font-semibold text-gray-700">
-        Filtrar por tipo
+        Filtrar por tipo:
       </span>
 
       <ul className="flex flex-wrap gap-1 min-w-20 min-h-4 text-xs">

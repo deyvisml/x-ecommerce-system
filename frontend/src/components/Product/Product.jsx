@@ -95,7 +95,7 @@ const Product = () => {
     product_id
   ) => {
     const { data } = await axios_client(
-      `api/categories/${category_id}/products?product_type_id=${product_type_id}&exclude_product_id=${product_id}&order=random&limit=`
+      `api/categories/${category_id}/products?product_type_id=${product_type_id}&exclude_product_id=${product_id}&order_by_name=random&limit=`
     );
 
     setProducts(data.data);

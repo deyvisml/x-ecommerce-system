@@ -99,7 +99,7 @@ const Header = () => {
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>
 
-            <div className="flex justify-end gap-x-4 order-3 md:order-2 w-full md:max-w-md text-gray-600">
+            {/*<div className="flex justify-end gap-x-4 order-3 md:order-2 w-full md:max-w-md text-gray-600">
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex items-center w-full text-sm"
@@ -116,7 +116,7 @@ const Header = () => {
                   <MagnifyingGlassIcon className="w-6" strokeWidth={2.5} />
                 </button>
               </form>
-            </div>
+  </div>*/}
 
             <div className="flex gap-x-4 order-2 md:order-3">
               <DropdownItem boton1={<button type="submit">btn</button>} />
@@ -146,7 +146,7 @@ const Header = () => {
 
         <nav className="mx-auto px-2 xl:px-0 w-full max-w-7xl">
           <div className="flex justify-between items-center">
-            <div>here set country</div>
+            <div>country</div>
 
             <div className="relative z-30 flex flex-col w-1/2 md:w-auto">
               <button
