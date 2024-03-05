@@ -1,15 +1,17 @@
 import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import { useForm } from "react-hook-form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropdownItem from "../DropdownItem";
 import logo from "../../assets/logo.webp";
-import FlyoutMenu from "./FlyoutMenu";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
   const { cart } = useECommerce();
+  const [is_open_menu, setIsOpenMenu] = useState(false);
 
   const {
     register,
@@ -84,14 +86,14 @@ const Header = () => {
 
   return (
     <>
-      <header className="top-0 z-30 bg-white shadow-md border-b w-full">
+      <header className="md:block top-0 z-30 flex flex-col gap-y-2 bg-whtie shadow-md border-b w-full">
         <div className="bg-rose-700 text-white text-xs uppercase">
           <a href="" className="block p-1.5 text-center">
             Ofertas del dia
           </a>
         </div>
 
-        <div className="mx-auto px-2 max-w-7xl">
+        <div className="mx-auto px-2 xl:px-0 w-full max-w-7xl">
           <div className="flex flex-wrap justify-between items-center">
             <Link to="/" className="inline-block order-1">
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
@@ -142,37 +144,54 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className="mx-auto max-w-7xl">
-          <div className="flex justify-between">
+        <nav className="mx-auto px-2 xl:px-0 w-full max-w-7xl">
+          <div className="flex justify-between items-center">
             <div>here set country</div>
-            <ul className="flex flex-wrap items-center divide-x divide-y md:divide-y-0 text-rose-500 text-xs uppercase">
-              {menu_items.map((menu_item) => {
-                return (
-                  <li
-                    key={menu_item.id}
-                    className="border-neutral-300 w-full md:w-auto hover:text-rose-300 transition-all duration-300 ease-in-out"
-                  >
-                    {menu_item.has_subitems ? (
-                      <DropdownItem subitems={menu_item.subitems}>
-                        <Link
-                          to={menu_item.url}
-                          className="inline-block px-4 py-2 font-bold"
-                        >
-                          {menu_item.name}
-                        </Link>
-                      </DropdownItem>
-                    ) : (
-                      <Link
-                        to={menu_item.url}
-                        className="inline-block px-4 py-2 font-bold"
+
+            <div className="relative z-30 flex flex-col w-1/2 md:w-auto">
+              <button
+                className="md:hidden bg-neutral-100 m-0 p-0.5 border rounded self-end"
+                onClick={() => {
+                  setIsOpenMenu((current_value) => !current_value);
+                }}
+              >
+                <Bars3Icon className="w-8" />
+              </button>
+              {
+                <ul
+                  className={`${
+                    is_open_menu ? "block" : "hidden"
+                  } md:relative right-0 bottom-0 absolute md:flex flex-wrap items-center bg-white divide-x divide-y md:divide-y-0 text-rose-500 text-xs uppercase transform translate-y-full md:translate-y-0`}
+                >
+                  {menu_items.map((menu_item) => {
+                    return (
+                      <li
+                        key={menu_item.id}
+                        className="border-neutral-300 w-full md:w-auto hover:text-rose-300 transition-all duration-300 ease-in-out"
                       >
-                        {menu_item.name}
-                      </Link>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+                        {menu_item.has_subitems ? (
+                          <DropdownItem subitems={menu_item.subitems}>
+                            <Link
+                              to={menu_item.url}
+                              className="inline-block px-4 py-2 font-bold"
+                            >
+                              {menu_item.name}
+                            </Link>
+                          </DropdownItem>
+                        ) : (
+                          <Link
+                            to={menu_item.url}
+                            className="inline-block px-4 py-2 font-bold"
+                          >
+                            {menu_item.name}
+                          </Link>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              }
+            </div>
           </div>
         </nav>
       </header>
