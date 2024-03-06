@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use App\Http\Resources\ProductResource;
 
 class ProductController extends Controller
 {
@@ -14,18 +14,19 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $product_type_id = $request->query('product_type_id');
-        $order = $request->query('order');
+        $order_by_name = $request->query('order_by_name');
+        $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
         $limit = $request->query('limit');
+
+        return response()->json(["order_by_name" => $order_by_name, "order_by_direction" => $order_by_direction]);
 
         $products = Product::where('state_id', 1);
 
-        if($product_type_id)
-        {
+        if ($product_type_id) {
             $products = $products->where('product_type_id', $product_type_id);
         }
-        if($order)
-        {
-            $products = $products->orderBy('name', $order);
+        if ($order_by_name) {
+            $products = $products->orderBy($order_by_name, $order_by_direction);
         }
 
         $products = $products->get();
@@ -72,33 +73,26 @@ class ProductController extends Controller
     {
         $product_type_id = $request->query('product_type_id');
         $exclude_product_id = $request->query('exclude_product_id');
-        $order = $request->query('order');
+        $order_by_name = $request->query('order_by_name');
+        $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
         $limit = $request->query('limit');
 
         $products = Product::where('category_id', $category_id)->where('state_id', 1);
-        
 
-        if($product_type_id)
-        {
+        if ($product_type_id) {
             $products = $products->where('product_type_id', $product_type_id);
         }
-        if($exclude_product_id)
-        {
+        if ($exclude_product_id) {
             $products = $products->where('id', '<>', $exclude_product_id);
         }
-        if($order)
-        {
-            if ($order == "random") 
-            {
+        if ($order_by_name) {
+            if ($order_by_name == "random") {
                 $products = $products->inRandomOrder();
-            }
-            else 
-            {
-                $products = $products->orderBy('name', $order);
+            } else {
+                $products = $products->orderBy($order_by_name, $order_by_direction);
             }
         }
-        if($limit)
-        {
+        if ($limit) {
             $products = $products->limit($limit);
         }
 
