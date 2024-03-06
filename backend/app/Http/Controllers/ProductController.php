@@ -14,16 +14,20 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $product_type_id = $request->query('product_type_id');
+        $search_value = $request->query('search_value');
         $order_by_name = $request->query('order_by_name');
         $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
         $limit = $request->query('limit');
 
-        return response()->json(["order_by_name" => $order_by_name, "order_by_direction" => $order_by_direction]);
+        //return response()->json(["order_by_name" => $order_by_name, "order_by_direction" => $order_by_direction]);
 
         $products = Product::where('state_id', 1);
 
         if ($product_type_id) {
             $products = $products->where('product_type_id', $product_type_id);
+        }
+        if ($search_value) {
+            $products = $products->where('name', 'LIKE', '%' . $search_value . '%');
         }
         if ($order_by_name) {
             $products = $products->orderBy($order_by_name, $order_by_direction);

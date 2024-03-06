@@ -14,6 +14,7 @@ import Home from "./components/Home";
 import Products from "./components/Products";
 import Product from "./components/Product";
 import Cart from "./components/Cart/Cart";
+import Search from "./components/Search";
 import FullWidthLayout from "./components/FullWidthLayout/FullWidthLayout";
 import Order from "./components/Order";
 import OrderSuccess from "./components/OrderSuccess/OrderSuccess";
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
           {
             path: "carrito-compras",
             element: <Cart />,
+          },
+          {
+            path: "busqueda",
+            element: <Search />,
           },
           {
             path: "pedido",

@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropdownItem from "../DropdownItem";
@@ -10,11 +11,13 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
+  let navigate = useNavigate();
   const { cart } = useECommerce();
   const [is_open_menu, setIsOpenMenu] = useState(false);
 
   const {
     register,
+    reset,
     handleSubmit,
     formState: { errors },
   } = useForm();
@@ -80,8 +83,12 @@ const Header = () => {
     },
   ];
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const handle_search_products = (data) => {
+    const search_value = data.search_value;
+    console.log(search_value);
+    reset();
+
+    navigate(`/busqueda?search_value=${search_value}`);
   };
 
   return (
@@ -101,12 +108,12 @@ const Header = () => {
 
             <div className="flex justify-end gap-x-4 order-3 md:order-2 w-full md:max-w-md text-gray-600">
               <form
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={handleSubmit(handle_search_products)}
                 className="flex items-center w-full text-sm"
               >
                 <input
                   placeholder="¿Qué estas buscando?"
-                  {...register("search", { required: true })}
+                  {...register("search_value", { required: true })}
                   className="border-gray-400 py-2 border rounded-full w-full outline-none pe-11 ps-3.5"
                 />
                 <button
