@@ -25,7 +25,7 @@ const Cart = () => {
 
   return (
     <div className="mb-20">
-      <div className="bg-purple-600 py-10 pb-24">
+      <div className="bg-rose-500 py-10 pb-24">
         <div className="mx-auto px-4 max-w-7xl">
           <div className="flex lg:flex-row flex-col lg:justify-between items-center gap-y-3 text-white">
             <h3 className="order-2 lg:order-1 font-bold text-2xl">
@@ -69,7 +69,10 @@ const Cart = () => {
                 <p className="inline-block my-10 w-full text-center text-gray-700 text-sm">
                   <ShoppingBagIcon className="inline-block mb-1 w-5 me-2" />
                   Lo sentimos, aún no hay productos seleccionados en tu carrito
-                  de compras.
+                  de compras.{" "}
+                  <Link to="/" className="font-bold text-rose-500">
+                    ¿Desea continuar comprando?
+                  </Link>
                 </p>
               )}
             </div>
