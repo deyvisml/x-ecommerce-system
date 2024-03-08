@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 
 const QuantityButton = ({
@@ -22,10 +24,19 @@ const QuantityButton = ({
 
   const handle_change_quantity_button = (increase_decrease_quantity) => {
     const new_quantity = parseInt(quantity + increase_decrease_quantity, 10);
-    console.log(new_quantity);
 
     if (new_quantity >= min_quantity && new_quantity <= max_quantity) {
       setQuantity(new_quantity);
+    } else if (new_quantity < min_quantity) {
+      toast.warn(
+        `La cantidad minima para este producto es ${min_quantity} unidad`,
+        { autoClose: 3000 }
+      );
+    } else if (new_quantity > max_quantity) {
+      toast.warn(
+        `La cantidad maxima para este producto es ${max_quantity} unidades`,
+        { autoClose: 3000 }
+      );
     }
   };
 

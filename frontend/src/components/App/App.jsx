@@ -17,7 +17,7 @@ function App() {
       <ScrollRestoration />
       <ToastContainer
         position="top-right"
-        className="mt-14 text-sm"
+        className="mt-16 text-sm"
         autoClose={2500}
       />
     </div>
