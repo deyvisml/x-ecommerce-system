@@ -9,6 +9,7 @@ import DropdownItem from "../DropdownItem";
 import logo from "../../assets/logo.webp";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import axios_client from "../../helpers/axios";
 
 const Header = () => {
   let navigate = useNavigate();
@@ -91,13 +92,33 @@ const Header = () => {
     navigate(`/busqueda?search_value=${search_value}`);
   };
 
+  const handle_go_offer_product_btn = async () => {
+    const { data } = await axios_client(
+      `api/products?in_offer=${1}&order_by_name=${"random"}&limit=${1}`
+    );
+
+    const offer_product = data.data[0];
+
+    if (!offer_product) {
+      alert("Sin productos en oferta.");
+      throw new Error("Sin productos en oferta.");
+    }
+
+    navigate(
+      `/categorias/${offer_product.category_id}/productos/${offer_product.id}`
+    );
+  };
+
   return (
     <>
       <header className="md:block top-0 z-30 flex flex-col gap-y-2 bg-whtie shadow-md border-b w-full">
-        <div className="bg-rose-700 text-white text-xs uppercase">
-          <a href="" className="block p-1.5 text-center">
+        <div className="bg-rose-700 text-white text-xs">
+          <button
+            onClick={handle_go_offer_product_btn}
+            className="block p-1.5 w-full text-center uppercase"
+          >
             Ofertas del dia
-          </a>
+          </button>
         </div>
 
         <div className="mx-auto px-2 xl:px-0 w-full max-w-7xl">

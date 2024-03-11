@@ -15,6 +15,7 @@ class ProductController extends Controller
     {
         $product_type_id = $request->query('product_type_id');
         $search_value = $request->query('search_value');
+        $in_offer = $request->query('in_offer');
         $order_by_name = $request->query('order_by_name');
         $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
         $limit = $request->query('limit');
@@ -29,8 +30,18 @@ class ProductController extends Controller
         if ($search_value) {
             $products = $products->where('name', 'LIKE', '%' . $search_value . '%');
         }
+        if ($in_offer) {
+            $products = $products->where('in_offer', $in_offer);
+        }
         if ($order_by_name) {
-            $products = $products->orderBy($order_by_name, $order_by_direction);
+            if ($order_by_name == "random") {
+                $products = $products->inRandomOrder();
+            } else {
+                $products = $products->orderBy($order_by_name, $order_by_direction);
+            }
+        }
+        if ($limit) {
+            $products = $products->limit($limit);
         }
 
         $products = $products->get();
