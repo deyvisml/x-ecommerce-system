@@ -27,7 +27,7 @@ const ProductItem = ({ product }) => {
   };
 
   return (
-    <article className="bg-white shadow shadow-gray-300 p-2.5 rounded-md hover:text-purple-600 overflow-hidden group">
+    <article className="flex flex-col justify-between bg-white shadow shadow-gray-300 p-2.5 rounded-md hover:text-rose-600 overflow-hidden group">
       <Link
         to={`/categorias/${product.category_id}/productos/${product.id}`}
         className="block"
@@ -40,24 +40,40 @@ const ProductItem = ({ product }) => {
           />
         </div>
         <div className="mb-2 text-center">
+          {product.in_offer == true && (
+            <div className="mb-2 w-full text-left uppercase">
+              <p className="inline-block bg-gray-600 px-1 py-0.5 rounded text-white text-xs">
+                Oferta del dia
+              </p>
+            </div>
+          )}
+
           <p className="mb-1 h-11 leading-5">
             {product.name.length > 40
               ? product.name.substring(0, 40) + ".."
               : product.name}
           </p>
-          <p className="font-semibold text-xl">
-            {currency(product.price, {
-              symbol: "S/ ",
-            }).format()}
-          </p>
+          <div className="flex justify-center items-center gap-x-1.5">
+            <p className="block font-semibold text-xl">
+              {currency(product.price, {
+                symbol: "S/ ",
+              }).format()}
+            </p>
+            {product.discount_rate > 0 && (
+              <span className="bg-rose-600 mb-0.5 px-1.5 py-0.5 rounded font-bold text-white text-xs">
+                -{product.discount_rate}%
+              </span>
+            )}
+          </div>
         </div>
       </Link>
+
       <div className="mx-4">
         <button
           disabled={product.has_stock ? false : true}
           onClick={handle_add_product_to_cart_btn}
           className={`inline-block ${
-            product.has_stock ? "bg-purple-600" : "bg-red-400"
+            product.has_stock ? "bg-rose-500" : "bg-red-400"
           } hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase`}
         >
           {product.has_stock ? "Agregar" : "Agotado"}

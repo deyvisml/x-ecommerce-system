@@ -7,6 +7,7 @@ import useECommerce from "../../hooks/useECommerce";
 import currency from "currency.js";
 
 const CartItem = ({ item }) => {
+  console.log(item);
   const [quantity, setQuantity] = useState(item.quantity);
   const { cart, setCart } = useECommerce();
 
@@ -59,10 +60,15 @@ const CartItem = ({ item }) => {
             <p className="sm:block hidden text-gray-500">
               {item.product.description}
             </p>
-            <p className="text-purple-700 text-xl">
-              {currency(item.product.price, {
-                symbol: "S/ ",
-              }).format()}
+            <p className="text-rose-700 text-xl">
+              {currency(
+                item.product.in_offer == true
+                  ? item.product.offer_price
+                  : item.product.price,
+                {
+                  symbol: "S/ ",
+                }
+              ).format()}
             </p>
           </div>
         </div>
@@ -95,9 +101,14 @@ const CartItem = ({ item }) => {
         <div className="flex justify-between">
           <p className="sm:hidden font-semibold">Subtotal:</p>
           <p>
-            {currency(quantity * item.product.price, {
-              symbol: "S/ ",
-            }).format()}
+            {currency(
+              item.product.in_offer == true
+                ? quantity * item.product.offer_price
+                : quantity * item.product.price,
+              {
+                symbol: "S/ ",
+              }
+            ).format()}
           </p>
         </div>
       </div>

@@ -172,13 +172,31 @@ const Product = () => {
               <h2 className="font-extrabold text-3xl">
                 {product && product.name}
               </h2>
-              <p className="font-bold text-2xl">
+              <p className="flex items-center gap-x-1 font-bold text-2xl">
                 {product &&
-                  currency(product.price, {
-                    symbol: "S/ ",
-                  }).format()}
+                  (product.in_offer == true ? (
+                    <>
+                      <span>
+                        {currency(product.offer_price, {
+                          symbol: "S/ ",
+                        }).format()}
+                      </span>
+                      <span className="text-gray-500 text-lg line-through">
+                        {currency(product.price, {
+                          symbol: "S/ ",
+                        }).format()}
+                      </span>
+                      <span className="bg-rose-600 mb-0.5 px-1.5 py-0.5 rounded font-bold text-white text-xs">
+                        -{product.discount_rate}%
+                      </span>
+                    </>
+                  ) : (
+                    currency(product.price, {
+                      symbol: "S/ ",
+                    }).format()
+                  ))}
                 <span className="font-normal text-sm ms-2">
-                  (impuestos incluidos)
+                  (impuestos inc.)
                 </span>
               </p>
               <div>

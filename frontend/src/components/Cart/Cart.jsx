@@ -13,7 +13,10 @@ const Cart = () => {
   const num_items = cart.items.reduce((acc, item) => acc + item.quantity, 0);
 
   const total_price_items = cart.items.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
+    (acc, item) =>
+      acc +
+      (item.product.in_offer ? item.product.offer_price : item.product.price) *
+        item.quantity,
     0
   );
 

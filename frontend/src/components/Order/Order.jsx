@@ -97,7 +97,10 @@ const Order = () => {
   }, []);
 
   const total_price_items = cart.items.reduce(
-    (acc, item) => acc + item.product.price * item.quantity,
+    (acc, item) =>
+      acc +
+      (item.product.in_offer ? item.product.offer_price : item.product.price) *
+        item.quantity,
     0
   );
 
@@ -248,7 +251,13 @@ const Order = () => {
 
   const usd_total_price_items = cart.items.reduce(
     (acc, item) =>
-      acc + (item.product.price / usd_exchange_rate).toFixed(2) * item.quantity,
+      acc +
+      (
+        (item.product.in_offer
+          ? item.product.offer_price
+          : item.product.price) / usd_exchange_rate
+      ).toFixed(2) *
+        item.quantity,
     0
   );
 
@@ -844,8 +853,8 @@ const Order = () => {
                         className="flex justify-between items-center gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
                       >
                         <div className="flex items-center gap-x-4">
-                          <span className="flex justify-center items-center bg-purple-200 rounded-full min-w-10 min-h-10">
-                            <FaRegCreditCard className="text-2xl text-purple-600" />
+                          <span className="flex justify-center items-center bg-rose-200 rounded-full min-w-10 min-h-10">
+                            <FaRegCreditCard className="text-2xl text-rose-600" />
                           </span>
                           <div>
                             <p className="font-bold uppercase">
@@ -875,8 +884,8 @@ const Order = () => {
                         className="flex justify-between items-center gap-x-2 py-3 w-full cursor-pointer pe-5 ps-3"
                       >
                         <div className="flex items-center gap-x-4">
-                          <span className="flex justify-center items-center bg-purple-200 rounded-full min-w-10 min-h-10">
-                            <FaRegCreditCard className="text-2xl text-purple-600" />
+                          <span className="flex justify-center items-center bg-rose-200 rounded-full min-w-10 min-h-10">
+                            <FaRegCreditCard className="text-2xl text-rose-600" />
                           </span>
                           <div>
                             <p className="font-bold uppercase">
@@ -941,7 +950,7 @@ const Order = () => {
         <div className="flex flex-col gap-y-2 border-gray-300 bg-gray-50 shadow-lg p-3 border rounded-md w-full lg:w-2/5 text-gray-700 text-sm">
           <div>
             <h5 className="font-bold uppercase">Resumen de tu pedido</h5>
-            <span className="block bg-purple-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
+            <span className="block bg-rose-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
           </div>
 
           <div className="flex justify-between mt-1 text-gray-500">
@@ -1006,17 +1015,27 @@ const Order = () => {
                         <p className="font-semibold text-xs">
                           Precio unitario{" "}
                           <span>
-                            {currency(item.product.price, {
-                              symbol: "S/ ",
-                            }).format()}
+                            {currency(
+                              item.product.in_offer == true
+                                ? item.product.offer_price
+                                : item.product.price,
+                              {
+                                symbol: "S/ ",
+                              }
+                            ).format()}
                           </span>
                         </p>
                       </div>
                       <div className="text-right w-2/12 sm:w-3/12">
                         <p>
-                          {currency(item.quantity * item.product.price, {
-                            symbol: "S/ ",
-                          }).format()}
+                          {currency(
+                            item.product.in_offer == true
+                              ? item.quantity * item.product.offer_price
+                              : item.quantity * item.product.price,
+                            {
+                              symbol: "S/ ",
+                            }
+                          ).format()}
                         </p>
                       </div>
                     </li>
