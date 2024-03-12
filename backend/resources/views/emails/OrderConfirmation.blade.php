@@ -140,7 +140,8 @@
             <div class="container">
                 <img
                     class="logo"
-                    src="https://www.enviaflores.pe/wp-content/uploads/2023/01/logo-envia-flores-pe-cusco.svg"
+                    style="background-color: white"
+                    src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/src/assets/logo.png"
                     alt=""
                 />
 
@@ -227,7 +228,7 @@
                                                     <td style="width: 80px">
                                                         <img
                                                             class="product_image"
-                                                            src="https://ekit.co.uk/GalleryEntries/ecommerce_solutions_and_services/MedRes_Product-presentation-2.jpg"
+                                                            src="{{ 'https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/public/images/products/'. $cart_product['product']->image_url }}"
                                                             alt=""
                                                         />
                                                     </td>
@@ -246,7 +247,7 @@
                                             </table>
                                         </td>
                                         <td class="product_quantity">{{ $cart_product['cart_product']->quantity }}</td>
-                                        <td class="product_price">S/ {{ number_format($cart_product['product']->in_offer == true ? $cart_product['product']->offer_price : $cart_product['product']->price, 2) }}</td>
+                                        <td class="product_price">S/ {{ number_format(($cart_product['product']->in_offer == true ? $cart_product['product']->offer_price : $cart_product['product']->price) * $cart_product['cart_product']->quantity, 2) }}</td>
                                     </tr>     
                                 @endforeach
                             </tbody>

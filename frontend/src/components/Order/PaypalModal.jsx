@@ -104,7 +104,19 @@ const PaypalModal = ({
         }).then(({ data }) => {
           if (!data.error_occurred) {
             // redirect to succed order view
-            navigate("/orden-exitosa");
+
+            axios_client(`api/mails/send-order-confirmation-mail`, {
+              method: "post",
+              data: {
+                order_id,
+              },
+            }).then(({ data }) => {
+              if (!data.error_occurred) {
+                navigate("/orden-exitosa");
+              } else {
+                throw new Error("Ocurrio un error al enviar el email.");
+              }
+            });
           } else {
             alert(
               "Ocurrio un error al procesar el pago, intentelo nuevamente."

@@ -42,6 +42,8 @@ class MailController extends Controller
 
         Mail::to($user->email)->send(new OrderConfirmationMail($user, $order, $delivery_full, $cart, $cart_products));
 
-        return "Email sent successfully!";
+        $response = ['error_occurred' => false, 'message' => 'Mail sent successfully.'];
+
+        return response()->json($response);
     }
 }

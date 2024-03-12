@@ -140,7 +140,7 @@ const Product = () => {
 
         <div className="flex md:flex-row flex-col flex-wrap items-start gap-y-5">
           <div className="flex justify-center items-center w-full md:w-1/2">
-            <div className="bg-purple-400 sm:mx-5 w-full leading-none">
+            <div className="bg-rose-400 sm:mx-5 w-full leading-none">
               {product && (
                 <img
                   src={`/images/products/${product.image_url}`}
@@ -165,7 +165,7 @@ const Product = () => {
             <div className="flex flex-col gap-4 sm:mx-10">
               <Link
                 to={`/categorias/${category_id}/productos`}
-                className="hover:text-purple-600 uppercase transition-all duration-100 ease-in-out"
+                className="hover:text-rose-600 uppercase transition-all duration-100 ease-in-out"
               >
                 {category && category.name}
               </Link>
@@ -246,8 +246,8 @@ const Product = () => {
                     }
                     className={`${
                       product.has_stock
-                        ? "bg-purple-600 hover:bg-purple-700"
-                        : "bg-purple-300 cursor-not-allowed"
+                        ? "bg-rose-600 hover:bg-rose-700"
+                        : "bg-rose-300 cursor-not-allowed"
                     }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                   >
                     {add_to_cart_loader ? (
