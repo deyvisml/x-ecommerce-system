@@ -782,10 +782,10 @@ const Order = () => {
                   >
                     <option value="">Seleccionar horario</option>
                     {delivery_schedules &&
-                      delivery_schedules.map(({ id, name }) => {
+                      delivery_schedules.map(({ id, start_hour, end_hour }) => {
                         return (
                           <option key={id} value={id}>
-                            {name}
+                            {start_hour.slice(0, -3)}-{end_hour.slice(0, -3)}
                           </option>
                         );
                       })}

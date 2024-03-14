@@ -14,7 +14,6 @@ class DeliverySchedule extends Model
 
     protected $fillable = [
         'id',
-        'name',
         'start_hour',
         'end_hour',
     ];
