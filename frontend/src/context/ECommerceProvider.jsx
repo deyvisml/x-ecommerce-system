@@ -5,6 +5,8 @@ import { createContext } from "react";
 const ECommerceContext = createContext();
 
 const ECommerceProvider = ({ children }) => {
+  const [is_loading_main_loader, setIsLoadingMainLoader] = useState(false);
+
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) ?? {
       items: [],
@@ -23,7 +25,16 @@ const ECommerceProvider = ({ children }) => {
   }, [order]);
 
   return (
-    <ECommerceContext.Provider value={{ cart, setCart, order, setOrder }}>
+    <ECommerceContext.Provider
+      value={{
+        cart,
+        setCart,
+        order,
+        setOrder,
+        is_loading_main_loader,
+        setIsLoadingMainLoader,
+      }}
+    >
       {children}
     </ECommerceContext.Provider>
   );

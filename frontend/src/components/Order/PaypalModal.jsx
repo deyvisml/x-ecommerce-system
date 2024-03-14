@@ -15,7 +15,7 @@ const PaypalModal = ({
   delivery_cost,
 }) => {
   let navigate = useNavigate();
-  const { cart } = useECommerce();
+  const { cart, setIsLoadingMainLoader } = useECommerce();
 
   const closeModal = () => {
     setIsOpenPaypalModal(false);
@@ -90,6 +90,8 @@ const PaypalModal = ({
 
   // check Approval
   const onApprove = (data, actions) => {
+    setIsLoadingMainLoader(true);
+
     return actions.order.capture().then((details) => {
       if (details.status == "COMPLETED") {
         // get the amount paid
@@ -110,13 +112,15 @@ const PaypalModal = ({
               data: {
                 order_id,
               },
-            }).then(({ data }) => {
-              if (!data.error_occurred) {
-                navigate("/orden-exitosa");
-              } else {
-                throw new Error("Ocurrio un error al enviar el email.");
-              }
-            });
+            })
+              .then(({ data }) => {
+                if (!data.error_occurred) {
+                  navigate("/orden-exitosa");
+                } else {
+                  throw new Error("Ocurrio un error al enviar el email.");
+                }
+              })
+              .finally(() => setIsLoadingMainLoader(false));
           } else {
             alert(
               "Ocurrio un error al procesar el pago, intentelo nuevamente."
