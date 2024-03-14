@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DeliveryScheduleController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\ExchangeRateController;
 use App\Http\Controllers\LocationController;
@@ -33,8 +34,9 @@ Route::apiResource('product-types', ProductTypeController::class);
 Route::apiResource('document-types', DocumentTypeController::class);
 Route::apiResource('regions', RegionController::class);
 Route::apiResource('orders', OrderController::class);
-
 Route::apiResource('exchange-rates', ExchangeRateController::class);
+
+Route::apiResource('delivery-schedules', DeliveryScheduleController::class);
 
 Route::get('/regions/{region_id}/locations', [LocationController::class, 'locations_by_region']);
 

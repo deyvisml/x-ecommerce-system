@@ -73,7 +73,7 @@ export const schema = yup.object({
     .min(today, "Eliga una fecha valida")
     .typeError("El campo debe ser una fecha")
     .required("El campo es requerido"),
-  delivery_hour: yup
+  delivery_schedule: yup
     .number()
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),

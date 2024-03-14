@@ -43,7 +43,7 @@ class OrderController extends Controller
         $delivery_address = $request->input('delivery_address');
         $delivery_address_reference = $request->input('delivery_address_reference');
         $delivery_date = $request->date('delivery_date');
-        $delivery_hour = $request->input('delivery_hour');
+        $delivery_schedule = $request->input('delivery_schedule');
         $delivery_phone_number = $request->input('delivery_phone_number');
 
         $payment_method = $request->input('payment_method');
@@ -72,7 +72,7 @@ class OrderController extends Controller
             'address' => $delivery_address,
             'address_reference' => $delivery_address_reference,
             'date' => $delivery_date,
-            'schedule_id' => $delivery_hour,
+            'delivery_schedule_id' => $delivery_schedule,
             'region_id' => $delivery_region,
             'location_id' => $delivery_location,
             'cost' => $location->delivery_cost,

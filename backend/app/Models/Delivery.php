@@ -19,7 +19,7 @@ class Delivery extends Model
         'address',
         'address_reference',
         'date',
-        'schedule_id',
+        'delivery_schedule_id',
         'region_id',
         'location_id',
         'cost',

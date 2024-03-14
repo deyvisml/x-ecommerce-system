@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios_client from "../../helpers/axios";
 import { useForm } from "react-hook-form";
+import moment from "moment";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { cloneDeep } from "lodash";
 import { PulseLoader } from "react-spinners";
@@ -27,6 +28,7 @@ const Order = () => {
   const [document_types, setDocumentTypes] = useState();
   const [regions, setRegions] = useState();
   const [locations, setLocations] = useState();
+  const [delivery_schedules, setDeliverySchedules] = useState();
   const [delivery_cost, setDeliveryCost] = useState();
 
   const {
@@ -56,7 +58,7 @@ const Order = () => {
       delivery_address_reference:
         order?.data?.delivery_address_reference ?? undefined,
       delivery_date: order?.data?.delivery_date ?? undefined,
-      delivery_hour: order?.data?.delivery_hour ?? undefined,
+      delivery_schedule: undefined,
       delivery_phone_number: order?.data?.delivery_phone_number ?? undefined,
       payment_method: undefined,
       privacy_policies: true,
@@ -84,6 +86,14 @@ const Order = () => {
     setLocations(data.data);
   };
 
+  const fetch_delivery_schedules = async (difference_time) => {
+    const { data } = await axios_client(
+      `api/delivery-schedules?difference_time=${difference_time}`
+    );
+
+    setDeliverySchedules(data.data);
+  };
+
   useEffect(() => {
     (async () => {
       await fetch_document_types();
@@ -91,6 +101,11 @@ const Order = () => {
       await fetch_regions();
 
       await fetch_locations_by_region(watch("delivery_region"));
+
+      const difference_time = "02:00:00";
+      await fetch_delivery_schedules(difference_time);
+      console.log("dd", delivery_schedules);
+      console.log("dd", watch("delivery_schedule"));
 
       reset();
     })();
@@ -164,7 +179,7 @@ const Order = () => {
           "delivery_address_reference"
         );
         const delivery_date = getValues("delivery_date");
-        const delivery_hour = getValues("delivery_hour");
+        const delivery_schedule = getValues("delivery_schedule");
         const delivery_phone_number = getValues("delivery_phone_number");
 
         const schema_stage2 = schema.pick([
@@ -175,7 +190,7 @@ const Order = () => {
           "delivery_address",
           "delivery_address_reference",
           "delivery_date",
-          "delivery_hour",
+          "delivery_schedule",
           "delivery_phone_number",
         ]);
 
@@ -189,7 +204,7 @@ const Order = () => {
               delivery_address,
               delivery_address_reference,
               delivery_date,
-              delivery_hour,
+              delivery_schedule,
               delivery_phone_number,
             },
             { abortEarly: false }
@@ -298,8 +313,6 @@ const Order = () => {
     }
   };
 
-  const delivery_hours = ["08:00-12:00", "13:00-17:00", "16:00-20:00"]; // get this from an API
-
   // Callback version of watch.  It's your responsibility to unsubscribe when done.
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
@@ -334,8 +347,6 @@ const Order = () => {
       setDeliveryCost();
     }
   }, [watch("delivery_location"), locations]);
-
-  console.log(new Date());
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
@@ -737,7 +748,7 @@ const Order = () => {
                   </label>
                   <input
                     type="date"
-                    min={new Date().toISOString().split("T")[0]}
+                    min={moment().format("YYYY-MM-DD")}
                     {...register("delivery_date")}
                     id="delivery_date"
                     placeholder="Fecha nacimiento"
@@ -756,27 +767,32 @@ const Order = () => {
                 <div className="">
                   <label
                     className="block text-gray-500 text-xs"
-                    htmlFor="delivery_hour"
+                    htmlFor="delivery_schedule"
                   >
                     Hora de entrega <span>*</span>
                   </label>
                   <select
-                    {...register("delivery_hour")}
-                    id="delivery_hour"
+                    {...register("delivery_schedule")}
+                    id="delivery_schedule"
                     className={`${
-                      errors.delivery_hour
+                      errors.delivery_schedule
                         ? "border-red-400 focus:border-red-400"
                         : ""
                     } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value="">Seleccionar horario</option>
-                    <option value="1">08:00-12:00</option>
-                    <option value="2">13:00-17:00</option>
-                    <option value="3">16:00-20:00</option>
+                    {delivery_schedules &&
+                      delivery_schedules.map(({ id, name }) => {
+                        return (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        );
+                      })}
                   </select>
-                  {errors.delivery_hour && (
+                  {errors.delivery_schedule && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_hour.message}
+                      {errors.delivery_schedule.message}
                     </p>
                   )}
                 </div>
@@ -975,8 +991,11 @@ const Order = () => {
               <div>
                 <p className="m-0 p-0 text-sm leading-3">Hora de Delivery:</p>
                 <span className="text-xs">
-                  {watch("delivery_hour")
-                    ? delivery_hours[watch("delivery_hour") - 1]
+                  {watch("delivery_schedule") && delivery_schedules
+                    ? delivery_schedules.find(
+                        (delivery_schedule) =>
+                          delivery_schedule.id == watch("delivery_schedule")
+                      )?.name ?? "-"
                     : "-"}
                 </span>
               </div>
