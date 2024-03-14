@@ -30,6 +30,7 @@ const Order = () => {
   const [locations, setLocations] = useState();
   const [delivery_schedules, setDeliverySchedules] = useState();
   const [delivery_cost, setDeliveryCost] = useState();
+  const [delivery_schedule, setDeliverySchedule] = useState();
 
   const {
     register,
@@ -57,7 +58,7 @@ const Order = () => {
       delivery_address: order?.data?.delivery_address ?? undefined,
       delivery_address_reference:
         order?.data?.delivery_address_reference ?? undefined,
-      delivery_date: order?.data?.delivery_date ?? undefined,
+      delivery_date: undefined,
       delivery_schedule: undefined,
       delivery_phone_number: order?.data?.delivery_phone_number ?? undefined,
       payment_method: undefined,
@@ -102,10 +103,8 @@ const Order = () => {
 
       await fetch_locations_by_region(watch("delivery_region"));
 
-      const difference_time = "02:00:00";
+      const difference_time = "01:00:00";
       await fetch_delivery_schedules(difference_time);
-      console.log("dd", delivery_schedules);
-      console.log("dd", watch("delivery_schedule"));
 
       reset();
     })();
@@ -347,6 +346,15 @@ const Order = () => {
       setDeliveryCost();
     }
   }, [watch("delivery_location"), locations]);
+
+  useEffect(() => {
+    if (Number(watch("delivery_schedule")) && delivery_schedules) {
+      const delivery_schedule_filter = delivery_schedules.find(
+        (element) => element.id == watch("delivery_schedule")
+      );
+      setDeliverySchedule(delivery_schedule_filter);
+    }
+  }, [watch("delivery_schedule"), delivery_schedules]);
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
@@ -991,11 +999,12 @@ const Order = () => {
               <div>
                 <p className="m-0 p-0 text-sm leading-3">Hora de Delivery:</p>
                 <span className="text-xs">
-                  {watch("delivery_schedule") && delivery_schedules
-                    ? delivery_schedules.find(
-                        (delivery_schedule) =>
-                          delivery_schedule.id == watch("delivery_schedule")
-                      )?.name ?? "-"
+                  {watch("delivery_schedule") &&
+                  delivery_schedules &&
+                  delivery_schedule
+                    ? delivery_schedule?.start_hour.slice(0, -3) +
+                      "-" +
+                      delivery_schedule?.end_hour.slice(0, -3)
                     : "-"}
                 </span>
               </div>

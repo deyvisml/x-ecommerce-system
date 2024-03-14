@@ -24,6 +24,18 @@ const ECommerceProvider = ({ children }) => {
     localStorage.setItem("order", JSON.stringify(order));
   }, [order]);
 
+  const clear_cart = () => {
+    localStorage.removeItem("cart");
+    setCart({
+      items: [],
+    });
+  };
+
+  const clear_order = () => {
+    localStorage.removeItem("order");
+    setOrder({ data: {} });
+  };
+
   return (
     <ECommerceContext.Provider
       value={{
@@ -33,6 +45,8 @@ const ECommerceProvider = ({ children }) => {
         setOrder,
         is_loading_main_loader,
         setIsLoadingMainLoader,
+        clear_cart,
+        clear_order,
       }}
     >
       {children}

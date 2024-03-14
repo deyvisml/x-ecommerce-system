@@ -2,7 +2,6 @@ import { Fragment, useState, useEffect } from "react";
 import axios_client from "../../helpers/axios";
 import { Dialog, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
-
 import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import { FaXmark } from "react-icons/fa6";
 import useECommerce from "../../hooks/useECommerce";
@@ -15,7 +14,8 @@ const PaypalModal = ({
   delivery_cost,
 }) => {
   let navigate = useNavigate();
-  const { cart, setIsLoadingMainLoader } = useECommerce();
+  const { cart, setIsLoadingMainLoader, clear_cart, clear_order } =
+    useECommerce();
 
   const closeModal = () => {
     setIsOpenPaypalModal(false);
@@ -120,14 +120,20 @@ const PaypalModal = ({
                   throw new Error("Ocurrio un error al enviar el email.");
                 }
               })
-              .finally(() => setIsLoadingMainLoader(false));
+              .finally(() => {
+                clear_cart();
+                setIsLoadingMainLoader(false);
+              });
           } else {
             alert(
               "Ocurrio un error al procesar el pago, intentelo nuevamente."
             );
           }
         });
+      } else {
+        setIsLoadingMainLoader(false);
       }
+      closeModal();
     });
   };
 

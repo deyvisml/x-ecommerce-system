@@ -83,7 +83,7 @@ class OrderController extends Controller
         $total_price_products = 0;
         foreach ($cart['items'] as $item) {
             $product = $item['product'];
-            $total_price_products += $product['price'] * $item['quantity'];
+            $total_price_products += ($product['in_offer'] ? $product['offer_price'] : $product['price']) * $item['quantity'];
         }
 
         $created_cart = Cart::create([

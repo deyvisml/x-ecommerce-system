@@ -179,7 +179,7 @@
                                     </tr>
                                     <tr>
                                         <td>Orden Total:</td>
-                                        <td>S/ {{ $order->total_price }}</td>
+                                        <td>S/ {{ number_format($order->total_price, 2) }}</td>
                                     </tr>
                                 </table>
                             </div>
