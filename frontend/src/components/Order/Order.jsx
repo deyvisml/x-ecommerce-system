@@ -103,7 +103,7 @@ const Order = () => {
 
       await fetch_locations_by_region(watch("delivery_region"));
 
-      const difference_time = "01:00:00";
+      const difference_time = "00:30:00";
       await fetch_delivery_schedules(difference_time);
 
       reset();
