@@ -38,6 +38,7 @@ const ManagementProvider = ({ children }) => {
       value={{
         is_loading_main_loader,
         set_is_loading_main_loader,
+        _set_token,
         user,
         set_user,
         token,
