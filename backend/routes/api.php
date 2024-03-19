@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeliveryScheduleController;
 use App\Http\Controllers\DocumentTypeController;
@@ -10,7 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RegionController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +27,12 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/auth/register', [RegisterController::class, 'register_user']);
+Route::post('/auth/login', [LoginController::class, 'login_user']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/auth/logout', [LogoutController::class, 'logout_user']);
+    Route::get('/user', [UserController::class, 'user']);
 });
 
 Route::apiResource('categories', CategoryController::class);

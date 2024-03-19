@@ -53,4 +53,24 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+
+    /* ************** ACL ************** */
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, "role_user");
+    }
+
+    public function assignRole(Role $role)
+    {
+        return $this->roles()->save($role);
+    }
+
+    public function hasRole($role)
+    {
+        if (is_string($role)) {
+            return $this->roles->contains("name", $role);
+        }
+        return !!$role->intersect($this->roles)->count();
+    }
 }
