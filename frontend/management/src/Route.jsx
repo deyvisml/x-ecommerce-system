@@ -4,14 +4,15 @@ import {
   RouterProvider,
   redirect,
 } from "react-router-dom";
-import axios_client from "../helpers/axios";
-import App from "./App";
-import Login from "../pages/Login";
-import LayoutDashboard from "./LayoutDashboard";
-import AdminDashboard from "../pages/administrator/Dashboard";
-import AdminHome from "../pages/administrator/Home";
-import SellerDashboard from "../pages/seller/Dashboard";
-import useManagement from "../hooks/useManagement";
+import axios_client from "./helpers/axios";
+import App from "./layouts/App";
+import Login from "./pages/Login/Login";
+import LayoutDashboard from "./layouts/LayoutDashboard";
+import AdminDashboard from "./pages/administrator/Dashboard";
+import AdminHome from "./pages/administrator/Home";
+import SellerDashboard from "./pages/seller/Dashboard";
+import useManagement from "./hooks/useManagement";
+import ResetPassword from "./pages/ResetPassword";
 
 const Route = () => {
   const { set_token, user, set_user } = useManagement();
@@ -48,10 +49,11 @@ const Route = () => {
 
   /* verify if the user has a specific role */
   const verify_role = async (role) => {
-    console.log("verify role:", role);
     const token = JSON.parse(localStorage.getItem("TOKEN"));
+    console.log("verify role:", role);
+    console.log("token:", token);
 
-    if (!token) return null;
+    if (!token) return redirect(`/`);
 
     try {
       const response = await axios_client(`/api/user`, {
@@ -81,6 +83,10 @@ const Route = () => {
           index: true,
           loader: verify_login,
           element: <Login />,
+        },
+        {
+          path: "cambiar-contraseña",
+          element: <ResetPassword />,
         },
         {
           element: <LayoutDashboard />,

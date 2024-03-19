@@ -31,7 +31,7 @@ class LoginController extends Controller
         if (!Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'status' => false,
-                'message' => 'Correo electrónico o contraseña no válidos',
+                'message' => 'Correo electrónico o contraseña no válidos.',
                 'data' => ['type_error' => 'general-error'],
             ]);
         }

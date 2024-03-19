@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@tailwindcss/forms": "^0.5.7",
     "axios": "^1.6.8",
     "chart.js": "^4.4.1",
@@ -18,7 +19,9 @@
     "react-flatpickr": "^3.10.13",
     "react-hook-form": "^7.51.1",
     "react-router-dom": "^6.20.1",
-    "react-transition-group": "^4.4.5"
+    "react-toastify": "^10.0.5",
+    "react-transition-group": "^4.4.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
