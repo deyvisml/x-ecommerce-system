@@ -39,6 +39,7 @@ const ResetPassword = () => {
             </h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
+              noValidate
               className="flex flex-col gap-y-5 w-full text-sm"
             >
               <div>

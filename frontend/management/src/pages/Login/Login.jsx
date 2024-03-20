@@ -27,14 +27,7 @@ const Login = () => {
         data,
       });
 
-      if (!response.data.status) {
-        if (response.data.type_error == "validation-error") {
-          console.log(response.data.errors);
-        } else {
-          toast.error(response.data.message, { autoClose: 4000 });
-        }
-        throw new Error(response.data.message);
-      }
+      if (!response.data.status) throw new Error(response.data.message);
 
       const roles = response.data.data.user.roles.map((rol) => rol.name);
 
@@ -48,7 +41,7 @@ const Login = () => {
         ? navigate(`/administrador`)
         : navigate(`/vendedor`);
     } catch (error) {
-      console.error(error);
+      toast.error(error.message, { autoClose: 4000 });
     }
   };
 

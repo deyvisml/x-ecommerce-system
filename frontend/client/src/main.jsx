@@ -18,6 +18,7 @@ import Search from "./components/Search";
 import FullWidthLayout from "./components/FullWidthLayout/FullWidthLayout";
 import Order from "./components/Order";
 import OrderSuccess from "./components/OrderSuccess/OrderSuccess";
+import SellerRegistration from "./pages/SellerRegistration/SellerRegistration";
 
 const router = createBrowserRouter([
   {
@@ -63,6 +64,15 @@ const router = createBrowserRouter([
             element: <OrderSuccess />,
           },
         ],
+      },
+    ],
+  },
+  {
+    element: <FullWidthLayout />,
+    children: [
+      {
+        path: "/registro-vendedor",
+        element: <SellerRegistration />,
       },
     ],
   },

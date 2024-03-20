@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 const FullWidthLayout = () => {
   return (
-    <div className="flex-grow ">
+    <div className="flex-grow">
       {/* flex grow takes all the space without content and fill it to cover all the height*/}
       <Outlet />
     </div>
