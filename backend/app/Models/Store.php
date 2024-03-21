@@ -15,6 +15,10 @@ class Store extends Model
     protected $fillable = [
         'id',
         'name',
+        'ruc',
+        'business_name',
+        'bank_account_number',
+        'bank_id',
         'user_id',
         'state_id',
     ];

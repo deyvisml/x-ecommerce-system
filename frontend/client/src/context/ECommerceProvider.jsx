@@ -7,6 +7,13 @@ const ECommerceContext = createContext();
 const ECommerceProvider = ({ children }) => {
   const [is_loading_main_loader, setIsLoadingMainLoader] = useState(false);
 
+  const [user, _set_user] = useState(
+    JSON.parse(localStorage.getItem("USER")) || null
+  );
+  const [token, _set_token] = useState(
+    JSON.parse(localStorage.getItem("TOKEN")) || null
+  );
+
   const [cart, setCart] = useState(
     JSON.parse(localStorage.getItem("cart")) ?? {
       items: [],
@@ -15,6 +22,26 @@ const ECommerceProvider = ({ children }) => {
   const [order, setOrder] = useState(
     JSON.parse(localStorage.getItem("order")) ?? { data: {} }
   );
+
+  const set_user = (user) => {
+    if (user) {
+      localStorage.setItem("USER", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("USER");
+    }
+
+    _set_user(user);
+  };
+
+  const set_token = (token) => {
+    if (token) {
+      localStorage.setItem("TOKEN", JSON.stringify(token));
+    } else {
+      localStorage.removeItem("TOKEN");
+    }
+
+    _set_token(token);
+  };
 
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
@@ -39,6 +66,8 @@ const ECommerceProvider = ({ children }) => {
   return (
     <ECommerceContext.Provider
       value={{
+        token,
+        user,
         cart,
         setCart,
         order,

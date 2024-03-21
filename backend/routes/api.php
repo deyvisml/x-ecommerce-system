@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,3 +53,7 @@ Route::get('/categories/{category_id}/products', [ProductController::class, 'pro
 Route::get('/categories/{category_id}/product-types', [ProductTypeController::class, 'product_types_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
+
+Route::post('/stores/seller-store-registration', [StoreController::class, 'seller_store_registration']);
+
+Route::post('/stores/seller-store-registration-auth', [StoreController::class, 'seller_store_registration_auth'])->middleware('auth:sanctum');

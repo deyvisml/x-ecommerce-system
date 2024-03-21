@@ -26,6 +26,7 @@ export const schema = yup.object({
     .positive()
     .integer()
     .required("El campo es requerido"),
+  store_name: yup.string().max(600).required("El campo es requerido"),
   ruc: yup
     .number()
     .typeError("El campo debe ser númerico")
