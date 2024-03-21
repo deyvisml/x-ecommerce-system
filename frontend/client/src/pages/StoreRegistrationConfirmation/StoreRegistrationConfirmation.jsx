@@ -26,7 +26,7 @@ const StoreRegistrationConfirmation = () => {
           transition={{ duration: 1, ease: "easeInOut" }}
           className="font-semibold text-2xl"
         >
-          Registro de tienda realizado!
+          Registro de tienda exitoso!
         </motion.h4>
         <motion.p
           initial={{ opacity: 0 }}

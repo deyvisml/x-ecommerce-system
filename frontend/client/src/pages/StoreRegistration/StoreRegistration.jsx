@@ -280,7 +280,11 @@ const StoreRegistration = () => {
         throw new Error(response.data.message);
       }
 
+      // remove STORE_REGISTRATION, so the data is not persistant anymore
+      localStorage.removeItem("STORE_REGISTRATION");
+
       navigate(`confirmación`);
+      return;
     } catch (error) {
       console.error(error);
       toast.error(error.message, { autoClose: 5000 });
