@@ -7,9 +7,10 @@ import {
 import axios_client from "./helpers/axios";
 import App from "./layouts/App";
 import Login from "./pages/Login/Login";
-import LayoutDashboard from "./layouts/LayoutDashboard";
-import AdminDashboard from "./pages/administrator/Dashboard";
-import AdminHome from "./pages/administrator/Home";
+import DashboardLayout from "./layouts/DashboardLayout";
+import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
+import AdminDashboardHome from "./pages/administrator/AdminDashboardHome";
+import StoreList from "./pages/administrator/StoreList";
 import SellerDashboard from "./pages/seller/Dashboard";
 import useManagement from "./hooks/useManagement";
 import ResetPassword from "./pages/ResetPassword";
@@ -89,7 +90,7 @@ const Route = () => {
           element: <ResetPassword />,
         },
         {
-          element: <LayoutDashboard />,
+          element: <DashboardLayout />,
           children: [
             {
               path: "vendedor",
@@ -97,13 +98,16 @@ const Route = () => {
               element: <SellerDashboard />,
             },
             {
-              path: "administrador",
+              element: <AdminDashboardLayout />,
               loader: () => verify_role("administrator"),
-              element: <AdminDashboard />,
               children: [
                 {
-                  index: true,
-                  element: <AdminHome />,
+                  path: "administrador",
+                  element: <AdminDashboardHome />,
+                },
+                {
+                  path: "administrador/tiendas/listado",
+                  element: <StoreList />,
                 },
               ],
             },

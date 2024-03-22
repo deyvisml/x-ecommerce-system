@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 
-function LayoutDashboard() {
+function DashboardLayout() {
   const location = useLocation();
 
   useEffect(() => {
@@ -13,4 +13,4 @@ function LayoutDashboard() {
   return <Outlet />;
 }
 
-export default LayoutDashboard;
+export default DashboardLayout;

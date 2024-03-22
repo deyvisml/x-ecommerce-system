@@ -44,6 +44,8 @@ Route::apiResource('regions', RegionController::class);
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
 
+Route::apiResource('stores', StoreController::class);
+
 Route::apiResource('delivery-schedules', DeliveryScheduleController::class);
 
 Route::get('/regions/{region_id}/locations', [LocationController::class, 'locations_by_region']);

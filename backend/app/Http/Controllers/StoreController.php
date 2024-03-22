@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StoreResource;
 use App\Models\RoleUser;
 use App\Models\Store;
 use App\Models\User;
@@ -13,9 +14,47 @@ class StoreController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $state_id = $request->query('product_type_id');
+        $search_query = $request->query('search_query');
+        $filtering = $request->query('filtering');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        $query = Store::query();
+
+        if ($state_id) {
+            $query->where('state_id', $state_id);
+        }
+        if ($search_query) {
+            $columns = ['name', 'ruc', 'business_name'];
+            foreach ($columns as $column) {
+                $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+            }
+        }
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                $query->where($filter['id'], $filter['value']);
+            }
+        }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                $query->orderBy($sort['id'], $sort['desc'] == 'true' ? 'DESC' : 'ASC');
+            }
+        }
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        if ($page_size) {
+            $stores = $query->paginate($page_size);
+        } else {
+            $stores = $query->get();
+        }
+
+        return StoreResource::collection($stores);
     }
 
     /**

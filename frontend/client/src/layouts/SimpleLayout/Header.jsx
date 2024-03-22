@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo_white from "../../../public/images/logos/logo-white.png";
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
   return (
@@ -11,7 +12,13 @@ const Header = () => {
             <img src={logo_white} alt="" className="w-36" />
           </Link>
           <div>
-            <p>item</p>
+            <ul>
+              <li className="">
+                <Link to="#" className="block p-1">
+                  <QuestionMarkCircleIcon className="w-6" />
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
