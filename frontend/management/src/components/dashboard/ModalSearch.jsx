@@ -72,7 +72,7 @@ function ModalSearch({ id, searchId, modalOpen, setModalOpen }) {
                 id={searchId}
                 className="border-0 bg-white dark:bg-slate-800 py-3 pr-4 pl-10 w-full dark:text-slate-300 focus:ring-transparent appearance-none placeholder-slate-400 dark:placeholder-slate-500"
                 type="search"
-                placeholder="Search Anything…"
+                placeholder="search…"
                 ref={searchInput}
               />
               <button
