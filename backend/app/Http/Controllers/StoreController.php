@@ -7,6 +7,7 @@ use App\Models\RoleUser;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
 class StoreController extends Controller
@@ -16,14 +17,27 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-        $state_id = $request->query('product_type_id');
+        $state_id = $request->query('state_id');
         $search_query = $request->query('search_query');
         $filtering = $request->query('filtering');
         $sorting = $request->query('sorting');
         $limit = $request->query('limit');
         $page_size = $request->query('page_size');
 
-        $query = Store::query();
+        $query = Store::select('stores.*');
+
+        // Añadir todos los atributos de la tabla "users" con alias
+        foreach (Schema::getColumnListing('users') as $column) {
+            $query->addSelect('users.' . $column . ' as users_' . $column);
+        }
+
+        // Añadir todos los atributos de la tabla "states" con alias
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        $query->join('users', 'stores.user_id', '=', 'users.id');
+        $query->join('states', 'stores.state_id', '=', 'states.id');
 
         if ($state_id) {
             $query->where('state_id', $state_id);

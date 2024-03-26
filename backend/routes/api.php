@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DeliveryScheduleController;
 use App\Http\Controllers\DocumentTypeController;
@@ -13,6 +14,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +46,9 @@ Route::apiResource('document-types', DocumentTypeController::class);
 Route::apiResource('regions', RegionController::class);
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
+Route::apiResource('banks', BankController::class);
+Route::apiResource('states', StateController::class);
+Route::apiResource('sellers', SellerController::class);
 
 Route::apiResource('stores', StoreController::class);
 

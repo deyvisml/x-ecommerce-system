@@ -10,7 +10,7 @@ import Login from "./pages/Login/Login";
 import DashboardLayout from "./layouts/DashboardLayout";
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 import AdminDashboardHome from "./pages/administrator/AdminDashboardHome";
-import StoreList from "./pages/administrator/StoreList";
+import StoreList from "./pages/administrator/StoreList/StoreList";
 import SellerDashboard from "./pages/seller/Dashboard";
 import useManagement from "./hooks/useManagement";
 import ResetPassword from "./pages/ResetPassword";

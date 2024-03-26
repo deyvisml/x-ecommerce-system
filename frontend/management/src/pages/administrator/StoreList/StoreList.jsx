@@ -1,10 +1,13 @@
-import React, { useState, useMemo, useEffect, Fragment } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import moment from "moment";
+import "moment/dist/locale/es";
+
 import {
   useReactTable,
   flexRender,
   getCoreRowModel,
 } from "@tanstack/react-table";
-import axios_client from "../../helpers/axios";
+import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -19,8 +22,10 @@ import {
   PencilSquareIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { Menu, Transition } from "@headlessui/react";
+import { Menu } from "@headlessui/react";
+import EditStoreModal from "./EditStoreModal";
 
+moment.locale("es");
 const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [1, 2, 3, 10, 25, 50, 100];
 
@@ -109,23 +114,48 @@ function StoreList() {
         enableSorting: false,
       },
       {
-        accessorKey: "user_id",
+        accessorKey: "users_first_name",
         header: () => "Representante",
-        cell: (info) => info.getValue(),
+        cell: ({ row }) => {
+          return (
+            row.original.users_first_name +
+            " " +
+            (row.original.users_last_name ?? "")
+          );
+        },
       },
       {
         accessorKey: "created_at",
         header: () => "Creado",
-        cell: (info) => info.getValue(),
+        cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
-        accessorKey: "state_id",
+        accessorKey: "states_name",
         header: () => "Estado",
-        cell: (info) => info.getValue(),
+        cell: ({ row }) => {
+          switch (row.original.state_id) {
+            case 1:
+              return (
+                <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+
+            case 2:
+              return (
+                <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+
+            default:
+              break;
+          }
+        },
       },
       {
         header: "Acción",
-        cell: (
+        cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
               <>
@@ -153,15 +183,15 @@ function StoreList() {
                     )}
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
-                        href="/account-settings"
-                      >
-                        <PencilSquareIcon className="w-4" />
-                        Editar
-                      </a>
-                    )}
+                    <button
+                      onClick={() => {
+                        handle_onclick_edit_store_btn(row.original);
+                      }}
+                      className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
+                    >
+                      <PencilSquareIcon className="w-4" />
+                      Editar
+                    </button>
                   </Menu.Item>
                   <Menu.Item>
                     {({ active }) => (
@@ -260,6 +290,19 @@ function StoreList() {
     setPageIndex(INIT_PAGE_INDEX);
     setSearchQuery(e.target.value);
   };
+
+  const [is_edit_store_modal_open, setIsEditStoreModalOpen] = useState(false);
+  const [edit_store, setEditStore] = useState();
+  const handle_onclick_edit_store_btn = (record) => {
+    setEditStore(record);
+    setIsEditStoreModalOpen(true);
+  };
+
+  useEffect(() => {
+    if (!is_edit_store_modal_open) {
+      setEditStore();
+    }
+  }, [is_edit_store_modal_open]);
 
   return (
     <>
@@ -436,6 +479,14 @@ function StoreList() {
           <label>Row Selection State:</label>
           <pre>{JSON.stringify(table.getState().rowSelection, null, 2)}</pre>
         </div> */}
+        {edit_store && (
+          <EditStoreModal
+            store={edit_store}
+            setStore={setEditStore}
+            is_modal_open={is_edit_store_modal_open}
+            setIsModalOpen={setIsEditStoreModalOpen}
+          />
+        )}
       </div>
     </>
   );

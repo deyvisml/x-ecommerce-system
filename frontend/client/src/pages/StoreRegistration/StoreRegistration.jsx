@@ -11,7 +11,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { schema } from "./schema";
 import { schema_with_token } from "./schema_with_token";
 
-import { Link } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import {
   LockClosedIcon,
