@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import moment from "moment";
 import "moment/dist/locale/es";
 
@@ -50,6 +50,7 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 }
 
 function StoreList() {
+  const [data_changed, setDataChanged] = useState(false);
   const [search_query, setSearchQuery] = useState();
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
   const [page_size, setPageSize] = useState(PAGE_SIZES[2]);
@@ -161,8 +162,8 @@ function StoreList() {
               <>
                 <Menu.Button
                   as="button"
-                  className={`bg-slate-200 p-1.5 hover:bg-gray-600 transition-all ease-in-out duration-300 hover:text-white rounded-md ui-open:bg-red-300 ${
-                    open ? "bg-gray-600 text-white" : ""
+                  className={` p-1.5 hover:bg-gray-600 transition-all ease-in-out duration-300 hover:text-white rounded-md ui-open:bg-red-300 ${
+                    open ? "bg-gray-600 text-white" : "bg-slate-200"
                   } `}
                 >
                   <EllipsisHorizontalIcon className="w-4" />
@@ -172,15 +173,13 @@ function StoreList() {
                   className="right-0 z-10 absolute flex flex-col bg-white shadow border rounded-md w-36 text-xs"
                 >
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
-                        href="/account-settings"
-                      >
-                        <EyeIcon className="w-4" />
-                        Ver
-                      </a>
-                    )}
+                    <a
+                      className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
+                      href="/account-settings"
+                    >
+                      <EyeIcon className="w-4" />
+                      Ver
+                    </a>
                   </Menu.Item>
                   <Menu.Item>
                     <button
@@ -194,15 +193,13 @@ function StoreList() {
                     </button>
                   </Menu.Item>
                   <Menu.Item>
-                    {({ active }) => (
-                      <a
-                        className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
-                        href="/account-settings"
-                      >
-                        <TrashIcon className="w-4" />
-                        Borrar
-                      </a>
-                    )}
+                    <a
+                      className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
+                      href="/account-settings"
+                    >
+                      <TrashIcon className="w-4" />
+                      Borrar
+                    </a>
                   </Menu.Item>
                 </Menu.Items>
               </>
@@ -228,13 +225,10 @@ function StoreList() {
           authorization: "Bearer ",
         },
       });
-
+      console.log("debug", response.data.data);
       setData(response.data.data);
       setPaginationLinks(response.data.meta.links);
       setTotalRecords(response.data.meta.total);
-      console.log(response.data.links);
-      console.log(response.data.data);
-      console.log(response.data.meta);
     } catch (error) {
       toast.error(error.message, { autoClose: 4000 });
     }
@@ -244,7 +238,13 @@ function StoreList() {
     fetch_stores();
   }, [search_query, pagination, sorting]);
 
+  const skip_first_time_page_effect = useRef(true);
   useEffect(() => {
+    if (skip_first_time_page_effect.current) {
+      skip_first_time_page_effect.current = false;
+      return;
+    }
+
     setPagination({ pageIndex: page_index, pageSize: page_size });
   }, [page_index, page_size]);
 
@@ -303,6 +303,13 @@ function StoreList() {
       setEditStore();
     }
   }, [is_edit_store_modal_open]);
+
+  useEffect(() => {
+    if (data_changed) {
+      fetch_stores();
+      setDataChanged(false);
+    }
+  }, [data_changed]);
 
   return (
     <>
@@ -482,7 +489,7 @@ function StoreList() {
         {edit_store && (
           <EditStoreModal
             store={edit_store}
-            setStore={setEditStore}
+            setDataChanged={setDataChanged}
             is_modal_open={is_edit_store_modal_open}
             setIsModalOpen={setIsEditStoreModalOpen}
           />

@@ -92,7 +92,43 @@ class StoreController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validation_rules = [
+            'store_name' => 'required',
+            'ruc' => 'required',
+            'business_name' => 'required',
+            'bank_account_number' => '',
+            'bank_id' => '',
+            'seller_id' => 'required',
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Datos no validos.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        $order = Store::find($id);
+
+        if (!$order) {
+            $response = ['status' => false, 'message' => 'No se encontró ninguna tienda con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $order->update([
+            'name' => $request->input('store_name'),
+            'ruc' => $request->input('ruc'),
+            'business_name' => $request->input('business_name'),
+            'bank_account_number' => $request->input('bank_account_number'),
+            'bank_id' => $request->input('bank_id'),
+            'user_id' => $request->input('seller_id'),
+            'state_id' => $request->input('state_id'),
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
+
+        return response()->json($response);
     }
 
     /**

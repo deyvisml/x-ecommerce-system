@@ -13,14 +13,14 @@ class LoginController extends Controller
 {
     public function login_user(Request $request)
     {
-        $login_validation_rules = [
+        $validation_rules = [
             'email' => 'required|email',
             'password' => 'required',
         ];
 
-        $validate_user = Validator::make($request->all(), $login_validation_rules);
+        $validation = Validator::make($request->all(), $validation_rules);
 
-        if ($validate_user->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Error de validación.',

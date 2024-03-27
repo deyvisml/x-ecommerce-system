@@ -27,7 +27,7 @@ const Route = () => {
     try {
       const response = await axios_client(`/api/user`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 
@@ -59,7 +59,7 @@ const Route = () => {
     try {
       const response = await axios_client(`/api/user`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          authorization: `Bearer ${token}`,
         },
       });
 

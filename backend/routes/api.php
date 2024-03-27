@@ -49,8 +49,7 @@ Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('sellers', SellerController::class);
-
-Route::apiResource('stores', StoreController::class);
+Route::apiResource('stores', StoreController::class)->only(['index', 'update'])->middleware('auth:sanctum');
 
 Route::apiResource('delivery-schedules', DeliveryScheduleController::class);
 

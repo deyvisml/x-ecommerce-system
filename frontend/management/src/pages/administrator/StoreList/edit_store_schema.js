@@ -4,28 +4,6 @@ const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 export const edit_store_schema = yup.object({
-  email: yup
-    .string()
-    .email("Ingrese un correo valido.")
-    .max(200)
-    .required("El campo es requerido."),
-  password: yup.string().required("El campo es requerido."),
-  first_name: yup
-    .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
-    .max(50)
-    .required("El campo es requerido"),
-  last_name: yup
-    .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
-    .max(100)
-    .required("El campo es requerido"),
-  phone_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
-    .required("El campo es requerido"),
   store_name: yup.string().max(600).required("El campo es requerido"),
   ruc: yup
     .number()
@@ -34,15 +12,31 @@ export const edit_store_schema = yup.object({
     .integer()
     .required("El campo es requerido"),
   business_name: yup.string().max(600).required("El campo es requerido"),
-  bank: yup
+  seller_id: yup
     .number()
     .min(1, "Eliga una opción valida")
+    .typeError("Eliga una opción valida")
+    .required("El campo es requerido"),
+  bank_id: yup
+    .number()
+    .min(0, "Eliga una opción valida")
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
   bank_account_number: yup
     .number()
     .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .when("bank_id", {
+      is: (val) => val > 0,
+      then: (schema) =>
+        schema.positive().integer().required("El campo es requerido"),
+      otherwise: (schema) =>
+        schema
+          .transform((v) => (v instanceof Number && !isNaN(v) ? v : null))
+          .nullable(),
+    }),
+  state_id: yup
+    .number()
+    .min(1, "Eliga una opción valida")
+    .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
 });

@@ -7,19 +7,27 @@ import { edit_store_schema } from "./edit_store_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useManagement from "../../../hooks/useManagement";
+import Swal from "sweetalert2";
 
-const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
-  console.log(store);
+const EditStoreModal = ({
+  store,
+  setDataChanged,
+  is_modal_open,
+  setIsModalOpen,
+}) => {
   const {
     register,
     watch,
     reset,
+    setValue,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm({
     mode: "all",
     defaultValues: {
-      name: store?.name ?? undefined,
+      store_name: store?.name ?? undefined,
       ruc: store?.ruc ?? undefined,
       business_name: store?.business_name ?? undefined,
       seller_id: store?.user_id ?? undefined,
@@ -30,9 +38,7 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
     resolver: yupResolver(edit_store_schema),
   });
 
-  const onSubmit = async (data) => {
-    console.log(data);
-  };
+  const { token } = useManagement();
 
   const [sellers, setSellers] = useState([]);
   const fetch_sellers = async () => {
@@ -47,7 +53,6 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
         },
       });
       setSellers(response.data.data);
-      console.log(response.data.data);
     } catch (error) {
       toast.error(error.message, { autoClose: 4000 });
     }
@@ -99,6 +104,49 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    if (watch("bank_id") == 0) {
+      setValue("bank_account_number", "");
+      clearErrors("bank_account_number");
+    }
+  }, [watch("bank_id")]);
+
+  const handle_click_cancel_btn = () => {
+    setIsModalOpen(false);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios_client(`/api/stores/${store.id}`, {
+        method: "put",
+        data,
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.status) {
+        Swal.fire({
+          icon: "success",
+          title: "Actualizado!",
+          text: response.data.message,
+          confirmButtonText: "Continuar",
+        });
+        setDataChanged(true);
+        setIsModalOpen(false);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: response.data.message,
+          confirmButtonText: "Continuar",
+        });
+      }
+    } catch (error) {
+      toast.error(error.message, { autoClose: 4000 });
+    }
+  };
+
   return (
     <Modal
       title={"Editar tienda"}
@@ -108,17 +156,22 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-col gap-2 text-slate-600 text-sm">
           <div>
-            <label htmlFor="name" className="block font-semibold">
+            <label htmlFor="store_name" className="block font-semibold">
               Nombre
             </label>
             <input
-              {...register("name")}
-              name="name"
-              id="name"
+              {...register("store_name")}
+              name="store_name"
+              id="store_name"
               type="text"
               placeholder="Nombre"
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
             />
+            {errors.store_name && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.store_name.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -133,6 +186,11 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
               placeholder="ruc"
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
             />
+            {errors.ruc && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.ruc.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -147,6 +205,11 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
               placeholder="Razón social"
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
             />
+            {errors.business_name && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.business_name.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -168,6 +231,11 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
                 );
               })}
             </select>
+            {errors.seller_id && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.seller_id.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -189,6 +257,11 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
                 );
               })}
             </select>
+            {errors.bank_id && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.bank_id.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -200,12 +273,18 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
             </label>
             <input
               {...register("bank_account_number")}
+              disabled={watch("bank_id") == 0}
               name="bank_account_number"
               id="bank_account_number"
               type="text"
               placeholder="Cuenta bancaria"
-              className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-200 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
             />
+            {errors.bank_account_number && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.bank_account_number.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -227,14 +306,26 @@ const EditStoreModal = ({ store, setStore, is_modal_open, setIsModalOpen }) => {
                 );
               })}
             </select>
+            {errors.state_id && (
+              <p className="pt-1 text-red-500 text-xs ps-1">
+                {errors.state_id.message}
+              </p>
+            )}
           </div>
         </div>
 
         <div className="flex flex-wrap justify-end items-center gap-2 mt-4 text-sm footer">
-          <button className="bg-slate-100 hover:bg-slate-200 px-2 py-2 rounded">
+          <button
+            onClick={handle_click_cancel_btn}
+            type="button"
+            className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded"
+          >
             Cancelar
           </button>
-          <button className="bg-indigo-500 hover:bg-indigo-600 px-6 py-2 rounded text-white">
+          <button
+            type="submit"
+            className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
+          >
             Editar
           </button>
         </div>

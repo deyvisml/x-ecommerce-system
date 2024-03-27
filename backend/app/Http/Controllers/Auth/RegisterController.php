@@ -12,20 +12,20 @@ class RegisterController extends Controller
     public function register_user(Request $request)
     {
 
-        $register_validation_rules = [
+        $validation_rules = [
             'first_name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
         ];
 
-        $validate_user = Validator::make($request->all(), $register_validation_rules);
+        $validation = Validator::make($request->all(), $validation_rules);
 
-        if ($validate_user->fails()) {
+        if ($validation->fails()) {
             return response()->json([
                 'status' => false,
                 'message' => 'Error de validación.',
                 'type_error' => 'validation-error',
-                'errors' => $validate_user->errors(),
+                'errors' => $validation->errors(),
             ], 400);
         }
 
