@@ -1,7 +1,6 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import moment from "moment";
 import "moment/dist/locale/es";
-
 import {
   useReactTable,
   flexRender,
@@ -24,6 +23,11 @@ import {
 } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import EditStoreModal from "./EditStoreModal";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import useManagement from "../../../hooks/useManagement";
+import { AnimatePresence } from "framer-motion";
+import AddStoreModal from "./AddStoreModal";
 
 moment.locale("es");
 const INIT_PAGE_INDEX = 0;
@@ -50,6 +54,7 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 }
 
 function StoreList() {
+  const { token } = useManagement();
   const [data_changed, setDataChanged] = useState(false);
   const [search_query, setSearchQuery] = useState();
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
@@ -134,24 +139,33 @@ function StoreList() {
         accessorKey: "states_name",
         header: () => "Estado",
         cell: ({ row }) => {
+          let value = undefined;
+
           switch (row.original.state_id) {
             case 1:
-              return (
+              value = (
                 <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
-
+              break;
             case 2:
-              return (
+              value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
-
+              break;
             default:
+              value = (
+                <span className="bg-slate-200 px-2 py-1 rounded text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
               break;
           }
+
+          return value;
         },
       },
       {
@@ -173,18 +187,18 @@ function StoreList() {
                   className="right-0 z-10 absolute flex flex-col bg-white shadow border rounded-md w-36 text-xs"
                 >
                   <Menu.Item>
-                    <a
+                    <Link
+                      to={"#"}
                       className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
-                      href="/account-settings"
                     >
                       <EyeIcon className="w-4" />
                       Ver
-                    </a>
+                    </Link>
                   </Menu.Item>
                   <Menu.Item>
                     <button
                       onClick={() => {
-                        handle_onclick_edit_store_btn(row.original);
+                        handle_click_edit_store_btn(row.original);
                       }}
                       className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                     >
@@ -193,13 +207,15 @@ function StoreList() {
                     </button>
                   </Menu.Item>
                   <Menu.Item>
-                    <a
+                    <button
+                      onClick={() => {
+                        handle_click_delete_store_btn(row.original);
+                      }}
                       className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
-                      href="/account-settings"
                     >
                       <TrashIcon className="w-4" />
                       Borrar
-                    </a>
+                    </button>
                   </Menu.Item>
                 </Menu.Items>
               </>
@@ -225,12 +241,17 @@ function StoreList() {
           authorization: "Bearer ",
         },
       });
-      console.log("debug", response.data.data);
+
+      console.log("=>", response.data.data);
+
       setData(response.data.data);
       setPaginationLinks(response.data.meta.links);
       setTotalRecords(response.data.meta.total);
     } catch (error) {
-      toast.error(error.message, { autoClose: 4000 });
+      console.error(error);
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
     }
   };
 
@@ -293,16 +314,61 @@ function StoreList() {
 
   const [is_edit_store_modal_open, setIsEditStoreModalOpen] = useState(false);
   const [edit_store, setEditStore] = useState();
-  const handle_onclick_edit_store_btn = (record) => {
+  const handle_click_edit_store_btn = (record) => {
     setEditStore(record);
     setIsEditStoreModalOpen(true);
   };
-
   useEffect(() => {
     if (!is_edit_store_modal_open) {
       setEditStore();
     }
   }, [is_edit_store_modal_open]);
+
+  const handle_click_delete_store_btn = (record) => {
+    Swal.fire({
+      icon: "warning",
+      title: "¿Estas seguro?",
+      text: "No sera posible revertir esta acción!",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminarlo!",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await axios_client(`/api/stores/${record.id}`, {
+            method: "delete",
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (response.data.status) {
+            Swal.fire({
+              icon: "success",
+              title: "Eliminado!",
+              text: response.data.message,
+              confirmButtonText: "Continuar",
+            });
+            setDataChanged(true);
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Error!",
+              text: response.data.message,
+              confirmButtonText: "Continuar",
+            });
+          }
+        } catch (error) {
+          console.error(error);
+          toast.error(error?.response?.data?.message ?? error.message, {
+            autoClose: 5000,
+          });
+        }
+      }
+    });
+  };
 
   useEffect(() => {
     if (data_changed) {
@@ -310,6 +376,11 @@ function StoreList() {
       setDataChanged(false);
     }
   }, [data_changed]);
+
+  const [is_add_store_modal_open, setIsAddStoreModalOpen] = useState(false);
+  const handle_click_add_store_btn = () => {
+    setIsAddStoreModalOpen(true);
+  };
 
   return (
     <>
@@ -360,7 +431,10 @@ function StoreList() {
               </button>
             </li>
             <li>
-              <button className="bg-indigo-500 hover:bg-indigo-600 text-white btn">
+              <button
+                onClick={handle_click_add_store_btn}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white btn"
+              >
                 Añadir tienda
               </button>
             </li>
@@ -486,14 +560,23 @@ function StoreList() {
           <label>Row Selection State:</label>
           <pre>{JSON.stringify(table.getState().rowSelection, null, 2)}</pre>
         </div> */}
-        {edit_store && (
-          <EditStoreModal
-            store={edit_store}
-            setDataChanged={setDataChanged}
-            is_modal_open={is_edit_store_modal_open}
-            setIsModalOpen={setIsEditStoreModalOpen}
-          />
-        )}
+        <AnimatePresence>
+          {is_edit_store_modal_open == true && (
+            <EditStoreModal
+              store={edit_store}
+              setDataChanged={setDataChanged}
+              is_modal_open={is_edit_store_modal_open}
+              setIsModalOpen={setIsEditStoreModalOpen}
+            />
+          )}
+          {is_add_store_modal_open == true && (
+            <AddStoreModal
+              setDataChanged={setDataChanged}
+              is_modal_open={is_add_store_modal_open}
+              setIsModalOpen={setIsAddStoreModalOpen}
+            />
+          )}
+        </AnimatePresence>
       </div>
     </>
   );

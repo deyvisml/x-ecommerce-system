@@ -128,10 +128,16 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data_to_update = $request->all();
+        $data = $request->all();
 
         $order = Order::find($id);
-        $order->update($data_to_update);
+
+        if (!$order) {
+            $response = ['status' => false, 'message' => 'No se encontró ningun registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $order->update($data);
 
         $response = ['error_occurred' => false, 'message' => 'Order updated sucessfully'];
 

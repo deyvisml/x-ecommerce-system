@@ -34,7 +34,7 @@ export const schema = yup.object({
     .integer()
     .required("El campo es requerido"),
   business_name: yup.string().max(600).required("El campo es requerido"),
-  bank: yup
+  bank_id: yup
     .number()
     .min(1, "Eliga una opción valida")
     .typeError("Eliga una opción valida")

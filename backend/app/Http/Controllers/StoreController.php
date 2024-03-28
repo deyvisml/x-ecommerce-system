@@ -76,22 +76,8 @@ class StoreController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $this->authorize("create", Store::class);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
         $validation_rules = [
             'store_name' => 'required',
             'ruc' => 'required',
@@ -109,14 +95,60 @@ class StoreController extends Controller
             return response()->json($response);
         }
 
-        $order = Store::find($id);
+        Store::create([
+            'name' => $request->store_name,
+            'ruc' => $request->ruc,
+            'business_name' => $request->business_name,
+            'bank_id' => $request->bank_id,
+            'bank_account_number' => $request->bank_account_number,
+            'user_id' => $request->seller_id,
+            'state_id' => $request->state_id,
+        ]);
 
-        if (!$order) {
-            $response = ['status' => false, 'message' => 'No se encontró ninguna tienda con el ID proporcionado.'];
+        $response = ['status' => true, 'message' => 'Registro creado exitosamente.'];
+
+        return response()->json($response);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $store = Store::find($id);
+        $this->authorize("update", $store);
+
+        if (!$store) {
+            $response = ['status' => false, 'message' => 'No se encontró ninguna registro con el ID proporcionado.'];
             return response()->json($response);
         }
 
-        $order->update([
+        $validation_rules = [
+            'store_name' => 'required',
+            'ruc' => 'required',
+            'business_name' => 'required',
+            'bank_account_number' => '',
+            'bank_id' => '',
+            'seller_id' => 'required',
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Datos no validos.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        $store->update([
             'name' => $request->input('store_name'),
             'ruc' => $request->input('ruc'),
             'business_name' => $request->input('business_name'),
@@ -136,30 +168,48 @@ class StoreController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $store = Store::find($id);
+        $this->authorize("delete", $store);
+
+        if (!$store) {
+            $response = ['status' => false, 'message' => 'No se encontró ninguna registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $deleted_state_id = 3;
+        $store->update([
+            'state_id' => $deleted_state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
+
+        return response()->json($response);
     }
 
     public function seller_store_registration_auth(Request $request)
     {
+        $this->authorize("create", Store::class);
+
         $user = $request->user();
 
         $validation_rules = [
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
-            'bank' => 'required',
+            'bank_id' => 'required',
             'bank_account_number' => 'required',
         ];
 
         $validation = Validator::make($request->all(), $validation_rules);
 
         if ($validation->fails()) {
-            return response()->json([
+            $response = [
                 'status' => false,
                 'message' => 'Error de validación.',
                 'type_error' => 'validation-error',
                 'errors' => $validation->errors(),
-            ]);
+            ];
+            return response()->json($response);
         }
 
         // create (inactive) store
@@ -167,7 +217,7 @@ class StoreController extends Controller
             'name' => $request->store_name,
             'ruc' => $request->ruc,
             'business_name' => $request->business_name,
-            'bank_id' => $request->bank,
+            'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,
             'state_id' => 2,
@@ -177,9 +227,9 @@ class StoreController extends Controller
         $seller_role_id = 2;
         RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], []);
 
-        $data = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
+        $response = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
 
-        return response()->json($data);
+        return response()->json($response);
     }
 
     public function seller_store_registration(Request $request)
@@ -193,29 +243,33 @@ class StoreController extends Controller
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
-            'bank' => 'required',
+            'bank_id' => 'required',
             'bank_account_number' => 'required',
         ];
 
         $validation = Validator::make($request->all(), $validation_rules);
 
         if ($validation->fails()) {
-            return response()->json([
+            $response = [
                 'status' => false,
                 'message' => 'Error de validación.',
                 'type_error' => 'validation-error',
                 'errors' => $validation->errors(),
-            ]);
+            ];
+
+            return response()->json($response);
         }
 
         // verify if the email already has an account (state_id = 1)
         $user = User::where('email', $request->email)->where('state_id', 1)->first();
         if ($user) {
-            return response()->json([
+            $response = [
                 'status' => false,
                 'message' => 'El correo ya se encuentra registrado, inicie sesión o ingrese otro correo.',
                 'type_error' => 'email-error',
-            ]);
+            ];
+
+            return response()->json($response);
         }
 
         // create or update (active) user
@@ -233,7 +287,7 @@ class StoreController extends Controller
             'name' => $request->store_name,
             'ruc' => $request->ruc,
             'business_name' => $request->business_name,
-            'bank_id' => $request->bank,
+            'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,
             'state_id' => 2,
@@ -243,8 +297,8 @@ class StoreController extends Controller
         $seller_role_id = 2;
         RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], []);
 
-        $data = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
+        $response = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
 
-        return response()->json($data);
+        return response()->json($response);
     }
 }

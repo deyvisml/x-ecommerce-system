@@ -49,7 +49,11 @@ Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('sellers', SellerController::class);
-Route::apiResource('stores', StoreController::class)->only(['index', 'update'])->middleware('auth:sanctum');
+
+Route::apiResource('stores', StoreController::class)->except(['store', 'update', 'destroy']);
+Route::apiResource('stores', StoreController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum'); // setting which methods will be protected
+Route::post('/stores/seller-store-registration', [StoreController::class, 'seller_store_registration']);
+Route::post('/stores/seller-store-registration-auth', [StoreController::class, 'seller_store_registration_auth'])->middleware('auth:sanctum');
 
 Route::apiResource('delivery-schedules', DeliveryScheduleController::class);
 
@@ -60,7 +64,3 @@ Route::get('/categories/{category_id}/products', [ProductController::class, 'pro
 Route::get('/categories/{category_id}/product-types', [ProductTypeController::class, 'product_types_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
-
-Route::post('/stores/seller-store-registration', [StoreController::class, 'seller_store_registration']);
-
-Route::post('/stores/seller-store-registration-auth', [StoreController::class, 'seller_store_registration_auth'])->middleware('auth:sanctum');

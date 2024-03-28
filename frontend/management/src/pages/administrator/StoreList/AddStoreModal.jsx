@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
-const EditStoreModal = ({
+const AddStoreModal = ({
   store,
   setDataChanged,
   is_modal_open,
@@ -25,15 +25,6 @@ const EditStoreModal = ({
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      store_name: store?.name ?? undefined,
-      ruc: store?.ruc ?? undefined,
-      business_name: store?.business_name ?? undefined,
-      seller_id: store?.user_id ?? undefined,
-      bank_id: store?.bank_id ?? undefined,
-      bank_account_number: store?.bank_account_number ?? undefined,
-      state_id: store?.state_id ?? undefined,
-    },
     resolver: yupResolver(edit_store_schema),
   });
 
@@ -125,8 +116,8 @@ const EditStoreModal = ({
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios_client(`/api/stores/${store.id}`, {
-        method: "put",
+      const response = await axios_client(`/api/stores`, {
+        method: "post",
         data,
         headers: {
           authorization: `Bearer ${token}`,
@@ -136,7 +127,7 @@ const EditStoreModal = ({
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: "Creado!",
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
@@ -161,7 +152,7 @@ const EditStoreModal = ({
   return (
     fetches_finished == true && (
       <Modal
-        title={"Editar tienda"}
+        title={"Crear tienda"}
         is_open_modal={is_modal_open}
         setIsOpenModal={setIsModalOpen}
       >
@@ -338,7 +329,7 @@ const EditStoreModal = ({
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
             >
-              Editar
+              Crear
             </button>
           </div>
         </form>
@@ -347,4 +338,4 @@ const EditStoreModal = ({
   );
 };
 
-export default EditStoreModal;
+export default AddStoreModal;

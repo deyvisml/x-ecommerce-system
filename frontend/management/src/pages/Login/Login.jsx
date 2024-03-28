@@ -41,7 +41,10 @@ const Login = () => {
         ? navigate(`/administrador`)
         : navigate(`/vendedor`);
     } catch (error) {
-      toast.error(error.message, { autoClose: 4000 });
+      console.error(error);
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
     }
   };
 

@@ -53,7 +53,7 @@ const StoreRegistration = () => {
       store_name: store_registration?.data?.store_name ?? undefined,
       ruc: store_registration?.data?.ruc ?? undefined,
       business_name: store_registration?.data?.business_name ?? undefined,
-      bank: store_registration?.data?.bank ?? undefined,
+      bank_id: store_registration?.data?.bank_id ?? undefined,
       bank_account_number:
         store_registration?.data?.bank_account_number ?? undefined,
     },
@@ -125,7 +125,7 @@ const StoreRegistration = () => {
         const store_name = getValues("store_name");
         const ruc = getValues("ruc");
         const business_name = getValues("business_name");
-        const bank = getValues("bank");
+        const bank_id = getValues("bank_id");
         const bank_account_number = getValues("bank_account_number");
 
         // getting a specific scheme
@@ -133,7 +133,7 @@ const StoreRegistration = () => {
           "store_name",
           "ruc",
           "business_name",
-          "bank",
+          "bank_id",
           "bank_account_number",
         ]);
 
@@ -143,7 +143,7 @@ const StoreRegistration = () => {
               store_name,
               ruc,
               business_name,
-              bank,
+              bank_id,
               bank_account_number,
             },
             { abortEarly: false }
@@ -244,16 +244,29 @@ const StoreRegistration = () => {
     setShowStage();
   };
 
-  const banks = [
-    {
-      id: 1,
-      name: "BCP",
-    },
-    {
-      id: 2,
-      name: "Interbank",
-    },
-  ];
+  const [banks, setBanks] = useState([]);
+  const fetch_banks = async () => {
+    try {
+      const response = await axios_client(`/api/banks`, {
+        method: "get",
+        params: {
+          state_id: 1,
+        },
+        headers: {
+          authorization: "Bearer ",
+        },
+      });
+      setBanks(response.data.data);
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
+    }
+  };
+  useEffect(() => {
+    fetch_banks();
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);
@@ -286,7 +299,9 @@ const StoreRegistration = () => {
       return;
     } catch (error) {
       console.error(error);
-      toast.error(error.message, { autoClose: 5000 });
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
     }
   };
 
@@ -553,14 +568,14 @@ const StoreRegistration = () => {
                   <div>
                     <label
                       className="block pb-1 font-semibold text-sm"
-                      htmlFor="bank"
+                      htmlFor="bank_id"
                     >
                       Entidad bancaria
                     </label>
 
                     <select
-                      {...register("bank")}
-                      id="bank"
+                      {...register("bank_id")}
+                      id="bank_id"
                       className={
                         "border-slate-300 focus:border-slate-500 px-2 py-[9px] border rounded w-full outline-none"
                       }
@@ -576,9 +591,9 @@ const StoreRegistration = () => {
                         })}
                     </select>
 
-                    {errors.bank && (
+                    {errors.bank_id && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.bank.message}
+                        {errors.bank_id.message}
                       </p>
                     )}
                   </div>
