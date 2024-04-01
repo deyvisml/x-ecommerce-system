@@ -78,7 +78,7 @@ const AddStoreModal = ({
       const response = await axios_client(`/api/states`, {
         method: "get",
         params: {
-          role_user_state_id: 1,
+          filtering: { id: [1, 2, 3] },
         },
         headers: {
           authorization: "Bearer ",
@@ -281,7 +281,7 @@ const AddStoreModal = ({
                 id="bank_account_number"
                 type="text"
                 placeholder="Cuenta bancaria"
-                className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-200 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+                className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.bank_account_number && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
@@ -298,6 +298,7 @@ const AddStoreModal = ({
                 {...register("state_id")}
                 name="state_id"
                 id="state_id"
+                value={1}
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0 capitalize"
               >
                 <option value={0}>Seleccionar</option>

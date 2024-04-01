@@ -13,23 +13,23 @@ class StateController extends Controller
      */
     public function index(Request $request)
     {
-        $search_query = $request->query('search_query');
         $filtering = $request->query('filtering');
+        $search_query = $request->query('search_query');
         $sorting = $request->query('sorting');
         $limit = $request->query('limit');
         $page_size = $request->query('page_size');
 
         $query = State::query();
 
+        if ($filtering) {
+            foreach ($filtering as $key => $value) {
+                $query->whereIn($key, $value);
+            }
+        }
         if ($search_query) {
             $columns = ['name'];
             foreach ($columns as $column) {
                 $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
-            }
-        }
-        if ($filtering) {
-            foreach ($filtering as $filter) {
-                $query->where($filter['id'], $filter['value']);
             }
         }
         if ($sorting) {

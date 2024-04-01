@@ -28,6 +28,7 @@ import Swal from "sweetalert2";
 import useManagement from "../../../hooks/useManagement";
 import { AnimatePresence } from "framer-motion";
 import AddStoreModal from "./AddStoreModal";
+import StoreFilter from "./StoreFilter";
 
 moment.locale("es");
 const INIT_PAGE_INDEX = 0;
@@ -64,6 +65,7 @@ function StoreList() {
     pageSize: page_size, //default page size
   });
   const [sorting, setSorting] = useState([]);
+  const [filtering, setFiltering] = useState([]);
   const [pagination_links, setPaginationLinks] = useState([]);
   const [total_records, setTotalRecords] = useState(0);
   const [rowSelection, setRowSelection] = useState({ 6: true });
@@ -117,7 +119,6 @@ function StoreList() {
         accessorKey: "business_name",
         header: () => "Razón social",
         cell: (info) => info.getValue(),
-        enableSorting: false,
       },
       {
         accessorKey: "users_first_name",
@@ -149,7 +150,7 @@ function StoreList() {
                 </span>
               );
               break;
-            case 2:
+            case 3:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
                   {row.original.states_name}
@@ -232,10 +233,11 @@ function StoreList() {
       const response = await axios_client(`/api/stores`, {
         method: "get",
         params: {
+          filtering,
           search_query,
+          sorting,
           page: pagination.pageIndex + 1,
           page_size: pagination.pageSize,
-          sorting,
         },
         headers: {
           authorization: "Bearer ",
@@ -257,7 +259,7 @@ function StoreList() {
 
   useEffect(() => {
     fetch_stores();
-  }, [search_query, pagination, sorting]);
+  }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
   useEffect(() => {
@@ -384,11 +386,13 @@ function StoreList() {
 
   return (
     <>
-      <div className="mb-6">
+      <div>
         <h3 className="font-semibold text-2xl text-slate-800">
           Listado de Tiendas
         </h3>
       </div>
+
+      <StoreFilter setFiltering={setFiltering} />
 
       <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
         <div className="flex flex-wrap justify-between items-center gap-y-3">
@@ -483,7 +487,6 @@ function StoreList() {
                 </tr>
               ))}
             </thead>
-
             <tbody>
               {table.getRowModel().rows.map((row) => (
                 <tr className="border-slate-300 border-b text-sm" key={row.id}>
@@ -497,6 +500,13 @@ function StoreList() {
                   ))}
                 </tr>
               ))}
+              {table.getRowModel().rows == 0 && (
+                <tr className="border-slate-300 border-b text-sm">
+                  <td colSpan={999} className="px-2 py-2.5 text-center">
+                    No se encontraron registros coincidentes
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

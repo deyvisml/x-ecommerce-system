@@ -18,8 +18,8 @@ class StoreController extends Controller
     public function index(Request $request)
     {
         $state_id = $request->query('state_id');
-        $search_query = $request->query('search_query');
         $filtering = $request->query('filtering');
+        $search_query = $request->query('search_query');
         $sorting = $request->query('sorting');
         $limit = $request->query('limit');
         $page_size = $request->query('page_size');
@@ -40,18 +40,21 @@ class StoreController extends Controller
         $query->join('states', 'stores.state_id', '=', 'states.id');
 
         if ($state_id) {
-            $query->where('state_id', $state_id);
-        }
-        if ($search_query) {
-            $columns = ['name', 'ruc', 'business_name'];
-            foreach ($columns as $column) {
-                $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
-            }
+            $query->where('stores.state_id', $state_id);
         }
         if ($filtering) {
-            foreach ($filtering as $filter) {
-                $query->where($filter['id'], $filter['value']);
+            foreach ($filtering as $key => $value) {
+                $query->whereIn($key, $value);
             }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['stores.id', 'stores.name', 'stores.ruc', 'stores.business_name', 'users.first_name', 'users.last_name', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
         }
         if ($sorting) {
             foreach ($sorting as $sort) {
