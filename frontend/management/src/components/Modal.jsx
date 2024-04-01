@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const Modal = ({ children, title, is_open_modal, setIsOpenModal }) => {
@@ -13,7 +12,8 @@ const Modal = ({ children, title, is_open_modal, setIsOpenModal }) => {
       static
       open={is_open_modal}
       onClose={close_modal}
-      className="relative z-40 bg-red-200 text-gray-800"
+      onClick={() => console.log("xdxd")}
+      className="relative z-60 bg-red-200 text-gray-800"
     >
       {/* background */}
       <motion.div
