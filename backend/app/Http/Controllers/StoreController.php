@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StoreResource;
+use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Store;
 use App\Models\User;
@@ -36,8 +37,24 @@ class StoreController extends Controller
             $query->addSelect('states.' . $column . ' as states_' . $column);
         }
 
+        // Añadir todos los atributos de la tabla "role_user" con alias
+        foreach (Schema::getColumnListing('role_user') as $column) {
+            $query->addSelect('role_user.' . $column . ' as role_user_' . $column);
+        }
+
+        // add the name of the role_user state
+        $query->addSelect('role_user_states.name as role_user_state_name');
+
         $query->join('users', 'stores.user_id', '=', 'users.id');
         $query->join('states', 'stores.state_id', '=', 'states.id');
+
+        $query->leftJoin('role_user', function ($join) {
+            $join->on('users.id', '=', 'role_user.user_id')
+                ->where('role_user.role_id', '=', 2); // Filtrar por el ID del rol "vendedor"
+        });
+
+        // Alias para el join con states en role_user, we do in this way because we actually has a join with states table
+        $query->leftJoin('states as role_user_states', 'role_user.state_id', '=', 'role_user_states.id');
 
         if ($state_id) {
             $query->where('stores.state_id', $state_id);
@@ -119,6 +136,49 @@ class StoreController extends Controller
     public function show(string $id)
     {
         //
+    }
+
+    public function change_state(Request $request, string $id)
+    {
+        $store = Store::find($id);
+        //$this->authorize("update", $store);
+
+        if (!$store) {
+            $response = ['status' => false, 'message' => 'No se encontró ninguna registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $validation_rules = [
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Datos no validos.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        // only to accept an application store
+        if ($request->state_id == 1) {
+            $seller = $store->user;
+
+            $seller_role_id = 2;
+            $seller_role = Role::find($seller_role_id);
+
+            if (!$seller->hasRole($seller_role)) {
+                $response = ['status' => false, 'message' => 'El representante no se encuentra habilitado como vendedor.'];
+                return response()->json($response);
+            }
+        }
+
+        $store->update([
+            'state_id' => $request->input('state_id'),
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
+
+        return response()->json($response);
     }
 
     /**

@@ -59,7 +59,8 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, "role_user");
+        // updated: where pivot allows to only get the "active" roles
+        return $this->belongsToMany(Role::class, "role_user")->wherePivot('state_id', 1);
     }
 
     public function assignRole(Role $role)
@@ -72,6 +73,8 @@ class User extends Authenticatable
         if (is_string($role)) {
             return $this->roles->contains("name", $role);
         }
-        return !!$role->intersect($this->roles)->count();
+
+        // fixed: intersect only works with collections, and also $this->roles not return roles with a right form (attributes) so the better way is to work with ids.
+        return !!collect([$role->id])->intersect($this->roles()->pluck('roles.id'))->count();
     }
 }

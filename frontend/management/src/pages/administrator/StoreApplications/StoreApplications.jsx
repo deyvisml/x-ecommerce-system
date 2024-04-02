@@ -8,22 +8,17 @@ import "react-toastify/dist/ReactToastify.css";
 import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import AddStoreModal from "./AddStoreModal";
-import useManagement from "../../../hooks/useManagement";
 
-import StoreFilter from "./StoreFilter";
-import StateStoreFilter from "./StateStoreFilter";
-import TableSearch from "./TableSearch";
-import PageSize from "./PageSize";
-import ExportTableDataButton from "./ExportTableDataButton";
-import AddStoreButton from "./AddStoreButton";
-import Table from "./Table";
-import TablePagination from "./TablePagination";
-import TotalRecordsLabel from "./TotalRecordsLabel";
-import EditStoreButton from "./EditStoreButton";
-import { AnimatePresence } from "framer-motion";
-import EditStoreModal from "./EditStoreModal";
-import DeleteStoreButton from "./DeleteStoreButton";
+import StoreFilter from "../StoreList/StoreFilter";
+import StateStoreFilter from "../StoreList/StateStoreFilter";
+import TableSearch from "../StoreList/TableSearch";
+import PageSize from "../StoreList/PageSize";
+import ExportTableDataButton from "../StoreList/ExportTableDataButton";
+import Table from "../StoreList/Table";
+import TablePagination from "../StoreList/TablePagination";
+import TotalRecordsLabel from "../StoreList/TotalRecordsLabel";
+import AcceptStoreApplicationButton from "./AcceptStoreApplicationButton";
+import RejectStoreApplicationButton from "./RejectStoreApplicationButton";
 
 moment.locale("es");
 
@@ -49,9 +44,9 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 
 const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [1, 2, 3, 10, 25, 50, 100];
-const FILTER_STATE = 1;
+const FILTER_STATE = 4;
 
-function StoreList() {
+function StoreApplications() {
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState({
     "stores.state_id": [FILTER_STATE],
@@ -67,13 +62,9 @@ function StoreList() {
 
   const [pagination_links, setPaginationLinks] = useState([]);
   const [total_records, setTotalRecords] = useState(0);
-  const [rowSelection, setRowSelection] = useState({ 6: true });
+  const [rowSelection, setRowSelection] = useState({});
 
   const [data, setData] = useState([]);
-
-  const [is_add_store_modal_open, setIsAddStoreModalOpen] = useState(false);
-  const [is_edit_store_modal_open, setIsEditStoreModalOpen] = useState(false);
-  const [edit_store, setEditStore] = useState();
 
   // useMemo is optional, only use to save the data when it's rendering many times, a direct way is to use the array instead
   const columns = useMemo(
@@ -128,15 +119,22 @@ function StoreList() {
         header: () => "Representante",
         cell: ({ row }) => {
           return (
-            row.original.users_first_name +
-            " " +
-            (row.original.users_last_name ?? "")
+            <>
+              <span className="block">
+                {row.original.users_first_name +
+                  " " +
+                  (row.original.users_last_name ?? "")}
+              </span>
+              <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">
+                {row.original.role_user_state_name}
+              </span>
+            </>
           );
         },
       },
       {
         accessorKey: "created_at",
-        header: () => "Creado",
+        header: () => "Solicitado",
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
@@ -146,14 +144,14 @@ function StoreList() {
           let value = undefined;
 
           switch (row.original.state_id) {
-            case 1:
+            case 4:
               value = (
-                <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
+                <span className="bg-orange-100 px-2 py-1 rounded text-orange-500 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
               break;
-            case 3:
+            case 5:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
                   {row.original.states_name}
@@ -204,25 +202,26 @@ function StoreList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditStoreButton
-                            store={row.original}
-                            setEditStore={setEditStore}
-                            is_edit_store_modal_open={is_edit_store_modal_open}
-                            setIsEditStoreModalOpen={setIsEditStoreModalOpen}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <DeleteStoreButton
+                          <AcceptStoreApplicationButton
                             store={row.original}
                             setDataChanged={setDataChanged}
                           />
                         </span>
                       )}
                     </Menu.Item>
+
+                    {row.original.state_id != 5 && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <RejectStoreApplicationButton
+                              store={row.original}
+                              setDataChanged={setDataChanged}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 )}
               </>
@@ -311,7 +310,7 @@ function StoreList() {
     <>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800">
-          Listado de Tiendas
+          Solicitudes de Tiendas
         </h3>
       </div>
 
@@ -319,7 +318,7 @@ function StoreList() {
         <StateStoreFilter
           filtering={filtering}
           setFiltering={setFiltering}
-          choose_records={[1, 2, 3]}
+          choose_records={[4, 5]}
         />
       </StoreFilter>
 
@@ -343,8 +342,6 @@ function StoreList() {
             />
 
             <ExportTableDataButton />
-
-            <AddStoreButton setIsAddStoreModalOpen={setIsAddStoreModalOpen} />
           </div>
         </div>
 
@@ -362,27 +359,8 @@ function StoreList() {
           )}
         </div>
       </div>
-
-      <AnimatePresence>
-        {is_add_store_modal_open == true && (
-          <AddStoreModal
-            setDataChanged={setDataChanged}
-            is_modal_open={is_add_store_modal_open}
-            setIsModalOpen={setIsAddStoreModalOpen}
-          />
-        )}
-
-        {is_edit_store_modal_open == true && (
-          <EditStoreModal
-            store={edit_store}
-            setDataChanged={setDataChanged}
-            is_modal_open={is_edit_store_modal_open}
-            setIsModalOpen={setIsEditStoreModalOpen}
-          />
-        )}
-      </AnimatePresence>
     </>
   );
 }
 
-export default StoreList;
+export default StoreApplications;

@@ -22,4 +22,9 @@ class Store extends Model
         'user_id',
         'state_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

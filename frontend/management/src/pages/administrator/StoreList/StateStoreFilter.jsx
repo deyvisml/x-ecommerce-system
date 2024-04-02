@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios_client from "../../../helpers/axios";
 
-const StateStoreFilter = ({ filtering, setFiltering }) => {
+const StateStoreFilter = ({ filtering, setFiltering, choose_records }) => {
   const [states, setStates] = useState([]);
   const fetch_states = async () => {
     try {
       const response = await axios_client(`/api/states`, {
         method: "get",
         params: {
-          filtering: { id: [1, 2, 3] },
+          filtering: { id: choose_records },
         },
         headers: {
           authorization: "Bearer ",
@@ -32,7 +32,8 @@ const StateStoreFilter = ({ filtering, setFiltering }) => {
     setFiltering((current_filtering) => {
       return {
         ...current_filtering,
-        "stores.state_id": e.target.value == 0 ? [] : [e.target.value],
+        "stores.state_id":
+          e.target.value == 0 ? choose_records : [e.target.value],
       };
     });
   };
@@ -41,7 +42,11 @@ const StateStoreFilter = ({ filtering, setFiltering }) => {
     <li className="w-full">
       <select
         onChange={handle_onchange_state_select}
-        value={filtering["stores.state_id"][0]}
+        value={
+          filtering["stores.state_id"].length == 1
+            ? filtering["stores.state_id"][0]
+            : 0
+        }
         name=""
         id=""
         className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm focus:ring-0"
