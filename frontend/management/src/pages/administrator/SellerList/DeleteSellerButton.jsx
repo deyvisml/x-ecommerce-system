@@ -6,14 +6,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 
-const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
+const DeleteSellerButton = forwardRef(({ record, setDataChanged }, ref) => {
   const { token } = useManagement();
 
   const handle_click_delete_store_btn = (record) => {
     Swal.fire({
       icon: "warning",
       title: "¿Estas seguro?",
-      text: "No sera posible revertir esta acción!",
+      text: "Se eliminará el registro!",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
@@ -22,7 +22,7 @@ const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await axios_client(`/api/stores/${record.id}`, {
+          const response = await axios_client(`/api/sellers/${record.id}`, {
             method: "delete",
             headers: {
               authorization: `Bearer ${token}`,
@@ -69,4 +69,4 @@ const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
   );
 });
 
-export default DeleteStoreButton;
+export default DeleteSellerButton;

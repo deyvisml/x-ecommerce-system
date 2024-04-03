@@ -3,65 +3,43 @@ import { useEffect, useState } from "react";
 import Modal from "../../../components/Modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { edit_store_schema } from "./edit_store_schema";
+import { seller_schema } from "./seller_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
-const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
+const AddSellerModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   const {
     register,
     watch,
     setValue,
+    setError,
     handleSubmit,
     clearErrors,
     formState: { errors },
   } = useForm({
+    mode: "all",
     defaultValues: {
+      document_type_id: "",
       state_id: 1,
     },
-    mode: "all",
-    resolver: yupResolver(edit_store_schema),
+    resolver: yupResolver(seller_schema),
   });
 
   const { token } = useManagement();
 
-  const [sellers, setSellers] = useState([]);
-  const fetch_sellers = async () => {
+  const [document_types, setDocumentTypes] = useState([]);
+  const fetch_document_types = async () => {
     try {
-      const response = await axios_client(`/api/sellers`, {
+      const response = await axios_client(`/api/document-types`, {
         method: "get",
-        params: {
-          role_user_state_id: "",
-        },
         headers: {
           authorization: "Bearer ",
         },
       });
-      setSellers(response.data.data);
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message ?? error.message, {
-        autoClose: 5000,
-      });
-    }
-  };
-
-  const [banks, setBanks] = useState([]);
-  const fetch_banks = async () => {
-    try {
-      const response = await axios_client(`/api/banks`, {
-        method: "get",
-        params: {
-          state_id: 1,
-        },
-        headers: {
-          authorization: "Bearer ",
-        },
-      });
-      setBanks(response.data.data);
+      setDocumentTypes(response.data.data);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -94,19 +72,18 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
     (async () => {
-      await fetch_sellers();
-      await fetch_banks();
+      await fetch_document_types();
       await fetch_states();
       setFetchesFinished(true);
     })();
   }, []);
 
   useEffect(() => {
-    if (watch("bank_id") == 0) {
-      setValue("bank_account_number", "");
-      clearErrors("bank_account_number");
+    if (watch("document_type_id") == 0) {
+      setValue("document_number", "");
+      clearErrors("document_number");
     }
-  }, [watch("bank_id")]);
+  }, [watch("document_type_id")]);
 
   const handle_click_cancel_btn = () => {
     setIsModalOpen(false);
@@ -114,7 +91,7 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios_client(`/api/stores`, {
+      const response = await axios_client(`/api/sellers`, {
         method: "post",
         data,
         headers: {
@@ -138,6 +115,12 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
+
+        if (response.data.errors?.email) {
+          setError("email", {
+            message: "El correo ya esta registrado.",
+          });
+        }
       }
     } catch (error) {
       console.error(error);
@@ -150,140 +133,149 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   return (
     fetches_finished == true && (
       <Modal
-        title={"Crear tienda"}
+        title={"Crear vendedor"}
         is_open_modal={is_modal_open}
         setIsOpenModal={setIsModalOpen}
       >
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="flex flex-col gap-2 text-slate-600 text-sm">
             <div>
-              <label htmlFor="store_name" className="block font-semibold">
-                Nombre
+              <label htmlFor="email" className="block font-semibold">
+                Email
               </label>
               <input
-                {...register("store_name")}
-                name="store_name"
-                id="store_name"
+                {...register("email")}
+                name="email"
+                id="email"
                 type="text"
-                placeholder="Nombre"
+                placeholder="Correo electrónico"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
-              {errors.store_name && (
+              {errors.email && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.store_name.message}
+                  {errors.email.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="ruc" className="block font-semibold">
-                RUC
+              <label htmlFor="password" className="block font-semibold">
+                Contraseña
               </label>
               <input
-                {...register("ruc")}
-                name="ruc"
-                id="ruc"
-                type="text"
-                placeholder="ruc"
+                {...register("password")}
+                name="password"
+                id="password"
+                type="password"
+                placeholder="Contraseña"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
-              {errors.ruc && (
+              {errors.password && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.ruc.message}
+                  {errors.password.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="business_name" className="block font-semibold">
-                Razón social
+              <label htmlFor="first_name" className="block font-semibold">
+                Nombres
               </label>
               <input
-                {...register("business_name")}
-                name="business_name"
-                id="business_name"
+                {...register("first_name")}
+                name="first_name"
+                id="first_name"
                 type="text"
-                placeholder="Razón social"
+                placeholder="Nombres"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
-              {errors.business_name && (
+              {errors.first_name && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.business_name.message}
+                  {errors.first_name.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="seller_id" className="block font-semibold">
-                Representante
+              <label htmlFor="last_name" className="block font-semibold">
+                Apellidos
+              </label>
+              <input
+                {...register("last_name")}
+                name="last_name"
+                id="last_name"
+                type="last_name"
+                placeholder="Apellidos"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              />
+              {errors.last_name && (
+                <p className="pt-1 text-red-500 text-xs ps-1">
+                  {errors.last_name.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone_number" className="block font-semibold">
+                Teléfono
+              </label>
+              <input
+                {...register("phone_number")}
+                name="phone_number"
+                id="phone_number"
+                type="text"
+                placeholder="Teléfono"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              />
+              {errors.phone_number && (
+                <p className="pt-1 text-red-500 text-xs ps-1">
+                  {errors.phone_number.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="document_type_id" className="block font-semibold">
+                Tipo de documento
               </label>
               <select
-                {...register("seller_id")}
-                name="seller_id"
-                id="seller_id"
+                {...register("document_type_id")}
+                name="document_type_id"
+                id="document_type_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
-                <option value={0}>Seleccionar</option>
-                {sellers.map((seller, i) => {
+                <option value={""}>Seleccionar</option>
+                {document_types.map((document_type, i) => {
                   return (
-                    <option key={i} value={seller.id}>
-                      {seller.first_name} {seller.last_name}
+                    <option key={i} value={document_type.id}>
+                      {document_type.name}
                     </option>
                   );
                 })}
               </select>
-              {errors.seller_id && (
+              {errors.document_type_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.seller_id.message}
+                  {errors.document_type_id.message}
                 </p>
               )}
             </div>
 
             <div>
-              <label htmlFor="bank_id" className="block font-semibold">
-                Banco
-              </label>
-              <select
-                {...register("bank_id")}
-                name="bank_id"
-                id="bank_id"
-                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
-              >
-                <option value={0}>Seleccionar</option>
-                {banks.map((bank, i) => {
-                  return (
-                    <option key={i} value={bank.id}>
-                      {bank.name}
-                    </option>
-                  );
-                })}
-              </select>
-              {errors.bank_id && (
-                <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.bank_id.message}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label
-                htmlFor="bank_account_number"
-                className="block font-semibold"
-              >
-                Cuenta bancaria
+              <label htmlFor="document_number" className="block font-semibold">
+                Documento
               </label>
               <input
-                {...register("bank_account_number")}
-                disabled={watch("bank_id") == 0}
-                name="bank_account_number"
-                id="bank_account_number"
+                disabled={watch("document_type_id") == 0}
+                {...register("document_number")}
+                name="document_number"
+                id="document_number"
                 type="text"
-                placeholder="Cuenta bancaria"
+                placeholder="Documento"
                 className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
-              {errors.bank_account_number && (
+              {errors.document_number && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.bank_account_number.message}
+                  {errors.document_number.message}
                 </p>
               )}
             </div>
@@ -336,4 +328,4 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   );
 };
 
-export default AddStoreModal;
+export default AddSellerModal;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddStoreButton = ({ setIsAddStoreModalOpen }) => {
+const AddSellerButton = ({ setIsAddStoreModalOpen }) => {
   const handle_click_add_store_btn = () => {
     setIsAddStoreModalOpen(true);
   };
@@ -15,4 +15,4 @@ const AddStoreButton = ({ setIsAddStoreModalOpen }) => {
   );
 };
 
-export default AddStoreButton;
+export default AddSellerButton;

@@ -1,6 +1,6 @@
 import React from "react";
 
-const StoreFilter = ({ children }) => {
+const TableFilter = ({ children }) => {
   return (
     <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg mt-6 p-5 border rounded-sm">
       <h5 className="font-semibold text-xl">Filtro</h5>
@@ -9,4 +9,4 @@ const StoreFilter = ({ children }) => {
   );
 };
 
-export default StoreFilter;
+export default TableFilter;

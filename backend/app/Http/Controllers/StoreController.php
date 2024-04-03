@@ -45,9 +45,8 @@ class StoreController extends Controller
         // add the name of the role_user state
         $query->addSelect('role_user_states.name as role_user_state_name');
 
-        $query->join('users', 'stores.user_id', '=', 'users.id');
-        $query->join('states', 'stores.state_id', '=', 'states.id');
-
+        $query->leftJoin('users', 'stores.user_id', '=', 'users.id');
+        $query->leftJoin('states', 'stores.state_id', '=', 'states.id');
         $query->leftJoin('role_user', function ($join) {
             $join->on('users.id', '=', 'role_user.user_id')
                 ->where('role_user.role_id', '=', 2); // Filtrar por el ID del rol "vendedor"
@@ -141,7 +140,7 @@ class StoreController extends Controller
     public function change_state(Request $request, string $id)
     {
         $store = Store::find($id);
-        //$this->authorize("update", $store);
+        $this->authorize("update", $store);
 
         if (!$store) {
             $response = ['status' => false, 'message' => 'No se encontró ninguna registro con el ID proporcionado.'];
@@ -190,7 +189,7 @@ class StoreController extends Controller
         $this->authorize("update", $store);
 
         if (!$store) {
-            $response = ['status' => false, 'message' => 'No se encontró ninguna registro con el ID proporcionado.'];
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
             return response()->json($response);
         }
 
@@ -251,7 +250,7 @@ class StoreController extends Controller
 
     public function seller_store_registration_auth(Request $request)
     {
-        $this->authorize("create", Store::class);
+        //$this->authorize("create", Store::class);
 
         $user = $request->user();
 

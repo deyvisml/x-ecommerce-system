@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios_client from "../../../helpers/axios";
 
-const StateStoreFilter = ({ filtering, setFiltering, choose_records }) => {
+const StateFilter = ({
+  filtering,
+  setFiltering,
+  choose_records,
+  filter_key = "stores.state_id",
+}) => {
   const [states, setStates] = useState([]);
   const fetch_states = async () => {
     try {
@@ -32,8 +37,7 @@ const StateStoreFilter = ({ filtering, setFiltering, choose_records }) => {
     setFiltering((current_filtering) => {
       return {
         ...current_filtering,
-        "stores.state_id":
-          e.target.value == 0 ? choose_records : [e.target.value],
+        [filter_key]: e.target.value == 0 ? choose_records : [e.target.value],
       };
     });
   };
@@ -42,11 +46,7 @@ const StateStoreFilter = ({ filtering, setFiltering, choose_records }) => {
     <li className="w-full">
       <select
         onChange={handle_onchange_state_select}
-        value={
-          filtering["stores.state_id"].length == 1
-            ? filtering["stores.state_id"][0]
-            : 0
-        }
+        value={filtering[filter_key].length == 1 ? filtering[filter_key][0] : 0}
         name=""
         id=""
         className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm focus:ring-0"
@@ -64,4 +64,4 @@ const StateStoreFilter = ({ filtering, setFiltering, choose_records }) => {
   );
 };
 
-export default StateStoreFilter;
+export default StateFilter;

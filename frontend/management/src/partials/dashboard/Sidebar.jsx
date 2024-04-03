@@ -379,7 +379,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/ecommerce/invoices"
+                              to="/administrador/tiendas/vendedores"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive

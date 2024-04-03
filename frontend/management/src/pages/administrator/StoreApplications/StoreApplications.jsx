@@ -9,8 +9,8 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
-import StoreFilter from "../StoreList/StoreFilter";
-import StateStoreFilter from "../StoreList/StateStoreFilter";
+import TableFilter from "../StoreList/TableFilter";
+import StateFilter from "../StoreList/StateFilter";
 import TableSearch from "../StoreList/TableSearch";
 import PageSize from "../StoreList/PageSize";
 import ExportTableDataButton from "../StoreList/ExportTableDataButton";
@@ -144,6 +144,13 @@ function StoreApplications() {
           let value = undefined;
 
           switch (row.original.state_id) {
+            case 1:
+              value = (
+                <span className="bg-green-100 px-2 py-1 rounded text-green-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
             case 4:
               value = (
                 <span className="bg-orange-100 px-2 py-1 rounded text-orange-500 text-xs capitalize">
@@ -314,13 +321,13 @@ function StoreApplications() {
         </h3>
       </div>
 
-      <StoreFilter filtering={filtering} setFiltering={setFiltering}>
-        <StateStoreFilter
+      <TableFilter filtering={filtering} setFiltering={setFiltering}>
+        <StateFilter
           filtering={filtering}
           setFiltering={setFiltering}
           choose_records={[4, 5]}
         />
-      </StoreFilter>
+      </TableFilter>
 
       <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
         <div className="flex flex-wrap justify-between items-center gap-y-3">

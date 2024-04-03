@@ -9,20 +9,20 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
-import TableFilter from "./TableFilter";
-import StateFilter from "./StateFilter";
-import TableSearch from "./TableSearch";
-import PageSize from "./PageSize";
-import ExportTableDataButton from "./ExportTableDataButton";
-import AddSellerButton from "./AddStoreButton";
-import AddStoreModal from "./AddStoreModal";
-import Table from "./Table";
-import TablePagination from "./TablePagination";
-import TotalRecordsLabel from "./TotalRecordsLabel";
-import EditStoreButton from "./EditStoreButton";
+import TableFilter from "../StoreList/TableFilter";
+import StateFilter from "../StoreList/StateFilter";
+import TableSearch from "../StoreList/TableSearch";
+import PageSize from "../StoreList/PageSize";
+import ExportTableDataButton from "../StoreList/ExportTableDataButton";
+import AddSellerButton from "./AddSellerButton";
+import AddSellerModal from "./AddSellerModal";
+import Table from "../StoreList/Table";
+import TablePagination from "../StoreList/TablePagination";
+import TotalRecordsLabel from "../StoreList/TotalRecordsLabel";
+import EditSellerButton from "./EditSellerButton";
 import { AnimatePresence } from "framer-motion";
-import EditStoreModal from "./EditStoreModal";
-import DeleteStoreButton from "./DeleteStoreButton";
+import EditSellerModal from "./EditSellerModal";
+import DeleteSellerButton from "./DeleteSellerButton";
 
 moment.locale("es");
 
@@ -50,10 +50,10 @@ const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [1, 2, 3, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
-function StoreList() {
+function SellerList() {
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState({
-    "stores.state_id": [FILTER_STATE],
+    "role_user.state_id": [FILTER_STATE],
   });
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([]);
@@ -70,9 +70,9 @@ function StoreList() {
 
   const [data, setData] = useState([]);
 
-  const [is_add_store_modal_open, setIsAddStoreModalOpen] = useState(false);
-  const [is_edit_store_modal_open, setIsEditStoreModalOpen] = useState(false);
-  const [edit_store, setEditStore] = useState();
+  const [is_add_seller_modal_open, setIsAddSellerModalOpen] = useState(false);
+  const [is_edit_seller_modal_open, setIsEditSellerModalOpen] = useState(false);
+  const [edit_seller, setEditSeller] = useState();
 
   // useMemo is optional, only use to save the data when it's rendering many times, a direct way is to use the array instead
   const columns = useMemo(
@@ -107,31 +107,22 @@ function StoreList() {
         ),
       },
       {
-        accessorKey: "name",
+        accessorKey: "first_name",
         header: () => "Nombre",
-        cell: (info) => <span className="text-black">{info.getValue()}</span>,
-      },
-      {
-        accessorKey: "ruc",
-        header: () => "RUC",
-        cell: (info) => info.getValue(),
-        enableSorting: false,
-      },
-      {
-        accessorKey: "business_name",
-        header: () => "Razón social",
-        cell: (info) => info.getValue(),
-      },
-      {
-        accessorKey: "users_first_name",
-        header: () => "Representante",
         cell: ({ row }) => {
-          return (
-            row.original.users_first_name +
-            " " +
-            (row.original.users_last_name ?? "")
-          );
+          //console.log(row.original);
+          return row.original.first_name + " " + (row.original.last_name ?? "");
         },
+      },
+      {
+        accessorKey: "email",
+        header: () => "Email",
+        cell: (info) => info.getValue(),
+      },
+      {
+        accessorKey: "phone_number",
+        header: () => "Teléfono",
+        cell: (info) => info.getValue(),
       },
       {
         accessorKey: "created_at",
@@ -144,7 +135,7 @@ function StoreList() {
         cell: ({ row }) => {
           let value = undefined;
 
-          switch (row.original.state_id) {
+          switch (row.original.role_user_state_id) {
             case 1:
               value = (
                 <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
@@ -155,6 +146,13 @@ function StoreList() {
             case 3:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 4:
+              value = (
+                <span className="bg-orange-100 px-2 py-1 rounded text-orange-500 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
@@ -203,11 +201,13 @@ function StoreList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditStoreButton
+                          <EditSellerButton
                             record={row.original}
-                            setEditStore={setEditStore}
-                            is_edit_store_modal_open={is_edit_store_modal_open}
-                            setIsEditStoreModalOpen={setIsEditStoreModalOpen}
+                            setEditSeller={setEditSeller}
+                            is_edit_seller_modal_open={
+                              is_edit_seller_modal_open
+                            }
+                            setIsEditSellerModalOpen={setIsEditSellerModalOpen}
                           />
                         </span>
                       )}
@@ -215,7 +215,7 @@ function StoreList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <DeleteStoreButton
+                          <DeleteSellerButton
                             record={row.original}
                             setDataChanged={setDataChanged}
                           />
@@ -233,9 +233,9 @@ function StoreList() {
     []
   );
 
-  const fetch_stores = async () => {
+  const fetch_sellers = async () => {
     try {
-      const response = await axios_client(`/api/stores`, {
+      const response = await axios_client(`/api/sellers`, {
         method: "get",
         params: {
           filtering,
@@ -261,7 +261,7 @@ function StoreList() {
   };
 
   useEffect(() => {
-    fetch_stores();
+    fetch_sellers();
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -301,7 +301,7 @@ function StoreList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_stores();
+      fetch_sellers();
       setDataChanged(false);
     }
   }, [data_changed]);
@@ -309,9 +309,7 @@ function StoreList() {
   return (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">
-          Listado de Tiendas
-        </h3>
+        <h3 className="font-semibold text-2xl text-slate-800">Vendedores</h3>
       </div>
 
       <TableFilter filtering={filtering} setFiltering={setFiltering}>
@@ -319,6 +317,7 @@ function StoreList() {
           filtering={filtering}
           setFiltering={setFiltering}
           choose_records={[1, 2, 3]}
+          filter_key={"role_user.state_id"}
         />
       </TableFilter>
 
@@ -343,7 +342,9 @@ function StoreList() {
 
             <ExportTableDataButton />
 
-            <AddSellerButton setIsAddStoreModalOpen={setIsAddStoreModalOpen} />
+            <AddSellerButton
+              setIsAddSellerModalOpen={setIsAddSellerModalOpen}
+            />
           </div>
         </div>
 
@@ -363,20 +364,20 @@ function StoreList() {
       </div>
 
       <AnimatePresence>
-        {is_add_store_modal_open == true && (
-          <AddStoreModal
+        {is_add_seller_modal_open == true && (
+          <AddSellerModal
             setDataChanged={setDataChanged}
-            is_modal_open={is_add_store_modal_open}
-            setIsModalOpen={setIsAddStoreModalOpen}
+            is_modal_open={is_add_seller_modal_open}
+            setIsModalOpen={setIsAddSellerModalOpen}
           />
         )}
 
-        {is_edit_store_modal_open == true && (
-          <EditStoreModal
-            store={edit_store}
+        {is_edit_seller_modal_open == true && (
+          <EditSellerModal
+            record={edit_seller}
             setDataChanged={setDataChanged}
-            is_modal_open={is_edit_store_modal_open}
-            setIsModalOpen={setIsEditStoreModalOpen}
+            is_modal_open={is_edit_seller_modal_open}
+            setIsModalOpen={setIsEditSellerModalOpen}
           />
         )}
       </AnimatePresence>
@@ -384,4 +385,4 @@ function StoreList() {
   );
 }
 
-export default StoreList;
+export default SellerList;

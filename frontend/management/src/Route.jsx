@@ -15,6 +15,7 @@ import SellerDashboard from "./pages/seller/Dashboard";
 import useManagement from "./hooks/useManagement";
 import ResetPassword from "./pages/ResetPassword";
 import StoreApplications from "./pages/administrator/StoreApplications/StoreApplications";
+import SellerList from "./pages/administrator/SellerList/SellerList";
 
 const Route = () => {
   const { set_token, user, set_user } = useManagement();
@@ -113,6 +114,10 @@ const Route = () => {
                 {
                   path: "administrador/tiendas/solicitudes",
                   element: <StoreApplications />,
+                },
+                {
+                  path: "administrador/tiendas/vendedores",
+                  element: <SellerList />,
                 },
               ],
             },
