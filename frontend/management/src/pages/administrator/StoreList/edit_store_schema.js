@@ -12,6 +12,11 @@ export const edit_store_schema = yup.object({
     .integer()
     .required("El campo es requerido"),
   business_name: yup.string().max(600).required("El campo es requerido"),
+  legal_representative: yup
+    .string()
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
+    .max(600)
+    .required("El campo es requerido"),
   seller_id: yup
     .number()
     .min(1, "Eliga una opción valida")
@@ -19,21 +24,15 @@ export const edit_store_schema = yup.object({
     .required("El campo es requerido"),
   bank_id: yup
     .number()
-    .min(0, "Eliga una opción valida")
+    .min(1, "Eliga una opción valida")
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
   bank_account_number: yup
     .number()
     .typeError("El campo debe ser númerico")
-    .when("bank_id", {
-      is: (val) => val > 0,
-      then: (schema) =>
-        schema.positive().integer().required("El campo es requerido"),
-      otherwise: (schema) =>
-        schema
-          .transform((v) => (v instanceof Number && !isNaN(v) ? v : null))
-          .nullable(),
-    }),
+    .positive()
+    .integer()
+    .required("El campo es requerido"),
   state_id: yup
     .number()
     .min(1, "Eliga una opción valida")

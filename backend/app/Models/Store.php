@@ -17,6 +17,7 @@ class Store extends Model
         'name',
         'ruc',
         'business_name',
+        'legal_representative',
         'bank_account_number',
         'bank_id',
         'user_id',

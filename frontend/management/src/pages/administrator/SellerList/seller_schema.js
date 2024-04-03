@@ -9,12 +9,12 @@ export const seller_schema = yup.object({
   password: yup.string().required("El campo es requerido."),
   first_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(50)
     .required("El campo es requerido"),
   last_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(100)
     .required("El campo es requerido"),
   phone_number: yup

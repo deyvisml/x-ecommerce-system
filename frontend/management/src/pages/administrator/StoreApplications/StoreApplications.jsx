@@ -116,7 +116,7 @@ function StoreApplications() {
       },
       {
         accessorKey: "users_first_name",
-        header: () => "Representante",
+        header: () => "Vendedor",
         cell: ({ row }) => {
           return (
             <>
@@ -125,9 +125,31 @@ function StoreApplications() {
                   " " +
                   (row.original.users_last_name ?? "")}
               </span>
-              <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">
-                {row.original.role_user_state_name}
-              </span>
+              {(() => {
+                console.log(row.original);
+                switch (row.original.role_user_state_id) {
+                  case 1:
+                    return (
+                      <span className="bg-green-100 px-1 py-0.5 rounded text-green-500 text-xs capitalize">
+                        {row.original.role_user_state_name}
+                      </span>
+                    );
+
+                  case 3:
+                    return (
+                      <span className="bg-red-100 px-1 py-0.5 rounded text-red-500 text-xs capitalize">
+                        {row.original.role_user_state_name}
+                      </span>
+                    );
+
+                  default:
+                    return (
+                      <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">
+                        {row.original.role_user_state_name}
+                      </span>
+                    );
+                }
+              })()}
             </>
           );
         },

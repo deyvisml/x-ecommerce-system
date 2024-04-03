@@ -17,12 +17,12 @@ export const schema = yup.object({
     .required("El campo es requerido"),
   first_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(50)
     .required("El campo es requerido"),
   last_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(100)
     .required("El campo es requerido"),
   email: yup
@@ -43,12 +43,12 @@ export const schema = yup.object({
     .required("El campo es requerido"),
   delivery_first_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(50)
     .required("El campo es requerido"),
   delivery_last_name: yup
     .string()
-    .matches(/^[a-zA-Z ]*$/, "Ingrese un valor valido")
+    .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(100)
     .required("El campo es requerido"),
   delivery_region: yup

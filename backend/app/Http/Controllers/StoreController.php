@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\StoreResource;
-use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\Store;
 use App\Models\User;
@@ -101,8 +100,9 @@ class StoreController extends Controller
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
-            'bank_account_number' => '',
-            'bank_id' => '',
+            'legal_representative' => 'required',
+            'bank_id' => 'required',
+            'bank_account_number' => 'required',
             'seller_id' => 'required',
             'state_id' => 'required',
         ];
@@ -118,6 +118,7 @@ class StoreController extends Controller
             'name' => $request->store_name,
             'ruc' => $request->ruc,
             'business_name' => $request->business_name,
+            'legal_representative' => $request->legal_representative,
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $request->seller_id,
@@ -163,12 +164,14 @@ class StoreController extends Controller
             $seller = $store->user;
 
             $seller_role_id = 2;
-            $seller_role = Role::find($seller_role_id);
+            $active_state_id = 1;
 
-            if (!$seller->hasRoles(collect([$seller_role]))) {
-                $response = ['status' => false, 'message' => 'El representante no se encuentra habilitado como vendedor.'];
-                return response()->json($response);
-            }
+            RoleUser::updateOrCreate([
+                'role_id' => $seller_role_id,
+                'user_id' => $seller->id,
+            ], [
+                'state_id' => $active_state_id,
+            ]);
         }
 
         $store->update([
@@ -258,6 +261,7 @@ class StoreController extends Controller
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
+            'legal_representative' => 'required',
             'bank_id' => 'required',
             'bank_account_number' => 'required',
         ];
@@ -279,6 +283,7 @@ class StoreController extends Controller
             'name' => $request->store_name,
             'ruc' => $request->ruc,
             'business_name' => $request->business_name,
+            'legal_representative' => $request->legal_representative,
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,
@@ -305,6 +310,7 @@ class StoreController extends Controller
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
+            'legal_representative' => 'required',
             'bank_id' => 'required',
             'bank_account_number' => 'required',
         ];
@@ -349,6 +355,7 @@ class StoreController extends Controller
             'name' => $request->store_name,
             'ruc' => $request->ruc,
             'business_name' => $request->business_name,
+            'legal_representative' => $request->legal_representative,
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,

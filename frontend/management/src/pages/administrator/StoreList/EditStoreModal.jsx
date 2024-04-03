@@ -29,6 +29,7 @@ const EditStoreModal = ({
       store_name: store?.name ?? undefined,
       ruc: store?.ruc ?? undefined,
       business_name: store?.business_name ?? undefined,
+      legal_representative: store?.legal_representative ?? undefined,
       seller_id: store?.user_id ?? undefined,
       bank_id: store?.bank_id ?? undefined,
       bank_account_number: store?.bank_account_number ?? undefined,
@@ -225,8 +226,30 @@ const EditStoreModal = ({
             </div>
 
             <div>
+              <label
+                htmlFor="legal_representative"
+                className="block font-semibold"
+              >
+                Representante Legal
+              </label>
+              <input
+                {...register("legal_representative")}
+                name="legal_representative"
+                id="legal_representative"
+                type="text"
+                placeholder="Nombres y Apellidos"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              />
+              {errors.legal_representative && (
+                <p className="pt-1 text-red-500 text-xs ps-1">
+                  {errors.legal_representative.message}
+                </p>
+              )}
+            </div>
+
+            <div>
               <label htmlFor="seller_id" className="block font-semibold">
-                Representante
+                Vendedor
               </label>
               <select
                 {...register("seller_id")}

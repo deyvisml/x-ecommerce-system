@@ -53,6 +53,8 @@ const StoreRegistration = () => {
       store_name: store_registration?.data?.store_name ?? undefined,
       ruc: store_registration?.data?.ruc ?? undefined,
       business_name: store_registration?.data?.business_name ?? undefined,
+      legal_representative:
+        store_registration?.data?.legal_representative ?? undefined,
       bank_id: store_registration?.data?.bank_id ?? undefined,
       bank_account_number:
         store_registration?.data?.bank_account_number ?? undefined,
@@ -125,6 +127,7 @@ const StoreRegistration = () => {
         const store_name = getValues("store_name");
         const ruc = getValues("ruc");
         const business_name = getValues("business_name");
+        const legal_representative = getValues("legal_representative");
         const bank_id = getValues("bank_id");
         const bank_account_number = getValues("bank_account_number");
 
@@ -133,6 +136,7 @@ const StoreRegistration = () => {
           "store_name",
           "ruc",
           "business_name",
+          "legal_representative",
           "bank_id",
           "bank_account_number",
         ]);
@@ -143,6 +147,7 @@ const StoreRegistration = () => {
               store_name,
               ruc,
               business_name,
+              legal_representative,
               bank_id,
               bank_account_number,
             },
@@ -307,7 +312,7 @@ const StoreRegistration = () => {
 
   return (
     <main className="flex flex-grow justify-center items-center bg-slate-200">
-      <div className="w-full md:max-w-lg">
+      <div className="py-4 w-full md:max-w-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
@@ -561,6 +566,27 @@ const StoreRegistration = () => {
                     {errors.business_name && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
                         {errors.business_name.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      className="block pb-1 font-semibold text-sm"
+                      htmlFor="legal_representative"
+                    >
+                      Representante legal
+                    </label>
+                    <input
+                      className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
+                      type="legal_representative"
+                      id="legal_representative"
+                      {...register("legal_representative", { required: true })}
+                      placeholder="Nombres y Apellidos"
+                    />
+                    {errors.legal_representative && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.legal_representative.message}
                       </p>
                     )}
                   </div>

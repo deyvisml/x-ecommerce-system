@@ -33,8 +33,8 @@ const StoreRegistrationConfirmation = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          Se revisara la información enviada, y obtendra noticias de su
-          solicitud mediante su correo electronico.{" "}
+          Se revisara la información enviada, y obtendrá noticias de su
+          solicitud mediante su correo electrónico.
         </motion.p>
       </div>
     </main>

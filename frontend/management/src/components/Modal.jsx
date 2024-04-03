@@ -12,7 +12,6 @@ const Modal = ({ children, title, is_open_modal, setIsOpenModal }) => {
       static
       open={is_open_modal}
       onClose={close_modal}
-      onClick={() => console.log("xdxd")}
       className="relative z-60 bg-red-200 text-gray-800"
     >
       {/* background */}

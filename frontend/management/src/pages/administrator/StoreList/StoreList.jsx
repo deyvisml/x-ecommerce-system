@@ -124,7 +124,7 @@ function StoreList() {
       },
       {
         accessorKey: "users_first_name",
-        header: () => "Representante",
+        header: () => "Vendedor",
         cell: ({ row }) => {
           return (
             row.original.users_first_name +
