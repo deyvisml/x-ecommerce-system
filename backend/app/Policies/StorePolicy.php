@@ -17,7 +17,7 @@ class StorePolicy
             $permission = Permission::where('name', 'stores-read-any')->first();
             $roles = $permission->roles;
 
-            return $user->hasRole($roles);
+            return $user->hasRoles($roles);
         } catch (\Throwable $e) {
             return false;
         }
@@ -32,14 +32,14 @@ class StorePolicy
             $permission = Permission::where('name', 'stores-read-own')->first();
             $roles = $permission->roles;
 
-            if ($user->hasRole($roles) && $store->user_id == $user->id) {
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
                 return true;
             }
 
             $permission = Permission::where('name', 'stores-read-any')->first();
             $roles = $permission->roles;
 
-            return $user->hasRole($roles);
+            return $user->hasRoles($roles);
         } catch (\Throwable $e) {
             return false;
         }
@@ -54,7 +54,7 @@ class StorePolicy
             $permission = Permission::where('name', 'stores-create')->first();
             $roles = $permission->roles;
 
-            return $user->hasRole($roles);
+            return $user->hasRoles($roles);
         } catch (\Throwable $e) {
             return false;
         }
@@ -69,14 +69,14 @@ class StorePolicy
             $permission = Permission::where('name', 'stores-update-own')->first();
             $roles = $permission->roles;
 
-            if ($user->hasRole($roles) && $store->user_id == $user->id) {
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
                 return true;
             }
 
             $permission = Permission::where('name', 'stores-update-any')->first();
             $roles = $permission->roles;
 
-            return $user->hasRole($roles);
+            return $user->hasRoles($roles);
         } catch (\Throwable $e) {
             return false;
         }
@@ -91,14 +91,14 @@ class StorePolicy
             $permission = Permission::where('name', 'stores-delete-own')->first();
             $roles = $permission->roles;
 
-            if ($user->hasRole($roles) && $store->user_id == $user->id) {
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
                 return true;
             }
 
             $permission = Permission::where('name', 'stores-delete-any')->first();
             $roles = $permission->roles;
 
-            return $user->hasRole($roles);
+            return $user->hasRoles($roles);
         } catch (\Throwable $e) {
             return false;
         }

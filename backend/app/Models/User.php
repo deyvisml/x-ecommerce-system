@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -59,7 +60,6 @@ class User extends Authenticatable
 
     public function roles()
     {
-        // updated: where pivot allows to only get the "active" roles
         return $this->belongsToMany(Role::class, "role_user")->wherePivot('state_id', 1);
     }
 
@@ -68,13 +68,20 @@ class User extends Authenticatable
         return $this->roles()->save($role);
     }
 
-    public function hasRole($role)
+    /**
+     * verify is the user has a role, recieved $roles because you can sent many roles (collection) to check if any of them "belongs" to the user
+     */
+    public function hasRoles($roles)
     {
-        if (is_string($role)) {
-            return $this->roles->contains("name", $role);
+        if (is_string($roles)) {
+            return $this->roles->contains("name", $roles);
         }
 
-        // fixed: intersect only works with collections, and also $this->roles not return roles with a right form (attributes) so the better way is to work with ids.
-        return !!collect([$role->id])->intersect($this->roles()->pluck('roles.id'))->count();
+        // $role must be a collection
+        if (!($roles instanceof Collection)) {
+            $roles = collect([$roles]);
+        }
+
+        return !!$roles->intersect($this->roles)->count();
     }
 }

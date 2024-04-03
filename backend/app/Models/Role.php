@@ -11,6 +11,10 @@ class Role extends Model
 
     protected $table = "roles";
 
+    // avoid return pivot attributes when we use methods like belongsToMany, etc, very usefull.
+    // https://github.com/laravel/framework/issues/745#issuecomment-42994130
+    protected $hidden = ['pivot'];
+
     protected $fillable = [
         "name",
     ];
@@ -27,8 +31,7 @@ class Role extends Model
 
     public function hasPermission(Permission $permission, User $user)
     {
-        // TODO: este metodo esta  extraño
-        return $user->hasRole($permission->roles);
+        return $user->hasRoles($permission->roles);
     }
 
     /**

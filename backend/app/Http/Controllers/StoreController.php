@@ -165,7 +165,7 @@ class StoreController extends Controller
             $seller_role_id = 2;
             $seller_role = Role::find($seller_role_id);
 
-            if (!$seller->hasRole($seller_role)) {
+            if (!$seller->hasRoles(collect([$seller_role]))) {
                 $response = ['status' => false, 'message' => 'El representante no se encuentra habilitado como vendedor.'];
                 return response()->json($response);
             }
