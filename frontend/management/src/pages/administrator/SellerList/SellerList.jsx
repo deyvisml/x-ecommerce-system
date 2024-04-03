@@ -212,16 +212,18 @@ function SellerList() {
                         </span>
                       )}
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <DeleteSellerButton
-                            record={row.original}
-                            setDataChanged={setDataChanged}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
+                    {row.original.role_user_state_id != 3 && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <DeleteSellerButton
+                              record={row.original}
+                              setDataChanged={setDataChanged}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 )}
               </>

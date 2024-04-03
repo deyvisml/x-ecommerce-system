@@ -170,12 +170,18 @@ class SellerController extends Controller
             return response()->json($response);
         }
 
+        // update seller
         $seller->update([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'phone_number' => $request->phone_number,
             'document_type_id' => $request->document_type_id,
             'document_number' => $request->document_number,
+        ]);
+
+        // update role_user
+        $role_user = RoleUser::where('role_id', $this->seller_role_id)->where('user_id', $seller->id)->first();
+        $role_user->update([
             'state_id' => $request->state_id,
         ]);
 
