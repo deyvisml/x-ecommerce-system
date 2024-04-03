@@ -92,6 +92,8 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize("create_seller", User::class);
+
         $validation_rules = [
             'email' => 'required|email|unique:users,email',
             'password' => 'required',
@@ -149,7 +151,7 @@ class SellerController extends Controller
     public function update(Request $request, string $id)
     {
         $seller = User::find($id);
-        //$this->authorize("update", $seller);
+        $this->authorize("update_seller", $seller);
 
         if (!$seller) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
@@ -196,7 +198,7 @@ class SellerController extends Controller
     public function destroy(string $id)
     {
         $seller = User::find($id);
-        //$this->authorize("delete", $seller);
+        $this->authorize("delete_seller", $seller);
 
         if (!$seller) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];

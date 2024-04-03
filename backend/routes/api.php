@@ -48,7 +48,9 @@ Route::apiResource('orders', OrderController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
-Route::apiResource('sellers', SellerController::class);
+
+Route::apiResource('sellers', SellerController::class)->except(['store', 'update', 'destroy']);
+Route::apiResource('sellers', SellerController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');
 
 Route::apiResource('stores', StoreController::class)->except(['store', 'update', 'destroy']);
 Route::apiResource('stores', StoreController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum'); // setting which methods will be protected

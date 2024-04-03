@@ -17,7 +17,8 @@ class Permission extends Model
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        $active_state_id = 1;
+        return $this->belongsToMany(Role::class, "permission_role")->wherePivot('state_id', $active_state_id);
     }
 
     /**

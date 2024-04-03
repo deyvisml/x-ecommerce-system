@@ -60,7 +60,8 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, "role_user")->wherePivot('state_id', 1);
+        $active_state_id = 1;
+        return $this->belongsToMany(Role::class, "role_user")->wherePivot('state_id', $active_state_id);
     }
 
     public function assignRole(Role $role)
