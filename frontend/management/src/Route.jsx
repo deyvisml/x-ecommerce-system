@@ -12,21 +12,20 @@ import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 import AdminDashboardHome from "./pages/administrator/AdminDashboardHome";
 import StoreList from "./pages/administrator/StoreList/StoreList";
 import SellerDashboard from "./pages/seller/Dashboard";
-import useManagement from "./hooks/useManagement";
 import ResetPassword from "./pages/ResetPassword";
 import StoreApplications from "./pages/administrator/StoreApplications/StoreApplications";
 import SellerList from "./pages/administrator/SellerList/SellerList";
+import ChooseRole from "./pages/ChooseRole";
 
 const Route = () => {
-  const { set_token, user, set_user } = useManagement();
-
-  const verify_login = async () => {
-    console.log("verify login");
+  // this func also check if the user has valid roles like "administrador" / "vendedor"
+  const user_is_auth = async () => {
     const token = JSON.parse(localStorage.getItem("TOKEN")); // we use this value insted of state var (token) because token is async, so it doesn't have a value fastly when we set its value.
-
-    if (!token) return null;
+    console.log("verify user is auth", token);
 
     try {
+      if (!token) throw new Error("There is no a token.");
+
       const response = await axios_client(`/api/user`, {
         headers: {
           authorization: `Bearer ${token}`,
@@ -35,46 +34,52 @@ const Route = () => {
 
       const roles = response.data.data.user.roles.map((rol) => rol.name);
 
-      if (!roles.includes("administrator") && !roles.includes("seller"))
+      if (!roles.includes("administrador") && !roles.includes("vendedor"))
         throw new Error("User without a valid role.");
 
-      return roles.includes("administrator")
-        ? redirect(`/administrador`)
-        : redirect(`/vendedor`);
+      return true;
     } catch (error) {
       console.error(error);
-      set_token();
-      set_user();
-
-      return null;
+      return false;
     }
   };
 
   /* verify if the user has a specific role */
-  const verify_role = async (role) => {
+  const user_has_role = async (role_name) => {
     const token = JSON.parse(localStorage.getItem("TOKEN"));
-    console.log("verify role:", role);
-    console.log("token:", token);
-
-    if (!token) return redirect(`/`);
+    console.log("verify user has role:", role_name, token), typeof token;
 
     try {
+      if (!token) throw new Error("There is no a token");
+
       const response = await axios_client(`/api/user`, {
         headers: {
           authorization: `Bearer ${token}`,
         },
       });
 
-      const roles = response.data.data.user.roles.map((rol) => rol.name);
+      const roles = response.data.data.user.roles.map(
+        (element) => element.name
+      );
 
-      if (!roles.includes(role))
+      if (!roles.includes(role_name))
         throw new Error("User does not have the role.");
 
-      return null;
+      return true;
     } catch (error) {
       console.error(error);
-      return redirect(`/`);
+      return false;
     }
+  };
+
+  // verify is the user already choose a specific role
+  const user_choose_role = (role_name) => {
+    console.log("verify user choose role:", role_name);
+    const role = JSON.parse(localStorage.getItem("ROLE"));
+
+    if (!role) return false;
+
+    return role.name == role_name;
   };
 
   const router = createBrowserRouter([
@@ -84,7 +89,9 @@ const Route = () => {
       children: [
         {
           index: true,
-          loader: verify_login,
+          loader: async () => {
+            return (await user_is_auth()) ? redirect("/escoger-rol") : null;
+          },
           element: <Login />,
         },
         {
@@ -92,16 +99,30 @@ const Route = () => {
           element: <ResetPassword />,
         },
         {
+          path: "escoger-rol",
+          loader: async () => ((await user_is_auth()) ? null : redirect("/")),
+          element: <ChooseRole />,
+        },
+        {
           element: <DashboardLayout />,
+          loader: async () => ((await user_is_auth()) ? null : redirect("/")),
           children: [
             {
               path: "vendedor",
-              loader: () => verify_role("seller"),
+              loader: async () =>
+                (await user_has_role("vendedor")) &&
+                user_choose_role("vendedor")
+                  ? null
+                  : redirect("/"),
               element: <SellerDashboard />,
             },
             {
               element: <AdminDashboardLayout />,
-              loader: () => verify_role("administrator"),
+              loader: async () =>
+                (await user_has_role("administrador")) &&
+                user_choose_role("administrador")
+                  ? null
+                  : redirect("/"),
               children: [
                 {
                   path: "administrador",

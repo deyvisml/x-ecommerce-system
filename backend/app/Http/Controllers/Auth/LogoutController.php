@@ -11,11 +11,15 @@ class LogoutController extends Controller
     public function logout_user()
     {
         $user = Auth::user();
-        $user->tokens()->delete();
+        //$user->tokens()->delete(); // remove all tokens
+        $user->currentAccessToken()->delete(); // remove current token
 
-        return response()->json([
-            'message' => 'Has salido de la cuenta',
-        ], 200);
+        $response = [
+            'status' => true,
+            'message' => 'La sesión a sido cerrada.',
+        ];
+
+        return response()->json($response);
     }
 
     /**

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,13 @@ import { LoginSchema } from "./LoginSchema";
 
 const Login = () => {
   let navigate = useNavigate();
-  const { set_token, set_user } = useManagement();
+  const { set_token, set_user, set_role } = useManagement();
+
+  useEffect(() => {
+    set_token();
+    set_user();
+    set_role();
+  }, []);
 
   const {
     register,
@@ -31,15 +37,13 @@ const Login = () => {
 
       const roles = response.data.data.user.roles.map((rol) => rol.name);
 
-      if (!roles.includes("administrator") && !roles.includes("seller"))
+      if (!roles.includes("administrador") && !roles.includes("vendedor"))
         throw new Error("User without a valid role.");
 
       set_token(response.data.data.token);
       set_user(response.data.data.user);
 
-      roles.includes("administrator")
-        ? navigate(`/administrador`)
-        : navigate(`/vendedor`);
+      return navigate("/escoger-rol");
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
