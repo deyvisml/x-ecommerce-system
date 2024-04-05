@@ -10,12 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
-const EditStoreModal = ({
-  record,
-  setDataChanged,
-  is_modal_open,
-  setIsModalOpen,
-}) => {
+const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   const {
     register,
     watch,
@@ -24,17 +19,10 @@ const EditStoreModal = ({
     clearErrors,
     formState: { errors },
   } = useForm({
-    mode: "all",
     defaultValues: {
-      store_name: record?.name ?? undefined,
-      ruc: record?.ruc ?? undefined,
-      business_name: record?.business_name ?? undefined,
-      legal_representative: record?.legal_representative ?? undefined,
-      seller_id: record?.user_id ?? undefined,
-      bank_id: record?.bank_id ?? undefined,
-      bank_account_number: record?.bank_account_number ?? undefined,
-      state_id: record?.state_id ?? undefined,
+      state_id: 1,
     },
+    mode: "all",
     resolver: yupResolver(edit_store_schema),
   });
 
@@ -113,21 +101,14 @@ const EditStoreModal = ({
     })();
   }, []);
 
-  useEffect(() => {
-    if (watch("bank_id") == 0) {
-      setValue("bank_account_number", "");
-      clearErrors("bank_account_number");
-    }
-  }, [watch("bank_id")]);
-
   const handle_click_cancel_btn = () => {
     setIsModalOpen(false);
   };
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios_client(`/api/stores/${record.id}`, {
-        method: "put",
+      const response = await axios_client(`/api/stores`, {
+        method: "post",
         data,
         headers: {
           authorization: `Bearer ${token}`,
@@ -137,7 +118,7 @@ const EditStoreModal = ({
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: "Creado!",
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
@@ -162,7 +143,7 @@ const EditStoreModal = ({
   return (
     fetches_finished == true && (
       <Modal
-        title={"Editar tienda"}
+        title={"Crear tienda"}
         is_open_modal={is_modal_open}
         setIsOpenModal={setIsModalOpen}
       >
@@ -283,7 +264,7 @@ const EditStoreModal = ({
                 id="bank_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
-                <option value={0}>Seleccionar</option>
+                <option value="">Seleccionar</option>
                 {banks.map((bank, i) => {
                   return (
                     <option key={i} value={bank.id}>
@@ -308,7 +289,6 @@ const EditStoreModal = ({
               </label>
               <input
                 {...register("bank_account_number")}
-                disabled={watch("bank_id") == 0}
                 name="bank_account_number"
                 id="bank_account_number"
                 type="text"
@@ -361,7 +341,7 @@ const EditStoreModal = ({
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
             >
-              Editar
+              Crear
             </button>
           </div>
         </form>
@@ -370,4 +350,4 @@ const EditStoreModal = ({
   );
 };
 
-export default EditStoreModal;
+export default AddStoreModal;

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class ProductController extends Controller
 {
@@ -43,6 +44,75 @@ class ProductController extends Controller
         }
 
         $products = $products->get();
+
+        return ProductResource::collection($products);
+    }
+
+    public function index2(Request $request)
+    {
+        $filtering = $request->query('filtering');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Product::query();
+
+        // ------------------ select columns ------------------
+        $query->select('products.*');
+        foreach (Schema::getColumnListing('product_types') as $column) {
+            $query->addSelect('product_types.' . $column . ' as product_types_' . $column);
+        }
+        foreach (Schema::getColumnListing('categories') as $column) {
+            $query->addSelect('categories.' . $column . ' as categories_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('product_types', 'products.product_type_id', '=', 'product_types.id');
+        $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
+        $query->leftJoin('states', 'products.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                $query->whereIn($filter['column'], $filter['values']);
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['products.id', 'products.name', 'products.price', 'products.quantity', 'product_types.name', 'categories.name', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('products.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $products = $query->paginate($page_size);
+        } else {
+            $products = $query->get();
+        }
 
         return ProductResource::collection($products);
     }

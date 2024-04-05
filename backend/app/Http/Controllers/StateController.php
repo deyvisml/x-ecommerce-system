@@ -22,8 +22,12 @@ class StateController extends Controller
         $query = State::query();
 
         if ($filtering) {
-            foreach ($filtering as $key => $value) {
-                $query->whereIn($key, $value);
+            foreach ($filtering as $filter) {
+                if (!is_array($filter['values'])) {
+                    $filter['values'] = array($filter['values']);
+                }
+
+                $query->whereIn($filter['column'], $filter['values']);
             }
         }
         if ($search_query) {

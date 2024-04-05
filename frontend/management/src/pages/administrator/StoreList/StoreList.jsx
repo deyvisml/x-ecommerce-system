@@ -9,16 +9,16 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
-import TableFilter from "./TableFilter";
-import StateFilter from "./StateFilter";
-import TableSearch from "./TableSearch";
-import PageSize from "./PageSize";
-import ExportTableDataButton from "./ExportTableDataButton";
+import TableFilter from "../../../components/TableFilter";
+import StateFilter from "../../../components/StateFilter";
+import TableSearch from "../../../components/TableSearch";
+import PageSize from "../../../components/PageSize";
+import ExportTableDataButton from "../../../components/ExportTableDataButton";
 import AddSellerButton from "./AddStoreButton";
 import AddStoreModal from "./AddStoreModal";
-import Table from "./Table";
-import TablePagination from "./TablePagination";
-import TotalRecordsLabel from "./TotalRecordsLabel";
+import Table from "../../../components/Table";
+import TablePagination from "../../../components/TablePagination";
+import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import EditStoreButton from "./EditStoreButton";
 import { AnimatePresence } from "framer-motion";
 import EditStoreModal from "./EditStoreModal";
@@ -52,9 +52,12 @@ const FILTER_STATE = 1;
 
 function StoreList() {
   const [data_changed, setDataChanged] = useState(false);
-  const [filtering, setFiltering] = useState({
-    "stores.state_id": [FILTER_STATE],
-  });
+  const [filtering, setFiltering] = useState([
+    {
+      column: "stores.state_id",
+      values: [FILTER_STATE],
+    },
+  ]);
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([]);
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
@@ -314,11 +317,12 @@ function StoreList() {
         </h3>
       </div>
 
-      <TableFilter filtering={filtering} setFiltering={setFiltering}>
+      <TableFilter>
         <StateFilter
+          filter_column={"stores.state_id"}
+          selectable_record_ids={[1, 2, 3]}
           filtering={filtering}
           setFiltering={setFiltering}
-          choose_records={[1, 2, 3]}
         />
       </TableFilter>
 
@@ -373,7 +377,7 @@ function StoreList() {
 
         {is_edit_store_modal_open == true && (
           <EditStoreModal
-            store={edit_store}
+            record={edit_store}
             setDataChanged={setDataChanged}
             is_modal_open={is_edit_store_modal_open}
             setIsModalOpen={setIsEditStoreModalOpen}

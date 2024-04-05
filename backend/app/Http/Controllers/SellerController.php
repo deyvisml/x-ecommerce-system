@@ -55,8 +55,8 @@ class SellerController extends Controller
         $query->where('role_user.role_id', $this->seller_role_id);
 
         if ($filtering) {
-            foreach ($filtering as $key => $value) {
-                $query->whereIn($key, $value);
+            foreach ($filtering as $filter) {
+                $query->whereIn($filter['column'], $filter['values']);
             }
         }
         if ($search_query) {

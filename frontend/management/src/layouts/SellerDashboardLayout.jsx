@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 
-import AdministratorSidebar from "../components/AdministratorSidebar";
+import SellerSidebar from "../components/SellerSidebar";
 import Header from "../partials/dashboard/Header";
 import { Outlet } from "react-router-dom";
 
-function AdminDashboardLayout() {
+function SellerDashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <AdministratorSidebar
+      <SellerSidebar
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
@@ -30,4 +30,4 @@ function AdminDashboardLayout() {
   );
 }
 
-export default AdminDashboardLayout;
+export default SellerDashboardLayout;

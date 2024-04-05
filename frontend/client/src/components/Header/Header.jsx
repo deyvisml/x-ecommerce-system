@@ -93,9 +93,17 @@ const Header = () => {
   };
 
   const handle_go_offer_product_btn = async () => {
-    const { data } = await axios_client(
-      `api/products?in_offer=${1}&order_by_name=${"random"}&limit=${1}`
-    );
+    const { data } = await axios_client(`api/products2`, {
+      method: "get",
+      params: {
+        filtering: [
+          { id: "products.in_offer", values: [1] },
+          { id: "products.state_id", values: [1] },
+        ],
+        sorting: [{ id: "", way: "random" }],
+        limit: 1,
+      },
+    });
 
     const offer_product = data.data[0];
 
@@ -104,7 +112,7 @@ const Header = () => {
       throw new Error("Sin productos en oferta.");
     }
 
-    navigate(
+    return navigate(
       `/categorias/${offer_product.category_id}/productos/${offer_product.id}`
     );
   };

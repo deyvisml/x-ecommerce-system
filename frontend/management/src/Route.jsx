@@ -11,11 +11,13 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 import AdminDashboardHome from "./pages/administrator/AdminDashboardHome";
 import StoreList from "./pages/administrator/StoreList/StoreList";
-import SellerDashboard from "./pages/seller/Dashboard";
 import ResetPassword from "./pages/ResetPassword";
 import StoreApplications from "./pages/administrator/StoreApplications/StoreApplications";
 import SellerList from "./pages/administrator/SellerList/SellerList";
 import ChooseRole from "./pages/ChooseRole";
+import SellerDashboardLayout from "./layouts/SellerDashboardLayout";
+import SellerDashboardHome from "./pages/seller/SellerDashboardHome";
+import ProductList from "./pages/seller/ProductList/ProductList";
 
 const Route = () => {
   // this func also check if the user has valid roles like "administrador" / "vendedor"
@@ -108,13 +110,22 @@ const Route = () => {
           loader: async () => ((await user_is_auth()) ? null : redirect("/")),
           children: [
             {
-              path: "vendedor",
+              element: <SellerDashboardLayout />,
               loader: async () =>
                 (await user_has_role("vendedor")) &&
                 user_choose_role("vendedor")
                   ? null
                   : redirect("/"),
-              element: <SellerDashboard />,
+              children: [
+                {
+                  path: "vendedor",
+                  element: <SellerDashboardHome />,
+                },
+                {
+                  path: "vendedor/productos/listado",
+                  element: <ProductList />,
+                },
+              ],
             },
             {
               element: <AdminDashboardLayout />,

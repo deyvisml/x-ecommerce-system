@@ -9,14 +9,14 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 
-import TableFilter from "../StoreList/TableFilter";
-import StateFilter from "../StoreList/StateFilter";
-import TableSearch from "../StoreList/TableSearch";
-import PageSize from "../StoreList/PageSize";
-import ExportTableDataButton from "../StoreList/ExportTableDataButton";
-import Table from "../StoreList/Table";
-import TablePagination from "../StoreList/TablePagination";
-import TotalRecordsLabel from "../StoreList/TotalRecordsLabel";
+import TableFilter from "../../../components/TableFilter";
+import StateFilter from "../../../components/StateFilter";
+import TableSearch from "../../../components/TableSearch";
+import PageSize from "../../../components/PageSize";
+import ExportTableDataButton from "../../../components/ExportTableDataButton";
+import Table from "../../../components/Table";
+import TablePagination from "../../../components/TablePagination";
+import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import AcceptStoreApplicationButton from "./AcceptStoreApplicationButton";
 import RejectStoreApplicationButton from "./RejectStoreApplicationButton";
 
@@ -48,9 +48,12 @@ const FILTER_STATE = 4;
 
 function StoreApplications() {
   const [data_changed, setDataChanged] = useState(false);
-  const [filtering, setFiltering] = useState({
-    "stores.state_id": [FILTER_STATE],
-  });
+  const [filtering, setFiltering] = useState([
+    {
+      column: "stores.state_id",
+      values: [FILTER_STATE],
+    },
+  ]);
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([]);
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
@@ -343,11 +346,12 @@ function StoreApplications() {
         </h3>
       </div>
 
-      <TableFilter filtering={filtering} setFiltering={setFiltering}>
+      <TableFilter>
         <StateFilter
+          filter_column={"stores.state_id"}
+          selectable_record_ids={[4, 5]}
           filtering={filtering}
           setFiltering={setFiltering}
-          choose_records={[4, 5]}
         />
       </TableFilter>
 

@@ -58,8 +58,8 @@ class StoreController extends Controller
             $query->where('stores.state_id', $state_id);
         }
         if ($filtering) {
-            foreach ($filtering as $key => $value) {
-                $query->whereIn($key, $value);
+            foreach ($filtering as $filter) {
+                $query->whereIn($filter['column'], $filter['values']);
             }
         }
         if ($search_query) {

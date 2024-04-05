@@ -8,21 +8,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import currency from "currency.js";
 
 import TableFilter from "../../../components/TableFilter";
 import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
-import AddSellerButton from "./AddSellerButton";
-import AddSellerModal from "./AddSellerModal";
+import AddSellerButton from "./AddStoreButton";
+import AddStoreModal from "./AddStoreModal";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
-import EditSellerButton from "./EditSellerButton";
+import EditStoreButton from "./EditStoreButton";
 import { AnimatePresence } from "framer-motion";
-import EditSellerModal from "./EditSellerModal";
-import DeleteSellerButton from "./DeleteSellerButton";
+import EditStoreModal from "./EditStoreModal";
+import DeleteStoreButton from "./DeleteStoreButton";
+import SwitchStockInput from "./SwitchStockInput";
 
 moment.locale("es");
 
@@ -46,22 +48,35 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
   );
 }
 
+const format_sorting = (sorting) => {
+  let format_sorting = [];
+
+  sorting.forEach((sort) => {
+    format_sorting.push({
+      column: sort["column"],
+      way: sort["desc"] ? "DESC" : "ASC",
+    });
+  });
+
+  return format_sorting;
+};
+
 const INIT_PAGE_INDEX = 0;
-const PAGE_SIZES = [1, 2, 3, 10, 25, 50, 100];
+const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
-function SellerList() {
+function ProductList() {
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
     {
-      column: "role_user.state_id",
+      column: "products.state_id",
       values: [FILTER_STATE],
     },
   ]);
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([]);
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
-  const [page_size, setPageSize] = useState(PAGE_SIZES[2]);
+  const [page_size, setPageSize] = useState(PAGE_SIZES[0]);
   const [pagination, setPagination] = useState({
     pageIndex: page_index, //initial page index
     pageSize: page_size, //default page size
@@ -69,13 +84,14 @@ function SellerList() {
 
   const [pagination_links, setPaginationLinks] = useState([]);
   const [total_records, setTotalRecords] = useState(0);
-  const [rowSelection, setRowSelection] = useState({ 6: true });
+  const [rowSelection, setRowSelection] = useState({});
 
   const [data, setData] = useState([]);
 
-  const [is_add_seller_modal_open, setIsAddSellerModalOpen] = useState(false);
-  const [is_edit_seller_modal_open, setIsEditSellerModalOpen] = useState(false);
-  const [edit_seller, setEditSeller] = useState();
+  const [is_add_product_modal_open, setIsAddProductModalOpen] = useState(false);
+  const [is_edit_product_modal_open, setIsEditProductModalOpen] =
+    useState(false);
+  const [edit_product, setEditProduct] = useState();
 
   // useMemo is optional, only use to save the data when it's rendering many times, a direct way is to use the array instead
   const columns = useMemo(
@@ -110,27 +126,55 @@ function SellerList() {
         ),
       },
       {
-        accessorKey: "first_name",
-        header: () => "Nombre",
+        accessorKey: "name",
+        header: () => "Producto",
         cell: ({ row }) => {
-          //console.log(row.original);
-          return row.original.first_name + " " + (row.original.last_name ?? "");
+          return (
+            <div className="flex items-center gap-x-2">
+              <div className="bg-slate-200 p-1 rounded w-10 h-10">
+                <img
+                  src={`http://localhost:5173/images/products/${row.original.image_url}`}
+                  alt=""
+                />
+              </div>
+              <span className="block text-black">{row.original.name}</span>
+            </div>
+          );
         },
       },
       {
-        accessorKey: "email",
-        header: () => "Email",
-        cell: (info) => info.getValue(),
+        accessorKey: "categories_name",
+        header: () => "Categoria",
+        cell: (info) => {
+          return (
+            <span className="bg-slate-100 px-2 py-1 rounded text-xs capitalize">
+              {info.getValue()}
+            </span>
+          );
+        },
       },
       {
-        accessorKey: "phone_number",
-        header: () => "Teléfono",
-        cell: (info) => info.getValue(),
+        accessorKey: "price",
+        header: () => "Precio",
+        cell: (info) => {
+          return currency(info.getValue(), {
+            symbol: "S/ ",
+          }).format();
+        },
       },
       {
-        accessorKey: "created_at",
-        header: () => "Creado",
-        cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
+        accessorKey: "has_stock",
+        header: () => "Stock",
+        cell: (info) => {
+          //info.getValue()
+          return <SwitchStockInput state={info.getValue()} />;
+        },
+        enableSorting: false,
+      },
+      {
+        accessorKey: "quantity",
+        header: () => "Cantidad",
+        cell: (info) => info.getValue(),
       },
       {
         accessorKey: "states_name",
@@ -138,7 +182,7 @@ function SellerList() {
         cell: ({ row }) => {
           let value = undefined;
 
-          switch (row.original.role_user_state_id) {
+          switch (row.original.state_id) {
             case 1:
               value = (
                 <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
@@ -149,13 +193,6 @@ function SellerList() {
             case 3:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
-                  {row.original.states_name}
-                </span>
-              );
-              break;
-            case 4:
-              value = (
-                <span className="bg-orange-100 px-2 py-1 rounded text-orange-500 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
@@ -204,29 +241,27 @@ function SellerList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditSellerButton
+                          <EditStoreButton
                             record={row.original}
-                            setEditSeller={setEditSeller}
-                            is_edit_seller_modal_open={
-                              is_edit_seller_modal_open
+                            setEditStore={setEditProduct}
+                            is_edit_store_modal_open={
+                              is_edit_product_modal_open
                             }
-                            setIsEditSellerModalOpen={setIsEditSellerModalOpen}
+                            setIsEditStoreModalOpen={setIsEditProductModalOpen}
                           />
                         </span>
                       )}
                     </Menu.Item>
-                    {row.original.role_user_state_id != 3 && (
-                      <Menu.Item>
-                        {({ close }) => (
-                          <span onClick={close}>
-                            <DeleteSellerButton
-                              record={row.original}
-                              setDataChanged={setDataChanged}
-                            />
-                          </span>
-                        )}
-                      </Menu.Item>
-                    )}
+                    <Menu.Item>
+                      {({ close }) => (
+                        <span onClick={close}>
+                          <DeleteStoreButton
+                            record={row.original}
+                            setDataChanged={setDataChanged}
+                          />
+                        </span>
+                      )}
+                    </Menu.Item>
                   </Menu.Items>
                 )}
               </>
@@ -238,14 +273,14 @@ function SellerList() {
     []
   );
 
-  const fetch_sellers = async () => {
+  const fetch_products = async () => {
     try {
-      const response = await axios_client(`/api/sellers`, {
+      const response = await axios_client(`/api/products2`, {
         method: "get",
         params: {
           filtering,
           search_query,
-          sorting,
+          sorting: format_sorting(sorting),
           page: pagination.pageIndex + 1,
           page_size: pagination.pageSize,
         },
@@ -266,7 +301,7 @@ function SellerList() {
   };
 
   useEffect(() => {
-    fetch_sellers();
+    fetch_products();
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -306,7 +341,7 @@ function SellerList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_sellers();
+      fetch_products();
       setDataChanged(false);
     }
   }, [data_changed]);
@@ -314,12 +349,14 @@ function SellerList() {
   return (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">Vendedores</h3>
+        <h3 className="font-semibold text-2xl text-slate-800">
+          Listado de Productos
+        </h3>
       </div>
 
       <TableFilter>
         <StateFilter
-          filter_column={"role_user.state_id"}
+          filter_column={"products.state_id"}
           selectable_record_ids={[1, 2, 3]}
           filtering={filtering}
           setFiltering={setFiltering}
@@ -348,7 +385,7 @@ function SellerList() {
             <ExportTableDataButton />
 
             <AddSellerButton
-              setIsAddSellerModalOpen={setIsAddSellerModalOpen}
+              setIsAddStoreModalOpen={setIsAddProductModalOpen}
             />
           </div>
         </div>
@@ -369,20 +406,20 @@ function SellerList() {
       </div>
 
       <AnimatePresence>
-        {is_add_seller_modal_open == true && (
-          <AddSellerModal
+        {is_add_product_modal_open == true && (
+          <AddStoreModal
             setDataChanged={setDataChanged}
-            is_modal_open={is_add_seller_modal_open}
-            setIsModalOpen={setIsAddSellerModalOpen}
+            is_modal_open={is_add_product_modal_open}
+            setIsModalOpen={setIsAddProductModalOpen}
           />
         )}
 
-        {is_edit_seller_modal_open == true && (
-          <EditSellerModal
-            record={edit_seller}
+        {is_edit_product_modal_open == true && (
+          <EditStoreModal
+            record={edit_product}
             setDataChanged={setDataChanged}
-            is_modal_open={is_edit_seller_modal_open}
-            setIsModalOpen={setIsEditSellerModalOpen}
+            is_modal_open={is_edit_product_modal_open}
+            setIsModalOpen={setIsEditProductModalOpen}
           />
         )}
       </AnimatePresence>
@@ -390,4 +427,4 @@ function SellerList() {
   );
 }
 
-export default SellerList;
+export default ProductList;
