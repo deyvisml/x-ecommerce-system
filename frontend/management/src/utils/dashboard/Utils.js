@@ -1,9 +1,9 @@
-import resolveConfig from 'tailwindcss/resolveConfig';
+import resolveConfig from "tailwindcss/resolveConfig";
 
 export const tailwindConfig = () => {
   // Tailwind config
-  return resolveConfig('./src/css/tailwind.config.js')
-}
+  return resolveConfig("./src/css/tailwind.config.js");
+};
 
 export const hexToRGB = (h) => {
   let r = 0;
@@ -21,9 +21,23 @@ export const hexToRGB = (h) => {
   return `${+r},${+g},${+b}`;
 };
 
-export const formatValue = (value) => Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumSignificantDigits: 3,
-  notation: 'compact',
-}).format(value);
+export const formatValue = (value) =>
+  Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    maximumSignificantDigits: 3,
+    notation: "compact",
+  }).format(value);
+
+export const format_react_table_sorting = (sorting) => {
+  let format_sorting = [];
+
+  sorting.forEach((sort) => {
+    format_sorting.push({
+      column: sort["id"],
+      way: sort["desc"] ? "DESC" : "ASC",
+    });
+  });
+
+  return format_sorting;
+};

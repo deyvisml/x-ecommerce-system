@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
 
 import TableFilter from "../../../components/TableFilter";
 import StateFilter from "../../../components/StateFilter";
@@ -272,7 +273,7 @@ function StoreApplications() {
         params: {
           filtering,
           search_query,
-          sorting,
+          sorting: format_react_table_sorting(sorting),
           page: pagination.pageIndex + 1,
           page_size: pagination.pageSize,
         },

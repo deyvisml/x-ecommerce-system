@@ -73,9 +73,16 @@ class StoreController extends Controller
         }
         if ($sorting) {
             foreach ($sorting as $sort) {
-                $query->orderBy($sort['id'], $sort['desc'] == 'true' ? 'DESC' : 'ASC');
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
             }
+        } else {
+            $query->orderBy('stores.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
         }
+
         if ($limit) {
             $query->limit($limit);
         }

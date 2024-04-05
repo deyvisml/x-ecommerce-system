@@ -9,6 +9,7 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import currency from "currency.js";
+import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
 
 import TableFilter from "../../../components/TableFilter";
 import StateFilter from "../../../components/StateFilter";
@@ -47,19 +48,6 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
     />
   );
 }
-
-const format_sorting = (sorting) => {
-  let format_sorting = [];
-
-  sorting.forEach((sort) => {
-    format_sorting.push({
-      column: sort["column"],
-      way: sort["desc"] ? "DESC" : "ASC",
-    });
-  });
-
-  return format_sorting;
-};
 
 const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [5, 10, 25, 50, 100];
@@ -280,7 +268,7 @@ function ProductList() {
         params: {
           filtering,
           search_query,
-          sorting: format_sorting(sorting),
+          sorting: format_react_table_sorting(sorting),
           page: pagination.pageIndex + 1,
           page_size: pagination.pageSize,
         },
