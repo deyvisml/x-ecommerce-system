@@ -6,7 +6,7 @@ const addItemToCart = ({ id, product, quantity }, cart, setCart) => {
   let error_occurred = false;
   let message = "Agregado al carrito  de compras";
 
-  if (!product.has_stock) {
+  if (!product.in_stock) {
     error_occurred = true;
     message = "No existe stock disponible.";
   } else {

@@ -7,14 +7,17 @@ import SwitchInput from "../../../components/SwitchInput";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useManagement from "../../../hooks/useManagement";
+import Swal from "sweetalert2";
 
 const AddProduct = () => {
+  const { token } = useManagement();
+
   const {
     register,
     control,
     watch,
     setValue,
-    getValues,
     setError,
     handleSubmit,
     reset,
@@ -23,7 +26,10 @@ const AddProduct = () => {
   } = useForm({
     mode: "all",
     defaultValues: {
-      has_stock: true,
+      in_offer: false,
+      quantity: 1,
+      discount_rate: 0,
+      in_stock: true,
       state_id: 1,
     },
     resolver: yupResolver(schema),
@@ -74,10 +80,6 @@ const AddProduct = () => {
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
-
   const [states, setStates] = useState([]);
   const fetch_states = async () => {
     try {
@@ -121,6 +123,57 @@ const AddProduct = () => {
     setValue("collection_id", "");
   }, [watch("category_id")]);
 
+  const onSubmit = async (data) => {
+    console.log(data);
+
+    const form_data = new FormData();
+
+    for (let key in data) {
+      if (key == "image") {
+        form_data.append(key, data[key][0]);
+      } else {
+        form_data.append(key, data[key]);
+      }
+    }
+
+    try {
+      const response = await axios_client(`/api/products`, {
+        method: "post",
+        data: form_data,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.data.status) {
+        Swal.fire({
+          icon: "success",
+          title: "Creado!",
+          text: response.data.message,
+          confirmButtonText: "Continuar",
+        });
+        reset();
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error!",
+          text: response.data.message,
+          confirmButtonText: "Continuar",
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
+    }
+  };
+
+  const handle_click_discard_btn = () => {
+    reset();
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div>
@@ -134,19 +187,20 @@ const AddProduct = () => {
           <li>
             <button
               type="button"
+              onClick={handle_click_discard_btn}
               className="bg-indigo-50 hover:bg-indigo-100 text-gray-400 btn"
             >
               Descartar
             </button>
           </li>
-          <li>
+          {/*<li>
             <button
               type="button"
               className="bg-indigo-100 hover:bg-indigo-200 text-indigo-500 btn"
             >
               Guardar borrador
             </button>
-          </li>
+          </li>*/}
           <li>
             <button
               type="submit"
@@ -281,7 +335,7 @@ const AddProduct = () => {
                   name="discount_rate"
                   id="discount_rate"
                   type="number"
-                  placeholder="0%"
+                  placeholder="Descuento"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.discount_rate && (
@@ -291,25 +345,65 @@ const AddProduct = () => {
                 )}
               </div>
 
-              <hr className="col-span-full" />
-
               <div className="col-span-full">
                 <div className="flex justify-between">
-                  <label htmlFor="has_stock" className="block text-base">
-                    En stock
+                  <label htmlFor="in_offer" className="block text-base">
+                    En oferta
                   </label>
 
                   <Controller
-                    name="has_stock"
+                    name="in_offer"
                     control={control}
                     render={({ field: { value, onChange } }) => (
                       <SwitchInput value={value} onChange={onChange} />
                     )}
                   />
                 </div>
-                {errors.has_stock && (
+                {errors.in_offer && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.has_stock.message}
+                    {errors.in_offer.message}
+                  </p>
+                )}
+              </div>
+
+              <hr className="col-span-full" />
+
+              <div className="col-span-full">
+                <label htmlFor="quantity" className="block text-xs">
+                  Cantidad
+                </label>
+                <input
+                  {...register("quantity")}
+                  name="quantity"
+                  id="quantity"
+                  type="number"
+                  placeholder="Cantidad"
+                  className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
+                />
+                {errors.quantity && (
+                  <p className="pt-1 text-red-500 text-xs ps-1">
+                    {errors.quantity.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="col-span-full">
+                <div className="flex justify-between">
+                  <label htmlFor="in_stock" className="block text-base">
+                    En stock
+                  </label>
+
+                  <Controller
+                    name="in_stock"
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <SwitchInput value={value} onChange={onChange} />
+                    )}
+                  />
+                </div>
+                {errors.in_stock && (
+                  <p className="pt-1 text-red-500 text-xs ps-1">
+                    {errors.in_stock.message}
                   </p>
                 )}
               </div>

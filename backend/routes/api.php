@@ -40,7 +40,6 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('categories', CategoryController::class);
-Route::apiResource('products', ProductController::class);
 Route::apiResource('product-types', ProductTypeController::class);
 Route::apiResource('document-types', DocumentTypeController::class);
 Route::apiResource('regions', RegionController::class);
@@ -48,6 +47,9 @@ Route::apiResource('orders', OrderController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
+
+Route::apiResource('products', ProductController::class)->except(['store', 'update', 'destroy']);
+Route::apiResource('products', ProductController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');
 
 Route::apiResource('sellers', SellerController::class)->except(['store', 'update', 'destroy']);
 Route::apiResource('sellers', SellerController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');

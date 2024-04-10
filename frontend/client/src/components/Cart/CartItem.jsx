@@ -46,7 +46,7 @@ const CartItem = ({ item }) => {
       <div className="border-gray-400 px-2 py-3 border-b sm:border-b-0">
         <div className="m-auto w-44 sm:w-24 md:w-40 h-auto">
           <img
-            src={`images/products/${item.product.image_url}`}
+            src={`images/products/${item.product.image_name}`}
             alt="product image"
             className="block w-full h-full overflow-hidden object-contain"
           />

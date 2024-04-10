@@ -11,15 +11,12 @@ const UploadImageDropzone = ({
   watch,
   schema,
 }) => {
-  const [files, setFiles] = useState([]);
-
   const onDrop = useCallback((acceptedFiles) => {
     const new_files = acceptedFiles.map((file) =>
       Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
     );
-    setFiles(new_files);
     setValue(name, new_files);
   }, []);
 
@@ -36,16 +33,16 @@ const UploadImageDropzone = ({
 
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    return () =>
+      watch(name)?.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
   const handle_click_remove_file_btn = (e, file) => {
     e.stopPropagation();
-    const new_files = [...files];
-    const file_index = files.indexOf(file);
+    const new_files = [...watch(name)];
+    const file_index = watch(name).indexOf(file);
     new_files.splice(file_index, 1);
 
-    setFiles(new_files);
     setValue(name, new_files);
   };
 
@@ -53,7 +50,7 @@ const UploadImageDropzone = ({
     if (watch(name)) {
       try {
         const value = watch(name);
-        // selecting the rule to only validate the input register with the contenct of var name
+        // selecting the rule to only validate the input register with the content of var name
         yup.reach(schema, name).validateSync(value);
         clearErrors(name);
       } catch (error) {
@@ -69,7 +66,7 @@ const UploadImageDropzone = ({
     >
       <input id={name} {...register(name)} {...getInputProps()} />
 
-      {files.length == 0 && (
+      {(!watch(name) || watch(name).length == 0) && (
         <div className="flex flex-col justify-center items-center py-16">
           <p>Arrastra tu imagen aqui</p>
           <span className="block text-center">o</span>
@@ -80,43 +77,44 @@ const UploadImageDropzone = ({
       )}
 
       <div className="gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {files.map((file, i) => {
-          return (
-            <div
-              key={i}
-              className="justify-center items-center shadow border rounded divide-y divide-gray-300 text-center text-xs"
-            >
-              <div className="p-2">
-                <img
-                  src={file.preview}
-                  className="m-auto w-32 h-32 object-cover"
-                  // Revoke data uri after image is loaded
-                  onLoad={() => {
-                    //URL.revokeObjectURL(file.preview);
-                  }}
-                />
+        {watch(name) &&
+          watch(name).map((file, i) => {
+            return (
+              <div
+                key={i}
+                className="justify-center items-center shadow border rounded divide-y divide-gray-300 text-center text-xs"
+              >
+                <div className="p-2">
+                  <img
+                    src={file.preview}
+                    className="m-auto w-32 h-32 object-cover"
+                    // Revoke data uri after image is loaded
+                    onLoad={() => {
+                      //URL.revokeObjectURL(file.preview);
+                    }}
+                  />
+                </div>
+                <div className="p-2 text-left">
+                  <span title={file.name} className="block">
+                    {file.name.substring(0, 20)}...
+                  </span>
+                  <span className="block font-bold text-gray-400 italic">
+                    {bytes_to_mb(file.size)} MB
+                  </span>
+                </div>
+                <div>
+                  <button
+                    onClick={(e) => {
+                      handle_click_remove_file_btn(e, file);
+                    }}
+                    className="block hover:bg-slate-200 p-1 w-full font-bold text-red-400 transition-all duration-300 ease-in-out"
+                  >
+                    Eliminar
+                  </button>
+                </div>
               </div>
-              <div className="p-2 text-left">
-                <span title={file.name} className="block">
-                  {file.name.substring(0, 20)}...
-                </span>
-                <span className="block font-bold text-gray-400 italic">
-                  {bytes_to_mb(file.size)} MB
-                </span>
-              </div>
-              <div>
-                <button
-                  onClick={(e) => {
-                    handle_click_remove_file_btn(e, file);
-                  }}
-                  className="block hover:bg-slate-200 p-1 w-full font-bold text-red-400 transition-all duration-300 ease-in-out"
-                >
-                  Eliminar
-                </button>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
     </div>
   );

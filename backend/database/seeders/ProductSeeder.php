@@ -2,10 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Faker\Factory as Faker;
 use App\Models\Product;
+use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
 {
@@ -16,7 +15,7 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $image_urls = [
+        $image_names = [
             "167_320x320.png",
             "175_320x320.png",
             "428_320x320.png",
@@ -86,13 +85,13 @@ class ProductSeeder extends Seeder
             Product::create([
                 'id' => $i + 1,
                 'name' => $faker->sentence(3),
-                'description'  => $faker->paragraph(),
-                'image_url'     => $image_urls[array_rand($image_urls)],
-                'price'     => $faker->randomFloat(2, 20, 80),
-                'quantity'     => $faker->numberBetween(0, 30),
-                'product_type_id'   => $product_type_id,
-                'category_id'   => (int)(($product_type_id - 1) / 5 + 1),
-                'state_id'   => 1,
+                'description' => $faker->paragraph(),
+                'image_name' => $image_names[array_rand($image_names)],
+                'price' => $faker->randomFloat(2, 20, 80),
+                'quantity' => $faker->numberBetween(0, 30),
+                'product_type_id' => $product_type_id,
+                'category_id' => (int) (($product_type_id - 1) / 5 + 1),
+                'state_id' => 1,
             ]);
         }
     }

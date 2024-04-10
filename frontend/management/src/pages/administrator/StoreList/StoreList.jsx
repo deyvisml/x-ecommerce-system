@@ -20,7 +20,7 @@ import AddStoreModal from "./AddStoreModal";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
-import EditStoreButton from "./EditStoreButton";
+import EditRecordButton from "../../../components/EditRecordButton";
 import { AnimatePresence } from "framer-motion";
 import EditStoreModal from "./EditStoreModal";
 import DeleteStoreButton from "./DeleteStoreButton";
@@ -207,11 +207,11 @@ function StoreList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditStoreButton
+                          <EditRecordButton
                             record={row.original}
-                            setEditStore={setEditStore}
-                            is_edit_store_modal_open={is_edit_store_modal_open}
-                            setIsEditStoreModalOpen={setIsEditStoreModalOpen}
+                            setEditRecord={setEditStore}
+                            is_edit_record_modal_open={is_edit_store_modal_open}
+                            setIsEditRecordModalOpen={setIsEditStoreModalOpen}
                           />
                         </span>
                       )}

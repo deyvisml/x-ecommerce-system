@@ -16,7 +16,7 @@ class Category extends Model
         'id',
         'name',
         'description',
-        'image_url',
+        'image_name',
         'display_in_column',
         'image_height',
         'order',

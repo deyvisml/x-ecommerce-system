@@ -5,7 +5,7 @@ const Category = ({
   id,
   name = "Sample category",
   description = "Sample description",
-  image_url = "https://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png",
+  image_name = "https://inspectiondoc.com/wp-content/uploads/2014/08/sample-icon.png",
   image_height = "h-80",
 }) => {
   return (
@@ -14,7 +14,7 @@ const Category = ({
       className={`relative h-auto block overflow-hidden group bg-gray-300 shadow-md  `}
     >
       <img
-        src={`images/categories/${image_url}`}
+        src={`images/categories/${image_name}`}
         alt=""
         className={`z-0 object-cover w-full ${image_height} transition-transform transform group-hover:scale-125`}
       />

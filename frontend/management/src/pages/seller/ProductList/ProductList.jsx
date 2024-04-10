@@ -16,15 +16,14 @@ import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
-import LinkComponent from "./LinkComponent";
+import LinkComponent from "../../../components/LinkComponent";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
-import EditStoreButton from "./EditStoreButton";
-import { AnimatePresence } from "framer-motion";
-import EditStoreModal from "./EditStoreModal";
-import DeleteStoreButton from "./DeleteStoreButton";
+import EditRecordLink from "../../../components/EditRecordLink";
+import DeleteRecordButton from "../../../components/DeleteRecordButton";
 import SwitchStockInput from "./SwitchStockInput";
+import useManagement from "../../../hooks/useManagement";
 
 moment.locale("es");
 
@@ -53,6 +52,8 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function ProductList() {
+  const { token } = useManagement();
+
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
     {
@@ -74,11 +75,6 @@ function ProductList() {
   const [rowSelection, setRowSelection] = useState({});
 
   const [data, setData] = useState([]);
-
-  const [is_add_product_modal_open, setIsAddProductModalOpen] = useState(false);
-  const [is_edit_product_modal_open, setIsEditProductModalOpen] =
-    useState(false);
-  const [edit_product, setEditProduct] = useState();
 
   // useMemo is optional, only use to save the data when it's rendering many times, a direct way is to use the array instead
   const columns = useMemo(
@@ -120,7 +116,7 @@ function ProductList() {
             <div className="flex items-center gap-x-2">
               <div className="bg-slate-200 p-1 rounded w-10 h-10">
                 <img
-                  src={`http://localhost:5173/images/products/${row.original.image_url}`}
+                  src={`http://localhost:5173/images/products/${row.original.image_name}`}
                   alt=""
                 />
               </div>
@@ -150,7 +146,7 @@ function ProductList() {
         },
       },
       {
-        accessorKey: "has_stock",
+        accessorKey: "in_stock",
         header: () => "Stock",
         cell: (info) => {
           //info.getValue()
@@ -228,13 +224,8 @@ function ProductList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditStoreButton
-                            record={row.original}
-                            setEditStore={setEditProduct}
-                            is_edit_store_modal_open={
-                              is_edit_product_modal_open
-                            }
-                            setIsEditStoreModalOpen={setIsEditProductModalOpen}
+                          <EditRecordLink
+                            to={`/vendedor/productos/${row.original.id}/editar`}
                           />
                         </span>
                       )}
@@ -242,9 +233,10 @@ function ProductList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <DeleteStoreButton
+                          <DeleteRecordButton
                             record={row.original}
                             setDataChanged={setDataChanged}
+                            fn_delete_record={delete_product}
                           />
                         </span>
                       )}
@@ -333,6 +325,17 @@ function ProductList() {
     }
   }, [data_changed]);
 
+  const delete_product = async (record) => {
+    const response = await axios_client(`/api/products/${record.id}`, {
+      method: "delete",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  };
+
   return (
     <>
       <div>
@@ -392,17 +395,6 @@ function ProductList() {
           )}
         </div>
       </div>
-
-      <AnimatePresence>
-        {is_edit_product_modal_open == true && (
-          <EditStoreModal
-            record={edit_product}
-            setDataChanged={setDataChanged}
-            is_modal_open={is_edit_product_modal_open}
-            setIsModalOpen={setIsEditProductModalOpen}
-          />
-        )}
-      </AnimatePresence>
     </>
   );
 }

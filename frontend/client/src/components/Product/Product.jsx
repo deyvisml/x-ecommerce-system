@@ -69,20 +69,20 @@ const Product = () => {
       title: "SERVICIO DE DELIVERY",
       description:
         "Envío de flores en Lima y Callao. Entregas para el mismo dia.",
-      image_url: "delivery.webp",
+      image_name: "delivery.webp",
     },
     {
       id: 2,
       title: "PAGOS SEGUROS",
       description: "Compras de manera simple y segura con unos clicks.",
-      image_url: "security.png",
+      image_name: "security.png",
     },
     {
       id: 3,
       title: "SERVICIOS PERSONALIZADOS",
       description:
         "Cuidamos cada detalle para ti y la persona que tienes en el corazón.",
-      image_url: "client-service.webp",
+      image_name: "client-service.webp",
     },
   ];
 
@@ -143,7 +143,7 @@ const Product = () => {
             <div className="bg-rose-400 sm:mx-5 w-full leading-none">
               {product && (
                 <img
-                  src={`/images/products/${product.image_url}`}
+                  src={`/images/products/${product.image_name}`}
                   alt="product image"
                   className="border-2 shadow w-full"
                 />
@@ -151,7 +151,7 @@ const Product = () => {
 
               {/* product && (
               <ImageZoom
-                src={`/images/products/${product.image_url}`}
+                src={`/images/products/${product.image_name}`}
                 alt="Product image"
                 className="border-2 border-gray-400"
                 width="50%"
@@ -210,7 +210,7 @@ const Product = () => {
                   Disponibilidad:
                 </span>
                 {product &&
-                  (product.has_stock ? (
+                  (product.in_stock ? (
                     <p className="inline-block bg-green-500 px-2 py-1 rounded font-bold text-white text-xs">
                       En stock 🗸
                     </p>
@@ -238,14 +238,14 @@ const Product = () => {
                 <div>
                   <button
                     onClick={
-                      product.has_stock
+                      product.in_stock
                         ? handle_add_product_to_cart_btn
                         : (e) => {
                             e.preventDefault;
                           }
                     }
                     className={`${
-                      product.has_stock
+                      product.in_stock
                         ? "bg-rose-600 hover:bg-rose-700"
                         : "bg-rose-300 cursor-not-allowed"
                     }   mb-1.5 h-11 px-2 border md:rounded-md w-full font-semibold text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
@@ -263,16 +263,16 @@ const Product = () => {
                   </button>
                   <a
                     href={
-                      product.has_stock
+                      product.in_stock
                         ? `https://wa.me/${"+51975032529"}?text=${
                             "Deseo realizar mi pedido de este producto: " +
                             product.name.toUpperCase()
                           }`
                         : "javascript:void(0)"
                     }
-                    target={product.has_stock ? "_blank" : "_self"}
+                    target={product.in_stock ? "_blank" : "_self"}
                     className={`${
-                      product.has_stock
+                      product.in_stock
                         ? "bg-green-500 hover:bg-green-600"
                         : "bg-green-300 cursor-not-allowed"
                     }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
@@ -302,14 +302,14 @@ const Product = () => {
         <div className="mx-auto px-4 max-w-7xl">
           <ul className="flex flex-wrap md:flex-nowrap gap-x-12 gap-y-8 px-5 py-10 sm:py-16">
             {benefits_information.map(
-              ({ id, title, description, image_url }) => {
+              ({ id, title, description, image_name }) => {
                 return (
                   <li
                     key={id}
                     className="flex items-start gap-4 w-full md:w-1/3"
                   >
                     <img
-                      src={`/images/benefits/${image_url}`}
+                      src={`/images/benefits/${image_name}`}
                       alt=""
                       className="w-12 h-auto"
                     />

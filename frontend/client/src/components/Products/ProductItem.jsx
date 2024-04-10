@@ -34,7 +34,7 @@ const ProductItem = ({ product }) => {
       >
         <div className="mb-1 w-full h-52 overflow-hidden">
           <img
-            src={`/images/products/${product.image_url}`}
+            src={`/images/products/${product.image_name}`}
             alt=""
             className="group-hover:scale-125 w-full h-full transform transition-transform object-contain"
           />
@@ -70,13 +70,13 @@ const ProductItem = ({ product }) => {
 
       <div className="mx-4">
         <button
-          disabled={product.has_stock ? false : true}
+          disabled={product.in_stock ? false : true}
           onClick={handle_add_product_to_cart_btn}
           className={`inline-block ${
-            product.has_stock ? "bg-rose-500" : "bg-red-400"
+            product.in_stock ? "bg-rose-500" : "bg-red-400"
           } hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs uppercase`}
         >
-          {product.has_stock ? "Agregar" : "Agotado"}
+          {product.in_stock ? "Agregar" : "Agotado"}
         </button>
       </div>
     </article>

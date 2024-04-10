@@ -23,7 +23,13 @@ export const schema = yup.object({
     .max(99, "El campo debe ser menor que cien")
     .integer("El campo debe ser un numero entero")
     .required("El campo es requerido"),
-  has_stock: yup.boolean().required("El campo es requerido"),
+  quantity: yup
+    .number()
+    .typeError("El campo debe ser númerico")
+    .min(0, "El campo debe ser mayor o igual que cero")
+    .integer("El campo debe ser un numero entero")
+    .required("El campo es requerido"),
+  in_stock: yup.boolean().required("El campo es requerido"),
   category_id: yup
     .number()
     .min(1, "Eliga una opción valida")

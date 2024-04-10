@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import SwitchInput from "../../../components/SwitchInput";
 
 const SwitchStockInput = ({ state }) => {
-  const [is_switch_enabled, setIsSwitchEnabled] = useState(state);
+  const [is_enabled, setIsEnabled] = useState(state);
 
   const handle_click_switch_stock_input = (state) => {
-    setIsSwitchEnabled(state);
+    // update in_stock using api
+    setIsEnabled(state);
   };
 
   return (
     <SwitchInput
-      is_switch_enabled={is_switch_enabled}
-      click_switch={handle_click_switch_stock_input}
+      value={is_enabled}
+      onChange={handle_click_switch_stock_input}
     ></SwitchInput>
   );
 };

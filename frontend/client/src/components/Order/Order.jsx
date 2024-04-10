@@ -1025,7 +1025,7 @@ const Order = () => {
                           to={`/categorias/${item.product.category_id}/productos/${item.product.id}`}
                         >
                           <img
-                            src={`images/products/${item.product.image_url}`}
+                            src={`images/products/${item.product.image_name}`}
                             alt="product image"
                             className="border rounded-md w-16 h-16 object-contain"
                           />

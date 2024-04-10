@@ -20,11 +20,11 @@ const Categories = () => {
   return (
     <div className="text-gray-800">
       <div className="mb-5 header-categories">
-        <h3 className="mb-2 text-xl font-bold">Florecer contigo</h3>
+        <h3 className="mb-2 font-bold text-xl">Florecer contigo</h3>
         <p>Tienes para ti, el detalle que necesitas segun la ocasión.</p>
       </div>
 
-      <div className="grid h-auto grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="gap-4 grid grid-cols-1 lg:grid-cols-3 h-auto">
         <div className="flex flex-col gap-4">
           {categories
             .filter((category) => category.display_in_column == 0)
@@ -35,7 +35,7 @@ const Categories = () => {
                   id={category.id}
                   name={category.name}
                   description={category.description}
-                  image_url={category.image_url}
+                  image_name={category.image_name}
                   image_height={category.image_height}
                 />
               );
@@ -52,7 +52,7 @@ const Categories = () => {
                   id={category.id}
                   name={category.name}
                   description={category.description}
-                  image_url={category.image_url}
+                  image_name={category.image_name}
                   image_height={category.image_height}
                 />
               );
@@ -69,7 +69,7 @@ const Categories = () => {
                   id={category.id}
                   name={category.name}
                   description={category.description}
-                  image_url={category.image_url}
+                  image_name={category.image_name}
                   image_height={category.image_height}
                 />
               );

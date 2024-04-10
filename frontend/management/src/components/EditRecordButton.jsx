@@ -2,27 +2,32 @@ import React, { useEffect, forwardRef } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 // https://github.com/tailwindlabs/headlessui/issues/1512
-const EditStoreButton = forwardRef(
+const EditRecordButton = forwardRef(
   (
-    { record, setEditStore, is_edit_store_modal_open, setIsEditStoreModalOpen },
+    {
+      record,
+      setEditRecord,
+      is_edit_record_modal_open,
+      setIsEditRecordModalOpen,
+    },
     ref
   ) => {
     useEffect(() => {
-      if (!is_edit_store_modal_open) {
-        setEditStore();
+      if (!is_edit_record_modal_open) {
+        setEditRecord();
       }
-    }, [is_edit_store_modal_open]);
+    }, [is_edit_record_modal_open]);
 
-    const handle_click_edit_store_btn = (record) => {
-      setEditStore(record);
-      setIsEditStoreModalOpen(true);
+    const handle_click_edit_record_btn = (record) => {
+      setEditRecord(record);
+      setIsEditRecordModalOpen(true);
     };
 
     return (
       <button
         ref={ref}
         onClick={() => {
-          handle_click_edit_store_btn(record);
+          handle_click_edit_record_btn(record);
         }}
         className={` p-2 hover:bg-slate-100 w-full flex items-center gap-x-1`}
       >
@@ -33,4 +38,4 @@ const EditStoreButton = forwardRef(
   }
 );
 
-export default EditStoreButton;
+export default EditRecordButton;

@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -122,7 +124,63 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validation_rules = [
+            'name' => 'required',
+            'sku' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:png,jpeg,jpg|max:5120',
+            'price' => 'required',
+            'discount_rate' => 'required',
+            'in_offer' => 'required',
+            'quantity' => 'required',
+            'in_stock' => 'required',
+            'category_id' => 'required',
+            'collection_id' => 'required',
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Error de validación.',
+                'type_error' => 'validation-error',
+                'errors' => $validation->errors(),
+            ];
+
+            return response()->json($response);
+        }
+
+        // storing image
+        $file = $request->file('image');
+        $path = $file->store('public/products'); // store image with a unique name
+        $file_name = basename($path); // get the generated file name
+
+        $user = $request->user();
+
+        Product::create([
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'description' => $request->description,
+            'image_name' => $file_name,
+            'price' => number_format($request->price, 2),
+            'discount_rate' => $request->discount_rate,
+            'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),
+            'in_offer' => $request->boolean('in_offer'),
+            'quantity' => $request->quantity,
+            'in_stock' => $request->boolean('in_stock'),
+            'min_quantity_buy' => 1,
+            'max_quantity_buy' => 10,
+            'product_type_id' => $request->collection_id,
+            'category_id' => $request->category_id,
+            'seller_id' => $user->id,
+            'state_id' => $request->state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => "Registro creado exitosamente."];
+
+        return response()->json($response);
     }
 
     /**
@@ -149,7 +207,23 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        //$this->authorize("delete_seller", $product);
+
+        if (!$product) {
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $deleted_state_id = 3;
+
+        $product->update([
+            'state_id' => $deleted_state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
+
+        return response()->json($response);
     }
 
     public function products_by_category(Request $request, string $category_id)
