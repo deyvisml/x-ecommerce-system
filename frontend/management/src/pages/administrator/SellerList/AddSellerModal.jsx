@@ -54,7 +54,12 @@ const AddSellerModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
       const response = await axios_client(`/api/states`, {
         method: "get",
         params: {
-          filtering: { id: [1, 2, 3] },
+          filtering: [
+            {
+              column: "states.id",
+              values: [1, 2, 3],
+            },
+          ],
         },
         headers: {
           authorization: "Bearer ",

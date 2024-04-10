@@ -15,7 +15,7 @@ import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
-import AddSellerButton from "./AddStoreButton";
+import AddStoreButton from "./AddStoreButton";
 import AddStoreModal from "./AddStoreModal";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
@@ -348,7 +348,7 @@ function StoreList() {
 
             <ExportTableDataButton />
 
-            <AddSellerButton setIsAddStoreModalOpen={setIsAddStoreModalOpen} />
+            <AddStoreButton setIsAddStoreModalOpen={setIsAddStoreModalOpen} />
           </div>
         </div>
 

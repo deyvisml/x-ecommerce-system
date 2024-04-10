@@ -1,5 +1,5 @@
 import "./App.css";
-import { Outlet, ScrollRestoration } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import WhatsappFloatingButton from "../WhatsappFloatingButton";
 
 import Header from "../Header";

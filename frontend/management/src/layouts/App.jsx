@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 const App = () => {
@@ -11,6 +11,7 @@ const App = () => {
         className="text-sm"
         autoClose={3000}
       />
+      <ScrollRestoration />
     </>
   );
 };

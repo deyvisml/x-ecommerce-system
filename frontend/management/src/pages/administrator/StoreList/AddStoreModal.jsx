@@ -33,9 +33,6 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
     try {
       const response = await axios_client(`/api/sellers`, {
         method: "get",
-        params: {
-          role_user_state_id: "",
-        },
         headers: {
           authorization: "Bearer ",
         },
@@ -76,7 +73,12 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
       const response = await axios_client(`/api/states`, {
         method: "get",
         params: {
-          filtering: { id: [1, 2, 3] },
+          filtering: [
+            {
+              column: "states.id",
+              values: [1, 2, 3],
+            },
+          ],
         },
         headers: {
           authorization: "Bearer ",

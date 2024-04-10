@@ -45,9 +45,6 @@ const EditStoreModal = ({
     try {
       const response = await axios_client(`/api/sellers`, {
         method: "get",
-        params: {
-          role_user_state_id: "",
-        },
         headers: {
           authorization: "Bearer ",
         },

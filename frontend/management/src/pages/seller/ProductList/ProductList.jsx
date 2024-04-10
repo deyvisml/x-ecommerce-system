@@ -16,8 +16,7 @@ import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
-import AddSellerButton from "./AddStoreButton";
-import AddStoreModal from "./AddStoreModal";
+import LinkComponent from "./LinkComponent";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
@@ -372,8 +371,9 @@ function ProductList() {
 
             <ExportTableDataButton />
 
-            <AddSellerButton
-              setIsAddStoreModalOpen={setIsAddProductModalOpen}
+            <LinkComponent
+              label={"Añadir producto"}
+              to={"/vendedor/productos/añadir"}
             />
           </div>
         </div>
@@ -394,14 +394,6 @@ function ProductList() {
       </div>
 
       <AnimatePresence>
-        {is_add_product_modal_open == true && (
-          <AddStoreModal
-            setDataChanged={setDataChanged}
-            is_modal_open={is_add_product_modal_open}
-            setIsModalOpen={setIsAddProductModalOpen}
-          />
-        )}
-
         {is_edit_product_modal_open == true && (
           <EditStoreModal
             record={edit_product}
