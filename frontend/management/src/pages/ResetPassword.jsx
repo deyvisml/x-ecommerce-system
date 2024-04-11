@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import axios_client from "../helpers/axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import auth_decoration from "../../public/images/auth-decoration.png";
+import auth_decoration from "../../public/images/others/auth-decoration.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "./Login/LoginSchema";
 

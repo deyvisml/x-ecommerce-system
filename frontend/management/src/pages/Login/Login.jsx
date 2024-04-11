@@ -4,7 +4,7 @@ import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
 import useManagement from "../../hooks/useManagement";
 import { Link } from "react-router-dom";
-import auth_decoration from "../../../public/images/auth-decoration.png";
+import auth_decoration from "../../../public/images/others/auth-decoration.png";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { yupResolver } from "@hookform/resolvers/yup";
