@@ -19,6 +19,7 @@ import SellerDashboardLayout from "./layouts/SellerDashboardLayout";
 import SellerDashboardHome from "./pages/seller/SellerDashboardHome";
 import ProductList from "./pages/seller/ProductList/ProductList";
 import AddProduct from "./pages/seller/AddProduct/AddProduct";
+import EditProduct from "./pages/seller/EditProduct/EditProduct";
 
 const Route = () => {
   // this func also check if the user has valid roles like "administrador" / "vendedor"
@@ -129,6 +130,10 @@ const Route = () => {
                 {
                   path: "vendedor/productos/añadir",
                   element: <AddProduct />,
+                },
+                {
+                  path: "vendedor/productos/:product_id/editar",
+                  element: <EditProduct />,
                 },
               ],
             },

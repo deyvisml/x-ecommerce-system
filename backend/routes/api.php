@@ -69,5 +69,3 @@ Route::get('/categories/{category_id}/products', [ProductController::class, 'pro
 Route::get('/categories/{category_id}/product-types', [ProductTypeController::class, 'product_types_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
-
-Route::get('/products2', [ProductController::class, 'index2']);

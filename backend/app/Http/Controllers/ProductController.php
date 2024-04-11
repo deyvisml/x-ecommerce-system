@@ -14,43 +14,43 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
-        $product_type_id = $request->query('product_type_id');
-        $search_value = $request->query('search_value');
-        $in_offer = $request->query('in_offer');
-        $order_by_name = $request->query('order_by_name');
-        $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
-        $limit = $request->query('limit');
+    $product_type_id = $request->query('product_type_id');
+    $search_value = $request->query('search_value');
+    $in_offer = $request->query('in_offer');
+    $order_by_name = $request->query('order_by_name');
+    $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
+    $limit = $request->query('limit');
 
-        $products = Product::where('state_id', 1);
+    $products = Product::where('state_id', 1);
 
-        if ($product_type_id) {
-            $products = $products->where('product_type_id', $product_type_id);
-        }
-        if ($search_value) {
-            $products = $products->where('name', 'LIKE', '%' . $search_value . '%');
-        }
-        if ($in_offer) {
-            $products = $products->where('in_offer', $in_offer);
-        }
-        if ($order_by_name) {
-            if ($order_by_name == "random") {
-                $products = $products->inRandomOrder();
-            } else {
-                $products = $products->orderBy($order_by_name, $order_by_direction);
-            }
-        }
-        if ($limit) {
-            $products = $products->limit($limit);
-        }
-
-        $products = $products->get();
-
-        return ProductResource::collection($products);
+    if ($product_type_id) {
+    $products = $products->where('product_type_id', $product_type_id);
+    }
+    if ($search_value) {
+    $products = $products->where('name', 'LIKE', '%' . $search_value . '%');
+    }
+    if ($in_offer) {
+    $products = $products->where('in_offer', $in_offer);
+    }
+    if ($order_by_name) {
+    if ($order_by_name == "random") {
+    $products = $products->inRandomOrder();
+    } else {
+    $products = $products->orderBy($order_by_name, $order_by_direction);
+    }
+    }
+    if ($limit) {
+    $products = $products->limit($limit);
     }
 
-    public function index2(Request $request)
+    $products = $products->get();
+
+    return ProductResource::collection($products);
+    }*/
+
+    public function index(Request $request)
     {
         $filtering = $request->query('filtering');
         $search_query = $request->query('search_query');
@@ -199,7 +199,71 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $product = Product::find($id);
+        //$this->authorize("update_seller", $seller);
+
+        //return response()->json(["xd" => $request->all(), "id" => $id]);
+
+        if (!$product) {
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $validation_rules = [
+            'name' => 'required',
+            'sku' => 'required',
+            'description' => 'required',
+            'image' => 'sometimes|nullable|image|mimes:png,jpeg,jpg|max:5120',
+            'image_name' => 'required',
+            'price' => 'required',
+            'discount_rate' => 'required',
+            'in_offer' => 'required',
+            'quantity' => 'required',
+            'in_stock' => 'required',
+            'category_id' => 'required',
+            'collection_id' => 'required',
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Error de validación.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        $file_name = null;
+        if ($request->hasFile("image")) {
+            // storing image
+            $file = $request->file('image');
+            $path = $file->store('public/products'); // store image with a unique name
+            $file_name = basename($path); // get the generated file name
+        } else {
+            $file_name = $request->image_name;
+        }
+
+        $user = $request->user();
+
+        $product->update([
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'description' => $request->description,
+            'image_name' => $file_name,
+            'price' => number_format($request->price, 2),
+            'discount_rate' => $request->discount_rate,
+            'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),
+            'in_offer' => $request->boolean('in_offer'),
+            'quantity' => $request->quantity,
+            'in_stock' => $request->boolean('in_stock'),
+            'product_type_id' => $request->collection_id,
+            'category_id' => $request->category_id,
+            'seller_id' => $user->id,
+            'state_id' => $request->state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
+
+        return response()->json($response);
     }
 
     /**
