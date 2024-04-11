@@ -140,10 +140,12 @@ const Product = () => {
 
         <div className="flex md:flex-row flex-col flex-wrap items-start gap-y-5">
           <div className="flex justify-center items-center w-full md:w-1/2">
-            <div className="bg-rose-400 sm:mx-5 w-full leading-none">
+            <div className="sm:mx-5 w-full leading-none">
               {product && (
                 <img
-                  src={`/images/products/${product.image_name}`}
+                  src={`${
+                    import.meta.env.VITE_API_URL
+                  }/storage/images/products/${product.image_name}`}
                   alt="product image"
                   className="border-2 shadow w-full"
                 />
@@ -151,7 +153,7 @@ const Product = () => {
 
               {/* product && (
               <ImageZoom
-                src={`/images/products/${product.image_name}`}
+                src={`${import.meta.env.VITE_API_URL}/storage/images/products/${product.image_name}`}
                 alt="Product image"
                 className="border-2 border-gray-400"
                 width="50%"

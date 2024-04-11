@@ -11,45 +11,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    /*public function index(Request $request)
-    {
-    $product_type_id = $request->query('product_type_id');
-    $search_value = $request->query('search_value');
-    $in_offer = $request->query('in_offer');
-    $order_by_name = $request->query('order_by_name');
-    $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
-    $limit = $request->query('limit');
-
-    $products = Product::where('state_id', 1);
-
-    if ($product_type_id) {
-    $products = $products->where('product_type_id', $product_type_id);
-    }
-    if ($search_value) {
-    $products = $products->where('name', 'LIKE', '%' . $search_value . '%');
-    }
-    if ($in_offer) {
-    $products = $products->where('in_offer', $in_offer);
-    }
-    if ($order_by_name) {
-    if ($order_by_name == "random") {
-    $products = $products->inRandomOrder();
-    } else {
-    $products = $products->orderBy($order_by_name, $order_by_direction);
-    }
-    }
-    if ($limit) {
-    $products = $products->limit($limit);
-    }
-
-    $products = $products->get();
-
-    return ProductResource::collection($products);
-    }*/
-
     public function index(Request $request)
     {
         $filtering = $request->query('filtering');

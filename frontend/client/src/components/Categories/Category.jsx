@@ -14,7 +14,9 @@ const Category = ({
       className={`relative h-auto block overflow-hidden group bg-gray-300 shadow-md  `}
     >
       <img
-        src={`images/categories/${image_name}`}
+        src={`${
+          import.meta.env.VITE_API_URL
+        }/storage/images/categories/${image_name}`}
         alt=""
         className={`z-0 object-cover w-full ${image_height} transition-transform transform group-hover:scale-125`}
       />

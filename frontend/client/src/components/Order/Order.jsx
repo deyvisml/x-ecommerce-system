@@ -15,8 +15,8 @@ import {
   FaRegCalendarDays,
   FaRegClock,
 } from "react-icons/fa6";
-import paypal_method from "../../assets/images/payment-methods/paypal-method.png";
-import niubiz_method from "../../assets/images/payment-methods/niubiz-method.jpg";
+import paypal_method from "../../../public/images/payment-methods/paypal-method.png";
+import niubiz_method from "../../../public/images/payment-methods/niubiz-method.jpg";
 import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
 import { format, parseISO } from "date-fns";
@@ -1025,7 +1025,9 @@ const Order = () => {
                           to={`/categorias/${item.product.category_id}/productos/${item.product.id}`}
                         >
                           <img
-                            src={`images/products/${item.product.image_name}`}
+                            src={`${
+                              import.meta.env.VITE_API_URL
+                            }/storage/images/${item.product.image_name}`}
                             alt="product image"
                             className="border rounded-md w-16 h-16 object-contain"
                           />

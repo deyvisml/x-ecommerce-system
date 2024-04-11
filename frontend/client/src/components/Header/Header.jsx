@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropdownItem from "../DropdownItem";
-import logo from "../../assets/logo.webp";
+import logo from "../../../public/images/logos/logo.webp";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import axios_client from "../../helpers/axios";
@@ -93,14 +93,14 @@ const Header = () => {
   };
 
   const handle_go_offer_product_btn = async () => {
-    const { data } = await axios_client(`api/products2`, {
+    const { data } = await axios_client(`api/products`, {
       method: "get",
       params: {
         filtering: [
-          { id: "products.in_offer", values: [1] },
-          { id: "products.state_id", values: [1] },
+          { column: "products.in_offer", values: [1] },
+          { column: "products.state_id", values: [1] },
         ],
-        sorting: [{ id: "", way: "random" }],
+        sorting: [{ column: null, way: "random" }],
         limit: 1,
       },
     });
