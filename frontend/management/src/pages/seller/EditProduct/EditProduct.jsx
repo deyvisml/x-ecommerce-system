@@ -135,7 +135,7 @@ const EditProduct = () => {
           filtering: [
             {
               column: "states.id",
-              values: [1, 2, 9],
+              values: [1, 2, 3],
             },
           ],
         },

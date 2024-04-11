@@ -20,17 +20,26 @@ const Products = () => {
   console.log(search_value);
 
   const [order_by, setOrderBy] = useState({
-    name: "",
-    direction: "",
+    column: "products.id",
+    way: "asc",
   });
 
   /* ====== FETCH PRODUCTS ====== */
   const [products, setProducts] = useState();
 
   const fetch_products = async (search_value, order_by) => {
-    const { data } = await axios_client(
-      `api/products?search_value=${search_value}&order_by_name=${order_by.name}&order_by_direction=${order_by.direction}`
-    );
+    const { data } = await axios_client(`api/products`, {
+      method: "get",
+      params: {
+        search_value: search_value,
+        sorting: [
+          {
+            column: order_by.column,
+            way: order_by.way,
+          },
+        ],
+      },
+    });
 
     setProducts(data.data);
   };

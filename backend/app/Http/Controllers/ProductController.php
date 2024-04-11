@@ -290,36 +290,4 @@ class ProductController extends Controller
 
         return response()->json($response);
     }
-
-    public function products_by_category(Request $request, string $category_id)
-    {
-        $collection_id = $request->query('collection_id');
-        $exclude_product_id = $request->query('exclude_product_id');
-        $order_by_name = $request->query('order_by_name');
-        $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
-        $limit = $request->query('limit');
-
-        $products = Product::where('category_id', $category_id)->where('state_id', 1);
-
-        if ($collection_id) {
-            $products = $products->where('collection_id', $collection_id);
-        }
-        if ($exclude_product_id) {
-            $products = $products->where('id', '<>', $exclude_product_id);
-        }
-        if ($order_by_name) {
-            if ($order_by_name == "random") {
-                $products = $products->inRandomOrder();
-            } else {
-                $products = $products->orderBy($order_by_name, $order_by_direction);
-            }
-        }
-        if ($limit) {
-            $products = $products->limit($limit);
-        }
-
-        $products = $products->get();
-
-        return ProductResource::collection($products);
-    }
 }

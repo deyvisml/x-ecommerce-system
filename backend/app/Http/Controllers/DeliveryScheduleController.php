@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\DeliveryScheduleResource;
 use App\Models\DeliverySchedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class DeliveryScheduleController extends Controller
 {
@@ -50,6 +51,78 @@ class DeliveryScheduleController extends Controller
         $delivery_schedules = $delivery_schedules->get();
 
         return DeliveryScheduleResource::collection($delivery_schedules);
+    }
+
+    public function index2(Request $request)
+    {
+        $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = DeliverySchedule::query();
+
+        // ------------------ select columns ------------------
+        $query->select('delivery_schedules.*');
+
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('states', 'delivery_schedules.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['delivery_schedules.id', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('delivery_schedules.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $delivery_schedules = $query->paginate($page_size);
+        } else {
+            $delivery_schedules = $query->get();
+        }
+
+        return DeliverySchedule::collection($delivery_schedules);
     }
 
     /**

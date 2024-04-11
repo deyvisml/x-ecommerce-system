@@ -19,9 +19,16 @@ import paypal_method from "../../../public/images/payment-methods/paypal-method.
 import niubiz_method from "../../../public/images/payment-methods/niubiz-method.jpg";
 import Stage from "./Stage";
 import useECommerce from "../../hooks/useECommerce";
-import { format, parseISO } from "date-fns";
 import { scroller } from "react-scroll";
 import currency from "currency.js";
+import {
+  differenceInMilliseconds,
+  parse,
+  format,
+  isToday,
+  parseISO,
+  startOfDay,
+} from "date-fns";
 
 const Order = () => {
   const { cart, order, setOrder } = useECommerce();
@@ -87,12 +94,54 @@ const Order = () => {
     setLocations(data.data);
   };
 
-  const fetch_delivery_schedules = async (difference_time) => {
-    const { data } = await axios_client(
-      `api/delivery-schedules?difference_time=${difference_time}`
+  const fetch_delivery_schedules = async () => {
+    const { data } = await axios_client(`api/delivery-schedules`, {
+      method: "get",
+    });
+
+    let is_today = true;
+    if (watch("delivery_date")) {
+      is_today = isToday(parseISO(watch("delivery_date")));
+      console.log("test1", is_today);
+    }
+
+    const min_difference_time = "00:50:00";
+
+    const delivery_schedules = is_today
+      ? data.data.filter((delivery_schedule) => {
+          return is_start_hour_valid(
+            delivery_schedule.start_hour,
+            min_difference_time
+          );
+        })
+      : data.data;
+
+    setDeliverySchedules(delivery_schedules);
+  };
+
+  const is_start_hour_valid = (start_hour, min_difference_time) => {
+    const min_difference_time_parse = parse(
+      min_difference_time,
+      "HH:mm:ss",
+      new Date()
     );
 
-    setDeliverySchedules(data.data);
+    const min_difference_time_in_milliseconds = differenceInMilliseconds(
+      min_difference_time_parse,
+      startOfDay(min_difference_time_parse)
+    );
+
+    const current_time = new Date();
+    const start_hour_parse = parse(start_hour, "HH:mm:ss", new Date());
+
+    const difference_time_in_milliseconds = differenceInMilliseconds(
+      start_hour_parse,
+      current_time
+    );
+
+    return (
+      difference_time_in_milliseconds > min_difference_time_in_milliseconds
+    );
   };
 
   useEffect(() => {
@@ -103,8 +152,7 @@ const Order = () => {
 
       await fetch_locations_by_region(watch("delivery_region"));
 
-      const difference_time = "00:30:00";
-      await fetch_delivery_schedules(difference_time);
+      await fetch_delivery_schedules();
 
       reset();
     })();
@@ -355,6 +403,13 @@ const Order = () => {
       setDeliverySchedule(delivery_schedule_filter);
     }
   }, [watch("delivery_schedule"), delivery_schedules]);
+
+  useEffect(() => {
+    if (watch("delivery_date")) {
+      setValue("delivery_schedule", "");
+      fetch_delivery_schedules();
+    }
+  }, [watch("delivery_date")]);
 
   return (
     <div className="mx-auto px-4 max-w-7xl order">
