@@ -62,36 +62,34 @@ const StateFilter = ({
   };
 
   return (
-    <li className="w-full">
-      <select
-        onChange={handle_onchange_state_select}
-        value={(() => {
-          const found_filters = filtering.filter(
-            (filter) => filter["column"] == filter_column
-          );
+    <select
+      onChange={handle_onchange_state_select}
+      value={(() => {
+        const found_filters = filtering.filter(
+          (filter) => filter["column"] == filter_column
+        );
 
-          const filter = found_filters.length == 1 ? found_filters[0] : null;
+        const filter = found_filters.length == 1 ? found_filters[0] : null;
 
-          if (filter && filter["values"].length == 1) {
-            return filter["values"][0];
-          } else {
-            return "";
-          }
-        })()}
-        name=""
-        id=""
-        className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm focus:ring-0"
-      >
-        <option value={""}>Estado</option>
-        {states.map((state, i) => {
-          return (
-            <option key={i} value={state.id} className="capitalize">
-              {state.name}
-            </option>
-          );
-        })}
-      </select>
-    </li>
+        if (filter && filter["values"].length == 1) {
+          return filter["values"][0];
+        } else {
+          return "";
+        }
+      })()}
+      name=""
+      id=""
+      className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
+    >
+      <option value={""}>Estado</option>
+      {states.map((state, i) => {
+        return (
+          <option key={i} value={state.id}>
+            {state.name}
+          </option>
+        );
+      })}
+    </select>
   );
 };
 

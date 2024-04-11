@@ -114,10 +114,11 @@ function ProductList() {
         cell: ({ row }) => {
           return (
             <div className="flex items-center gap-x-2">
-              <div className="bg-slate-200 p-1 rounded w-10 h-10">
+              <div className="flex justify-center items-center bg-slate-200 p-1 rounded w-[40px] min-w-[40px] h-[40px] min-h-[40px]">
                 <img
-                  src={`http://localhost:5173/images/products/${row.original.image_name}`}
+                  src={`http://localhost:8000/storage/images/products/${row.original.image_name}`}
                   alt=""
+                  className="w-full h-full object-cover"
                 />
               </div>
               <span className="block text-black">{row.original.name}</span>
@@ -254,7 +255,7 @@ function ProductList() {
 
   const fetch_products = async () => {
     try {
-      const response = await axios_client(`/api/products2`, {
+      const response = await axios_client(`/api/products`, {
         method: "get",
         params: {
           filtering,
@@ -345,12 +346,14 @@ function ProductList() {
       </div>
 
       <TableFilter>
-        <StateFilter
-          filter_column={"products.state_id"}
-          selectable_record_ids={[1, 2, 3]}
-          filtering={filtering}
-          setFiltering={setFiltering}
-        />
+        <li className="w-full">
+          <StateFilter
+            filter_column={"products.state_id"}
+            selectable_record_ids={[1, 2, 3]}
+            filtering={filtering}
+            setFiltering={setFiltering}
+          />
+        </li>
       </TableFilter>
 
       <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">

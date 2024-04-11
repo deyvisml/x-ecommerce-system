@@ -348,12 +348,14 @@ function StoreApplications() {
       </div>
 
       <TableFilter>
-        <StateFilter
-          filter_column={"stores.state_id"}
-          selectable_record_ids={[4, 5]}
-          filtering={filtering}
-          setFiltering={setFiltering}
-        />
+        <li className="w-full">
+          <StateFilter
+            filter_column={"stores.state_id"}
+            selectable_record_ids={[4, 5]}
+            filtering={filtering}
+            setFiltering={setFiltering}
+          />
+        </li>
       </TableFilter>
 
       <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">

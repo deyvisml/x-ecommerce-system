@@ -10,10 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const EditProduct = () => {
   const { token } = useManagement();
   const { product_id } = useParams();
+
+  let navigate = useNavigate();
 
   const [product, setProduct] = useState();
 
@@ -211,10 +214,12 @@ const EditProduct = () => {
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Creado!",
+          title: "Actualizado!",
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
+
+        return navigate("/vendedor/productos/listado");
       } else {
         Swal.fire({
           icon: "error",
@@ -359,7 +364,7 @@ const EditProduct = () => {
                     <div className="justify-center items-center shadow border rounded divide-y divide-gray-300 text-center text-xs">
                       <div className="p-2">
                         <img
-                          src={`http://localhost:8000/storage/products/${product.image_name}`}
+                          src={`http://localhost:8000/storage/images/products/${product.image_name}`}
                           className="m-auto w-32 h-32 object-cover"
                         />
                       </div>
