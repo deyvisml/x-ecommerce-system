@@ -3,29 +3,29 @@ import { Listbox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 const options = [
-  { id: 1, order_by_name: null, order_by_direction: null, name: "Relevancia" },
+  { id: 1, column: null, way: null, name: "Relevancia" },
   {
     id: 2,
-    order_by_name: "name",
-    order_by_direction: "ASC",
+    column: "products.name",
+    way: "ASC",
     name: "Nombre, A a Z",
   },
   {
     id: 3,
-    order_by_name: "name",
-    order_by_direction: "DESC",
+    column: "products.name",
+    way: "DESC",
     name: "Nombre, Z a A",
   },
   {
     id: 4,
-    order_by_name: "price",
-    order_by_direction: "ASC",
+    column: "products.price",
+    way: "ASC",
     name: "Precio: de más bajo a más alto",
   },
   {
     id: 5,
-    order_by_name: "price",
-    order_by_direction: "DESC",
+    column: "products.price",
+    way: "DESC",
     name: "Precio, de más alto a más bajo",
   },
 ];
@@ -35,7 +35,7 @@ const OrderBy = ({ setOrderBy }) => {
 
   const handle_change_order_by_select = (e) => {
     setSelected(e);
-    setOrderBy({ name: e.order_by_name, direction: e.order_by_direction });
+    setOrderBy({ column: e.column, way: e.way });
   };
 
   return (

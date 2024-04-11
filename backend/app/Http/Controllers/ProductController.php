@@ -14,6 +14,7 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
         $search_query = $request->query('search_query');
         $sorting = $request->query('sorting');
         $limit = $request->query('limit');
@@ -24,8 +25,8 @@ class ProductController extends Controller
 
         // ------------------ select columns ------------------
         $query->select('products.*');
-        foreach (Schema::getColumnListing('product_types') as $column) {
-            $query->addSelect('product_types.' . $column . ' as product_types_' . $column);
+        foreach (Schema::getColumnListing('collections') as $column) {
+            $query->addSelect('collections.' . $column . ' as collections_' . $column);
         }
         foreach (Schema::getColumnListing('categories') as $column) {
             $query->addSelect('categories.' . $column . ' as categories_' . $column);
@@ -35,21 +36,28 @@ class ProductController extends Controller
         }
 
         // ------------------ joins ------------------
-        $query->leftJoin('product_types', 'products.product_type_id', '=', 'product_types.id');
+        $query->leftJoin('collections', 'products.collection_id', '=', 'collections.id');
         $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
         $query->leftJoin('states', 'products.state_id', '=', 'states.id');
 
         // ------------------ getting data ------------------
         if ($filtering) {
             foreach ($filtering as $filter) {
-                if (isset($filter['values'])) { // allow 'unfilter' a column
+                if (isset($filter['values'])) {
                     $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
                 }
             }
         }
         if ($search_query) {
             $query->where(function ($query) use ($search_query) {
-                $columns = ['products.id', 'products.name', 'products.price', 'products.quantity', 'product_types.name', 'categories.name', 'states.name'];
+                $columns = ['products.id', 'products.name', 'products.price', 'products.quantity', 'collections.name', 'categories.name', 'states.name'];
 
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
@@ -135,7 +143,7 @@ class ProductController extends Controller
             'in_stock' => $request->boolean('in_stock'),
             'min_quantity_buy' => 1,
             'max_quantity_buy' => 10,
-            'product_type_id' => $request->collection_id,
+            'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
             'seller_id' => $user->id,
             'state_id' => $request->state_id,
@@ -218,7 +226,7 @@ class ProductController extends Controller
             'in_offer' => $request->boolean('in_offer'),
             'quantity' => $request->quantity,
             'in_stock' => $request->boolean('in_stock'),
-            'product_type_id' => $request->collection_id,
+            'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
             'seller_id' => $user->id,
             'state_id' => $request->state_id,
@@ -285,7 +293,7 @@ class ProductController extends Controller
 
     public function products_by_category(Request $request, string $category_id)
     {
-        $product_type_id = $request->query('product_type_id');
+        $collection_id = $request->query('collection_id');
         $exclude_product_id = $request->query('exclude_product_id');
         $order_by_name = $request->query('order_by_name');
         $order_by_direction = $request->query('order_by_direction') ?? 'ASC';
@@ -293,8 +301,8 @@ class ProductController extends Controller
 
         $products = Product::where('category_id', $category_id)->where('state_id', 1);
 
-        if ($product_type_id) {
-            $products = $products->where('product_type_id', $product_type_id);
+        if ($collection_id) {
+            $products = $products->where('collection_id', $collection_id);
         }
         if ($exclude_product_id) {
             $products = $products->where('id', '<>', $exclude_product_id);

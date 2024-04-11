@@ -80,7 +80,7 @@ class ProductSeeder extends Seeder
         ];
 
         for ($i = 0; $i < 200; $i++) {
-            $product_type_id = $faker->numberBetween(1, 45);
+            $collection_id = $faker->numberBetween(1, 45);
 
             Product::create([
                 'id' => $i + 1,
@@ -89,8 +89,8 @@ class ProductSeeder extends Seeder
                 'image_name' => $image_names[array_rand($image_names)],
                 'price' => $faker->randomFloat(2, 20, 80),
                 'quantity' => $faker->numberBetween(0, 30),
-                'product_type_id' => $product_type_id,
-                'category_id' => (int) (($product_type_id - 1) / 5 + 1),
+                'collection_id' => $collection_id,
+                'category_id' => (int) (($collection_id - 1) / 5 + 1),
                 'state_id' => 1,
             ]);
         }

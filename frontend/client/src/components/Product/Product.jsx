@@ -20,7 +20,7 @@ const Product = () => {
   const { cart, setCart } = useECommerce();
   const [category, setCategory] = useState();
   const [product, setProduct] = useState();
-  const [product_type_id, setProductTypeId] = useState();
+  const [collection_id, setProductTypeId] = useState();
   const [quantity_to_buy, setQuantityToBuy] = useState(1);
   const [add_to_cart_loader, setAddToCartLoader] = useState(false);
   const [path_parts, setPathParts] = useState();
@@ -37,7 +37,7 @@ const Product = () => {
     setProduct(data.data);
     setQuantityToBuy(1);
 
-    setProductTypeId(data.data.product_type_id);
+    setProductTypeId(data.data.collection_id);
   };
 
   useEffect(() => {
@@ -86,29 +86,44 @@ const Product = () => {
     },
   ];
 
-  /* ====== FETCH PRODUCTS ====== */
   const [products, setProducts] = useState();
-
-  const fetch_products_by_category = async (
-    category_id,
-    product_type_id,
-    product_id
-  ) => {
-    const { data } = await axios_client(
-      `api/categories/${category_id}/products?product_type_id=${product_type_id}&exclude_product_id=${product_id}&order_by_name=random&limit=`
-    );
+  const fetch_products_by_collection = async (collection_id) => {
+    const { data } = await axios_client(`api/products`, {
+      method: "get",
+      params: {
+        filtering: [
+          {
+            column: "products.collection_id",
+            values: [collection_id],
+          },
+        ],
+        excluding: [
+          {
+            column: "products.id",
+            values: [product.id],
+          },
+        ],
+        sorting: [
+          {
+            column: null,
+            way: "random",
+          },
+        ],
+      },
+    });
 
     setProducts(data.data);
   };
 
   useEffect(() => {
-    if (product_type_id) {
+    if (collection_id && product) {
       setProducts();
+
       setTimeout(() => {
-        fetch_products_by_category(category_id, product_type_id, product_id);
+        fetch_products_by_collection(collection_id);
       }, 1000);
     }
-  }, [product_type_id, product]);
+  }, [collection_id, product]);
   /* ====== END FETCH PRODUCTS ====== */
 
   const handle_add_product_to_cart_btn = () => {
@@ -264,15 +279,14 @@ const Product = () => {
                     )}
                   </button>
                   <a
-                    href={
-                      product.in_stock
-                        ? `https://wa.me/${"+51975032529"}?text=${
-                            "Deseo realizar mi pedido de este producto: " +
-                            product.name.toUpperCase()
-                          }`
-                        : "javascript:void(0)"
-                    }
-                    target={product.in_stock ? "_blank" : "_self"}
+                    href={`https://wa.me/${"+51975032529"}?text=${
+                      "Deseo realizar mi pedido de este producto: " +
+                      product.name.toUpperCase()
+                    }`}
+                    target={"_blank"}
+                    onClick={(e) => {
+                      !product.in_stock && e.preventDefault();
+                    }}
                     className={`${
                       product.in_stock
                         ? "bg-green-500 hover:bg-green-600"

@@ -13,13 +13,13 @@ const Products = () => {
   const { category_id } = useParams();
 
   const [category, setCategory] = useState();
-  const [product_types, setProductTypes] = useState();
+  const [collections, setCollections] = useState();
   const [order_by, setOrderBy] = useState({
-    name: "",
-    direction: "",
+    column: "products.name",
+    way: "asc",
   });
 
-  const [product_type_id, setFilterItemId] = useState("");
+  const [collection_id, setFilterItemId] = useState();
 
   const fetch_category = async (category_id) => {
     const { data } = await axios_client(`api/categories/${category_id}`);
@@ -27,18 +27,31 @@ const Products = () => {
     setCategory(data.data);
   };
 
-  const fetch_product_types_by_category = async (category_id) => {
-    const { data } = await axios_client(
-      `api/categories/${category_id}/product-types?order=asc`
-    );
+  const fetch_collections_by_category = async (category_id) => {
+    const { data } = await axios_client(`api/collections`, {
+      method: "get",
+      params: {
+        filtering: [
+          {
+            column: "collections.category_id",
+            values: [category_id],
+          },
+        ],
+        sorting: [
+          {
+            column: "collections.name",
+            way: "ASC",
+          },
+        ],
+      },
+    });
 
-    const all_type = { id: "", name: "todos" };
-    setProductTypes([all_type, ...data.data]);
+    setCollections(data.data);
   };
 
   useEffect(() => {
     fetch_category(category_id);
-    fetch_product_types_by_category(category_id);
+    fetch_collections_by_category(category_id);
   }, []);
 
   /* ====== FETCH PRODUCTS ====== */
@@ -46,13 +59,30 @@ const Products = () => {
 
   const fetch_products_by_category = async (
     category_id,
-    product_type_id,
+    collection_id,
     order_by
   ) => {
-    console.log("debug", order_by);
-    const { data } = await axios_client(
-      `api/categories/${category_id}/products?product_type_id=${product_type_id}&order_by_name=${order_by.name}&order_by_direction=${order_by.direction}`
-    );
+    const { data } = await axios_client(`api/products`, {
+      method: "get",
+      params: {
+        filtering: [
+          {
+            column: "products.category_id",
+            values: [category_id],
+          },
+          {
+            column: "products.collection_id",
+            values: [collection_id],
+          },
+        ],
+        sorting: [
+          {
+            column: order_by.column,
+            way: order_by.way,
+          },
+        ],
+      },
+    });
 
     setProducts(data.data);
   };
@@ -60,9 +90,9 @@ const Products = () => {
   useEffect(() => {
     setProducts();
     setTimeout(() => {
-      fetch_products_by_category(category_id, product_type_id, order_by);
+      fetch_products_by_category(category_id, collection_id, order_by);
     }, 1000);
-  }, [product_type_id, order_by]);
+  }, [collection_id, order_by]);
   /* ====== END FETCH PRODUCTS ====== */
 
   return (
@@ -76,8 +106,8 @@ const Products = () => {
       <div className="flex justify-between mb-3">
         <OrderBy setOrderBy={setOrderBy} />
         <Filter
-          items={product_types}
-          filter_item_id={product_type_id}
+          items={collections}
+          filter_item_id={collection_id}
           setFilterItemId={setFilterItemId}
         />
       </div>

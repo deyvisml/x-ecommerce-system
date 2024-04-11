@@ -56,12 +56,12 @@ const AddProduct = () => {
   const [collections, setCollections] = useState([]);
   const fetch_collections_by_category = async (category_id) => {
     try {
-      const response = await axios_client(`/api/product-types`, {
+      const response = await axios_client(`/api/collections`, {
         method: "get",
         params: {
           filtering: [
             {
-              column: "product_types.category_id",
+              column: "collections.category_id",
               values: [category_id],
             },
           ],

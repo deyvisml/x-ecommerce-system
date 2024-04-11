@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CollectionController;
 use App\Http\Controllers\DeliveryScheduleController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\ExchangeRateController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductTypeController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\StateController;
@@ -40,7 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::apiResource('categories', CategoryController::class);
-Route::apiResource('product-types', ProductTypeController::class);
+Route::apiResource('collections', CollectionController::class);
 Route::apiResource('document-types', DocumentTypeController::class);
 Route::apiResource('regions', RegionController::class);
 Route::apiResource('orders', OrderController::class);
@@ -67,6 +67,6 @@ Route::get('/regions/{region_id}/locations', [LocationController::class, 'locati
 
 Route::get('/categories/{category_id}/products', [ProductController::class, 'products_by_category']);
 
-Route::get('/categories/{category_id}/product-types', [ProductTypeController::class, 'product_types_by_category']);
+Route::get('/categories/{category_id}/collections', [CollectionController::class, 'collections_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);

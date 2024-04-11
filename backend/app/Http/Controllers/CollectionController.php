@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ProductTypeResource;
-use App\Models\ProductType;
+use App\Http\Resources\CollectionResource;
+use App\Models\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
-class ProductTypeController extends Controller
+class CollectionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,10 +21,10 @@ class ProductTypeController extends Controller
         $page_size = $request->query('page_size');
 
         // ------------------ query ------------------
-        $query = ProductType::query();
+        $query = Collection::query();
 
         // ------------------ select columns ------------------
-        $query->select('product_types.*');
+        $query->select('collections.*');
         foreach (Schema::getColumnListing('categories') as $column) {
             $query->addSelect('categories.' . $column . ' as categories_' . $column);
         }
@@ -33,8 +33,8 @@ class ProductTypeController extends Controller
         }
 
         // ------------------ joins ------------------
-        $query->leftJoin('categories', 'product_types.category_id', '=', 'categories.id');
-        $query->leftJoin('states', 'product_types.state_id', '=', 'states.id');
+        $query->leftJoin('categories', 'collections.category_id', '=', 'categories.id');
+        $query->leftJoin('states', 'collections.state_id', '=', 'states.id');
 
         // ------------------ getting data ------------------
         if ($filtering) {
@@ -46,7 +46,7 @@ class ProductTypeController extends Controller
         }
         if ($search_query) {
             $query->where(function ($query) use ($search_query) {
-                $columns = ['product_types.id', 'product_types.name', 'categories.name', 'states.name'];
+                $columns = ['collections.id', 'collections.name', 'categories.name', 'states.name'];
 
                 foreach ($columns as $column) {
                     $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
@@ -62,7 +62,7 @@ class ProductTypeController extends Controller
                 }
             }
         } else {
-            $query->orderBy('product_types.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+            $query->orderBy('collections.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
         }
 
         if ($limit) {
@@ -71,12 +71,12 @@ class ProductTypeController extends Controller
 
         // ------------------ form data ------------------
         if ($page_size) {
-            $product_types = $query->paginate($page_size);
+            $collections = $query->paginate($page_size);
         } else {
-            $product_types = $query->get();
+            $collections = $query->get();
         }
 
-        return ProductTypeResource::collection($product_types);
+        return CollectionResource::collection($collections);
     }
 
     /**
@@ -111,19 +111,19 @@ class ProductTypeController extends Controller
         //
     }
 
-    public function product_types_by_category(Request $request, string $category_id)
+    public function collections_by_category(Request $request, string $category_id)
     {
         $order = $request->query('order');
         $limit = $request->query('limit');
 
-        $product_types = ProductType::where('category_id', $category_id)->where('state_id', 1)->orderBy('order', 'ASC');
+        $collections = Collection::where('category_id', $category_id)->where('state_id', 1)->orderBy('order', 'ASC');
 
         if ($order) {
-            $product_types = $product_types->orderBy('name', $order);
+            $collections = $collections->orderBy('name', $order);
         }
 
-        $product_types = $product_types->get();
+        $collections = $collections->get();
 
-        return ProductTypeResource::collection($product_types);
+        return CollectionResource::collection($collections);
     }
 }

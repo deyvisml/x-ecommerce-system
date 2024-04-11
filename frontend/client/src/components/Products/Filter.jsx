@@ -15,6 +15,15 @@ const Filter = ({ items, filter_item_id, setFilterItemId }) => {
       </span>
 
       <ul className="flex flex-wrap gap-1 min-w-20 min-h-4 text-xs">
+        <li
+          data-filter-item-id={null}
+          onClick={handle_filter_item_click}
+          className={`cursor-pointer hover:bg-sky-950 hover:text-white transition-all ease-in-out duration-300 px-3.5 py-1.5 text-center border border-gray-500 rounded-full ${
+            !filter_item_id && "bg-sky-950 text-white"
+          }`}
+        >
+          Todos
+        </li>
         {(items &&
           items.map(({ id, name }) => {
             return (

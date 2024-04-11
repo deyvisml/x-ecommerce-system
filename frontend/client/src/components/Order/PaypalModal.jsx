@@ -115,7 +115,7 @@ const PaypalModal = ({
             })
               .then(({ data }) => {
                 if (!data.error_occurred) {
-                  navigate("/orden-exitosa");
+                  return navigate("/orden-exitosa");
                 } else {
                   throw new Error("Ocurrio un error al enviar el email.");
                 }

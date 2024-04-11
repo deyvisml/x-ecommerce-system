@@ -52,7 +52,7 @@ const EditProduct = () => {
         quantity: product.quantity,
         in_stock: product.in_stock,
         category_id: product.category_id,
-        collection_id: product.product_type_id,
+        collection_id: product.collection_id,
         state_id: product.state_id,
       };
     } catch (error) {
@@ -102,12 +102,12 @@ const EditProduct = () => {
   const [collections, setCollections] = useState();
   const fetch_collections_by_category = async (category_id) => {
     try {
-      const response = await axios_client(`/api/product-types`, {
+      const response = await axios_client(`/api/collections`, {
         method: "get",
         params: {
           filtering: [
             {
-              column: "product_types.category_id",
+              column: "collections.category_id",
               values: [category_id],
             },
           ],

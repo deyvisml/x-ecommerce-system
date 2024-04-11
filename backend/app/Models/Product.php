@@ -26,7 +26,7 @@ class Product extends Model
         'in_stock',
         'min_quantity_buy',
         'max_quantity_buy',
-        'product_type_id',
+        'collection_id',
         'category_id',
         'seller_id',
         'state_id',

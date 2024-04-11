@@ -12,7 +12,7 @@ const MainLoader = () => {
 
   return (
     is_loading_main_loader && (
-      <div className="z-50 fixed bg-black bg-opacity-20 w-full h-full">
+      <div className="z-50 fixed inset-0 bg-black bg-opacity-20">
         <div className="flex justify-center items-center w-full h-full">
           <HashLoader color="#fff" size={80} />
         </div>
