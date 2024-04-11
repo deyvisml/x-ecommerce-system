@@ -35,7 +35,7 @@ class CategoryController extends Controller
         // ------------------ getting data ------------------
         if ($filtering) {
             foreach ($filtering as $filter) {
-                if (isset($filter['values'])) { // allow 'unfilter' a column
+                if (isset($filter['values'])) {
                     $query->whereIn($filter['column'], $filter['values']);
                 }
             }

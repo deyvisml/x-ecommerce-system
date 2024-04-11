@@ -25,6 +25,7 @@ import DeleteRecordButton from "../../../components/DeleteRecordButton";
 import SwitchStockInput from "./SwitchStockInput";
 import useManagement from "../../../hooks/useManagement";
 import CategoryFilter from "../../../components/CategoryFilter";
+import StockFilter from "../../../components/StockFilter";
 
 moment.locale("es");
 
@@ -362,6 +363,14 @@ function ProductList() {
         <li className="w-full">
           <CategoryFilter
             filter_column={"products.category_id"}
+            selectable_record_ids={null}
+            filtering={filtering}
+            setFiltering={setFiltering}
+          />
+        </li>
+        <li className="w-full">
+          <StockFilter
+            filter_column={"products.in_stock"}
             selectable_record_ids={null}
             filtering={filtering}
             setFiltering={setFiltering}
