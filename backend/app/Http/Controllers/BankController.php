@@ -33,7 +33,9 @@ class BankController extends Controller
         }
         if ($filtering) {
             foreach ($filtering as $filter) {
-                $query->where($filter['id'], $filter['value']);
+                if (isset($filter['values'])) {
+                    $query->where($filter['id'], $filter['value']);
+                }
             }
         }
         if ($sorting) {

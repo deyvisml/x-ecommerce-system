@@ -56,7 +56,9 @@ class SellerController extends Controller
 
         if ($filtering) {
             foreach ($filtering as $filter) {
-                $query->whereIn($filter['column'], $filter['values']);
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
             }
         }
         if ($search_query) {
