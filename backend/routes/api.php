@@ -50,6 +50,7 @@ Route::apiResource('states', StateController::class);
 
 Route::apiResource('products', ProductController::class)->except(['store', 'update', 'destroy']);
 Route::apiResource('products', ProductController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');
+Route::put('products/{product_id}/update-in-stock', [ProductController::class, 'update_in_stock'])->middleware('auth:sanctum');
 
 Route::apiResource('sellers', SellerController::class)->except(['store', 'update', 'destroy']);
 Route::apiResource('sellers', SellerController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');

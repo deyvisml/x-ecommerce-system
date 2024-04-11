@@ -266,6 +266,36 @@ class ProductController extends Controller
         return response()->json($response);
     }
 
+    public function update_in_stock(Request $request, String $id)
+    {
+        $product = Product::find($id);
+        //$this->authorize("delete_seller", $product);
+
+        if (!$product) {
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $validation_rules = [
+            'in_stock' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Error de validación.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        $product->update([
+            'in_stock' => $request->in_stock,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
+
+        return response()->json($response);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
