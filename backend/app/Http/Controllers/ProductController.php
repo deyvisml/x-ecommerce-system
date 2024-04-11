@@ -81,7 +81,9 @@ class ProductController extends Controller
         // ------------------ getting data ------------------
         if ($filtering) {
             foreach ($filtering as $filter) {
-                $query->whereIn($filter['column'], $filter['values']);
+                if (isset($filter['values'])) { // allow 'unfilter' a column
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
             }
         }
         if ($search_query) {

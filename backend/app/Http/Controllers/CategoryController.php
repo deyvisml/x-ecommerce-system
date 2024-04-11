@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Category;
 use App\Http\Resources\CategoryResource;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class CategoryController extends Controller
 {
@@ -13,17 +14,63 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $order = $request->query('order');
-        
-        $categories = Category::where('state_id', 1)->orderBy('order', 'ASC');
-        
-        if ($order) 
-        {
-            $categories = $categories->orderBy('name', $order);
+        $filtering = $request->query('filtering');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Category::query();
+
+        // ------------------ select columns ------------------
+        $query->select('categories.*');
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
         }
-        
-        // convert a query builder into collection
-        $categories = $categories->get();
+
+        // ------------------ joins ------------------
+        $query->leftJoin('states', 'categories.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) { // allow 'unfilter' a column
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['categories.id', 'categories.name', 'categories.description', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('categories.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $categories = $query->paginate($page_size);
+        } else {
+            $categories = $query->get();
+        }
 
         return CategoryResource::collection($categories);
     }
