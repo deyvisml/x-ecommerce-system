@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -90,11 +89,98 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
+    public function products_own(Request $request)
+    {
+        $this->authorize("viewAll", Product::class);
+
+        $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Product::query();
+
+        // ------------------ select columns ------------------
+        $query->select('products.*');
+        foreach (Schema::getColumnListing('collections') as $column) {
+            $query->addSelect('collections.' . $column . ' as collections_' . $column);
+        }
+        foreach (Schema::getColumnListing('categories') as $column) {
+            $query->addSelect('categories.' . $column . ' as categories_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('collections', 'products.collection_id', '=', 'collections.id');
+        $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
+        $query->leftJoin('states', 'products.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['products.id', 'products.name', 'products.price', 'products.quantity', 'collections.name', 'categories.name', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+
+        $user = $request->user();
+        $query->where('products.user_id', $user->id); // IMPORTANT
+
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('products.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $products = $query->paginate($page_size);
+        } else {
+            $products = $query->get();
+        }
+
+        return ProductResource::collection($products);
+    }
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
+        $this->authorize("create", Product::class);
+
         $validation_rules = [
             'name' => 'required',
             'sku' => 'required',
@@ -145,7 +231,7 @@ class ProductController extends Controller
             'max_quantity_buy' => 10,
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
-            'seller_id' => $user->id,
+            'user_id' => $user->id,
             'state_id' => $request->state_id,
         ]);
 
@@ -157,10 +243,33 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $product_id)
+    public function show(string $id)
     {
-        $product = Product::where('id', $product_id)->where('state_id', 1);
-        $product = $product->first();
+        $this->authorize("view", Product::find($id));
+
+        $query = Product::query();
+
+        // ------------------ select columns ------------------
+        $query->select('products.*');
+        foreach (Schema::getColumnListing('collections') as $column) {
+            $query->addSelect('collections.' . $column . ' as collections_' . $column);
+        }
+        foreach (Schema::getColumnListing('categories') as $column) {
+            $query->addSelect('categories.' . $column . ' as categories_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('collections', 'products.collection_id', '=', 'collections.id');
+        $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
+        $query->leftJoin('states', 'products.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        $query->where('products.id', $id);
+
+        $product = $query->first();
 
         return new ProductResource($product);
     }
@@ -171,7 +280,7 @@ class ProductController extends Controller
     public function update(Request $request, string $id)
     {
         $product = Product::find($id);
-        //$this->authorize("update_seller", $seller);
+        $this->authorize("update", $product);
 
         //return response()->json(["xd" => $request->all(), "id" => $id]);
 
@@ -228,7 +337,7 @@ class ProductController extends Controller
             'in_stock' => $request->boolean('in_stock'),
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
-            'seller_id' => $user->id,
+            'user_id' => $user->id,
             'state_id' => $request->state_id,
         ]);
 
@@ -240,7 +349,7 @@ class ProductController extends Controller
     public function update_in_stock(Request $request, String $id)
     {
         $product = Product::find($id);
-        //$this->authorize("delete_seller", $product);
+        $this->authorize("update", $product);
 
         if (!$product) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
@@ -273,7 +382,7 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product = Product::find($id);
-        //$this->authorize("delete_seller", $product);
+        $this->authorize("delete", $product);
 
         if (!$product) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];

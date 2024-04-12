@@ -30,7 +30,7 @@ const EditStoreModal = ({
       ruc: record?.ruc ?? undefined,
       business_name: record?.business_name ?? undefined,
       legal_representative: record?.legal_representative ?? undefined,
-      seller_id: record?.user_id ?? undefined,
+      user_id: record?.user_id ?? undefined,
       bank_id: record?.bank_id ?? undefined,
       bank_account_number: record?.bank_account_number ?? undefined,
       state_id: record?.state_id ?? undefined,
@@ -253,13 +253,13 @@ const EditStoreModal = ({
             </div>
 
             <div>
-              <label htmlFor="seller_id" className="block font-semibold">
+              <label htmlFor="user_id" className="block font-semibold">
                 Vendedor
               </label>
               <select
-                {...register("seller_id")}
-                name="seller_id"
-                id="seller_id"
+                {...register("user_id")}
+                name="user_id"
+                id="user_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
                 <option value={0}>Seleccionar</option>
@@ -271,9 +271,9 @@ const EditStoreModal = ({
                   );
                 })}
               </select>
-              {errors.seller_id && (
+              {errors.user_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.seller_id.message}
+                  {errors.user_id.message}
                 </p>
               )}
             </div>

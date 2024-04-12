@@ -231,13 +231,13 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
             </div>
 
             <div>
-              <label htmlFor="seller_id" className="block font-semibold">
+              <label htmlFor="user_id" className="block font-semibold">
                 Vendedor
               </label>
               <select
-                {...register("seller_id")}
-                name="seller_id"
-                id="seller_id"
+                {...register("user_id")}
+                name="user_id"
+                id="user_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
                 <option value={0}>Seleccionar</option>
@@ -249,9 +249,9 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
                   );
                 })}
               </select>
-              {errors.seller_id && (
+              {errors.user_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.seller_id.message}
+                  {errors.user_id.message}
                 </p>
               )}
             </div>

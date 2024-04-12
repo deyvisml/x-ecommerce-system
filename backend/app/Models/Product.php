@@ -28,7 +28,7 @@ class Product extends Model
         'max_quantity_buy',
         'collection_id',
         'category_id',
-        'seller_id',
+        'user_id',
         'state_id',
     ];
 }

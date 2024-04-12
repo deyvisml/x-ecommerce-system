@@ -17,7 +17,7 @@ export const edit_store_schema = yup.object({
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(600)
     .required("El campo es requerido"),
-  seller_id: yup
+  user_id: yup
     .number()
     .min(1, "Eliga una opción valida")
     .typeError("Eliga una opción valida")

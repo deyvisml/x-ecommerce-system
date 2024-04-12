@@ -261,7 +261,7 @@ function ProductList() {
 
   const fetch_products = async () => {
     try {
-      const response = await axios_client(`/api/products`, {
+      const response = await axios_client(`/api/products-own`, {
         method: "get",
         params: {
           filtering,
@@ -271,7 +271,7 @@ function ProductList() {
           page_size: pagination.pageSize,
         },
         headers: {
-          authorization: "Bearer ",
+          authorization: `Bearer ${token}`,
         },
       });
 

@@ -22,22 +22,14 @@ const EditProduct = () => {
 
   const fetch_product = async (product_id) => {
     try {
-      const response = await axios_client(`/api/products`, {
+      const response = await axios_client(`/api/products/${product_id}`, {
         method: "get",
-        params: {
-          filtering: [
-            {
-              column: "products.id",
-              values: [product_id],
-            },
-          ],
-        },
         headers: {
-          authorization: "Bearer ",
+          authorization: `Bearer ${token}`,
         },
       });
 
-      const product = response.data.data[0];
+      const product = response.data.data;
 
       setProduct(product);
 

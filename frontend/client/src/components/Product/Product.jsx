@@ -20,7 +20,7 @@ const Product = () => {
   const { cart, setCart } = useECommerce();
   const [category, setCategory] = useState();
   const [product, setProduct] = useState();
-  const [collection_id, setProductTypeId] = useState();
+  const [collection_id, setCollectionId] = useState();
   const [quantity_to_buy, setQuantityToBuy] = useState(1);
   const [add_to_cart_loader, setAddToCartLoader] = useState(false);
   const [path_parts, setPathParts] = useState();
@@ -32,12 +32,24 @@ const Product = () => {
   };
 
   const fetch_product = async (product_id) => {
-    const { data } = await axios_client(`api/products/${product_id}`);
+    const { data } = await axios_client(`api/products`, {
+      method: "get",
+      params: {
+        filtering: [
+          {
+            column: "products.id",
+            values: [product_id],
+          },
+        ],
+      },
+    });
 
-    setProduct(data.data);
+    const product = data.data[0];
+
+    setProduct(product);
     setQuantityToBuy(1);
 
-    setProductTypeId(data.data.collection_id);
+    setCollectionId(product.collection_id);
   };
 
   useEffect(() => {

@@ -112,7 +112,7 @@ class StoreController extends Controller
             'legal_representative' => 'required',
             'bank_id' => 'required',
             'bank_account_number' => 'required',
-            'seller_id' => 'required',
+            'user_id' => 'required',
             'state_id' => 'required',
         ];
 
@@ -130,7 +130,7 @@ class StoreController extends Controller
             'legal_representative' => $request->legal_representative,
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
-            'user_id' => $request->seller_id,
+            'user_id' => $request->user_id,
             'state_id' => $request->state_id,
         ]);
 
@@ -211,7 +211,7 @@ class StoreController extends Controller
             'business_name' => 'required',
             'bank_account_number' => '',
             'bank_id' => '',
-            'seller_id' => 'required',
+            'user_id' => 'required',
             'state_id' => 'required',
         ];
 
@@ -228,7 +228,7 @@ class StoreController extends Controller
             'business_name' => $request->input('business_name'),
             'bank_account_number' => $request->input('bank_account_number'),
             'bank_id' => $request->input('bank_id'),
-            'user_id' => $request->input('seller_id'),
+            'user_id' => $request->input('user_id'),
             'state_id' => $request->input('state_id'),
         ]);
 
