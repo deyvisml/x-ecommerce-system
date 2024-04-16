@@ -269,7 +269,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <circle
                                 className={`fill-current ${
-                                  pathname.includes("utility")
+                                  pathname.includes("productos")
                                     ? "text-indigo-300"
                                     : "text-slate-400"
                                 }`}
@@ -289,7 +289,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <circle
                                 className={`fill-current ${
-                                  pathname.includes("utility")
+                                  pathname.includes("productos")
                                     ? "text-indigo-500"
                                     : "text-slate-600"
                                 }`}
@@ -299,7 +299,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <circle
                                 className={`fill-current ${
-                                  pathname.includes("utility")
+                                  pathname.includes("productos")
                                     ? "text-indigo-300"
                                     : "text-slate-400"
                                 }`}
@@ -339,7 +339,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Lista de Productos
+                                Listado de Productos
                               </span>
                             </NavLink>
                           </li>

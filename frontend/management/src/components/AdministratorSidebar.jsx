@@ -267,7 +267,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("ecommerce")
+                                  pathname.includes("tiendas")
                                     ? "text-indigo-300"
                                     : "text-slate-400"
                                 }`}
@@ -275,7 +275,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("ecommerce")
+                                  pathname.includes("tiendas")
                                     ? "text-indigo-600"
                                     : "text-slate-700"
                                 }`}
@@ -283,7 +283,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("ecommerce")
+                                  pathname.includes("tiendas")
                                     ? "text-indigo-500"
                                     : "text-slate-600"
                                 }`}
@@ -321,7 +321,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado
+                                Listado de Tiendas
                               </span>
                             </NavLink>
                           </li>
@@ -337,7 +337,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Solicitudes
+                                Listado de Solicitudes
                               </span>
                             </NavLink>
                           </li>
@@ -353,7 +353,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Vendedores
+                                Listado de Vendedores
                               </span>
                             </NavLink>
                           </li>
@@ -392,7 +392,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("community")
+                                  pathname.includes("usuarios")
                                     ? "text-indigo-500"
                                     : "text-slate-600"
                                 }`}
@@ -400,7 +400,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("community")
+                                  pathname.includes("usuarios")
                                     ? "text-indigo-300"
                                     : "text-slate-400"
                                 }`}
@@ -438,7 +438,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado
+                                Listado de Usuarios
                               </span>
                             </NavLink>
                           </li>

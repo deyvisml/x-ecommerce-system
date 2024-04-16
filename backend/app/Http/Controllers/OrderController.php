@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Delivery;
@@ -9,15 +10,90 @@ use App\Models\Location;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 
 class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Order::query();
+
+        // ------------------ select columns ------------------
+        $query->select('orders.*');
+        foreach (Schema::getColumnListing('deliveries') as $column) {
+            $query->addSelect('deliveries.' . $column . ' as deliveries_' . $column);
+        }
+        foreach (Schema::getColumnListing('users') as $column) {
+            $query->addSelect('users.' . $column . ' as users_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('deliveries', 'orders.delivery_id', '=', 'deliveries.id');
+        $query->leftJoin('users', 'orders.user_id', '=', 'users.id');
+        $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['orders.id', 'orders.created_at', 'users.first_name', 'users.last_name', 'orders.payment_method', 'orders.total_price', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('orders.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $orders = $query->paginate($page_size);
+        } else {
+            $orders = $query->get();
+        }
+
+        return OrderResource::collection($orders);
     }
 
     /**
@@ -149,6 +225,22 @@ class OrderController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $order = Order::find($id);
+        //$this->authorize("delete", $order);
+
+        if (!$order) {
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $deleted_state_id = 3;
+
+        $order->update([
+            'state_id' => $deleted_state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
+
+        return response()->json($response);
     }
 }

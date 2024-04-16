@@ -20,6 +20,8 @@ import SellerDashboardHome from "./pages/seller/SellerDashboardHome";
 import ProductList from "./pages/seller/ProductList/ProductList";
 import AddProduct from "./pages/seller/AddProduct/AddProduct";
 import EditProduct from "./pages/seller/EditProduct/EditProduct";
+import OrderList from "./pages/seller/OrderList/OrderList";
+import ViewOrder from "./pages/seller/ViewOrder/ViewOrder";
 
 const Route = () => {
   // this func also check if the user has valid roles like "administrador" / "vendedor"
@@ -134,6 +136,14 @@ const Route = () => {
                 {
                   path: "vendedor/productos/:product_id/editar",
                   element: <EditProduct />,
+                },
+                {
+                  path: "vendedor/ordenes/listado",
+                  element: <OrderList />,
+                },
+                {
+                  path: "vendedor/ordenes/:order_id",
+                  element: <ViewOrder />,
                 },
               ],
             },

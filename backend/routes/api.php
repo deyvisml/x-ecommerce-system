@@ -43,10 +43,11 @@ Route::apiResource('categories', CategoryController::class);
 Route::apiResource('collections', CollectionController::class);
 Route::apiResource('document-types', DocumentTypeController::class);
 Route::apiResource('regions', RegionController::class);
-Route::apiResource('orders', OrderController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
+Route::apiResource('orders', OrderController::class)->except(['show', 'store', 'update', 'destroy']);
+Route::apiResource('orders', OrderController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');
 
 Route::apiResource('products', ProductController::class)->except(['show', 'store', 'update', 'destroy']);
 Route::apiResource('products', ProductController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');
