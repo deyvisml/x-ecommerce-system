@@ -6,6 +6,7 @@ import moment from "moment";
 import "moment/dist/locale/es";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 import currency from "currency.js";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -62,25 +63,31 @@ const ViewOrder = () => {
     }
   };
 
-  const [states, setStates] = useState([]);
+  const [order_states, setOrderStates] = useState([]);
+  const [order_states_for_history, setOrderStatesForHistory] = useState([]);
   const fetch_states = async () => {
     try {
       const response = await axios_client(`/api/states`, {
         method: "get",
-        params: {
-          filtering: [
-            {
-              column: "states.id",
-              values: [1, 2, 3],
-            },
-          ],
-        },
+        params: {},
         headers: {
           authorization: "Bearer ",
         },
       });
 
-      setStates(response.data.data);
+      const states = response.data.data;
+
+      const order_states_for_history_ids = [11, 12, 13, 14, 15, 16];
+      const aux_order_states_for_history = states.filter((order_state) =>
+        order_states_for_history_ids.includes(order_state.id)
+      );
+      setOrderStatesForHistory(aux_order_states_for_history);
+
+      const order_states_ids = [11, 12, 13, 14, 15, 16, 17];
+      const aux_order_states = states.filter((order_state) =>
+        order_states_ids.includes(order_state.id)
+      );
+      setOrderStates(aux_order_states);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -415,60 +422,58 @@ const ViewOrder = () => {
 
               <div className="mt-4">
                 <ul className="w-full text-sm overflow-y-clip">
-                  <li className="relative flex pb-5 pe-2 ps-12">
-                    <div className="w-1/2">
-                      <p className="font-semibold">Nombre de estado</p>
-                      <span className="mt-2">Descripción de estado</span>
-                    </div>
-                    <span className="text-right w-1/2 text-slate-400">
-                      Martes 11:12 AM
-                    </span>
+                  {order_states_for_history.map((order_state, i) => {
+                    const order_state_done = order.order_state_changes.find(
+                      (order_state2) => order_state2.state_id == order_state.id
+                    );
 
-                    <div>
-                      <span className="top-0 left-0 z-10 absolute border-3 border-slate-300 bg-indigo-600 rounded-full w-4 h-4 -translate-x-1/2"></span>
-                      <span className="top-0 left-0 absolute bg-white w-8 h-32 -translate-x-1/2 -translate-y-full">
-                        <div className="flex justify-center items-center w-full h-full">
-                          <span className="bg-indigo-400 w-[1px] h-full"></span>
+                    return (
+                      <li key={i} className="relative flex pb-5 pe-2 ps-12">
+                        <div className="w-1/2">
+                          <p className="font-semibold capitalize">
+                            {order_state.name}
+                          </p>
+                          <span className="mt-2 normal-case">
+                            {"Pedido " + order_state.name}
+                          </span>
                         </div>
-                      </span>
-                    </div>
-                  </li>
-                  <li className="relative flex pb-5 pe-2 ps-12">
-                    <div className="w-1/2">
-                      <p className="font-semibold">Nombre de estado</p>
-                      <span className="mt-2">Descripción de estado</span>
-                    </div>
-                    <span className="text-right w-1/2 text-slate-400">
-                      Martes 11:12 AM
-                    </span>
+                        <span className="text-right w-1/2 text-slate-400">
+                          {order_state_done &&
+                            moment(order_state_done?.date).format(
+                              "DD [de] MMM, YYYY"
+                            )}{" "}
+                          {order_state_done &&
+                            order_state_done?.time.slice(0, -3)}
+                        </span>
 
-                    <div>
-                      <span className="top-0 left-0 z-10 absolute border-3 border-slate-300 bg-indigo-600 rounded-full w-4 h-4 -translate-x-1/2"></span>
-                      <span className="top-0 left-0 absolute bg-white w-8 h-32 -translate-x-1/2 -translate-y-full">
-                        <div className="flex justify-center items-center w-full h-full">
-                          <span className="bg-indigo-400 w-[1px] h-full"></span>
+                        <div>
+                          <span
+                            className={`top-0 left-0 z-10 absolute border-3 border-slate-300 ${
+                              order_state_done
+                                ? "bg-indigo-600"
+                                : "bg-slate-400"
+                            }  rounded-full w-4 h-4 -translate-x-1/2`}
+                          ></span>
+                          <span
+                            className={`top-0 left-0 absolute bg-white w-8 h-32 -translate-x-1/2 -translate-y-full`}
+                            style={{
+                              zIndex: order_states_for_history.length - i,
+                            }}
+                          >
+                            <div className="flex justify-center items-center w-full h-full">
+                              <span
+                                className={`${
+                                  order_state_done
+                                    ? "bg-indigo-500"
+                                    : "bg-slate-300"
+                                } w-[1px] h-full`}
+                              ></span>
+                            </div>
+                          </span>
                         </div>
-                      </span>
-                    </div>
-                  </li>
-                  <li className="relative flex pb-5 pe-2 ps-12">
-                    <div className="w-1/2">
-                      <p className="font-semibold">Nombre de estado</p>
-                      <span className="mt-2">Descripción de estado</span>
-                    </div>
-                    <span className="text-right w-1/2 text-slate-400">
-                      Martes 11:12 AM
-                    </span>
-
-                    <div>
-                      <span className="top-0 left-0 z-10 absolute border-3 border-slate-300 bg-indigo-600 rounded-full w-4 h-4 -translate-x-1/2"></span>
-                      <span className="top-0 left-0 absolute bg-white w-8 h-32 -translate-x-1/2 -translate-y-full">
-                        <div className="flex justify-center items-center w-full h-full">
-                          <span className="bg-indigo-400 w-[1px] h-full"></span>
-                        </div>
-                      </span>
-                    </div>
-                  </li>
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             </div>
@@ -486,18 +491,60 @@ const ViewOrder = () => {
 
               <div className="mt-4">
                 <ul className="space-y-3 w-full text-sm">
-                  <li className="flex">
-                    <span className="w-1/2">Factura</span>
-                    <span className="w-1/2">
-                      <button className="text-indigo-700">#FAC_0001</button>
-                    </span>
-                  </li>
-                  <li className="flex">
-                    <span className="w-1/2">Envio</span>
-                    <span className="w-1/2">
-                      <button className="text-indigo-700">#ENV_0001</button>
-                    </span>
-                  </li>
+                  {(() => {
+                    const ticket_or_invoice_document =
+                      order.order_documents.find(
+                        (order_document) =>
+                          order_document.kind == "ticket" ||
+                          order_document.kind == "invoice"
+                      );
+
+                    return (
+                      <li className="flex">
+                        <span className="w-1/2">
+                          {ticket_or_invoice_document
+                            ? ticket_or_invoice_document.kind == "ticket"
+                              ? "Boleta"
+                              : "Factura"
+                            : "Boleta / Factura"}
+                        </span>
+                        <span className="w-1/2">
+                          {ticket_or_invoice_document ? (
+                            <Link to={"#"} className="text-indigo-700">
+                              {ticket_or_invoice_document.file_name}
+                            </Link>
+                          ) : (
+                            <span className="mb-0 p-0 text-red-500 text-xs">
+                              Sin existencias
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })()}
+
+                  {(() => {
+                    const shipping_document = order.order_documents.find(
+                      (order_document) => order_document.kind == "shipping"
+                    );
+
+                    return (
+                      <li className="flex">
+                        <span className="w-1/2">Envio</span>
+                        <span className="w-1/2">
+                          {shipping_document ? (
+                            <Link to={"#"} className="text-indigo-700">
+                              {shipping_document.file_name}
+                            </Link>
+                          ) : (
+                            <span className="mb-0 p-0 text-red-500 text-xs">
+                              Sin existencias
+                            </span>
+                          )}
+                        </span>
+                      </li>
+                    );
+                  })()}
                 </ul>
               </div>
             </div>
