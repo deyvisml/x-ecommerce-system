@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -89,9 +90,10 @@ class ProductController extends Controller
         return ProductResource::collection($products);
     }
 
-    public function products_own(Request $request)
+    public function store_products(string $store_id, Request $request)
     {
-        $this->authorize("viewAll", Product::class);
+        $store = Store::find($store_id);
+        $this->authorize("viewAll", [Product::class, $store]);
 
         $filtering = $request->query('filtering');
         $excluding = $request->query('excluding');
@@ -145,8 +147,7 @@ class ProductController extends Controller
             });
         }
 
-        $user = $request->user();
-        $query->where('products.user_id', $user->id); // IMPORTANT
+        $query->where('products.store_id', $store->id); // IMPORTANT
 
         if ($sorting) {
             foreach ($sorting as $sort) {
@@ -231,7 +232,7 @@ class ProductController extends Controller
             'max_quantity_buy' => 10,
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
-            'user_id' => $user->id,
+            'store_id' => $request->store_id,
             'state_id' => $request->state_id,
         ]);
 
@@ -337,7 +338,7 @@ class ProductController extends Controller
             'in_stock' => $request->boolean('in_stock'),
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
-            'user_id' => $user->id,
+            'store_id' => $request->store_id,
             'state_id' => $request->state_id,
         ]);
 

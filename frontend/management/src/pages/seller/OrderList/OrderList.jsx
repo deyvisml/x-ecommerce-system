@@ -51,6 +51,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 11;
 
 function OrderList() {
+  const store_id = 6;
   const { token } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -262,15 +263,6 @@ function OrderList() {
                     <Menu.Item>
                       {({ close }) => (
                         <span onClick={close}>
-                          <EditRecordLink
-                            to={`/vendedor/productos/${row.original.id}/editar`}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
                           <DeleteRecordButton
                             record={row.original}
                             setDataChanged={setDataChanged}
@@ -290,9 +282,9 @@ function OrderList() {
     []
   );
 
-  const fetch_orders = async () => {
+  const fetch_orders_by_store = async (store_id) => {
     try {
-      const response = await axios_client(`/api/orders`, {
+      const response = await axios_client(`/api/stores/${store_id}/orders`, {
         method: "get",
         params: {
           filtering,
@@ -318,7 +310,7 @@ function OrderList() {
   };
 
   useEffect(() => {
-    fetch_orders();
+    fetch_orders_by_store(store_id);
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -358,7 +350,7 @@ function OrderList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_orders();
+      fetch_orders_by_store(store_id);
       setDataChanged(false);
     }
   }, [data_changed]);

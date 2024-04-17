@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Permission;
 use App\Models\Product;
+use App\Models\Store;
 use App\Models\User;
 
 class ProductPolicy
@@ -26,13 +27,13 @@ class ProductPolicy
     /**
      * Determine whether the user can view its all models.
      */
-    public function viewAll(User $user): bool
+    public function viewAll(User $user, Store $store): bool
     {
         try {
             $permission = Permission::where('name', 'products-read-all-own')->first();
             $roles = $permission->roles;
 
-            if ($user->hasRoles($roles)) {
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
                 return true;
             }
 

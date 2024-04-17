@@ -26,6 +26,7 @@
     "react-flatpickr": "^3.10.13",
     "react-hook-form": "^7.51.1",
     "react-router-dom": "^6.20.1",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^10.0.5",
     "react-transition-group": "^4.4.5",
     "sweetalert2": "^11.10.7",

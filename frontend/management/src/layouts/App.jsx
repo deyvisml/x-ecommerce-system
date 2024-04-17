@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import MainLoader from "../components/MainLoader";
 
 const App = () => {
   return (
@@ -11,6 +12,7 @@ const App = () => {
         className="text-sm"
         autoClose={3000}
       />
+      <MainLoader />
       <ScrollRestoration />
     </>
   );

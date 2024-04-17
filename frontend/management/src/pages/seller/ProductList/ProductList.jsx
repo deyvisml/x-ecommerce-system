@@ -54,6 +54,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function ProductList() {
+  const store_id = 6; //! fix this, it must be obtain from the useManagment (localStorage)
   const { token } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -259,9 +260,9 @@ function ProductList() {
     []
   );
 
-  const fetch_products = async () => {
+  const fetch_products_by_store = async (store_id) => {
     try {
-      const response = await axios_client(`/api/products-own`, {
+      const response = await axios_client(`/api/stores/${store_id}/products`, {
         method: "get",
         params: {
           filtering,
@@ -287,7 +288,7 @@ function ProductList() {
   };
 
   useEffect(() => {
-    fetch_products();
+    fetch_products_by_store(store_id);
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -327,7 +328,7 @@ function ProductList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_products();
+      fetch_products_by_store(store_id);
       setDataChanged(false);
     }
   }, [data_changed]);

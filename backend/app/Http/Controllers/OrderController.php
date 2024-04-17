@@ -8,6 +8,7 @@ use App\Models\CartProduct;
 use App\Models\Delivery;
 use App\Models\Location;
 use App\Models\Order;
+use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
@@ -43,7 +44,7 @@ class OrderController extends Controller
 
         // ------------------ joins ------------------
         $query->leftJoin('deliveries', 'orders.delivery_id', '=', 'deliveries.id');
-        $query->leftJoin('users', 'orders.user_id', '=', 'users.id');
+        $query->leftJoin('users', 'orders.customer_id', '=', 'users.id');
         $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
 
         // ------------------ getting data ------------------
@@ -70,6 +71,92 @@ class OrderController extends Controller
                 }
             });
         }
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('orders.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $orders = $query->paginate($page_size);
+        } else {
+            $orders = $query->get();
+        }
+
+        return OrderResource::collection($orders);
+    }
+
+    // store is not save, it means a place where you can buy
+    public function store_orders(string $store_id, Request $request)
+    {
+        $store = Store::find($store_id);
+        //$this->authorize("viewAll", [Order::class, $store]);
+
+        $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Order::query();
+
+        // ------------------ select columns ------------------
+        $query->select('orders.*');
+        foreach (Schema::getColumnListing('deliveries') as $column) {
+            $query->addSelect('deliveries.' . $column . ' as deliveries_' . $column);
+        }
+        foreach (Schema::getColumnListing('users') as $column) {
+            $query->addSelect('users.' . $column . ' as users_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('deliveries', 'orders.delivery_id', '=', 'deliveries.id');
+        $query->leftJoin('users', 'orders.customer_id', '=', 'users.id');
+        $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = ['orders.id', 'orders.created_at', 'users.first_name', 'users.last_name', 'orders.payment_method', 'orders.total_price', 'states.name'];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+
+        $query->where('orders.store_id', $store->id);
+
         if ($sorting) {
             foreach ($sorting as $sort) {
                 if ($sort['way'] == 'random') {
@@ -183,7 +270,7 @@ class OrderController extends Controller
             'email_sent' => false,
             'delivery_id' => $created_delivery->id,
             'cart_id' => $created_cart->id,
-            'user_id' => $created_user->id,
+            'customer_id' => $created_user->id,
         ]);
 
         $response = ['error_occurred' => false, 'message' => 'Order created successfully', 'data' => ['order_id' => $created_order->id]];
@@ -196,7 +283,78 @@ class OrderController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+    }
+
+    public function store_order(string $store_id, string $order_id)
+    {
+        //$this->authorize("view", Order::find($order_id));
+
+        $query = Order::query();
+
+        // ------------------ select columns ------------------
+        $query->select('orders.*');
+        foreach (Schema::getColumnListing('deliveries') as $column) {
+            $query->addSelect('deliveries.' . $column . ' as deliveries_' . $column);
+        }
+        foreach (Schema::getColumnListing('delivery_schedules') as $column) {
+            $query->addSelect('delivery_schedules.' . $column . ' as delivery_schedules_' . $column);
+        }
+        foreach (Schema::getColumnListing('regions') as $column) {
+            $query->addSelect('regions.' . $column . ' as regions_' . $column);
+        }
+        foreach (Schema::getColumnListing('locations') as $column) {
+            $query->addSelect('locations.' . $column . ' as locations_' . $column);
+        }
+        foreach (Schema::getColumnListing('users') as $column) {
+            $query->addSelect('users.' . $column . ' as customers_' . $column);
+        }
+        foreach (Schema::getColumnListing('stores') as $column) {
+            $query->addSelect('stores.' . $column . ' as stores_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('deliveries', 'orders.delivery_id', '=', 'deliveries.id');
+        $query->leftJoin('delivery_schedules', 'deliveries.delivery_schedule_id', '=', 'delivery_schedules.id');
+        $query->leftJoin('regions', 'deliveries.region_id', '=', 'regions.id');
+        $query->leftJoin('locations', 'deliveries.location_id', '=', 'locations.id');
+        $query->leftJoin('users', 'orders.customer_id', '=', 'users.id');
+        $query->leftJoin('stores', 'orders.store_id', '=', 'stores.id');
+        $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        $query->where('orders.id', $order_id);
+
+        $order = $query->first();
+
+        // get cart
+        $order->cart;
+
+        // get cart_products
+        $cart_products = $order->cart_products;
+
+        foreach ($cart_products as $cart_product) {
+            $cart_product->product;
+        }
+
+        // get order_state_changes
+        $order_state_changes = $order->order_state_changes;
+
+        foreach ($order_state_changes as $order_state_change) {
+            $order_state_change->state;
+        }
+
+        // get order_documents
+        $order_documents = $order->order_documents;
+
+        foreach ($order_documents as $order_document) {
+            $order_document->state;
+        }
+
+        return new OrderResource($order);
     }
 
     /**

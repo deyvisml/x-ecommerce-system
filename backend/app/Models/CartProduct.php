@@ -19,4 +19,9 @@ class CartProduct extends Model
         'quantity',
         'state_id',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

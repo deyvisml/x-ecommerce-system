@@ -3,7 +3,7 @@ import * as yup from "yup";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const schema = yup.object({
+export const upload_documents_schema = yup.object({
   name: yup.string().max(200).required("El campo es requerido"),
   sku: yup.string().max(20).required("El campo es requerido"),
   description: yup.string().max(600).required("El campo es requerido"),

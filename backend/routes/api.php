@@ -48,11 +48,13 @@ Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('orders', OrderController::class)->except(['show', 'store', 'update', 'destroy']);
 Route::apiResource('orders', OrderController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');
+Route::get('stores/{store_id}/orders', [OrderController::class, 'store_orders'])->middleware('auth:sanctum');
+Route::get('stores/{store_id}/orders/{order_id}', [OrderController::class, 'store_order'])->middleware('auth:sanctum');
 
 Route::apiResource('products', ProductController::class)->except(['show', 'store', 'update', 'destroy']);
 Route::apiResource('products', ProductController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');
 Route::put('products/{product_id}/update-in-stock', [ProductController::class, 'update_in_stock'])->middleware('auth:sanctum');
-Route::get('products-own', [ProductController::class, 'products_own'])->middleware('auth:sanctum');
+Route::get('stores/{store_id}/products', [ProductController::class, 'store_products'])->middleware('auth:sanctum');
 
 Route::apiResource('sellers', SellerController::class)->except(['store', 'update', 'destroy']);
 Route::apiResource('sellers', SellerController::class)->only(['store', 'update', 'destroy'])->middleware('auth:sanctum');
