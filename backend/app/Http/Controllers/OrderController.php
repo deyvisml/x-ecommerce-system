@@ -12,6 +12,7 @@ use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
@@ -398,6 +399,36 @@ class OrderController extends Controller
         ]);
 
         $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
+
+        return response()->json($response);
+    }
+
+    public function update_state(Request $request, string $store_id, string $order_id)
+    {
+        $order = Order::find($order_id);
+        //$this->authorize("update", $order);
+
+        if (!$order) {
+            $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
+            return response()->json($response);
+        }
+
+        $validation_rules = [
+            'state_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = ['status' => false, 'message' => 'Error de validación.', 'errors' => $validation->errors()];
+            return response()->json($response);
+        }
+
+        $order->update([
+            'state_id' => $request->state_id,
+        ]);
+
+        $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
 
         return response()->json($response);
     }

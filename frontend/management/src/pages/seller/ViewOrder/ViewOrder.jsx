@@ -96,6 +96,32 @@ const ViewOrder = () => {
     }
   };
 
+  const cancel_order = async (record) => {
+    try {
+      const state_id = 17; // cancel
+
+      const response = await axios_client(
+        `/api/stores/${store_id}/orders/${record.id}/update-state`,
+        {
+          method: "put",
+          data: {
+            state_id,
+          },
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error(error);
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 5000,
+      });
+    }
+  };
+
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
     (async () => {
@@ -110,6 +136,14 @@ const ViewOrder = () => {
       }, 2000);
     })();
   }, []);
+
+  useEffect(() => {
+    if (data_changed) {
+      fetch_order(order_id);
+
+      setDataChanged(false);
+    }
+  }, [data_changed]);
 
   return (
     fetches_finished == true && (
@@ -257,13 +291,6 @@ const ViewOrder = () => {
                           </p>
                         );
                         break;
-                      case 5:
-                        element = (
-                          <p className="bg-red-100 px-2 py-0.5 rounded text-red-500 text-xs capitalize">
-                            {order.states_name}
-                          </p>
-                        );
-                        break;
                       case 11:
                         element = (
                           <p className="bg-yellow-100 px-2 py-0.5 rounded text-xs text-yellow-600 capitalize">
@@ -285,7 +312,9 @@ const ViewOrder = () => {
                           </p>
                         );
                         break;
+                      case 5:
                       case 14:
+                      case 17:
                         element = (
                           <p className="bg-red-100 px-2 py-0.5 rounded text-red-500 text-xs capitalize">
                             {order.states_name}
@@ -511,7 +540,14 @@ const ViewOrder = () => {
                         <span className="w-1/2">
                           {ticket_or_invoice_document ? (
                             <Link to={"#"} className="text-indigo-700">
-                              {ticket_or_invoice_document.file_name}
+                              {ticket_or_invoice_document.file_name.substring(
+                                0,
+                                5
+                              )}
+                              ...
+                              {ticket_or_invoice_document.file_name.substring(
+                                ticket_or_invoice_document.file_name.length - 6
+                              )}
                             </Link>
                           ) : (
                             <span className="mb-0 p-0 text-red-500 text-xs">
@@ -534,7 +570,11 @@ const ViewOrder = () => {
                         <span className="w-1/2">
                           {shipping_document ? (
                             <Link to={"#"} className="text-indigo-700">
-                              {shipping_document.file_name}
+                              {shipping_document.file_name.substring(0, 5)}
+                              ...
+                              {shipping_document.file_name.substring(
+                                shipping_document.file_name.length - 6
+                              )}
                             </Link>
                           ) : (
                             <span className="mb-0 p-0 text-red-500 text-xs">
@@ -553,7 +593,13 @@ const ViewOrder = () => {
               <h4 className="font-semibold text-base">Acciones</h4>
 
               <div className="mt-4">
-                <CancelOrderButton />
+                {order.state_id != 17 && (
+                  <CancelOrderButton
+                    record={order}
+                    setDataChanged={setDataChanged}
+                    fn={cancel_order}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -570,6 +616,7 @@ const ViewOrder = () => {
 
           {is_upload_documents_modal_open == true && (
             <UploadDocumentsModal
+              record={order}
               setDataChanged={setDataChanged}
               is_modal_open={is_upload_documents_modal_open}
               setIsModalOpen={setIsUploadDocumentsModalOpen}

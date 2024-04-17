@@ -46,7 +46,7 @@ class Order extends Model
 
     public function order_documents()
     {
-        $order_documents = $this->hasMany(OrderDocument::class);
+        $order_documents = $this->hasMany(OrderDocument::class)->where('state_id', 1);
         return $order_documents;
     }
 }

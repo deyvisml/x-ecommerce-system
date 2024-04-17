@@ -11,6 +11,7 @@ import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
 const UploadDocumentsModal = ({
+  record,
   setDataChanged,
   is_modal_open,
   setIsModalOpen,
@@ -25,37 +26,15 @@ const UploadDocumentsModal = ({
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      document_type_id: "",
-      state_id: 1,
-    },
     resolver: yupResolver(upload_documents_schema),
   });
 
+  const store_id = 6;
   const { token } = useManagement();
-
-  const [document_types, setDocumentTypes] = useState([]);
-  const fetch_document_types = async () => {
-    try {
-      const response = await axios_client(`/api/document-types`, {
-        method: "get",
-        headers: {
-          authorization: "Bearer ",
-        },
-      });
-      setDocumentTypes(response.data.data);
-    } catch (error) {
-      console.error(error);
-      toast.error(error?.response?.data?.message ?? error.message, {
-        autoClose: 5000,
-      });
-    }
-  };
 
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
     (async () => {
-      await fetch_document_types();
       setFetchesFinished(true);
     })();
   }, []);
@@ -65,22 +44,37 @@ const UploadDocumentsModal = ({
   };
 
   const onSubmit = async (data) => {
+    const form_data = new FormData();
+
+    for (let key in data) {
+      if (key == "file") {
+        form_data.append(key, data[key][0]);
+      } else {
+        form_data.append(key, data[key]);
+      }
+    }
+
     try {
-      const response = await axios_client(`/api/sellers`, {
-        method: "post",
-        data,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios_client(
+        `/api/stores/${store_id}/orders/${record.id}/order-document`,
+        {
+          method: "post",
+          data: form_data,
+          headers: {
+            "Content-Type": "multipart/form-data",
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Creado!",
+          title: "Subido!",
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
+
         setDataChanged(true);
         setIsModalOpen(false);
       } else {
@@ -90,12 +84,6 @@ const UploadDocumentsModal = ({
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
-
-        if (response.data.errors?.email) {
-          setError("email", {
-            message: "El correo ya esta registrado.",
-          });
-        }
       }
     } catch (error) {
       console.error(error);
@@ -115,26 +103,22 @@ const UploadDocumentsModal = ({
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="flex flex-col gap-2 text-slate-600 text-sm">
             <div>
-              <label htmlFor="document_type_id" className="block font-semibold">
-                Tipo de documento
+              <label htmlFor="kind" className="block font-semibold">
+                Tipo
               </label>
               <select
-                {...register("document_type_id")}
-                id="document_type_id"
+                {...register("kind")}
+                id="kind"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
                 <option value={""}>Seleccionar</option>
-                {document_types.map((document_type, i) => {
-                  return (
-                    <option key={i} value={document_type.id}>
-                      {document_type.name}
-                    </option>
-                  );
-                })}
+                <option value={"ticket"}>Boleta</option>
+                <option value={"invoice"}>Factura</option>
+                <option value={"shipping"}>Envio</option>
               </select>
-              {errors.document_type_id && (
+              {errors.kind && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.document_type_id.message}
+                  {errors.kind.message}
                 </p>
               )}
             </div>
