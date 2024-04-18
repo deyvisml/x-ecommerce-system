@@ -143,7 +143,7 @@ const UpdateOrderStateModal = ({
               <div className="gap-2 grid grid-cols-3">
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm capitalize cursor-default focus:ring-0"
-                  value={current_state_order_change.state.name}
+                  value={current_state_order_change.state2.name}
                   readOnly
                 />
                 <input

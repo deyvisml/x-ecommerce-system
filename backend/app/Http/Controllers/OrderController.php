@@ -345,7 +345,7 @@ class OrderController extends Controller
         $order_state_changes = $order->order_state_changes;
 
         foreach ($order_state_changes as $order_state_change) {
-            $order_state_change->state;
+            $order_state_change->state2;
         }
 
         // get order_documents

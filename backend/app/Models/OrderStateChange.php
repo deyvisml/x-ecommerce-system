@@ -21,7 +21,7 @@ class OrderStateChange extends Model
         'state_id',
     ];
 
-    public function state()
+    public function state2()
     {
         return $this->belongsTo(State::class, 'state_id2', 'id');
     }
