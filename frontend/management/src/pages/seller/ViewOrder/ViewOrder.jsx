@@ -19,6 +19,7 @@ import {
 import ModalButton2 from "../../../components/ModalButton2";
 import UploadDocumentsModal from "./UploadDocumentsModal";
 import { AnimatePresence } from "framer-motion";
+import UndoOrderStateModal from "./UndoOrderStateModal";
 import UpdateOrderStateModal from "./UpdateOrderStateModal";
 import CancelOrderButton from "./CancelOrderButton";
 
@@ -35,7 +36,9 @@ const ViewOrder = () => {
   const [order, setOrder] = useState();
   const [is_upload_documents_modal_open, setIsUploadDocumentsModalOpen] =
     useState(false);
-  const [is_update_order_state_modal, setIsUpdateOrderStateModal] =
+  const [is_undo_order_state_modal_open, setIsUndoOrderStateModalOpen] =
+    useState(false);
+  const [is_update_order_state_modal_open, setIsUpdateOrderStateModalOpen] =
     useState(false);
   const [data_changed, setDataChanged] = useState(false);
 
@@ -126,7 +129,7 @@ const ViewOrder = () => {
 
       setTimeout(() => {
         setIsLoadingMainLoader(false);
-      }, 2000);
+      }, 500);
     })();
   }, []);
 
@@ -277,23 +280,16 @@ const ViewOrder = () => {
                   {(() => {
                     let element = null;
                     switch (order.state_id) {
-                      case 1:
-                        element = (
-                          <p className="bg-slate-200 px-2 py-0.5 rounded text-xs capitalize">
-                            {order.states_name}
-                          </p>
-                        );
-                        break;
                       case 11:
                         element = (
-                          <p className="bg-yellow-100 px-2 py-0.5 rounded text-xs text-yellow-600 capitalize">
+                          <p className="bg-purple-100 px-2 py-0.5 rounded text-purple-600 text-xs capitalize">
                             {order.states_name}
                           </p>
                         );
                         break;
                       case 12:
                         element = (
-                          <p className="bg-purple-100 px-2 py-0.5 rounded text-purple-600 text-xs capitalize">
+                          <p className="bg-yellow-100 px-2 py-0.5 rounded text-xs text-yellow-600 capitalize">
                             {order.states_name}
                           </p>
                         );
@@ -312,6 +308,14 @@ const ViewOrder = () => {
                           </p>
                         );
                         break;
+                      case 15:
+                      case 16:
+                        element = (
+                          <p className="bg-green-100 px-2 py-0.5 rounded text-green-500 text-xs capitalize">
+                            {order.states_name}
+                          </p>
+                        );
+                        break;
                       case 5:
                       case 17:
                         element = (
@@ -320,7 +324,6 @@ const ViewOrder = () => {
                           </p>
                         );
                         break;
-
                       default:
                         element = (
                           <p className="bg-slate-200 px-2 py-0.5 rounded text-xs capitalize">
@@ -416,6 +419,14 @@ const ViewOrder = () => {
                     </span>
                   </li>
                   <li>
+                    <span className="inline-block w-1/2">Envio:</span>
+                    <span className="inline-block text-right w-1/2 font-semibold">
+                      {currency(order.discount, {
+                        symbol: "S/ ",
+                      }).format()}
+                    </span>
+                  </li>
+                  <li>
                     <span className="inline-block w-1/2">Impuesto:</span>
                     <span className="inline-block text-right w-1/2 font-semibold">
                       {currency(order.tax, {
@@ -442,10 +453,20 @@ const ViewOrder = () => {
                 <h4 className="font-semibold text-base">
                   Historico del estado de la Orden
                 </h4>
-                <ModalButton2
-                  label={"Actualizar estado"}
-                  setIsModalOpen={setIsUpdateOrderStateModal}
-                />
+                {order.state_id != 17 && (
+                  <div className="flex gap-2">
+                    <ModalButton2
+                      label={"Deshacer estado"}
+                      setIsModalOpen={setIsUndoOrderStateModalOpen}
+                      className="bg-red-100 hover:bg-red-200 px-6 py-2 rounded text-red-700 text-xs"
+                    />
+                    <ModalButton2
+                      label={"Actualizar estado"}
+                      setIsModalOpen={setIsUpdateOrderStateModalOpen}
+                      className="bg-indigo-100 hover:bg-indigo-200 px-6 py-2 rounded text-indigo-700 text-xs"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="mt-4">
@@ -511,10 +532,12 @@ const ViewOrder = () => {
             <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
               <div className="flex justify-between">
                 <h4 className="font-semibold text-base">Documentos</h4>
-                <ModalButton2
-                  label={"Subir"}
-                  setIsModalOpen={setIsUploadDocumentsModalOpen}
-                />
+                {order.state_id != 17 && (
+                  <ModalButton2
+                    label={"Subir"}
+                    setIsModalOpen={setIsUploadDocumentsModalOpen}
+                  />
+                )}
               </div>
 
               <div className="mt-4">
@@ -623,12 +646,21 @@ const ViewOrder = () => {
         </div>
 
         <AnimatePresence>
-          {is_update_order_state_modal == true && (
+          {is_undo_order_state_modal_open == true && (
+            <UndoOrderStateModal
+              record={order}
+              setDataChanged={setDataChanged}
+              is_modal_open={is_undo_order_state_modal_open}
+              setIsModalOpen={setIsUndoOrderStateModalOpen}
+            />
+          )}
+
+          {is_update_order_state_modal_open == true && (
             <UpdateOrderStateModal
               record={order}
               setDataChanged={setDataChanged}
-              is_modal_open={is_update_order_state_modal}
-              setIsModalOpen={setIsUpdateOrderStateModal}
+              is_modal_open={is_update_order_state_modal_open}
+              setIsModalOpen={setIsUpdateOrderStateModalOpen}
             />
           )}
 

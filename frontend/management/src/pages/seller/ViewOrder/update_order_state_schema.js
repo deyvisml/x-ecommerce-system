@@ -3,7 +3,7 @@ import * as yup from "yup";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const update_order_sate_schema = yup.object({
+export const update_order_state_schema = yup.object({
   state_id: yup
     .number()
     .typeError("Eliga una opción valida")

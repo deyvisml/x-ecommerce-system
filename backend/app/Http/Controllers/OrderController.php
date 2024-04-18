@@ -8,8 +8,10 @@ use App\Models\CartProduct;
 use App\Models\Delivery;
 use App\Models\Location;
 use App\Models\Order;
+use App\Models\OrderStateChange;
 use App\Models\Store;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
@@ -398,6 +400,15 @@ class OrderController extends Controller
             'state_id' => $deleted_state_id,
         ]);
 
+        OrderStateChange::updateOrCreate([
+            'order_id' => $id,
+            'state_id2' => $deleted_state_id,
+        ], [
+            'date' => Carbon::now()->toDateString(),
+            'time' => Carbon::now()->toTimeString(),
+            'state_id' => 1,
+        ]);
+
         $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
 
         return response()->json($response);
@@ -426,6 +437,15 @@ class OrderController extends Controller
 
         $order->update([
             'state_id' => $request->state_id,
+        ]);
+
+        OrderStateChange::updateOrCreate([
+            'order_id' => $order_id,
+            'state_id2' => $request->state_id,
+        ], [
+            'date' => Carbon::now()->toDateString(),
+            'time' => Carbon::now()->toTimeString(),
+            'state_id' => 1,
         ]);
 
         $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];

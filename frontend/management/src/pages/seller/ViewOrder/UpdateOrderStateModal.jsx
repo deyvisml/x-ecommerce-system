@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import moment from "moment";
 import "moment/dist/locale/es";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { update_order_sate_schema } from "./update_order_sate_schema";
+import { update_order_state_schema } from "./update_order_state_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,7 +30,7 @@ const UpdateOrderStateModal = ({
     formState: { errors },
   } = useForm({
     mode: "all",
-    resolver: yupResolver(update_order_sate_schema),
+    resolver: yupResolver(update_order_state_schema),
   });
 
   const store_id = 6;

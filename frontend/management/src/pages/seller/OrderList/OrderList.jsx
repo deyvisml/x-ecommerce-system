@@ -48,7 +48,7 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 
 const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [5, 10, 25, 50, 100];
-const FILTER_STATE = 11;
+const FILTER_STATE = 12;
 
 function OrderList() {
   const store_id = 6;
@@ -184,23 +184,16 @@ function OrderList() {
           let value = undefined;
 
           switch (row.original.state_id) {
-            case 5:
-              value = (
-                <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
-                  {row.original.states_name}
-                </span>
-              );
-              break;
             case 11:
               value = (
-                <span className="bg-yellow-100 px-2 py-1 rounded text-xs text-yellow-600 capitalize">
+                <span className="bg-purple-100 px-2 py-1 rounded text-purple-600 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
               break;
             case 12:
               value = (
-                <span className="bg-purple-100 px-2 py-1 rounded text-purple-600 text-xs capitalize">
+                <span className="bg-yellow-100 px-2 py-1 rounded text-xs text-yellow-600 capitalize">
                   {row.original.states_name}
                 </span>
               );
@@ -213,6 +206,22 @@ function OrderList() {
               );
               break;
             case 14:
+              value = (
+                <span className="bg-sky-100 px-2 py-1 rounded text-sky-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 15:
+            case 16:
+              value = (
+                <span className="bg-green-100 px-2 py-1 rounded text-green-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 5:
+            case 17:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
                   {row.original.states_name}
@@ -378,7 +387,7 @@ function OrderList() {
         <li className="w-full">
           <StateFilter
             filter_column={"orders.state_id"}
-            selectable_record_ids={[5, 11, 12, 13, 14]}
+            selectable_record_ids={[11, 12, 13, 14, 15, 16, 17, 3]}
             filtering={filtering}
             setFiltering={setFiltering}
           />
