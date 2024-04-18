@@ -2,15 +2,20 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Modal from "../../../components/Modal";
 import { useForm } from "react-hook-form";
+import moment from "moment";
+import "moment/dist/locale/es";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { upload_documents_schema } from "./upload_documents_schema";
+import { update_order_sate_schema } from "./update_order_sate_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
-const UpdateStateOrderModal = ({
+moment.locale("es");
+
+const UpdateOrderStateModal = ({
+  record,
   setDataChanged,
   is_modal_open,
   setIsModalOpen,
@@ -25,25 +30,40 @@ const UpdateStateOrderModal = ({
     formState: { errors },
   } = useForm({
     mode: "all",
-    defaultValues: {
-      document_type_id: "",
-      state_id: 1,
-    },
-    resolver: yupResolver(upload_documents_schema),
+    resolver: yupResolver(update_order_sate_schema),
   });
 
+  const store_id = 6;
   const { token } = useManagement();
 
-  const [document_types, setDocumentTypes] = useState([]);
-  const fetch_document_types = async () => {
+  const [current_state_order_change, setCurrentStateOrderChange] = useState(
+    (val) => {
+      return record.order_state_changes.find(
+        (order_state_change) => order_state_change.state_id2 == record.state_id
+      );
+    }
+  );
+
+  console.log("aaa", current_state_order_change);
+
+  const [order_states, setOrderStates] = useState([]);
+  const fetch_states = async () => {
     try {
-      const response = await axios_client(`/api/document-types`, {
+      const response = await axios_client(`/api/states`, {
         method: "get",
+        params: {},
         headers: {
           authorization: "Bearer ",
         },
       });
-      setDocumentTypes(response.data.data);
+
+      const states = response.data.data;
+
+      const order_states_ids = [13, 14, 15, 16];
+      const aux_order_states = states.filter((order_state) =>
+        order_states_ids.includes(order_state.id)
+      );
+      setOrderStates(aux_order_states);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -55,7 +75,7 @@ const UpdateStateOrderModal = ({
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
     (async () => {
-      await fetch_document_types();
+      await fetch_states();
       setFetchesFinished(true);
     })();
   }, []);
@@ -66,13 +86,16 @@ const UpdateStateOrderModal = ({
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios_client(`/api/sellers`, {
-        method: "post",
-        data,
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios_client(
+        `/api/stores/${store_id}/orders/${record.id}/order-state-changes`,
+        {
+          method: "post",
+          data,
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.data.status) {
         Swal.fire({
@@ -81,6 +104,7 @@ const UpdateStateOrderModal = ({
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
+
         setDataChanged(true);
         setIsModalOpen(false);
       } else {
@@ -118,18 +142,20 @@ const UpdateStateOrderModal = ({
               <label className="block font-semibold">Estado actual</label>
               <div className="gap-2 grid grid-cols-3">
                 <input
-                  className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={"Pendiente"}
+                  className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm capitalize cursor-default focus:ring-0"
+                  value={current_state_order_change.state.name}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={"01/02/03"}
+                  value={moment(current_state_order_change.date).format(
+                    "DD-MM-YYYY"
+                  )}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={"10:45"}
+                  value={current_state_order_change.time.slice(0, -3)}
                   readOnly
                 />
               </div>
@@ -138,26 +164,26 @@ const UpdateStateOrderModal = ({
             <hr />
 
             <div>
-              <label htmlFor="document_type_id" className="block font-semibold">
-                Nuevo estado
+              <label htmlFor="state_id" className="block font-semibold">
+                Estado
               </label>
               <select
-                {...register("document_type_id")}
-                id="document_type_id"
-                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+                {...register("state_id")}
+                id="state_id"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
               >
                 <option value={""}>Seleccionar</option>
-                {document_types.map((document_type, i) => {
+                {order_states.map((state, i) => {
                   return (
-                    <option key={i} value={document_type.id}>
-                      {document_type.name}
+                    <option key={i} value={state.id}>
+                      {i + 1}. {state.name}
                     </option>
                   );
                 })}
               </select>
-              {errors.document_type_id && (
+              {errors.state_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.document_type_id.message}
+                  {errors.state_id.message}
                 </p>
               )}
             </div>
@@ -220,4 +246,4 @@ const UpdateStateOrderModal = ({
   );
 };
 
-export default UpdateStateOrderModal;
+export default UpdateOrderStateModal;

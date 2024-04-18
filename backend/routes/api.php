@@ -13,6 +13,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDocumentController;
+use App\Http\Controllers\OrderStateChangeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SellerController;
@@ -53,6 +54,8 @@ Route::get('stores/{store_id}/orders', [OrderController::class, 'store_orders'])
 Route::get('stores/{store_id}/orders/{order_id}', [OrderController::class, 'store_order'])->middleware('auth:sanctum');
 Route::put('stores/{store_id}/orders/{order_id}/update-state', [OrderController::class, 'update_state'])->middleware('auth:sanctum');
 Route::post('stores/{store_id}/orders/{order_id}/order-document', [OrderDocumentController::class, 'store'])->middleware('auth:sanctum');
+
+Route::post('stores/{store_id}/orders/{order_id}/order-state-changes', [OrderStateChangeController::class, 'store'])->middleware('auth:sanctum');
 
 Route::apiResource('products', ProductController::class)->except(['show', 'store', 'update', 'destroy']);
 Route::apiResource('products', ProductController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');

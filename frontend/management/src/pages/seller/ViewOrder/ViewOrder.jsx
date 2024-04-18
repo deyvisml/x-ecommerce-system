@@ -19,7 +19,7 @@ import {
 import ModalButton2 from "../../../components/ModalButton2";
 import UploadDocumentsModal from "./UploadDocumentsModal";
 import { AnimatePresence } from "framer-motion";
-import UpdateStateOrderModal from "./UpdateStateOrderModal";
+import UpdateOrderStateModal from "./UpdateOrderStateModal";
 import CancelOrderButton from "./CancelOrderButton";
 
 moment.locale("es");
@@ -35,7 +35,7 @@ const ViewOrder = () => {
   const [order, setOrder] = useState();
   const [is_upload_documents_modal_open, setIsUploadDocumentsModalOpen] =
     useState(false);
-  const [is_update_state_order_modal, setIsUpdateStateOrderModal] =
+  const [is_update_order_state_modal, setIsUpdateOrderStateModal] =
     useState(false);
   const [data_changed, setDataChanged] = useState(false);
 
@@ -63,7 +63,6 @@ const ViewOrder = () => {
     }
   };
 
-  const [order_states, setOrderStates] = useState([]);
   const [order_states_for_history, setOrderStatesForHistory] = useState([]);
   const fetch_states = async () => {
     try {
@@ -82,12 +81,6 @@ const ViewOrder = () => {
         order_states_for_history_ids.includes(order_state.id)
       );
       setOrderStatesForHistory(aux_order_states_for_history);
-
-      const order_states_ids = [11, 12, 13, 14, 15, 16, 17];
-      const aux_order_states = states.filter((order_state) =>
-        order_states_ids.includes(order_state.id)
-      );
-      setOrderStates(aux_order_states);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -312,8 +305,14 @@ const ViewOrder = () => {
                           </p>
                         );
                         break;
-                      case 5:
                       case 14:
+                        element = (
+                          <p className="bg-sky-100 px-2 py-0.5 rounded text-sky-500 text-xs capitalize">
+                            {order.states_name}
+                          </p>
+                        );
+                        break;
+                      case 5:
                       case 17:
                         element = (
                           <p className="bg-red-100 px-2 py-0.5 rounded text-red-500 text-xs capitalize">
@@ -445,7 +444,7 @@ const ViewOrder = () => {
                 </h4>
                 <ModalButton2
                   label={"Actualizar estado"}
-                  setIsModalOpen={setIsUpdateStateOrderModal}
+                  setIsModalOpen={setIsUpdateOrderStateModal}
                 />
               </div>
 
@@ -453,7 +452,7 @@ const ViewOrder = () => {
                 <ul className="w-full text-sm overflow-y-clip">
                   {order_states_for_history.map((order_state, i) => {
                     const order_state_done = order.order_state_changes.find(
-                      (order_state2) => order_state2.state_id == order_state.id
+                      (order_state2) => order_state2.state_id2 == order_state.id
                     );
 
                     return (
@@ -539,7 +538,18 @@ const ViewOrder = () => {
                         </span>
                         <span className="w-1/2">
                           {ticket_or_invoice_document ? (
-                            <Link to={"#"} className="text-indigo-700">
+                            <a
+                              href={
+                                import.meta.env.VITE_API_URL +
+                                `/storage/files/${
+                                  ticket_or_invoice_document.kind == "ticket"
+                                    ? "tickets"
+                                    : "invoices"
+                                }/${ticket_or_invoice_document.file_name}`
+                              }
+                              target="_blank"
+                              className="text-indigo-700"
+                            >
                               {ticket_or_invoice_document.file_name.substring(
                                 0,
                                 5
@@ -548,7 +558,7 @@ const ViewOrder = () => {
                               {ticket_or_invoice_document.file_name.substring(
                                 ticket_or_invoice_document.file_name.length - 6
                               )}
-                            </Link>
+                            </a>
                           ) : (
                             <span className="mb-0 p-0 text-red-500 text-xs">
                               Sin existencias
@@ -569,13 +579,20 @@ const ViewOrder = () => {
                         <span className="w-1/2">Envio</span>
                         <span className="w-1/2">
                           {shipping_document ? (
-                            <Link to={"#"} className="text-indigo-700">
+                            <a
+                              href={
+                                import.meta.env.VITE_API_URL +
+                                `/storage/files/shippings/${shipping_document.file_name}`
+                              }
+                              target="_blank"
+                              className="text-indigo-700"
+                            >
                               {shipping_document.file_name.substring(0, 5)}
                               ...
                               {shipping_document.file_name.substring(
                                 shipping_document.file_name.length - 6
                               )}
-                            </Link>
+                            </a>
                           ) : (
                             <span className="mb-0 p-0 text-red-500 text-xs">
                               Sin existencias
@@ -606,11 +623,12 @@ const ViewOrder = () => {
         </div>
 
         <AnimatePresence>
-          {is_update_state_order_modal == true && (
-            <UpdateStateOrderModal
+          {is_update_order_state_modal == true && (
+            <UpdateOrderStateModal
+              record={order}
               setDataChanged={setDataChanged}
-              is_modal_open={is_update_state_order_modal}
-              setIsModalOpen={setIsUpdateStateOrderModal}
+              is_modal_open={is_update_order_state_modal}
+              setIsModalOpen={setIsUpdateOrderStateModal}
             />
           )}
 

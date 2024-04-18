@@ -15,7 +15,7 @@ class OrderStateChange extends Model
     protected $fillable = [
         'id',
         'order_id',
-        'state_id',
+        'state_id2',
         'date',
         'time',
         'state_id',
@@ -23,6 +23,6 @@ class OrderStateChange extends Model
 
     public function state()
     {
-        return $this->belongsTo(State::class);
+        return $this->belongsTo(State::class, 'state_id2', 'id');
     }
 }

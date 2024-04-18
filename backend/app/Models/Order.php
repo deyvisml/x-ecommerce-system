@@ -40,7 +40,7 @@ class Order extends Model
 
     public function order_state_changes()
     {
-        $order_state_changes = $this->hasMany(OrderStateChange::class)->orderBy('date', 'ASC')->orderBy('time', 'ASC');
+        $order_state_changes = $this->hasMany(OrderStateChange::class)->where('state_id', 1);
         return $order_state_changes;
     }
 

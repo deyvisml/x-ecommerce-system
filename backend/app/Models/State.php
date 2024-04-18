@@ -15,6 +15,7 @@ class State extends Model
     protected $fillable = [
         'id',
         'name',
+        'order',
         'state_id',
     ];
 }
