@@ -536,6 +536,7 @@ const ViewOrder = () => {
                   <ModalButton2
                     label={"Subir"}
                     setIsModalOpen={setIsUploadDocumentsModalOpen}
+                    className="bg-indigo-100 hover:bg-indigo-200 px-6 py-2 rounded text-indigo-700 text-xs"
                   />
                 )}
               </div>
