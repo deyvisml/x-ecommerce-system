@@ -5,15 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class ProductLog extends Model
 {
     use HasFactory;
 
-    protected $table = 'products';
+    protected $table = 'product_logs';
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'id',
+        'product_id',
         'name',
         'sku',
         'description',
@@ -30,7 +31,9 @@ class Product extends Model
         'category_id',
         'store_id',
         'creator_id',
-        'updater_id',
         'state_id',
+        'updater_id',
     ];
+
+    const UPDATED_AT = null; // disabled updated_at
 }

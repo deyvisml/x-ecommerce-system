@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
 
@@ -194,6 +196,7 @@ class ProductController extends Controller
             'in_stock' => 'required',
             'category_id' => 'required',
             'collection_id' => 'required',
+            'store_id' => 'required',
             'state_id' => 'required',
         ];
 
@@ -233,6 +236,8 @@ class ProductController extends Controller
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
             'store_id' => $request->store_id,
+            'creator_id' => $user->id,
+            'updater_id' => $user->id,
             'state_id' => $request->state_id,
         ]);
 
@@ -339,6 +344,7 @@ class ProductController extends Controller
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
             'store_id' => $request->store_id,
+            'updater_id' => $user->id,
             'state_id' => $request->state_id,
         ]);
 
@@ -368,8 +374,11 @@ class ProductController extends Controller
             return response()->json($response);
         }
 
+        $user = $request->user();
+
         $product->update([
             'in_stock' => $request->in_stock,
+            'updater_id' => $user->id,
         ]);
 
         $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
@@ -392,8 +401,11 @@ class ProductController extends Controller
 
         $deleted_state_id = 3;
 
+        $user = Auth::user();
+
         $product->update([
             'state_id' => $deleted_state_id,
+            'updater_id' => $user->id,
         ]);
 
         $response = ['status' => true, 'message' => 'Registro eliminado exitosamente.'];
