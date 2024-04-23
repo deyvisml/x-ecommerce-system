@@ -20,9 +20,9 @@ class MailController extends Controller
     {
         $order_id = $request->input('order_id');
         $order = Order::find($order_id);
-        $user = User::find($order->user_id);
+        $user = User::find($order->customer_id);
         $delivery = Delivery::find($order->delivery_id);
-        $cart = Cart::find($order->cart_id);
+        $cart = Cart::where('order_id', $order->id)->first();
         $cart_product = CartProduct::where('cart_id', $cart->id)->get();
 
         $delivery_full = array();

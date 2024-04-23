@@ -102,6 +102,7 @@ const PaypalModal = ({
           data: {
             paid: true,
             usd_amount_paid,
+            state_id: 12,
           },
         }).then(({ data }) => {
           if (!data.error_occurred) {

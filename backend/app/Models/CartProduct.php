@@ -16,6 +16,7 @@ class CartProduct extends Model
         'id',
         'cart_id',
         'product_id',
+        'product_log_id',
         'quantity',
         'state_id',
     ];

@@ -9,6 +9,8 @@ use App\Models\Delivery;
 use App\Models\Location;
 use App\Models\Order;
 use App\Models\OrderStateChange;
+use App\Models\Product;
+use App\Models\ProductLog;
 use App\Models\Store;
 use App\Models\User;
 use Carbon\Carbon;
@@ -252,19 +254,6 @@ class OrderController extends Controller
             $total_price_products += ($product['in_offer'] ? $product['offer_price'] : $product['price']) * $item['quantity'];
         }
 
-        $created_cart = Cart::create([
-            'total_price' => $total_price_products,
-        ]);
-
-        // save cart product relation in cart_product table
-        foreach ($cart['items'] as $item) {
-            CartProduct::create([
-                'cart_id' => $created_cart->id,
-                'product_id' => $item['product']['id'],
-                'quantity' => $item['quantity'],
-            ]);
-        }
-
         $created_order = Order::create([
             'payment_method' => $payment_method,
             'total_price' => $total_price_products + $location->delivery_cost,
@@ -272,9 +261,25 @@ class OrderController extends Controller
             'paid' => false,
             'email_sent' => false,
             'delivery_id' => $created_delivery->id,
-            'cart_id' => $created_cart->id,
             'customer_id' => $created_user->id,
+            'store_id' => Product::find($cart['items'][0]['product']['id'])->store_id,
+            'state_id' => 11, // not paid
         ]);
+
+        $created_cart = Cart::create([
+            'total_price' => $total_price_products,
+            'order_id' => $created_order->id,
+        ]);
+
+        // save cart product relation in cart_product table
+        foreach ($cart['items'] as $item) {
+            CartProduct::create([
+                'cart_id' => $created_cart->id,
+                'product_id' => $item['product']['id'],
+                'product_log_id' => ProductLog::where('product_id', $item['product']['id'])->latest()->first()->id,
+                'quantity' => $item['quantity'],
+            ]);
+        }
 
         $response = ['error_occurred' => false, 'message' => 'Order created successfully', 'data' => ['order_id' => $created_order->id]];
 
