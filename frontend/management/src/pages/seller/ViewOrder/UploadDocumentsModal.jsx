@@ -29,8 +29,7 @@ const UploadDocumentsModal = ({
     resolver: yupResolver(upload_documents_schema),
   });
 
-  const store_id = 6;
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
@@ -56,7 +55,7 @@ const UploadDocumentsModal = ({
 
     try {
       const response = await axios_client(
-        `/api/stores/${store_id}/orders/${record.id}/order-document`,
+        `/api/stores/${store.id}/orders/${record.id}/order-document`,
         {
           method: "post",
           data: form_data,

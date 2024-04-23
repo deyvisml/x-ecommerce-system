@@ -9,8 +9,10 @@ import axios_client from "../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../hooks/useManagement";
+import { useNavigate } from "react-router-dom";
 
 function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
+  let navigate = useNavigate();
   const { token, store, set_store, setIsLoadingMainLoader } = useManagement();
 
   const location = useLocation();
@@ -82,6 +84,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
   const on_change_store_select = (record) => {
     setIsLoadingMainLoader(true);
     set_store(record);
+    navigate("/vendedor");
   };
 
   useEffect(() => {

@@ -51,8 +51,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 12;
 
 function OrderList() {
-  const store_id = 6;
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
@@ -319,7 +318,7 @@ function OrderList() {
   };
 
   useEffect(() => {
-    fetch_orders_by_store(store_id);
+    fetch_orders_by_store(store.id);
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -359,7 +358,7 @@ function OrderList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_orders_by_store(store_id);
+      fetch_orders_by_store(store.id);
       setDataChanged(false);
     }
   }, [data_changed]);

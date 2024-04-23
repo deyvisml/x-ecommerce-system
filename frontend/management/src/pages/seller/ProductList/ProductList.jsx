@@ -54,8 +54,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function ProductList() {
-  const store_id = 6; //! fix this, it must be obtain from the useManagment (localStorage)
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
@@ -288,7 +287,7 @@ function ProductList() {
   };
 
   useEffect(() => {
-    fetch_products_by_store(store_id);
+    fetch_products_by_store(store.id);
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -328,7 +327,7 @@ function ProductList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_products_by_store(store_id);
+      fetch_products_by_store(store.id);
       setDataChanged(false);
     }
   }, [data_changed]);

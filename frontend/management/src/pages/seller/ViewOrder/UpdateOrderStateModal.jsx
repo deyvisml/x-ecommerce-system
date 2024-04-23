@@ -33,8 +33,7 @@ const UpdateOrderStateModal = ({
     resolver: yupResolver(update_order_state_schema),
   });
 
-  const store_id = 6;
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const [current_state_order_change, setCurrentStateOrderChange] = useState(
     (val) => {
@@ -87,7 +86,7 @@ const UpdateOrderStateModal = ({
   const onSubmit = async (data) => {
     try {
       const response = await axios_client(
-        `/api/stores/${store_id}/orders/${record.id}/order-state-changes`,
+        `/api/stores/${store.id}/orders/${record.id}/order-state-changes`,
         {
           method: "post",
           data,

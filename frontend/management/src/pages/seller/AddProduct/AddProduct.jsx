@@ -11,8 +11,7 @@ import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 
 const AddProduct = () => {
-  const store_id = 6;
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const {
     register,
@@ -137,7 +136,7 @@ const AddProduct = () => {
       }
     }
 
-    form_data.append("store_id", store_id);
+    form_data.append("store_id", store.id);
 
     try {
       const response = await axios_client(`/api/products`, {

@@ -33,8 +33,7 @@ const UndoOrderStateModal = ({
     resolver: yupResolver(undo_order_state_schema),
   });
 
-  const store_id = 6;
-  const { token } = useManagement();
+  const { token, store } = useManagement();
 
   const [order_state_changes, setOrderStateChanges] = useState(
     record.order_state_changes
@@ -47,7 +46,7 @@ const UndoOrderStateModal = ({
   const onSubmit = async (data) => {
     try {
       const response = await axios_client(
-        `api/stores/${store_id}/orders/${record.id}/order-state-changes/${data.order_state_change_id}/update-state`,
+        `api/stores/${store.id}/orders/${record.id}/order-state-changes/${data.order_state_change_id}/update-state`,
         {
           method: "put",
           data: {

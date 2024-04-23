@@ -26,9 +26,8 @@ import CancelOrderButton from "./CancelOrderButton";
 moment.locale("es");
 
 const ViewOrder = () => {
-  const { token, is_loading_main_loader, setIsLoadingMainLoader } =
+  const { token, store, is_loading_main_loader, setIsLoadingMainLoader } =
     useManagement();
-  const store_id = 6;
   const { order_id } = useParams();
 
   let navigate = useNavigate();
@@ -45,7 +44,7 @@ const ViewOrder = () => {
   const fetch_order = async (order_id) => {
     try {
       const response = await axios_client(
-        `/api/stores/${store_id}/orders/${order_id}`,
+        `/api/stores/${store.id}/orders/${order_id}`,
         {
           method: "get",
           headers: {
@@ -97,7 +96,7 @@ const ViewOrder = () => {
       const state_id = 17; // cancel
 
       const response = await axios_client(
-        `/api/stores/${store_id}/orders/${record.id}/update-state`,
+        `/api/stores/${store.id}/orders/${record.id}/update-state`,
         {
           method: "put",
           data: {
