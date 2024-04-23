@@ -71,6 +71,7 @@ Route::apiResource('stores', StoreController::class)->only(['store', 'update', '
 Route::post('/stores/seller-store-registration', [StoreController::class, 'seller_store_registration']);
 Route::post('/stores/seller-store-registration-auth', [StoreController::class, 'seller_store_registration_auth'])->middleware('auth:sanctum');
 Route::put('/stores/{store_id}/change-state', [StoreController::class, 'change_state'])->middleware('auth:sanctum');
+Route::get('/my-stores', [StoreController::class, 'my_stores'])->middleware('auth:sanctum');
 
 Route::apiResource('delivery-schedules', DeliveryScheduleController::class);
 

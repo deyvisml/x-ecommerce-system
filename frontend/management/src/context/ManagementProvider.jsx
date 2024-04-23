@@ -15,6 +15,9 @@ const ManagementProvider = ({ children }) => {
   const [role, _set_role] = useState(
     JSON.parse(localStorage.getItem("ROLE")) || null
   );
+  const [store, _set_store] = useState(
+    JSON.parse(localStorage.getItem("STORE")) || null
+  );
 
   const set_token = (token) => {
     if (token) {
@@ -46,6 +49,16 @@ const ManagementProvider = ({ children }) => {
     _set_role(role);
   };
 
+  const set_store = (store) => {
+    if (store) {
+      localStorage.setItem("STORE", JSON.stringify(store));
+    } else {
+      localStorage.removeItem("STORE");
+    }
+
+    _set_store(store);
+  };
+
   return (
     <ManagementContext.Provider
       value={{
@@ -58,6 +71,8 @@ const ManagementProvider = ({ children }) => {
         set_token,
         role,
         set_role,
+        store,
+        set_store,
       }}
     >
       {children}

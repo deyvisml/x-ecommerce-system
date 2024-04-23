@@ -17,33 +17,29 @@ class StoreController extends Controller
      */
     public function index(Request $request)
     {
-        $state_id = $request->query('state_id');
         $filtering = $request->query('filtering');
         $search_query = $request->query('search_query');
         $sorting = $request->query('sorting');
         $limit = $request->query('limit');
         $page_size = $request->query('page_size');
 
-        $query = Store::select('stores.*');
+        $query = Store::query();
 
-        // Añadir todos los atributos de la tabla "users" con alias
+        // ------------------ select columns ------------------
+        $query->select('stores.*');
         foreach (Schema::getColumnListing('users') as $column) {
             $query->addSelect('users.' . $column . ' as users_' . $column);
         }
-
-        // Añadir todos los atributos de la tabla "states" con alias
         foreach (Schema::getColumnListing('states') as $column) {
             $query->addSelect('states.' . $column . ' as states_' . $column);
         }
-
-        // Añadir todos los atributos de la tabla "role_user" con alias
         foreach (Schema::getColumnListing('role_user') as $column) {
             $query->addSelect('role_user.' . $column . ' as role_user_' . $column);
         }
 
-        // add the name of the role_user state
         $query->addSelect('role_user_states.name as role_user_state_name');
 
+        // ------------------ joins ------------------
         $query->leftJoin('users', 'stores.user_id', '=', 'users.id');
         $query->leftJoin('states', 'stores.state_id', '=', 'states.id');
         $query->leftJoin('role_user', function ($join) {
@@ -54,9 +50,7 @@ class StoreController extends Controller
         // Alias para el join con states en role_user, we do in this way because we actually has a join with states table
         $query->leftJoin('states as role_user_states', 'role_user.state_id', '=', 'role_user_states.id');
 
-        if ($state_id) {
-            $query->where('stores.state_id', $state_id);
-        }
+        // ------------------ getting data ------------------
         if ($filtering) {
             foreach ($filtering as $filter) {
                 if (isset($filter['values'])) {
@@ -89,6 +83,91 @@ class StoreController extends Controller
             $query->limit($limit);
         }
 
+        // ------------------ form data ------------------
+        if ($page_size) {
+            $stores = $query->paginate($page_size);
+        } else {
+            $stores = $query->get();
+        }
+
+        return StoreResource::collection($stores);
+    }
+
+    public function my_stores(Request $request)
+    {
+        //$this->authorize("view_own", Store::class);
+
+        $filtering = $request->query('filtering');
+        $excluding = $request->query('excluding');
+        $search_query = $request->query('search_query');
+        $sorting = $request->query('sorting');
+        $limit = $request->query('limit');
+        $page_size = $request->query('page_size');
+
+        // ------------------ query ------------------
+        $query = Store::query();
+
+        // ------------------ select columns ------------------
+        $query->select('stores.*');
+        foreach (Schema::getColumnListing('banks') as $column) {
+            $query->addSelect('banks.' . $column . ' as banks_' . $column);
+        }
+        foreach (Schema::getColumnListing('users') as $column) {
+            $query->addSelect('users.' . $column . ' as users_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('banks', 'stores.bank_id', '=', 'banks.id');
+        $query->leftJoin('users', 'stores.user_id', '=', 'users.id');
+        $query->leftJoin('states', 'stores.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        if ($filtering) {
+            foreach ($filtering as $filter) {
+                if (isset($filter['values'])) {
+                    $query->whereIn($filter['column'], $filter['values']);
+                }
+            }
+        }
+        if ($excluding) {
+            foreach ($excluding as $exclude) {
+                if (isset($exclude['values'])) {
+                    $query->whereNotIn($exclude['column'], $exclude['values']);
+                }
+            }
+        }
+        if ($search_query) {
+            $query->where(function ($query) use ($search_query) {
+                $columns = [];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', '%' . $search_query . '%');
+                }
+            });
+        }
+
+        $query->where('users.id', $request->user()->id);
+
+        if ($sorting) {
+            foreach ($sorting as $sort) {
+                if ($sort['way'] == 'random') {
+                    $query->inRandomOrder();
+                } else {
+                    $query->orderBy($sort['column'], $sort['way']);
+                }
+            }
+        } else {
+            $query->orderBy('stores.id', 'ASC'); // IMPORTANT (solver order), some methods like whereIn loses the "default order" (by id)
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+
+        // ------------------ form data ------------------
         if ($page_size) {
             $stores = $query->paginate($page_size);
         } else {
