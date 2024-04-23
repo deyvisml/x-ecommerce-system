@@ -22,8 +22,11 @@ import AddProduct from "./pages/seller/AddProduct/AddProduct";
 import EditProduct from "./pages/seller/EditProduct/EditProduct";
 import OrderList from "./pages/seller/OrderList/OrderList";
 import ViewOrder from "./pages/seller/ViewOrder/ViewOrder";
+import useManagement from "./hooks/useManagement";
 
 const Route = () => {
+  const { store, set_store } = useManagement();
+
   // this func also check if the user has valid roles like "administrador" / "vendedor"
   const user_is_auth = async () => {
     const token = JSON.parse(localStorage.getItem("TOKEN")); // we use this value insted of state var (token) because token is async, so it doesn't have a value fastly when we set its value.
@@ -53,7 +56,7 @@ const Route = () => {
   /* verify if the user has a specific role */
   const user_has_role = async (role_name) => {
     const token = JSON.parse(localStorage.getItem("TOKEN"));
-    console.log("verify user has role:", role_name, token), typeof token;
+    console.log("verify user has role:", role_name, token, typeof token);
 
     try {
       if (!token) throw new Error("There is no a token");
@@ -88,6 +91,13 @@ const Route = () => {
     return role.name == role_name;
   };
 
+  // verify is the user already choose a specific role
+  const seller_has_set_store = async () => {
+    const store = JSON.parse(localStorage.getItem("STORE")); // we use this value insted of state var (token) because token is async, so it doesn't have a value fastly when we set its value.
+
+    return store;
+  };
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -114,12 +124,14 @@ const Route = () => {
           loader: async () => ((await user_is_auth()) ? null : redirect("/")),
           children: [
             {
-              element: <SellerDashboardLayout />,
-              loader: async () =>
-                (await user_has_role("vendedor")) &&
-                user_choose_role("vendedor")
+              loader: async () => {
+                return (await user_has_role("vendedor")) &&
+                  user_choose_role("vendedor") &&
+                  seller_has_set_store()
                   ? null
-                  : redirect("/"),
+                  : redirect("/");
+              },
+              element: <SellerDashboardLayout />,
               children: [
                 {
                   path: "vendedor",

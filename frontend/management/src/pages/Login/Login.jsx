@@ -12,12 +12,13 @@ import { LoginSchema } from "./LoginSchema";
 
 const Login = () => {
   let navigate = useNavigate();
-  const { set_token, set_user, set_role } = useManagement();
+  const { set_token, set_user, set_role, set_store } = useManagement();
 
   useEffect(() => {
     set_token();
     set_user();
     set_role();
+    set_store();
   }, []);
 
   const {

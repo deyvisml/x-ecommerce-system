@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../hooks/useManagement";
 
 function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
-  const { token, store, set_store } = useManagement();
+  const { token, store, set_store, setIsLoadingMainLoader } = useManagement();
 
   const location = useLocation();
   const { pathname } = location;
@@ -70,8 +70,6 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
         },
       });
 
-      console.log(response);
-
       setStores(response.data.data);
     } catch (error) {
       console.error(error);
@@ -82,8 +80,17 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
   };
 
   const on_change_store_select = (record) => {
+    setIsLoadingMainLoader(true);
     set_store(record);
   };
+
+  useEffect(() => {
+    if (store) {
+      setTimeout(() => {
+        setIsLoadingMainLoader(false);
+      }, 1000);
+    }
+  }, [store]);
 
   useEffect(() => {
     fetch_stores();
@@ -152,7 +159,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                 value={store}
                 onChange={on_change_store_select}
                 as={"div"}
-                className="mx-3"
+                className="lg:sidebar-expanded:block 2xl:block lg:hidden mx-3"
               >
                 <div className="relative mt-2">
                   <Listbox.Button className="relative focus-visible:border-indigo-500 bg-white shadow-md py-2 pr-10 pl-3 rounded-md w-full text-left cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -175,7 +182,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                         <Listbox.Option
                           key={i}
                           className={({ active }) =>
-                            `relative cursor-default select-none text-xs py-2 pl-8 pr-4 ${
+                            `relative cursor-pointer text-xs py-2 pl-8 pr-4 ${
                               active
                                 ? "bg-amber-100 text-amber-900"
                                 : "text-gray-900"
