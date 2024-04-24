@@ -11,7 +11,7 @@ use App\Models\ExchangeRateLog;
 use App\Models\Location;
 use App\Models\LocationLog;
 use App\Models\Order;
-use App\Models\OrderStateChange;
+use App\Models\OrderState;
 use App\Models\Product;
 use App\Models\ProductLog;
 use App\Models\Store;
@@ -246,7 +246,7 @@ class OrderController extends Controller
             'delivery_schedule_id' => $delivery_schedule,
             'delivery_schedule_log_id' => DeliveryScheduleLog::where('delivery_schedule_id', $delivery_schedule)->latest()->first()->id,
             'location_id' => $delivery_location,
-            'location_log_id' => LocationLog::where('location_id', $delivery_location)->latest()->id,
+            'location_log_id' => LocationLog::where('location_id', $delivery_location)->latest()->first()->id,
             'region_id' => $delivery_region,
             'phone_number' => $delivery_phone_number,
         ]);
@@ -268,6 +268,8 @@ class OrderController extends Controller
             'delivery_id' => $created_delivery->id,
             'customer_id' => $created_user->id,
             'store_id' => Product::find($cart['items'][0]['product']['id'])->store_id,
+            'creator_id' => $created_user->id,
+            'updater_id' => $created_user->id,
             'state_id' => 11, // not paid
         ]);
 
@@ -358,10 +360,11 @@ class OrderController extends Controller
         }
 
         // get order_state_changes
-        $order_state_changes = $order->order_state_changes;
+        $order_states = $order->order_states;
 
-        foreach ($order_state_changes as $order_state_change) {
-            $order_state_change->state2;
+        foreach ($order_states as $order_state) {
+            $order_state->state2;
+            $order_state->updater;
         }
 
         // get order_documents
@@ -414,7 +417,7 @@ class OrderController extends Controller
             'state_id' => $deleted_state_id,
         ]);
 
-        OrderStateChange::updateOrCreate([
+        OrderState::updateOrCreate([
             'order_id' => $id,
             'state_id2' => $deleted_state_id,
         ], [
@@ -451,15 +454,6 @@ class OrderController extends Controller
 
         $order->update([
             'state_id' => $request->state_id,
-        ]);
-
-        OrderStateChange::updateOrCreate([
-            'order_id' => $order_id,
-            'state_id2' => $request->state_id,
-        ], [
-            'date' => Carbon::now()->toDateString(),
-            'time' => Carbon::now()->toTimeString(),
-            'state_id' => 1,
         ]);
 
         $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];

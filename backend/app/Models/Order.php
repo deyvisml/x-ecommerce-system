@@ -24,6 +24,8 @@ class Order extends Model
         'delivery_id',
         'customer_id',
         'store_id',
+        'creator_id',
+        'updater_id',
         'state_id',
     ];
 
@@ -39,10 +41,10 @@ class Order extends Model
         return $cart_products;
     }
 
-    public function order_state_changes()
+    public function order_states()
     {
-        $order_state_changes = $this->hasMany(OrderStateChange::class)->where('state_id', 1);
-        return $order_state_changes;
+        $order_states = $this->hasMany(OrderState::class)->where('state_id', 1);
+        return $order_states;
     }
 
     public function order_documents()

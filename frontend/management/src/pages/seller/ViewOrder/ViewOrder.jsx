@@ -471,16 +471,25 @@ const ViewOrder = () => {
               <div className="mt-4">
                 <ul className="w-full text-sm overflow-y-clip">
                   {order_states_for_history.map((order_state, i) => {
-                    const order_state_done = order.order_state_changes.find(
+                    const order_state_done = order.order_states.find(
                       (order_state2) => order_state2.state_id2 == order_state.id
                     );
 
                     return (
                       <li key={i} className="relative flex pb-5 pe-2 ps-12">
                         <div className="w-1/2">
-                          <p className="font-semibold capitalize">
-                            {order_state.name}
-                          </p>
+                          <div className="font-semibold text-xs capitalize">
+                            {order_state.name}{" "}
+                            {order_state_done && (
+                              <p className="font-normal normal-case">
+                                Ultima actualización:{" "}
+                                <span className="capitalize">
+                                  {order_state_done.updater.first_name}{" "}
+                                  {order_state_done.updater.last_name}
+                                </span>
+                              </p>
+                            )}
+                          </div>
                           <span className="mt-2 normal-case">
                             {"Pedido " + order_state.name}
                           </span>

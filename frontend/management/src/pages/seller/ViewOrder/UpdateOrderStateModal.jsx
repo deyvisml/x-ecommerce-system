@@ -35,15 +35,13 @@ const UpdateOrderStateModal = ({
 
   const { token, store } = useManagement();
 
-  const [current_state_order_change, setCurrentStateOrderChange] = useState(
-    (val) => {
-      return record.order_state_changes.find(
-        (order_state_change) => order_state_change.state_id2 == record.state_id
-      );
-    }
-  );
+  const [current_order_states, setCurrentOrderStates] = useState((val) => {
+    return record.order_states.find(
+      (order_states) => order_states.state_id2 == record.state_id
+    );
+  });
 
-  console.log("aaa", current_state_order_change);
+  console.log("aaa", current_order_states);
 
   const [order_states, setOrderStates] = useState([]);
   const fetch_states = async () => {
@@ -142,19 +140,17 @@ const UpdateOrderStateModal = ({
               <div className="gap-2 grid grid-cols-3">
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm capitalize cursor-default focus:ring-0"
-                  value={current_state_order_change.state2.name}
+                  value={current_order_states.state2.name}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={moment(current_state_order_change.date).format(
-                    "DD-MM-YYYY"
-                  )}
+                  value={moment(current_order_states.date).format("DD-MM-YYYY")}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={current_state_order_change.time.slice(0, -3)}
+                  value={current_order_states.time.slice(0, -3)}
                   readOnly
                 />
               </div>

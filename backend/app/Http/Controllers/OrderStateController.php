@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
-use App\Models\OrderStateChange;
+use App\Models\OrderState;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class OrderStateChangeController extends Controller
+class OrderStateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -45,21 +45,25 @@ class OrderStateChangeController extends Controller
 
         $order = Order::find($order_id);
 
-        OrderStateChange::updateOrCreate(
-            [
-                'order_id' => $order_id,
-                'state_id2' => $request->state_id],
-            [
-                'date' => $request->date('date'),
-                'time' => $request->time,
-                'state_id' => 1,
-            ]
-        );
-
         if ($order->state_id < $request->state_id) {
+            // why only update order? because we have a trigger (observer), when the order is created or updated then we create or update a OrderState
             $order->update([
+                'updater_id' => $request->user()->id,
                 'state_id' => $request->state_id,
             ]);
+        } else {
+            //! error related to creator_id, we need to determine when is updating and where creating
+            OrderState::updateOrCreate(
+                [
+                    'order_id' => $order_id,
+                    'state_id2' => $request->state_id],
+                [
+                    'date' => $request->date('date'),
+                    'time' => $request->time,
+                    'updater_id' => $request->user()->id,
+                    'state_id' => 1,
+                ]
+            );
         }
 
         $response = ['status' => true, 'message' => "Registro creado exitosamente."];
@@ -83,12 +87,12 @@ class OrderStateChangeController extends Controller
         //
     }
 
-    public function update_state(Request $request, string $store_id, string $order_id, string $order_state_change_id)
+    public function update_state(Request $request, string $store_id, string $order_id, string $order_state_id)
     {
-        $order_state_change = OrderStateChange::find($order_state_change_id);
+        $order_state = OrderState::find($order_state_id);
         //$this->authorize("update", $order);
 
-        if (!$order_state_change) {
+        if (!$order_state) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
             return response()->json($response);
         }
@@ -104,21 +108,23 @@ class OrderStateChangeController extends Controller
             return response()->json($response);
         }
 
-        $order_state_change->update([
-            'state_id' => $request->state_id,
-        ]);
-
         $order = Order::find($order_id);
 
-        if ($order_state_change->state_id2 == $order->state_id && $request->state_id == 2) {
-            $previous_order_state_change = OrderStateChange::leftJoin('states', 'order_state_changes.state_id2', 'states.id')
-                ->where('order_id', $order_id)->where('state_id', 1)
+        if ($request->state_id == 2 && $order_state->state_id2 == $order->state_id) { // $request->state_id == 2 means inactive
+            $previous_order_state = OrderState::leftJoin('states', 'order_states.state_id2', 'states.id')
+                ->where('order_id', $order_id)
+                ->where('state_id', 1)
                 ->orderBy('states.order', 'DESC')
-                ->select('order_state_changes.*')
+                ->select('order_states.*')
                 ->first();
 
             $order->update([
-                'state_id' => $previous_order_state_change->state_id2,
+                'state_id' => $previous_order_state ? $previous_order_state->state_id2 : 2,
+            ]);
+        } else {
+            $order_state->update([
+                'state_id' => $request->state_id,
+                'updater_id' => $request->user()->id,
             ]);
         }
 
