@@ -6,7 +6,10 @@ use App\Http\Resources\OrderResource;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Delivery;
+use App\Models\DeliveryScheduleLog;
+use App\Models\ExchangeRateLog;
 use App\Models\Location;
+use App\Models\LocationLog;
 use App\Models\Order;
 use App\Models\OrderStateChange;
 use App\Models\Product;
@@ -241,9 +244,10 @@ class OrderController extends Controller
             'address_reference' => $delivery_address_reference,
             'date' => $delivery_date,
             'delivery_schedule_id' => $delivery_schedule,
-            'region_id' => $delivery_region,
+            'delivery_schedule_log_id' => DeliveryScheduleLog::where('delivery_schedule_id', $delivery_schedule)->latest()->first()->id,
             'location_id' => $delivery_location,
-            'cost' => $location->delivery_cost,
+            'location_log_id' => LocationLog::where('location_id', $delivery_location)->latest()->id,
+            'region_id' => $delivery_region,
             'phone_number' => $delivery_phone_number,
         ]);
 
@@ -259,6 +263,7 @@ class OrderController extends Controller
             'total_price' => $total_price_products + $location->delivery_cost,
             'usd_total_price' => $usd_total_price,
             'paid' => false,
+            'exchange_rate_log_id' => ExchangeRateLog::where('exchange_rate_id', 1)->latest()->first()->id,
             'email_sent' => false,
             'delivery_id' => $created_delivery->id,
             'customer_id' => $created_user->id,
@@ -302,17 +307,20 @@ class OrderController extends Controller
 
         // ------------------ select columns ------------------
         $query->select('orders.*');
+        foreach (Schema::getColumnListing('exchange_rate_logs') as $column) {
+            $query->addSelect('exchange_rate_logs.' . $column . ' as exchange_rate_logs_' . $column);
+        }
         foreach (Schema::getColumnListing('deliveries') as $column) {
             $query->addSelect('deliveries.' . $column . ' as deliveries_' . $column);
         }
-        foreach (Schema::getColumnListing('delivery_schedules') as $column) {
-            $query->addSelect('delivery_schedules.' . $column . ' as delivery_schedules_' . $column);
+        foreach (Schema::getColumnListing('delivery_schedule_logs') as $column) {
+            $query->addSelect('delivery_schedule_logs.' . $column . ' as delivery_schedule_logs_' . $column);
+        }
+        foreach (Schema::getColumnListing('location_logs') as $column) {
+            $query->addSelect('location_logs.' . $column . ' as location_logs_' . $column);
         }
         foreach (Schema::getColumnListing('regions') as $column) {
             $query->addSelect('regions.' . $column . ' as regions_' . $column);
-        }
-        foreach (Schema::getColumnListing('locations') as $column) {
-            $query->addSelect('locations.' . $column . ' as locations_' . $column);
         }
         foreach (Schema::getColumnListing('users') as $column) {
             $query->addSelect('users.' . $column . ' as customers_' . $column);
@@ -325,10 +333,11 @@ class OrderController extends Controller
         }
 
         // ------------------ joins ------------------
+        $query->leftJoin('exchange_rate_logs', 'orders.exchange_rate_log_id', '=', 'exchange_rate_logs.id');
         $query->leftJoin('deliveries', 'orders.delivery_id', '=', 'deliveries.id');
-        $query->leftJoin('delivery_schedules', 'deliveries.delivery_schedule_id', '=', 'delivery_schedules.id');
+        $query->leftJoin('delivery_schedule_logs', 'deliveries.delivery_schedule_log_id', '=', 'delivery_schedule_logs.id');
+        $query->leftJoin('location_logs', 'deliveries.location_log_id', '=', 'location_logs.id');
         $query->leftJoin('regions', 'deliveries.region_id', '=', 'regions.id');
-        $query->leftJoin('locations', 'deliveries.location_id', '=', 'locations.id');
         $query->leftJoin('users', 'orders.customer_id', '=', 'users.id');
         $query->leftJoin('stores', 'orders.store_id', '=', 'stores.id');
         $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
@@ -345,7 +354,7 @@ class OrderController extends Controller
         $cart_products = $order->cart_products;
 
         foreach ($cart_products as $cart_product) {
-            $cart_product->product;
+            $cart_product->product_log;
         }
 
         // get order_state_changes

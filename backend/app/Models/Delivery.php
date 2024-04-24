@@ -20,9 +20,10 @@ class Delivery extends Model
         'address_reference',
         'date',
         'delivery_schedule_id',
-        'region_id',
+        'delivery_schedule_log_id',
         'location_id',
-        'cost',
+        'location_log_id',
+        'region_id',
         'phone_number',
     ];
 }

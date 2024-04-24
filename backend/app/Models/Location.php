@@ -17,6 +17,8 @@ class Location extends Model
         'name',
         'delivery_cost',
         'region_id',
+        'creator_id',
+        'updater_id',
         'state_id',
     ];
 }

@@ -19,6 +19,7 @@ class Order extends Model
         'usd_total_price',
         'paid',
         'usd_amount_paid',
+        'exchange_rate_log_id',
         'email_sent',
         'delivery_id',
         'customer_id',

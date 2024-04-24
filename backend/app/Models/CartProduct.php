@@ -25,4 +25,9 @@ class CartProduct extends Model
     {
         return $this->belongsTo(Product::class);
     }
+
+    public function product_log()
+    {
+        return $this->belongsTo(ProductLog::class);
+    }
 }

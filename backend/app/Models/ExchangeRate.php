@@ -16,6 +16,8 @@ class ExchangeRate extends Model
         'id',
         'currency',
         'price',
+        'creator_id',
+        'updater_id',
         'state_id',
     ];
 }

@@ -95,7 +95,7 @@ const Route = () => {
   const seller_has_set_store = async () => {
     const store = JSON.parse(localStorage.getItem("STORE")); // we use this value insted of state var (token) because token is async, so it doesn't have a value fastly when we set its value.
 
-    return store;
+    return store ? true : false;
   };
 
   const router = createBrowserRouter([

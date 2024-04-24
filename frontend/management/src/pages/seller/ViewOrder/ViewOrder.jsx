@@ -166,7 +166,7 @@ const ViewOrder = () => {
                 </p>
                 <p>{order.deliveries_address}</p>
                 <p>
-                  {order.locations_name}, {order.regions_name}
+                  {order.location_logs_name}, {order.regions_name}
                 </p>
               </div>
             </div>
@@ -190,7 +190,7 @@ const ViewOrder = () => {
                 </p>
                 <p>{order.deliveries_address}</p>
                 <p>
-                  {order.locations_name}, {order.regions_name}
+                  {order.location_logs_name}, {order.regions_name}
                 </p>
               </div>
             </div>
@@ -268,8 +268,8 @@ const ViewOrder = () => {
               <div className="col-span-full xl:col-span-1">
                 <div className="flex flex-col justify-center items-center space-y-0.5 border-slate-200 bg-white shadow-lg p-5 border rounded-sm h-[88px]">
                   <p className="text-black">
-                    {order.delivery_schedules_start_hour.slice(0, -3)}-
-                    {order.delivery_schedules_end_hour.slice(0, -3)}
+                    {order.delivery_schedule_logs_start_hour.slice(0, -3)}-
+                    {order.delivery_schedule_logs_end_hour.slice(0, -3)}
                   </p>
                   <p className="text-slate-500 uppercase">HORA DELIVERY</p>
                 </div>
@@ -364,18 +364,18 @@ const ViewOrder = () => {
                               <div className="flex items-center gap-x-2">
                                 <div className="flex justify-center items-center bg-slate-200 p-1 rounded w-[40px] min-w-[40px] h-[40px] min-h-[40px]">
                                   <img
-                                    src={`http://localhost:8000/storage/images/products/${cart_product.product.image_name}`}
+                                    src={`http://localhost:8000/storage/images/products/${cart_product.product_log.image_name}`}
                                     alt=""
                                     className="w-full h-full object-cover"
                                   />
                                 </div>
                                 <span className="block text-black">
-                                  {cart_product.product.name}
+                                  {cart_product.product_log.name}
                                 </span>
                               </div>
                             </td>
                             <td className="px-2 py-2.5">
-                              {currency(cart_product.product.price, {
+                              {currency(cart_product.product_log.price, {
                                 symbol: "S/ ",
                               }).format()}
                             </td>
@@ -384,7 +384,7 @@ const ViewOrder = () => {
                             </td>
                             <td className="px-2 py-2.5">
                               {currency(
-                                cart_product.product.price *
+                                cart_product.product_log.price *
                                   cart_product.quantity,
                                 {
                                   symbol: "S/ ",
@@ -420,7 +420,7 @@ const ViewOrder = () => {
                   <li>
                     <span className="inline-block w-1/2">Envio:</span>
                     <span className="inline-block text-right w-1/2 font-semibold">
-                      {currency(order.discount, {
+                      {currency(order.location_logs_delivery_cost, {
                         symbol: "S/ ",
                       }).format()}
                     </span>
