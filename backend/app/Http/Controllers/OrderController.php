@@ -359,7 +359,7 @@ class OrderController extends Controller
             $cart_product->product_log;
         }
 
-        // get order_state_changes
+        // get order_state
         $order_state = $order->order_state;
 
         foreach ($order_state as $order_state_i) {

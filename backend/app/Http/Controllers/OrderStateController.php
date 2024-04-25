@@ -60,16 +60,17 @@ class OrderStateController extends Controller
                 [
                     'date' => $request->date('date'),
                     'time' => $request->time,
+                    'creator_id' => $request->user()->id,
                     'updater_id' => $request->user()->id,
                     'state_id' => 1,
                 ]
             );
 
-            // only if we are creating the recrod then set the creator_id as the current user id, in other case maintain the old value.
             if ($order_state->exists) {
+                $order_state->date = $request->date('date');
+                $order_state->time = $request->time;
+                $order_state->updater_id = $request->user()->id;
                 $order_state->state_id = 1; // active
-            } else {
-                $order_state->creator_id = $request->user()->id;
             }
 
             $order_state->save();

@@ -43,7 +43,11 @@ class Order extends Model
 
     public function order_state()
     {
-        $order_state = $this->hasMany(OrderState::class)->where('state_id', 1);
+        $order_state = $this->hasMany(OrderState::class)->leftJoin('states as states2', 'order_state.state_id2', 'states2.id')
+            ->where('order_state.state_id', 1)
+            ->select('order_state.*')
+            ->orderBy('states2.order', 'ASC');
+
         return $order_state;
     }
 

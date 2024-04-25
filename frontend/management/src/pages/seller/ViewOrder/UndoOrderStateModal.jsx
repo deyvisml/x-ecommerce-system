@@ -106,10 +106,10 @@ const UndoOrderStateModal = ({
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
             >
               <option value={""}>Seleccionar</option>
-              {order_state.map((order_state_change, i) => {
+              {order_state.map((order_state_i, i) => {
                 return (
-                  <option key={i} value={order_state_change.id}>
-                    {order_state_change.state2.name}
+                  <option key={i} value={order_state_i.id}>
+                    {order_state_i.state2.name}
                   </option>
                 );
               })}
