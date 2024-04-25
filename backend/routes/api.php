@@ -55,8 +55,8 @@ Route::get('stores/{store_id}/orders/{order_id}', [OrderController::class, 'stor
 Route::put('stores/{store_id}/orders/{order_id}/update-state', [OrderController::class, 'update_state'])->middleware('auth:sanctum');
 Route::post('stores/{store_id}/orders/{order_id}/order-document', [OrderDocumentController::class, 'store'])->middleware('auth:sanctum');
 
-Route::post('stores/{store_id}/orders/{order_id}/order-state-changes', [OrderStateController::class, 'store'])->middleware('auth:sanctum');
-Route::put('stores/{store_id}/orders/{order_id}/order-state-changes/{order_state_change_id}/update-state', [OrderStateController::class, 'update_state'])->middleware('auth:sanctum');
+Route::post('stores/{store_id}/orders/{order_id}/order-state', [OrderStateController::class, 'store'])->middleware('auth:sanctum');
+Route::put('stores/{store_id}/orders/{order_id}/order-state/{order_state_id}/update-state', [OrderStateController::class, 'update_state'])->middleware('auth:sanctum');
 
 Route::apiResource('products', ProductController::class)->except(['show', 'store', 'update', 'destroy']);
 Route::apiResource('products', ProductController::class)->only(['show', 'store', 'update', 'destroy'])->middleware('auth:sanctum');

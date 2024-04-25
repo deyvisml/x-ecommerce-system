@@ -41,10 +41,10 @@ class Order extends Model
         return $cart_products;
     }
 
-    public function order_states()
+    public function order_state()
     {
-        $order_states = $this->hasMany(OrderState::class)->where('state_id', 1);
-        return $order_states;
+        $order_state = $this->hasMany(OrderState::class)->where('state_id', 1);
+        return $order_state;
     }
 
     public function order_documents()

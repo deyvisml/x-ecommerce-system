@@ -35,7 +35,7 @@ class OrderObserver
             ], [
                 'date' => $order->updated_at->toDateString(),
                 'time' => $order->updated_at->toTimeString(),
-                'creator_id' => $order->creator_id,
+                'creator_id' => $order->updater_id,
                 'updater_id' => $order->updater_id,
                 'state_id' => 1,
             ]);

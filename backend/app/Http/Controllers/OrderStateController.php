@@ -52,11 +52,11 @@ class OrderStateController extends Controller
                 'state_id' => $request->state_id,
             ]);
         } else {
-            //! error related to creator_id, we need to determine when is updating and where creating
-            OrderState::updateOrCreate(
+            $order_state = OrderState::firstOrNew(
                 [
                     'order_id' => $order_id,
-                    'state_id2' => $request->state_id],
+                    'state_id2' => $request->state_id,
+                ],
                 [
                     'date' => $request->date('date'),
                     'time' => $request->time,
@@ -64,6 +64,15 @@ class OrderStateController extends Controller
                     'state_id' => 1,
                 ]
             );
+
+            // only if we are creating the recrod then set the creator_id as the current user id, in other case maintain the old value.
+            if ($order_state->exists) {
+                $order_state->state_id = 1; // active
+            } else {
+                $order_state->creator_id = $request->user()->id;
+            }
+
+            $order_state->save();
         }
 
         $response = ['status' => true, 'message' => "Registro creado exitosamente."];
@@ -111,11 +120,11 @@ class OrderStateController extends Controller
         $order = Order::find($order_id);
 
         if ($request->state_id == 2 && $order_state->state_id2 == $order->state_id) { // $request->state_id == 2 means inactive
-            $previous_order_state = OrderState::leftJoin('states', 'order_states.state_id2', 'states.id')
+            $previous_order_state = OrderState::leftJoin('states', 'order_state.state_id2', 'states.id')
                 ->where('order_id', $order_id)
                 ->where('state_id', 1)
                 ->orderBy('states.order', 'DESC')
-                ->select('order_states.*')
+                ->select('order_state.*')
                 ->first();
 
             $order->update([

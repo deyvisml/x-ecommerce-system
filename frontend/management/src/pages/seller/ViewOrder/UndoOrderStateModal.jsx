@@ -35,9 +35,7 @@ const UndoOrderStateModal = ({
 
   const { token, store } = useManagement();
 
-  const [order_state_changes, setOrderStateChanges] = useState(
-    record.order_state_changes
-  );
+  const [order_state, setOrderState] = useState(record.order_state);
 
   const handle_click_cancel_btn = () => {
     setIsModalOpen(false);
@@ -46,7 +44,7 @@ const UndoOrderStateModal = ({
   const onSubmit = async (data) => {
     try {
       const response = await axios_client(
-        `api/stores/${store.id}/orders/${record.id}/order-state-changes/${data.order_state_change_id}/update-state`,
+        `api/stores/${store.id}/orders/${record.id}/order-state/${data.order_state_id}/update-state`,
         {
           method: "put",
           data: {
@@ -99,19 +97,16 @@ const UndoOrderStateModal = ({
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className="flex flex-col gap-2 text-slate-600 text-sm">
           <div>
-            <label
-              htmlFor="order_state_change_id"
-              className="block font-semibold"
-            >
+            <label htmlFor="order_state_id" className="block font-semibold">
               Estado
             </label>
             <select
-              {...register("order_state_change_id")}
-              id="order_state_change_id"
+              {...register("order_state_id")}
+              id="order_state_id"
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
             >
               <option value={""}>Seleccionar</option>
-              {order_state_changes.map((order_state_change, i) => {
+              {order_state.map((order_state_change, i) => {
                 return (
                   <option key={i} value={order_state_change.id}>
                     {order_state_change.state2.name}
@@ -119,9 +114,9 @@ const UndoOrderStateModal = ({
                 );
               })}
             </select>
-            {errors.order_state_change_id && (
+            {errors.order_state_id && (
               <p className="pt-1 text-red-500 text-xs ps-1">
-                {errors.order_state_change_id.message}
+                {errors.order_state_id.message}
               </p>
             )}
           </div>

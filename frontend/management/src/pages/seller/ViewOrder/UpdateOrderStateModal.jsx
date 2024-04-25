@@ -35,15 +35,13 @@ const UpdateOrderStateModal = ({
 
   const { token, store } = useManagement();
 
-  const [current_order_states, setCurrentOrderStates] = useState((val) => {
-    return record.order_states.find(
-      (order_states) => order_states.state_id2 == record.state_id
+  const [current_order_state, setCurrentOrderState] = useState((val) => {
+    return record.order_state.find(
+      (order_state_i) => order_state_i.state_id2 == record.state_id
     );
   });
 
-  console.log("aaa", current_order_states);
-
-  const [order_states, setOrderStates] = useState([]);
+  const [order_state, setOrderState] = useState([]);
   const fetch_states = async () => {
     try {
       const response = await axios_client(`/api/states`, {
@@ -56,11 +54,11 @@ const UpdateOrderStateModal = ({
 
       const states = response.data.data;
 
-      const order_states_ids = [13, 14, 15, 16];
-      const aux_order_states = states.filter((order_state) =>
-        order_states_ids.includes(order_state.id)
+      const order_state_ids = [13, 14, 15, 16];
+      const aux_order_state = states.filter((order_state_i) =>
+        order_state_ids.includes(order_state_i.id)
       );
-      setOrderStates(aux_order_states);
+      setOrderState(aux_order_state);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -84,7 +82,7 @@ const UpdateOrderStateModal = ({
   const onSubmit = async (data) => {
     try {
       const response = await axios_client(
-        `/api/stores/${store.id}/orders/${record.id}/order-state-changes`,
+        `/api/stores/${store.id}/orders/${record.id}/order-state`,
         {
           method: "post",
           data,
@@ -140,17 +138,17 @@ const UpdateOrderStateModal = ({
               <div className="gap-2 grid grid-cols-3">
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm capitalize cursor-default focus:ring-0"
-                  value={current_order_states.state2.name}
+                  value={current_order_state.state2.name}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={moment(current_order_states.date).format("DD-MM-YYYY")}
+                  value={moment(current_order_state.date).format("DD-MM-YYYY")}
                   readOnly
                 />
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm cursor-default focus:ring-0"
-                  value={current_order_states.time.slice(0, -3)}
+                  value={current_order_state.time.slice(0, -3)}
                   readOnly
                 />
               </div>
@@ -168,7 +166,7 @@ const UpdateOrderStateModal = ({
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
               >
                 <option value={""}>Seleccionar</option>
-                {order_states.map((state, i) => {
+                {order_state.map((state, i) => {
                   return (
                     <option key={i} value={state.id}>
                       {i + 1}. {state.name}

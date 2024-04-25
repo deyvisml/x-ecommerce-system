@@ -65,7 +65,7 @@ const ViewOrder = () => {
     }
   };
 
-  const [order_states_for_history, setOrderStatesForHistory] = useState([]);
+  const [order_state_for_history, setOrderStateForHistory] = useState([]);
   const fetch_states = async () => {
     try {
       const response = await axios_client(`/api/states`, {
@@ -78,11 +78,11 @@ const ViewOrder = () => {
 
       const states = response.data.data;
 
-      const order_states_for_history_ids = [11, 12, 13, 14, 15, 16];
-      const aux_order_states_for_history = states.filter((order_state) =>
-        order_states_for_history_ids.includes(order_state.id)
+      const order_state_for_history_ids = [11, 12, 13, 14, 15, 16];
+      const aux_order_state_for_history = states.filter((order_state_i) =>
+        order_state_for_history_ids.includes(order_state_i.id)
       );
-      setOrderStatesForHistory(aux_order_states_for_history);
+      setOrderStateForHistory(aux_order_state_for_history);
     } catch (error) {
       console.error(error);
       toast.error(error?.response?.data?.message ?? error.message, {
@@ -470,18 +470,19 @@ const ViewOrder = () => {
 
               <div className="mt-4">
                 <ul className="w-full text-sm overflow-y-clip">
-                  {order_states_for_history.map((order_state, i) => {
-                    const order_state_done = order.order_states.find(
-                      (order_state2) => order_state2.state_id2 == order_state.id
+                  {order_state_for_history.map((order_state_i, i) => {
+                    const order_state_done = order.order_state.find(
+                      (order_state_j) =>
+                        order_state_j.state_id2 == order_state_i.id
                     );
 
                     return (
                       <li key={i} className="relative flex pb-5 pe-2 ps-12">
                         <div className="w-1/2">
-                          <div className="font-semibold text-xs capitalize">
-                            {order_state.name}{" "}
+                          <div className="font-semibold capitalize">
+                            {order_state_i.name}{" "}
                             {order_state_done && (
-                              <p className="font-normal normal-case">
+                              <p className="font-normal text-xs normal-case">
                                 Ultima actualización:{" "}
                                 <span className="capitalize">
                                   {order_state_done.updater.first_name}{" "}
@@ -491,7 +492,7 @@ const ViewOrder = () => {
                             )}
                           </div>
                           <span className="mt-2 normal-case">
-                            {"Pedido " + order_state.name}
+                            {"Pedido " + order_state_i.name}
                           </span>
                         </div>
                         <span className="text-right w-1/2 text-slate-400">
@@ -514,7 +515,7 @@ const ViewOrder = () => {
                           <span
                             className={`top-0 left-0 absolute bg-white w-8 h-32 -translate-x-1/2 -translate-y-full`}
                             style={{
-                              zIndex: order_states_for_history.length - i,
+                              zIndex: order_state_for_history.length - i,
                             }}
                           >
                             <div className="flex justify-center items-center w-full h-full">
