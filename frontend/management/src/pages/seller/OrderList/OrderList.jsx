@@ -118,6 +118,11 @@ function OrderList() {
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
+        accessorKey: "created_at",
+        header: () => "Hora",
+        cell: (info) => moment(info.getValue()).format("HH:mm"),
+      },
+      {
         accessorKey: "users_first_name",
         header: () => "Cliente",
         cell: ({ row }) => (
@@ -157,15 +162,6 @@ function OrderList() {
               break;
           }
         },
-      },
-      {
-        accessorKey: "payment_method",
-        header: () => "Método",
-        cell: (info) => (
-          <span className="bg-slate-100 px-2 py-1 rounded text-xs capitalize">
-            {info.getValue()}
-          </span>
-        ),
       },
       {
         accessorKey: "total_price",
