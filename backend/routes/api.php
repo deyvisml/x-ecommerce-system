@@ -48,12 +48,13 @@ Route::apiResource('regions', RegionController::class);
 Route::apiResource('exchange-rates', ExchangeRateController::class);
 Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
-Route::apiResource('orders', OrderController::class)->except(['show', 'destroy']);
-Route::apiResource('orders', OrderController::class)->only(['show', 'destroy'])->middleware('auth:sanctum');
+Route::apiResource('orders', OrderController::class)->except(['show']);
+Route::apiResource('orders', OrderController::class)->only(['show'])->middleware('auth:sanctum');
 Route::get('stores/{store_id}/orders', [OrderController::class, 'store_orders'])->middleware('auth:sanctum');
 Route::get('stores/{store_id}/orders/{order_id}', [OrderController::class, 'store_order'])->middleware('auth:sanctum');
 Route::put('stores/{store_id}/orders/{order_id}/update-state', [OrderController::class, 'update_state'])->middleware('auth:sanctum');
 Route::post('stores/{store_id}/orders/{order_id}/order-document', [OrderDocumentController::class, 'store'])->middleware('auth:sanctum');
+Route::delete('stores/{store_id}/orders/{order_id}', [OrderController::class, 'destroy'])->middleware('auth:sanctum');
 
 Route::post('stores/{store_id}/orders/{order_id}/order-state', [OrderStateController::class, 'store'])->middleware('auth:sanctum');
 Route::put('stores/{store_id}/orders/{order_id}/order-state/{order_state_id}/update-state', [OrderStateController::class, 'update_state'])->middleware('auth:sanctum');

@@ -360,12 +360,15 @@ function OrderList() {
   }, [data_changed]);
 
   const delete_order = async (record) => {
-    const response = await axios_client(`/api/orders/${record.id}`, {
-      method: "delete",
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios_client(
+      `/api/stores/${store.id}/orders/${record.id}`,
+      {
+        method: "delete",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response;
   };

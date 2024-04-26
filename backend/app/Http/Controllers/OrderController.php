@@ -109,7 +109,7 @@ class OrderController extends Controller
     public function store_orders(string $store_id, Request $request)
     {
         $store = Store::find($store_id);
-        //$this->authorize("viewAll", [Order::class, $store]);
+        $this->authorize("viewAll", [Order::class, $store]);
 
         $filtering = $request->query('filtering');
         $excluding = $request->query('excluding');
@@ -296,14 +296,14 @@ class OrderController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $order_id)
     {
 
     }
 
     public function store_order(string $store_id, string $order_id)
     {
-        //$this->authorize("view", Order::find($order_id));
+        $this->authorize("view_store_order", [Order::find($order_id), Store::find($store_id)]);
 
         $query = Order::query();
 
@@ -401,10 +401,10 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $store_id, string $order_id)
     {
-        $order = Order::find($id);
-        //$this->authorize("delete", $order);
+        $order = Order::find($order_id);
+        $this->authorize("delete", [$order, Store::find($store_id)]);
 
         if (!$order) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
@@ -418,7 +418,7 @@ class OrderController extends Controller
         ]);
 
         OrderState::updateOrCreate([
-            'order_id' => $id,
+            'order_id' => $order_id,
             'state_id2' => $deleted_state_id,
         ], [
             'date' => Carbon::now()->toDateString(),
@@ -434,7 +434,7 @@ class OrderController extends Controller
     public function update_state(Request $request, string $store_id, string $order_id)
     {
         $order = Order::find($order_id);
-        //$this->authorize("update", $order);
+        $this->authorize("update", [$order, Store::find($store_id)]);
 
         if (!$order) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];

@@ -43,7 +43,7 @@ class OrderObserver
                 ]
             );
 
-            if ($order_state->exits()) {
+            if ($order_state->exists) {
                 $order_state->date = $order->updated_at->toDateString();
                 $order_state->time = $order->updated_at->toDateString();
                 $order_state->updater_id = $order->updater_id;
