@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Order;
 use App\Models\OrderState;
+use Carbon\Carbon;
 
 class OrderObserver
 {
@@ -16,7 +17,7 @@ class OrderObserver
             'order_id' => $order->id,
             'state_id2' => $order->state_id,
             'date' => $order->created_at->toDateString(),
-            'time' => $order->created_at->toTimeString(),
+            'time' => Carbon::parse($order->created_at)->format('H:i:00'),
             'creator_id' => $order->creator_id,
             'updater_id' => $order->updater_id,
             'state_id' => 1,
@@ -36,7 +37,7 @@ class OrderObserver
                 ],
                 [
                     'date' => $order->updated_at->toDateString(),
-                    'time' => $order->updated_at->toTimeString(),
+                    'time' => Carbon::parse($order->updated_at)->format('H:i:00'),
                     'creator_id' => $order->updater_id,
                     'updater_id' => $order->updater_id,
                     'state_id' => 1,
@@ -45,7 +46,7 @@ class OrderObserver
 
             if ($order_state->exists) {
                 $order_state->date = $order->updated_at->toDateString();
-                $order_state->time = $order->updated_at->toDateString();
+                $order_state->time = Carbon::parse($order->updated_at)->format('H:i:00');
                 $order_state->updater_id = $order->updater_id;
                 $order_state->state_id = 1;
             }

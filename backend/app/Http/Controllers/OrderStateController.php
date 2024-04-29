@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderState;
+use App\Models\State;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -41,6 +43,50 @@ class OrderStateController extends Controller
             ];
 
             return response()->json($response);
+        }
+
+        $date = $request->date;
+        $time = $request->time;
+        $state_id2 = $request->state_id;
+
+        $state2 = State::find($state_id2);
+
+        $prev_state_id2 = OrderState::leftJoin('states', 'order_state.state_id2', '=', 'states.id')
+            ->where('order_state.order_id', $order_id)
+            ->where('order_state.state_id', 1)
+            ->where('states.order', '<', $state2->order)
+            ->orderBy('states.order', 'DESC')->first();
+
+        $next_state_id2 = OrderState::leftJoin('states', 'order_state.state_id2', '=', 'states.id')
+            ->where('order_state.order_id', $order_id)
+            ->where('order_state.state_id', 1)
+            ->where('states.order', '>', $state2->order)
+            ->orderBy('states.order', 'ASC')->first();
+
+        if ($prev_state_id2) {
+            $date_time1 = $prev_state_id2->date . ' ' . $prev_state_id2->time;
+            $date_time1 = Carbon::parse($date_time1);
+
+            $date_time2 = substr($date, 0, 10) . ' ' . $time;
+            $date_time2 = Carbon::parse($date_time2);
+
+            if ($date_time2->lessThan($date_time1)) {
+                $response = ['status' => false, 'message' => "La fecha y hora no deben de ser menores al estado previo establecido.", 'data' => $prev_state_id2];
+                return response()->json($response);
+            }
+        }
+
+        if ($next_state_id2) {
+            $date_time1 = $next_state_id2->date . ' ' . $next_state_id2->time;
+            $date_time1 = Carbon::parse($date_time1);
+
+            $date_time2 = substr($date, 0, 10) . ' ' . $time;
+            $date_time2 = Carbon::parse($date_time2);
+
+            if ($date_time2->greaterThan($date_time1)) {
+                $response = ['status' => false, 'message' => "La fecha y hora no deben de ser mayores al estado posterior establecido.", 'data' => $prev_state_id2];
+                return response()->json($response);
+            }
         }
 
         $order = Order::find($order_id);
