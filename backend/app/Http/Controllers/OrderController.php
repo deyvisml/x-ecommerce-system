@@ -301,6 +301,7 @@ class OrderController extends Controller
 
     }
 
+    // store is not save, in this context means a place where you can buy
     public function store_order(string $store_id, string $order_id)
     {
         $this->authorize("view_store_order", [Order::find($order_id), Store::find($store_id)]);
@@ -382,18 +383,24 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->all();
 
-        $order = Order::find($id);
+    }
+
+    public function update_state_to_paid(string $order_id)
+    {
+        $order = Order::find($order_id);
 
         if (!$order) {
             $response = ['status' => false, 'message' => 'No se encontró ningun registro con el ID proporcionado.'];
             return response()->json($response);
         }
 
-        $order->update($data);
+        $order->update([
+            'paid' => true,
+            'state_id' => 12,
+        ]);
 
-        $response = ['error_occurred' => false, 'message' => 'Order updated sucessfully'];
+        $response = ['error_occurred' => false, 'message' => 'Registro actualizado exitosamente.'];
 
         return response()->json($response);
     }

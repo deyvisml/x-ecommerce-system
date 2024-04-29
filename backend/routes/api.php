@@ -50,6 +50,8 @@ Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('orders', OrderController::class)->except(['show']);
 Route::apiResource('orders', OrderController::class)->only(['show'])->middleware('auth:sanctum');
+Route::put('orders/{order_id}/update-state-to-paid', [OrderController::class, 'update_state_to_paid']);
+
 Route::get('stores/{store_id}/orders', [OrderController::class, 'store_orders'])->middleware('auth:sanctum');
 Route::get('stores/{store_id}/orders/{order_id}', [OrderController::class, 'store_order'])->middleware('auth:sanctum');
 Route::put('stores/{store_id}/orders/{order_id}/update-state', [OrderController::class, 'update_state'])->middleware('auth:sanctum');

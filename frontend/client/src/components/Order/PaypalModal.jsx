@@ -95,15 +95,10 @@ const PaypalModal = ({
     return actions.order.capture().then((details) => {
       if (details.status == "COMPLETED") {
         // get the amount paid
-        const usd_amount_paid = details.purchase_units[0].amount.value;
+        //const usd_amount_paid = details.purchase_units[0].amount.value;
 
-        axios_client(`api/orders/${order_id}`, {
+        axios_client(`api/orders/${order_id}/update-state-to-paid`, {
           method: "put",
-          data: {
-            paid: true,
-            usd_amount_paid,
-            state_id: 12,
-          },
         }).then(({ data }) => {
           if (!data.error_occurred) {
             // redirect to succed order view
