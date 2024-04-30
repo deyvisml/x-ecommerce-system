@@ -23,6 +23,7 @@ import EditProduct from "./pages/seller/EditProduct/EditProduct";
 import OrderList from "./pages/seller/OrderList/OrderList";
 import ViewOrder from "./pages/seller/ViewOrder/ViewOrder";
 import useManagement from "./hooks/useManagement";
+import CustomerList from "./pages/seller/CustomerList/CustomerList";
 
 const Route = () => {
   const { store, set_store } = useManagement();
@@ -156,6 +157,10 @@ const Route = () => {
                 {
                   path: "vendedor/ordenes/:order_id",
                   element: <ViewOrder />,
+                },
+                {
+                  path: "vendedor/clientes/listado",
+                  element: <CustomerList />,
                 },
               ],
             },

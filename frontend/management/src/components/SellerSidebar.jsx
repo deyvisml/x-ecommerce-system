@@ -564,7 +564,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                       <a
                         href="#0"
                         className={`block text-slate-200 truncate transition duration-150 ${
-                          pathname.includes("community")
+                          pathname.includes("clientes")
                             ? "hover:text-slate-200"
                             : "hover:text-white"
                         }`}
@@ -583,7 +583,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("community")
+                                  pathname.includes("clientes")
                                     ? "text-indigo-500"
                                     : "text-slate-600"
                                 }`}
@@ -591,7 +591,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                               <path
                                 className={`fill-current ${
-                                  pathname.includes("community")
+                                  pathname.includes("clientes")
                                     ? "text-indigo-300"
                                     : "text-slate-400"
                                 }`}

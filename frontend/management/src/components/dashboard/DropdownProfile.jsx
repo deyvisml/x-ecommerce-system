@@ -120,7 +120,7 @@ function DropdownProfile({ align }) {
             </div>
           </div>
           <ul>
-            <li>
+            {/*<li>
               <Link
                 className="flex items-center px-3 py-1 font-medium text-indigo-500 text-sm hover:text-indigo-600 dark:hover:text-indigo-400"
                 to="#"
@@ -128,7 +128,7 @@ function DropdownProfile({ align }) {
               >
                 Ajustes
               </Link>
-            </li>
+            </li>*/}
             <li>
               <button
                 className="flex items-center px-3 py-1 w-full font-medium text-indigo-500 text-sm hover:text-indigo-600 dark:hover:text-indigo-400"

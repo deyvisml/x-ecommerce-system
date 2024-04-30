@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CollectionController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DeliveryScheduleController;
 use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\ExchangeRateController;
@@ -50,6 +51,10 @@ Route::apiResource('banks', BankController::class);
 Route::apiResource('states', StateController::class);
 Route::apiResource('orders', OrderController::class)->except(['show']);
 Route::apiResource('orders', OrderController::class)->only(['show'])->middleware('auth:sanctum');
+Route::apiResource('customers', CustomerController::class);
+
+Route::get('stores/{store_id}/customers', [CustomerController::class, 'store_customers'])->middleware('auth:sanctum');
+
 Route::put('orders/{order_id}/update-state-to-paid', [OrderController::class, 'update_state_to_paid']);
 
 Route::get('stores/{store_id}/orders', [OrderController::class, 'store_orders'])->middleware('auth:sanctum');
