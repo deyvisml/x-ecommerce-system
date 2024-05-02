@@ -2,7 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\Order;
 use App\Models\Permission;
+use App\Models\Store;
 use App\Models\User;
 
 class UserPolicy
@@ -14,6 +16,49 @@ class UserPolicy
     {
         try {
             $permission = Permission::where('name', 'users-read-any')->first();
+            $roles = $permission->roles;
+
+            return $user->hasRoles($roles);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    public function viewAllStoreCustomers(User $user, Store $store): bool
+    {
+        try {
+            $permission = Permission::where('name', 'customers-read-all-own')->first();
+            $roles = $permission->roles;
+
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
+                return true;
+            }
+
+            $permission = Permission::where('name', 'customers-read-any')->first();
+            $roles = $permission->roles;
+
+            return $user->hasRoles($roles);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
+    public function viewStoreCustomer(User $user, User $customer, Store $store): bool
+    {
+        try {
+            $permission = Permission::where('name', 'customers-read-own')->first();
+            $roles = $permission->roles;
+
+            if ($user->hasRoles($roles) && $store->user_id == $user->id) {
+                $customer_orders = Order::where('store_id', $store->id)
+                    ->where('customer_id', $customer->id)->get();
+
+                if ($customer_orders->count() > 0) {
+                    return true;
+                }
+            }
+
+            $permission = Permission::where('name', 'customers-read-any')->first();
             $roles = $permission->roles;
 
             return $user->hasRoles($roles);

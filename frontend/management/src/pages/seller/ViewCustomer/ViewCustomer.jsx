@@ -59,7 +59,7 @@ const ViewCustomer = () => {
     }
   }, [data_changed]);
 
-  return !fetches_finished ? (
+  return !fetches_finished || !customer ? (
     <MainLoader />
   ) : (
     <>

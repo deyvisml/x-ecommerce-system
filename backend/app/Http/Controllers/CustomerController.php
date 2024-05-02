@@ -21,7 +21,7 @@ class CustomerController extends Controller
     public function store_customers(Request $request, string $store_id)
     {
         $store = Store::find($store_id);
-        //$this->authorize("viewAll", [Order::class, $store]);
+        $this->authorize("viewAllStoreCustomers", [User::class, $store]);
 
         $filtering = $request->query('filtering');
         $excluding = $request->query('excluding');
@@ -101,7 +101,7 @@ class CustomerController extends Controller
     public function store_customer(string $store_id, string $customer_id)
     {
         $customer = User::find($customer_id);
-        //$this->authorize("viewAll", [Order::class, Store::find($store_id)]);
+        $this->authorize("viewStoreCustomer", [$customer, Store::find($store_id)]);
 
         // ------------------ query ------------------
         $query = User::query();
