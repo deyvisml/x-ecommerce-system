@@ -24,6 +24,7 @@ import OrderList from "./pages/seller/OrderList/OrderList";
 import ViewOrder from "./pages/seller/ViewOrder/ViewOrder";
 import useManagement from "./hooks/useManagement";
 import CustomerList from "./pages/seller/CustomerList/CustomerList";
+import ViewCustomer from "./pages/seller/ViewCustomer/ViewCustomer";
 
 const Route = () => {
   const { store, set_store } = useManagement();
@@ -31,7 +32,7 @@ const Route = () => {
   // this func also check if the user has valid roles like "administrador" / "vendedor"
   const user_is_auth = async () => {
     const token = JSON.parse(localStorage.getItem("TOKEN")); // we use this value insted of state var (token) because token is async, so it doesn't have a value fastly when we set its value.
-    console.log("verify user is auth", token);
+    console.log("=> verify user is auth", token);
 
     try {
       if (!token) throw new Error("There is no a token.");
@@ -57,7 +58,7 @@ const Route = () => {
   /* verify if the user has a specific role */
   const user_has_role = async (role_name) => {
     const token = JSON.parse(localStorage.getItem("TOKEN"));
-    console.log("verify user has role:", role_name, token, typeof token);
+    console.log("=> verify user has role:", role_name, token, typeof token);
 
     try {
       if (!token) throw new Error("There is no a token");
@@ -84,7 +85,7 @@ const Route = () => {
 
   // verify is the user already choose a specific role
   const user_choose_role = (role_name) => {
-    console.log("verify user choose role:", role_name);
+    console.log("=> verify user choose role:", role_name);
     const role = JSON.parse(localStorage.getItem("ROLE"));
 
     if (!role) return false;
@@ -107,6 +108,7 @@ const Route = () => {
         {
           index: true,
           loader: async () => {
+            console.log("first");
             return (await user_is_auth()) ? redirect("/escoger-rol") : null;
           },
           element: <Login />,
@@ -117,12 +119,18 @@ const Route = () => {
         },
         {
           path: "escoger-rol",
-          loader: async () => ((await user_is_auth()) ? null : redirect("/")),
+          loader: async () => {
+            console.log("second");
+            return (await user_is_auth()) ? null : redirect("/");
+          },
           element: <ChooseRole />,
         },
         {
           element: <DashboardLayout />,
-          loader: async () => ((await user_is_auth()) ? null : redirect("/")),
+          loader: async () => {
+            console.log("third");
+            return (await user_is_auth()) ? null : redirect("/");
+          },
           children: [
             {
               loader: async () => {
@@ -161,6 +169,10 @@ const Route = () => {
                 {
                   path: "vendedor/clientes/listado",
                   element: <CustomerList />,
+                },
+                {
+                  path: "vendedor/clientes/:customer_id",
+                  element: <ViewCustomer />,
                 },
               ],
             },

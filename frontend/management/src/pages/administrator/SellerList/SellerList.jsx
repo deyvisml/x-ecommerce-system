@@ -282,7 +282,7 @@ function SellerList() {
 
   useEffect(() => {
     setPageIndex(INIT_PAGE_INDEX);
-  }, [sorting]);
+  }, [sorting, filtering]);
 
   const table = useReactTable({
     data,

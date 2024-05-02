@@ -118,9 +118,11 @@ function OrderList() {
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
+        id: "time",
         accessorKey: "created_at",
         header: () => "Hora",
         cell: (info) => moment(info.getValue()).format("HH:mm"),
+        enableSorting: false,
       },
       {
         accessorKey: "users_first_name",
@@ -329,7 +331,7 @@ function OrderList() {
 
   useEffect(() => {
     setPageIndex(INIT_PAGE_INDEX);
-  }, [sorting]);
+  }, [sorting, filtering]);
 
   const table = useReactTable({
     data,

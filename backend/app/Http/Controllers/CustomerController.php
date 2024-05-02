@@ -90,12 +90,46 @@ class CustomerController extends Controller
 
         // ------------------ form data ------------------
         if ($page_size) {
-            $orders = $query->paginate($page_size);
+            $customers = $query->paginate($page_size);
         } else {
-            $orders = $query->get();
+            $customers = $query->get();
         }
 
-        return CustomerResource::collection($orders);
+        return CustomerResource::collection($customers);
+    }
+
+    public function store_customer(string $store_id, string $customer_id)
+    {
+        $customer = User::find($customer_id);
+        //$this->authorize("viewAll", [Order::class, Store::find($store_id)]);
+
+        // ------------------ query ------------------
+        $query = User::query();
+
+        // ------------------ select columns ------------------
+        $query->select('users.*');
+        foreach (Schema::getColumnListing('document_types') as $column) {
+            $query->addSelect('document_types.' . $column . ' as document_types_' . $column);
+        }
+        foreach (Schema::getColumnListing('addresses') as $column) {
+            $query->addSelect('addresses.' . $column . ' as addresses_' . $column);
+        }
+        foreach (Schema::getColumnListing('states') as $column) {
+            $query->addSelect('states.' . $column . ' as states_' . $column);
+        }
+
+        // ------------------ joins ------------------
+        $query->leftJoin('document_types', 'users.document_type_id', '=', 'document_types.id');
+        $query->leftJoin('addresses', 'users.address_id', '=', 'addresses.id');
+        $query->leftJoin('states', 'users.state_id', '=', 'states.id');
+
+        // ------------------ getting data ------------------
+        $query->where('users.id', $customer_id);
+
+        // ------------------ form data ------------------
+        $customer = $query->first();
+
+        return new CustomerResource($customer);
     }
 
     /**

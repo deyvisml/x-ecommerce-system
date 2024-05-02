@@ -54,6 +54,7 @@ Route::apiResource('orders', OrderController::class)->only(['show'])->middleware
 Route::apiResource('customers', CustomerController::class);
 
 Route::get('stores/{store_id}/customers', [CustomerController::class, 'store_customers'])->middleware('auth:sanctum');
+Route::get('stores/{store_id}/customers/{customer_id}', [CustomerController::class, 'store_customer'])->middleware('auth:sanctum');
 
 Route::put('orders/{order_id}/update-state-to-paid', [OrderController::class, 'update_state_to_paid']);
 

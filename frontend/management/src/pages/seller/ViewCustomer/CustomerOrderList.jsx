@@ -8,14 +8,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import currency from "currency.js";
 import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
 
+import TableFilter from "../../../components/TableFilter";
+import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
+import DeleteRecordButton from "../../../components/DeleteRecordButton";
 import useManagement from "../../../hooks/useManagement";
 import { UserIcon } from "@heroicons/react/24/solid";
 
@@ -44,15 +48,20 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [5, 10, 25, 50, 100];
 
-function CustomerList() {
+const CustomerOrderList = ({ customer }) => {
   const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
-  const [filtering, setFiltering] = useState([]);
+  const [filtering, setFiltering] = useState([
+    {
+      column: "users.id",
+      values: [customer.id],
+    },
+  ]);
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([
     {
-      id: "users.created_at",
+      id: "orders.created_at",
       desc: true,
     },
   ]);
@@ -102,28 +111,50 @@ function CustomerList() {
         ),
       },
       {
-        accessorKey: "first_name",
-        header: () => "Nombre",
-        cell: ({ row }) => (
-          <div className="flex items-center gap-2">
-            <div className="flex justify-center items-center bg-slate-300 rounded-full w-6 h-6">
-              <UserIcon className="w-4 text-white" />
-            </div>
-            <span className="capitalize">
-              {row.original.first_name + " " + row.original.last_name}
-            </span>
-          </div>
-        ),
+        accessorKey: "created_at",
+        header: () => "Fecha",
+        cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
-        accessorKey: "email",
-        header: () => "Correo",
-        cell: (info) => info.getValue(),
+        id: "time",
+        accessorKey: "created_at",
+        header: () => "Hora",
+        cell: (info) => moment(info.getValue()).format("HH:mm"),
+        enableSorting: false,
       },
       {
-        accessorKey: "phone_number",
-        header: () => "Teléfono",
-        cell: (info) => info.getValue(),
+        accessorKey: "paid",
+        header: () => "Pago",
+        cell: (info) => {
+          switch (info.getValue()) {
+            case 1:
+              return (
+                <div className="flex items-center gap-2">
+                  <span className="bg-green-500 rounded-full w-2 h-2"></span>
+                  <span className="font-semibold text-green-400">Pagado</span>
+                </div>
+              );
+              break;
+
+            default:
+              return (
+                <div className="flex items-center gap-2">
+                  <span className="bg-red-500 rounded-full w-2 h-2"></span>
+                  <span className="font-semibold text-red-400">Fallido</span>
+                </div>
+              );
+              break;
+          }
+        },
+      },
+      {
+        accessorKey: "total_price",
+        header: () => "Cantidad",
+        cell: (info) => {
+          return currency(info.getValue(), {
+            symbol: "S/ ",
+          }).format();
+        },
       },
       {
         accessorKey: "states_name",
@@ -132,29 +163,50 @@ function CustomerList() {
           let value = undefined;
 
           switch (row.original.state_id) {
-            case 1:
+            case 11:
               value = (
-                <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
+                <span className="bg-purple-100 px-2 py-1 rounded text-purple-600 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
               break;
-            case 2:
-            case 4:
+            case 12:
               value = (
                 <span className="bg-yellow-100 px-2 py-1 rounded text-xs text-yellow-600 capitalize">
                   {row.original.states_name}
                 </span>
               );
               break;
-            case 3:
+            case 13:
+              value = (
+                <span className="bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 14:
+              value = (
+                <span className="bg-sky-100 px-2 py-1 rounded text-sky-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 15:
+            case 16:
+              value = (
+                <span className="bg-green-100 px-2 py-1 rounded text-green-500 text-xs capitalize">
+                  {row.original.states_name}
+                </span>
+              );
+              break;
+            case 5:
+            case 17:
               value = (
                 <span className="bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
                   {row.original.states_name}
                 </span>
               );
               break;
-
             default:
               value = (
                 <span className="bg-slate-200 px-2 py-1 rounded text-xs capitalize">
@@ -189,12 +241,23 @@ function CustomerList() {
                   >
                     <Menu.Item>
                       <Link
-                        to={`/vendedor/clientes/${row.original.id}`}
+                        to={`/vendedor/ordenes/${row.original.id}`}
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
                         Ver
                       </Link>
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ close }) => (
+                        <span onClick={close}>
+                          <DeleteRecordButton
+                            record={row.original}
+                            setDataChanged={setDataChanged}
+                            fn_delete_record={delete_order}
+                          />
+                        </span>
+                      )}
                     </Menu.Item>
                   </Menu.Items>
                 )}
@@ -207,9 +270,9 @@ function CustomerList() {
     []
   );
 
-  const fetch_customers_by_store = async (store_id) => {
+  const fetch_customer_orders = async (store_id) => {
     try {
-      const response = await axios_client(`/api/stores/${store_id}/customers`, {
+      const response = await axios_client(`/api/stores/${store_id}/orders`, {
         method: "get",
         params: {
           filtering,
@@ -235,7 +298,7 @@ function CustomerList() {
   };
 
   useEffect(() => {
-    fetch_customers_by_store(store.id);
+    fetch_customer_orders(store.id);
   }, [search_query, pagination, sorting, filtering]);
 
   const skip_first_time_page_effect = useRef(true);
@@ -275,20 +338,43 @@ function CustomerList() {
 
   useEffect(() => {
     if (data_changed) {
-      fetch_customers_by_store(store.id);
+      fetch_customer_orders(store.id);
       setDataChanged(false);
     }
   }, [data_changed]);
 
+  const delete_order = async (record) => {
+    const response = await axios_client(
+      `/api/stores/${store.id}/orders/${record.id}`,
+      {
+        method: "delete",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response;
+  };
+
   return (
     <>
-      <div>
-        <h3 className="font-semibold text-2xl text-slate-800">
-          Listado de Clientes
-        </h3>
+      <div className="dark:border-slate-700 bg-white dark:bg-slate-800">
+        <h5 className="font-semibold text-base">Filtro</h5>
+        <ul className="flex md:flex-row flex-col gap-4">
+          {" "}
+          <li className="w-full">
+            <StateFilter
+              filter_column={"orders.state_id"}
+              selectable_record_ids={[11, 12, 13, 14, 15, 16, 17, 3]}
+              filtering={filtering}
+              setFiltering={setFiltering}
+            />
+          </li>
+        </ul>
       </div>
 
-      <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg mt-6 p-5 border rounded-sm">
+      <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 mt-4">
         <div className="flex flex-wrap justify-between items-center gap-y-3">
           {/* search */}
           <TableSearch
@@ -327,6 +413,6 @@ function CustomerList() {
       </div>
     </>
   );
-}
+};
 
-export default CustomerList;
+export default CustomerOrderList;

@@ -106,7 +106,7 @@ class OrderController extends Controller
     }
 
     // store is not save, it means a place where you can buy
-    public function store_orders(string $store_id, Request $request)
+    public function store_orders(Request $request, string $store_id)
     {
         $store = Store::find($store_id);
         $this->authorize("viewAll", [Order::class, $store]);
@@ -183,7 +183,7 @@ class OrderController extends Controller
 
         // ------------------ form data ------------------
         if ($page_size) {
-            $orders = $query->paginate($page_size);
+            $orders = $query->paginate($page_size)->onEachSide(1);
         } else {
             $orders = $query->get();
         }
