@@ -5,16 +5,15 @@ import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
 import "moment/dist/locale/es";
 import useManagement from "../../../hooks/useManagement";
-import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { UserIcon } from "@heroicons/react/24/solid";
 import CustomerOrderList from "./CustomerOrderList";
+import MainLoader from "../../../components/MainLoader";
 
 moment.locale("es");
 
 const ViewCustomer = () => {
-  const { token, store, is_loading_main_loader, setIsLoadingMainLoader } =
-    useManagement();
+  const { token, store } = useManagement();
   const { customer_id } = useParams();
 
   const [customer, setCustomer] = useState();
@@ -47,14 +46,8 @@ const ViewCustomer = () => {
   const [fetches_finished, setFetchesFinished] = useState(false);
   useEffect(() => {
     (async () => {
-      setIsLoadingMainLoader(true);
-
       await fetch_customer(store.id, customer_id);
       setFetchesFinished(true);
-
-      setTimeout(() => {
-        setIsLoadingMainLoader(false);
-      }, 500);
     })();
   }, []);
 
@@ -66,107 +59,107 @@ const ViewCustomer = () => {
     }
   }, [data_changed]);
 
-  return (
-    fetches_finished == true && (
-      <>
-        <div>
-          <h3 className="font-semibold text-2xl text-slate-800">Ver Cliente</h3>
-        </div>
+  return !fetches_finished ? (
+    <MainLoader />
+  ) : (
+    <>
+      <div>
+        <h3 className="font-semibold text-2xl text-slate-800">Ver Cliente</h3>
+      </div>
 
-        <div className="gap-6 grid grid-cols-12 mt-6">
-          <div className="flex flex-col gap-6 col-span-full xl:col-span-3">
-            <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-              <h4 className="font-semibold text-base">Perfil</h4>
+      <div className="gap-6 grid grid-cols-12 mt-6">
+        <div className="flex flex-col gap-6 col-span-full xl:col-span-3">
+          <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+            <h4 className="font-semibold text-base">Perfil</h4>
 
-              <div className="mt-4 text-sm">
-                <div>
-                  <div className="flex justify-center items-center bg-slate-500 m-auto rounded-md w-28 h-28">
-                    <UserIcon className="w-20 text-white" />
-                  </div>
-                </div>
-                <div className="mt-4">
-                  <ul className="flex flex-col gap-y-2 text-xs">
-                    <li>
-                      <strong className="block">ID</strong>
-                      <span>{customer.id}</span>
-                    </li>
-                    <li>
-                      <strong className="block">Nombres</strong>
-                      <span className="capitalize">
-                        {customer.first_name} {customer.last_name}
-                      </span>
-                    </li>
-                    <li>
-                      <strong className="block">Email</strong>
-                      <span>{customer.email}</span>
-                    </li>
-                    <li>
-                      <strong className="block">Teléfono</strong>
-                      <span>{customer.phone_number}</span>
-                    </li>
-                    <li>
-                      <strong className="block">Dirección</strong>
-                      <span>{customer.addresses_name}</span>
-                    </li>
-                    <li>
-                      <strong className="block">Estado</strong>
-                      {(() => {
-                        let value = undefined;
-
-                        switch (customer.state_id) {
-                          case 1:
-                            value = (
-                              <span className="inline-block bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
-                                {customer.states_name}
-                              </span>
-                            );
-                            break;
-                          case 2:
-                          case 4:
-                            value = (
-                              <span className="inline-block bg-yellow-100 px-2 py-1 rounded text-xs text-yellow-600 capitalize">
-                                {customer.states_name}
-                              </span>
-                            );
-                            break;
-                          case 3:
-                            value = (
-                              <span className="inline-block bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
-                                {customer.states_name}
-                              </span>
-                            );
-                            break;
-
-                          default:
-                            value = (
-                              <span className="inline-block bg-slate-200 px-2 py-1 rounded text-xs capitalize">
-                                {customer.states_name}
-                              </span>
-                            );
-                            break;
-                        }
-
-                        return value;
-                      })()}
-                    </li>
-                  </ul>
+            <div className="mt-4 text-sm">
+              <div>
+                <div className="flex justify-center items-center bg-slate-500 m-auto rounded-md w-28 h-28">
+                  <UserIcon className="w-20 text-white" />
                 </div>
               </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-6 col-span-full xl:col-span-9">
-            <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-              <h4 className="font-semibold text-base">Ordenes realizadas</h4>
-
               <div className="mt-4">
-                <CustomerOrderList customer={customer} />
+                <ul className="flex flex-col gap-y-2 text-xs">
+                  <li>
+                    <strong className="block">ID</strong>
+                    <span>{customer.id}</span>
+                  </li>
+                  <li>
+                    <strong className="block">Nombres</strong>
+                    <span className="capitalize">
+                      {customer.first_name} {customer.last_name}
+                    </span>
+                  </li>
+                  <li>
+                    <strong className="block">Email</strong>
+                    <span>{customer.email}</span>
+                  </li>
+                  <li>
+                    <strong className="block">Teléfono</strong>
+                    <span>{customer.phone_number}</span>
+                  </li>
+                  <li>
+                    <strong className="block">Dirección</strong>
+                    <span>{customer.addresses_name}</span>
+                  </li>
+                  <li>
+                    <strong className="block">Estado</strong>
+                    {(() => {
+                      let value = undefined;
+
+                      switch (customer.state_id) {
+                        case 1:
+                          value = (
+                            <span className="inline-block bg-green-100 px-2 py-1 rounded text-green-600 text-xs capitalize">
+                              {customer.states_name}
+                            </span>
+                          );
+                          break;
+                        case 2:
+                        case 4:
+                          value = (
+                            <span className="inline-block bg-yellow-100 px-2 py-1 rounded text-xs text-yellow-600 capitalize">
+                              {customer.states_name}
+                            </span>
+                          );
+                          break;
+                        case 3:
+                          value = (
+                            <span className="inline-block bg-red-100 px-2 py-1 rounded text-red-500 text-xs capitalize">
+                              {customer.states_name}
+                            </span>
+                          );
+                          break;
+
+                        default:
+                          value = (
+                            <span className="inline-block bg-slate-200 px-2 py-1 rounded text-xs capitalize">
+                              {customer.states_name}
+                            </span>
+                          );
+                          break;
+                      }
+
+                      return value;
+                    })()}
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-      </>
-    )
+
+        <div className="flex flex-col gap-6 col-span-full xl:col-span-9">
+          <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+            <h4 className="font-semibold text-base">Ordenes realizadas</h4>
+
+            <div className="mt-4">
+              <CustomerOrderList customer={customer} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

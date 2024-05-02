@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 
 function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
   let navigate = useNavigate();
-  const { token, store, set_store, setIsLoadingMainLoader } = useManagement();
+  const { token, store, set_store } = useManagement();
 
   const location = useLocation();
   const { pathname } = location;
@@ -82,18 +82,9 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
   };
 
   const on_change_store_select = (record) => {
-    setIsLoadingMainLoader(true);
     set_store(record);
     navigate("/vendedor");
   };
-
-  useEffect(() => {
-    if (store) {
-      setTimeout(() => {
-        setIsLoadingMainLoader(false);
-      }, 1000);
-    }
-  }, [store]);
 
   useEffect(() => {
     fetch_stores();

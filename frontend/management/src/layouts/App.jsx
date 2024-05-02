@@ -12,7 +12,6 @@ const App = () => {
         className="text-sm"
         autoClose={3000}
       />
-      <MainLoader />
       <ScrollRestoration />
     </>
   );

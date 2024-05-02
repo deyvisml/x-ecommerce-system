@@ -4,8 +4,6 @@ import { createContext } from "react";
 const ManagementContext = createContext();
 
 const ManagementProvider = ({ children }) => {
-  const [is_loading_main_loader, setIsLoadingMainLoader] = useState(false);
-
   const [token, _set_token] = useState(
     JSON.parse(localStorage.getItem("TOKEN")) || null
   );
@@ -62,8 +60,6 @@ const ManagementProvider = ({ children }) => {
   return (
     <ManagementContext.Provider
       value={{
-        is_loading_main_loader,
-        setIsLoadingMainLoader,
         _set_token,
         user,
         set_user,
