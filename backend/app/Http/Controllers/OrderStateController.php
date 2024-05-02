@@ -170,6 +170,7 @@ class OrderStateController extends Controller
             $previous_order_state = OrderState::leftJoin('states', 'order_state.state_id2', 'states.id')
                 ->where('order_id', $order_id)
                 ->where('state_id', 1)
+                ->where('order_state.id', '<>', $order_state_id)
                 ->orderBy('states.order', 'DESC')
                 ->select('order_state.*')
                 ->first();

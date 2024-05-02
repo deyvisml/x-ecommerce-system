@@ -96,9 +96,12 @@ function CustomerList() {
         accessorKey: "id",
         header: () => "Id",
         cell: (info) => (
-          <span className="font-semibold text-indigo-400">
+          <Link
+            to={`/vendedor/clientes/${info.row.original.id}`}
+            className="block font-semibold text-indigo-400"
+          >
             #{info.getValue().toString().padStart(4, "0")}
-          </span>
+          </Link>
         ),
       },
       {

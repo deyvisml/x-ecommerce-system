@@ -59,7 +59,7 @@ const UndoOrderStateModal = ({
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Creado!",
+          title: "Actualizado!",
           text: response.data.message,
           confirmButtonText: "Continuar",
         });
