@@ -189,7 +189,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/"
+                              to="/administrador"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
@@ -198,39 +198,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Main
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/dashboard/analytics"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Analytics
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/dashboard/fintech"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Fintech
+                                Principal
                               </span>
                             </NavLink>
                           </li>
@@ -439,168 +407,6 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
                                 Listado de Usuarios
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/community/users-tiles"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Users - Tiles
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-              {/* Inbox */}
-              <li
-                className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${
-                  pathname.includes("inbox") && "bg-slate-900"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/inbox"
-                  className={`block text-slate-200 truncate transition duration-150 ${
-                    pathname.includes("inbox")
-                      ? "hover:text-slate-200"
-                      : "hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <svg className="w-6 h-6 shrink-0" viewBox="0 0 24 24">
-                      <path
-                        className={`fill-current ${
-                          pathname.includes("inbox")
-                            ? "text-indigo-500"
-                            : "text-slate-600"
-                        }`}
-                        d="M16 13v4H8v-4H0l3-9h18l3 9h-8Z"
-                      />
-                      <path
-                        className={`fill-current ${
-                          pathname.includes("inbox")
-                            ? "text-indigo-300"
-                            : "text-slate-400"
-                        }`}
-                        d="m23.72 12 .229.686A.984.984 0 0 1 24 13v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-8c0-.107.017-.213.051-.314L.28 12H8v4h8v-4H23.72ZM13 0v7h3l-4 5-4-5h3V0h2Z"
-                      />
-                    </svg>
-                    <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                      Inbox
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-            </ul>
-          </div>
-          {/* More group */}
-          <div>
-            <h3 className="pl-3 font-semibold text-slate-500 text-xs uppercase">
-              <span
-                className="lg:block hidden lg:sidebar-expanded:hidden 2xl:hidden w-6 text-center"
-                aria-hidden="true"
-              >
-                •••
-              </span>
-              <span className="lg:sidebar-expanded:block 2xl:block lg:hidden">
-                More
-              </span>
-            </h3>
-            <ul className="mt-3">
-              {/* Authentication */}
-              <SidebarLinkGroup>
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href="#0"
-                        className={`block text-slate-200 truncate transition duration-150 ${
-                          open ? "hover:text-slate-200" : "hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sidebarExpanded
-                            ? handleClick()
-                            : setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className="flex justify-between items-center">
-                          <div className="flex items-center">
-                            <svg
-                              className="w-6 h-6 shrink-0"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                className="text-slate-600 fill-current"
-                                d="M8.07 16H10V8H8.07a8 8 0 110 8z"
-                              />
-                              <path
-                                className="text-slate-400 fill-current"
-                                d="M15 12L8 6v5H0v2h8v5z"
-                              />
-                            </svg>
-                            <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Authentication
-                            </span>
-                          </div>
-                          {/* Icon */}
-                          <div className="flex ml-2 shrink-0">
-                            <svg
-                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
-                                open && "rotate-180"
-                              }`}
-                              viewBox="0 0 12 12"
-                            >
-                              <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                      <div className="lg:sidebar-expanded:block 2xl:block lg:hidden">
-                        <ul className={`pl-9 mt-1 ${!open && "hidden"}`}>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/signin"
-                              className="block text-slate-400 hover:text-slate-200 truncate transition duration-150"
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Sign in
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/signup"
-                              className="block text-slate-400 hover:text-slate-200 truncate transition duration-150"
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Sign up
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/reset-password"
-                              className="block text-slate-400 hover:text-slate-200 truncate transition duration-150"
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Reset Password
                               </span>
                             </NavLink>
                           </li>

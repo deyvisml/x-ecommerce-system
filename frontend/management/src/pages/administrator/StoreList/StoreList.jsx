@@ -131,9 +131,11 @@ function StoreList() {
         header: () => "Vendedor",
         cell: ({ row }) => {
           return (
-            row.original.users_first_name +
-            " " +
-            (row.original.users_last_name ?? "")
+            <span className="capitalize">
+              {row.original.users_first_name +
+                " " +
+                (row.original.users_last_name ?? "")}
+            </span>
           );
         },
       },

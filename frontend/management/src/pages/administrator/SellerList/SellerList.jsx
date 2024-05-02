@@ -115,7 +115,11 @@ function SellerList() {
         header: () => "Nombre",
         cell: ({ row }) => {
           //console.log(row.original);
-          return row.original.first_name + " " + (row.original.last_name ?? "");
+          return (
+            <span className="capitalize">
+              {row.original.first_name + " " + (row.original.last_name ?? "")}
+            </span>
+          );
         },
       },
       {

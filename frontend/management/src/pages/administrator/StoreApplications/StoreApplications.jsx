@@ -124,7 +124,7 @@ function StoreApplications() {
         cell: ({ row }) => {
           return (
             <>
-              <span className="block">
+              <span className="block capitalize">
                 {row.original.users_first_name +
                   " " +
                   (row.original.users_last_name ?? "")}

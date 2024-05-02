@@ -296,7 +296,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                           <li className="mb-1 last:mb-0">
                             <NavLink
                               end
-                              to="/"
+                              to="/vendedor"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
@@ -305,39 +305,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Main
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/dashboard/analytics"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Analytics
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/dashboard/fintech"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Fintech
+                                Principal
                               </span>
                             </NavLink>
                           </li>
