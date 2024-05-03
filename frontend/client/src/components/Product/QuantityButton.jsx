@@ -44,7 +44,7 @@ const QuantityButton = ({
     <div className="flex gap-x-1 w-auto text-gray-800">
       <button
         onClick={() => handle_change_quantity_button(-1)}
-        className="flex justify-center items-center border-gray-400 bg-rose-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex justify-center items-center border-gray-400 bg-slate-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
         <MinusIcon strokeWidth={3} className="w-4" />
       </button>
@@ -56,7 +56,7 @@ const QuantityButton = ({
       />
       <button
         onClick={() => handle_change_quantity_button(+1)}
-        className="flex justify-center items-center border-gray-400 bg-rose-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
+        className="flex justify-center items-center border-gray-400 bg-slate-100 border rounded-full w-8 h-8 font-semibold text-xl overflow-hidden"
       >
         <PlusIcon strokeWidth={3} className="w-4" />
       </button>

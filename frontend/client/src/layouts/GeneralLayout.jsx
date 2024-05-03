@@ -9,7 +9,7 @@ const GeneralLayout = () => {
       <Outlet />
       <ToastContainer
         position="top-right"
-        className="mt-16 text-sm"
+        className="text-sm"
         autoClose={2500}
       />
       <MainLoader />
