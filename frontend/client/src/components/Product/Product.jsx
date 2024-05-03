@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import useECommerce from "../../hooks/useECommerce";
 import { PulseLoader } from "react-spinners";
-import addItemToCart from "../../utils/addItemToCart";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,8 +13,12 @@ import QuantityButton from "./QuantityButton";
 import ProductsGrid from "../ProductsGrid";
 import BreadCrumb from "../BreadCrumb/BreadCrumb";
 import currency from "currency.js";
+import { cloneDeep } from "lodash";
+import { useNavigate } from "react-router-dom";
 
 const Product = () => {
+  let navigate = useNavigate();
+
   const { category_id, product_id } = useParams();
   const { cart, setCart } = useECommerce();
   const [category, setCategory] = useState();
@@ -138,7 +141,7 @@ const Product = () => {
   }, [collection_id, product]);
   /* ====== END FETCH PRODUCTS ====== */
 
-  const handle_add_product_to_cart_btn = () => {
+  const handle_buy_now_btn = () => {
     setAddToCartLoader(true);
 
     const item = {
@@ -147,13 +150,18 @@ const Product = () => {
       quantity: quantity_to_buy,
     };
 
-    const [error_occurred, message] = addItemToCart(item, cart, setCart);
+    if (product.in_stock) {
+      const cart_copy = cloneDeep(cart);
+      cart_copy.items = [];
+      cart_copy.items.push(item);
 
-    if (!error_occurred) {
-      toast.success(message);
+      setCart(cart_copy);
+      toast.success("Con stock diponible!");
     } else {
-      toast.error(message);
+      toast.error("No existe stock disponible.");
     }
+
+    navigate("/pedido");
 
     setAddToCartLoader(false);
   };
@@ -268,7 +276,7 @@ const Product = () => {
                   <button
                     onClick={
                       product.in_stock
-                        ? handle_add_product_to_cart_btn
+                        ? handle_buy_now_btn
                         : (e) => {
                             e.preventDefault;
                           }
@@ -287,7 +295,7 @@ const Product = () => {
                         className="m-0 p-0 pt-1"
                       />
                     ) : (
-                      "Añadir al carrito"
+                      "Comprar ahora"
                     )}
                   </button>
                   <a
