@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderState;
 use App\Models\State;
+use App\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -24,7 +25,7 @@ class OrderStateController extends Controller
      */
     public function store(Request $request, string $store_id, string $order_id)
     {
-        //$this->authorize("create", OrderDocument::class);
+        $this->authorize("create", OrderState::class);
 
         $validation_rules = [
             'state_id' => 'required',
@@ -146,7 +147,7 @@ class OrderStateController extends Controller
     public function update_state(Request $request, string $store_id, string $order_id, string $order_state_id)
     {
         $order_state = OrderState::find($order_state_id);
-        //$this->authorize("update", $order);
+        $this->authorize("update", [$order_state, Store::find($store_id), Order::find($order_id)]);
 
         if (!$order_state) {
             $response = ['status' => false, 'message' => 'No se encontró ningún registro con el ID proporcionado.'];
