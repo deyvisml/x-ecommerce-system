@@ -12,6 +12,12 @@ export const edit_store_schema = yup.object({
     .integer()
     .required("El campo es requerido"),
   business_name: yup.string().max(600).required("El campo es requerido"),
+  phone_number: yup
+    .number()
+    .typeError("El campo debe ser númerico")
+    .positive()
+    .integer()
+    .required("El campo es requerido"),
   legal_representative: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")

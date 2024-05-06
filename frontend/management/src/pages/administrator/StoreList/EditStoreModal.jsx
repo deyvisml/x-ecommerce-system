@@ -29,6 +29,7 @@ const EditStoreModal = ({
       store_name: record?.name ?? undefined,
       ruc: record?.ruc ?? undefined,
       business_name: record?.business_name ?? undefined,
+      phone_number: record?.phone_number ?? undefined,
       legal_representative: record?.legal_representative ?? undefined,
       user_id: record?.user_id ?? undefined,
       bank_id: record?.bank_id ?? undefined,
@@ -226,6 +227,25 @@ const EditStoreModal = ({
               {errors.business_name && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
                   {errors.business_name.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone_number" className="block font-semibold">
+                Numero de Teléfono
+              </label>
+              <input
+                {...register("phone_number")}
+                name="phone_number"
+                id="phone_number"
+                type="text"
+                placeholder="Razón social"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              />
+              {errors.phone_number && (
+                <p className="pt-1 text-red-500 text-xs ps-1">
+                  {errors.phone_number.message}
                 </p>
               )}
             </div>

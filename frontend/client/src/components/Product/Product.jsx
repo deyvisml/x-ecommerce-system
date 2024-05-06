@@ -49,6 +49,8 @@ const Product = () => {
 
     const product = data.data[0];
 
+    console.log(product);
+
     setProduct(product);
     setQuantityToBuy(1);
 
@@ -299,7 +301,7 @@ const Product = () => {
                     )}
                   </button>
                   <a
-                    href={`https://wa.me/${"+51975032529"}?text=${
+                    href={`https://wa.me/${product.stores_phone_number}?text=${
                       "Deseo realizar mi pedido de este producto: " +
                       product.name.toUpperCase()
                     }`}

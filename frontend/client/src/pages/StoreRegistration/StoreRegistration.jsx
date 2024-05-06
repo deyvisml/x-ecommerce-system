@@ -49,10 +49,12 @@ const StoreRegistration = () => {
       password: undefined,
       first_name: store_registration?.data?.first_name ?? undefined,
       last_name: store_registration?.data?.last_name ?? undefined,
-      phone_number: store_registration?.data?.phone_number ?? undefined,
+      user_phone_number:
+        store_registration?.data?.user_phone_number ?? undefined,
       store_name: store_registration?.data?.store_name ?? undefined,
       ruc: store_registration?.data?.ruc ?? undefined,
       business_name: store_registration?.data?.business_name ?? undefined,
+      phone_number: store_registration?.data?.phone_number ?? undefined,
       legal_representative:
         store_registration?.data?.legal_representative ?? undefined,
       bank_id: store_registration?.data?.bank_id ?? undefined,
@@ -94,7 +96,7 @@ const StoreRegistration = () => {
         // fields to validate
         const first_name = getValues("first_name");
         const last_name = getValues("last_name");
-        const phone_number = getValues("phone_number");
+        const user_phone_number = getValues("user_phone_number");
 
         // getting a specific scheme
         const schema_stage2 = schema.pick([
@@ -108,7 +110,7 @@ const StoreRegistration = () => {
             {
               first_name,
               last_name,
-              phone_number,
+              user_phone_number: user_phone_number,
             },
             { abortEarly: false }
           )
@@ -127,6 +129,7 @@ const StoreRegistration = () => {
         const store_name = getValues("store_name");
         const ruc = getValues("ruc");
         const business_name = getValues("business_name");
+        const phone_number = getValues("phone_number");
         const legal_representative = getValues("legal_representative");
         const bank_id = getValues("bank_id");
         const bank_account_number = getValues("bank_account_number");
@@ -136,6 +139,7 @@ const StoreRegistration = () => {
           "store_name",
           "ruc",
           "business_name",
+          "phone_number",
           "legal_representative",
           "bank_id",
           "bank_account_number",
@@ -147,6 +151,7 @@ const StoreRegistration = () => {
               store_name,
               ruc,
               business_name,
+              phone_number,
               legal_representative,
               bank_id,
               bank_account_number,
@@ -426,7 +431,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="first_name"
+                      type="text"
                       id="first_name"
                       {...register("first_name", { required: true })}
                     />
@@ -445,7 +450,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="last_name"
+                      type="text"
                       id="last_name"
                       {...register("last_name", { required: true })}
                     />
@@ -459,19 +464,19 @@ const StoreRegistration = () => {
                   <div>
                     <label
                       className="block pb-1 font-semibold text-sm"
-                      htmlFor="phone_number"
+                      htmlFor="user_phone_number"
                     >
                       Teléfono
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="phone_number"
-                      id="phone_number"
-                      {...register("phone_number", { required: true })}
+                      type="text"
+                      id="user_phone_number"
+                      {...register("user_phone_number", { required: true })}
                     />
-                    {errors.phone_number && (
+                    {errors.user_phone_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.phone_number.message}
+                        {errors.user_phone_number.message}
                       </p>
                     )}
                   </div>
@@ -519,7 +524,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="store_name"
+                      type="text"
                       id="store_name"
                       {...register("store_name", { required: true })}
                     />
@@ -539,7 +544,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="ruc"
+                      type="text"
                       id="ruc"
                       {...register("ruc", { required: true })}
                     />
@@ -559,7 +564,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="business_name"
+                      type="text"
                       id="business_name"
                       {...register("business_name", { required: true })}
                     />
@@ -573,13 +578,33 @@ const StoreRegistration = () => {
                   <div>
                     <label
                       className="block pb-1 font-semibold text-sm"
+                      htmlFor="phone_number"
+                    >
+                      Numero de Teléfono
+                    </label>
+                    <input
+                      className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
+                      type="text"
+                      id="phone_number"
+                      {...register("phone_number", { required: true })}
+                    />
+                    {errors.phone_number && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.phone_number.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      className="block pb-1 font-semibold text-sm"
                       htmlFor="legal_representative"
                     >
                       Representante legal
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="legal_representative"
+                      type="text"
                       id="legal_representative"
                       {...register("legal_representative", { required: true })}
                       placeholder="Nombres y Apellidos"
@@ -633,7 +658,7 @@ const StoreRegistration = () => {
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
-                      type="bank_account_number"
+                      type="text"
                       id="bank_account_number"
                       {...register("bank_account_number", { required: true })}
                     />

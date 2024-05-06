@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Store;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -33,6 +32,9 @@ class ProductController extends Controller
         foreach (Schema::getColumnListing('categories') as $column) {
             $query->addSelect('categories.' . $column . ' as categories_' . $column);
         }
+        foreach (Schema::getColumnListing('stores') as $column) {
+            $query->addSelect('stores.' . $column . ' as stores_' . $column);
+        }
         foreach (Schema::getColumnListing('states') as $column) {
             $query->addSelect('states.' . $column . ' as states_' . $column);
         }
@@ -40,6 +42,7 @@ class ProductController extends Controller
         // ------------------ joins ------------------
         $query->leftJoin('collections', 'products.collection_id', '=', 'collections.id');
         $query->leftJoin('categories', 'products.category_id', '=', 'categories.id');
+        $query->leftJoin('stores', 'products.store_id', '=', 'stores.id');
         $query->leftJoin('states', 'products.state_id', '=', 'states.id');
 
         // ------------------ getting data ------------------

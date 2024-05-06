@@ -20,7 +20,7 @@ export const schema = yup.object({
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
     .max(100)
     .required("El campo es requerido"),
-  phone_number: yup
+  user_phone_number: yup
     .number()
     .typeError("El campo debe ser númerico")
     .positive()
@@ -34,6 +34,12 @@ export const schema = yup.object({
     .integer()
     .required("El campo es requerido"),
   business_name: yup.string().max(600).required("El campo es requerido"),
+  phone_number: yup
+    .number()
+    .typeError("El campo debe ser númerico")
+    .positive()
+    .integer()
+    .required("El campo es requerido"),
   legal_representative: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
