@@ -168,6 +168,12 @@ const Product = () => {
     setAddToCartLoader(false);
   };
 
+  useEffect(() => {
+    if (product) {
+      document.title = `${product.name} - Florecer Contigo`;
+    }
+  }, [product]);
+
   return (
     <div className="text-gray-800">
       <div className="mx-auto px-4 max-w-7xl">

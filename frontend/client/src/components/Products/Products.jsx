@@ -95,6 +95,12 @@ const Products = () => {
   }, [collection_id, order_by]);
   /* ====== END FETCH PRODUCTS ====== */
 
+  useEffect(() => {
+    if (category) {
+      document.title = `${category.name} - Florecer Contigo`;
+    }
+  }, [category]);
+
   return (
     <div className="mx-auto px-4 max-w-7xl text-gray-800">
       <div className="my-5">

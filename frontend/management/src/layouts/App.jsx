@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Outlet, ScrollRestoration } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import MainLoader from "../components/MainLoader";
 
 const App = () => {
+  useEffect(() => {
+    document.title = `Gestión - Florecer Contigo`;
+  }, []);
+
   return (
     <>
       <Outlet />

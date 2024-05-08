@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useECommerce from "../../hooks/useECommerce";
 import { Link } from "react-router-dom";
 
@@ -7,6 +7,10 @@ import Categories from "../Categories";
 
 const Home = () => {
   const { cart } = useECommerce();
+
+  useEffect(() => {
+    document.title = `Florecer Contigo`;
+  }, []);
 
   return (
     <>

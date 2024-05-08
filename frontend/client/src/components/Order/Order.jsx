@@ -411,6 +411,10 @@ const Order = () => {
     }
   }, [watch("delivery_date")]);
 
+  useEffect(() => {
+    document.title = `Orden - Florecer Contigo`;
+  }, []);
+
   return (
     <div className="mx-auto px-4 max-w-7xl order">
       <form
