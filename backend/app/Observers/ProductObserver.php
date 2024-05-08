@@ -12,8 +12,10 @@ class ProductObserver
      */
     public function created(Product $product): void
     {
+        $product = Product::find($product->id); // usefull, when we created a new product, only the params that were set are send (not the default params set in db), so I recovered again the record to get the all the values
+
         ProductLog::create([
-            'product_id' => $product->product_id,
+            'product_id' => $product->id,
             'name' => $product->name,
             'sku' => $product->sku,
             'description' => $product->description,
@@ -42,7 +44,7 @@ class ProductObserver
     {
         if ($product->wasChanged()) {
             ProductLog::create([
-                'product_id' => $product->product_id,
+                'product_id' => $product->id,
                 'name' => $product->name,
                 'sku' => $product->sku,
                 'description' => $product->description,

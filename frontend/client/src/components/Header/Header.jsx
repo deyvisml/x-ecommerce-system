@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import DropdownItem from "../DropdownItem";
-import logo from "../../../public/images/logos/logo.webp";
+import logo from "../../../public/images/logos/logo.png";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import axios_client from "../../helpers/axios";
@@ -149,7 +149,7 @@ const Header = () => {
           </div>
         </div>
 
-        <nav className="mx-auto px-2 xl:px-0 w-full max-w-7xl">
+        {/*<nav className="mx-auto px-2 xl:px-0 w-full max-w-7xl">
           <div className="flex justify-between items-center">
             <div>.</div>
 
@@ -196,7 +196,7 @@ const Header = () => {
               </ul>
             </div>
           </div>
-        </nav>
+        </nav>*/}
       </header>
     </>
   );

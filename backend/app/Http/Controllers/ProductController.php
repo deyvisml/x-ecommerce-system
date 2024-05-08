@@ -218,7 +218,7 @@ class ProductController extends Controller
 
         // storing image
         $file = $request->file('image');
-        $path = $file->store('public/images/products'); // store image with a unique name
+        $path = $file->store('public/images/products/large'); // store image with a unique name
         $file_name = basename($path); // get the generated file name
 
         $user = $request->user();
@@ -325,7 +325,7 @@ class ProductController extends Controller
         if ($request->hasFile("image")) {
             // storing image
             $file = $request->file('image');
-            $path = $file->store('public/images/products'); // store image with a unique name
+            $path = $file->store('public/images/products/large'); // store image with a unique name
             $file_name = basename($path); // get the generated file name
         } else {
             $file_name = $request->image_name;

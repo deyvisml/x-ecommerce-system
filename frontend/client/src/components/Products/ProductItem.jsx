@@ -11,9 +11,9 @@ const ProductItem = ({ product }) => {
       >
         <div className="mb-1 w-full h-52 overflow-hidden">
           <img
-            src={`${import.meta.env.VITE_API_URL}/storage/images/products/${
-              product.image_name
-            }`}
+            src={`${
+              import.meta.env.VITE_API_URL
+            }/storage/images/products/large/${product.image_name}`}
             alt=""
             className="group-hover:scale-125 w-full h-full transform transition-transform object-contain"
           />

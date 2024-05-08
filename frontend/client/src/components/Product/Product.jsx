@@ -188,7 +188,7 @@ const Product = () => {
                 <img
                   src={`${
                     import.meta.env.VITE_API_URL
-                  }/storage/images/products/${product.image_name}`}
+                  }/storage/images/products/large/${product.image_name}`}
                   alt="product image"
                   className="border-2 shadow w-full"
                 />
@@ -196,7 +196,7 @@ const Product = () => {
 
               {/* product && (
               <ImageZoom
-                src={`${import.meta.env.VITE_API_URL}/storage/images/products/${product.image_name}`}
+                src={`${import.meta.env.VITE_API_URL}/storage/images/products/large/${product.image_name}`}
                 alt="Product image"
                 className="border-2 border-gray-400"
                 width="50%"
