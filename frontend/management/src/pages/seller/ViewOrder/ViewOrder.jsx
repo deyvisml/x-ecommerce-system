@@ -359,7 +359,11 @@ const ViewOrder = () => {
                             <div className="flex items-center gap-x-2">
                               <div className="flex justify-center items-center bg-slate-200 p-1 rounded w-[40px] min-w-[40px] h-[40px] min-h-[40px]">
                                 <img
-                                  src={`http://localhost:8000/storage/images/products/large/${cart_product.product_log.image_name}`}
+                                  src={`${
+                                    import.meta.env.VITE_API_URL
+                                  }/storage/images/products/large/${
+                                    cart_product.product_log.image_name
+                                  }`}
                                   alt=""
                                   className="w-full h-full object-cover"
                                 />

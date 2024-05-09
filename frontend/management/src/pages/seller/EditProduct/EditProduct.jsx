@@ -356,7 +356,11 @@ const EditProduct = () => {
                     <div className="justify-center items-center shadow border rounded divide-y divide-gray-300 text-center text-xs">
                       <div className="p-2">
                         <img
-                          src={`http://localhost:8000/storage/images/products/large/${product.image_name}`}
+                          src={`${
+                            import.meta.env.VITE_API_URL
+                          }/storage/images/products/large/${
+                            product.image_name
+                          }`}
                           className="m-auto w-32 h-32 object-cover"
                         />
                       </div>
