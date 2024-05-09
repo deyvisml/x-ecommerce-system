@@ -141,7 +141,7 @@
                 <img
                     class="logo"
                     style="background-color: white"
-                    src="{{ config('app.frontend_url') . '/images/logos/logo.png' }}"
+                    src="{{ config('app.frontend_url') . '/images/logos/logo.svg' }}"
                     alt=""
                 />
 

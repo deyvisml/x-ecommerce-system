@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import SidebarLinkGroup from "../partials/dashboard/SidebarLinkGroup";
-import logo_white from "../../public/images/logos/logo-white.png";
+import logo_white from "../../public/images/logos/logo-white.svg";
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import axios_client from "../helpers/axios";
@@ -129,7 +129,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
           </button>
           {/* Logo */}
           <NavLink end to="/" className="block">
-            <img src={logo_white} className="w-36" alt="" />
+            <img src={logo_white} className="w-28" alt="" />
           </NavLink>
         </div>
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo_white from "../../../public/images/logos/logo-white.png";
+import logo_white from "../../../public/images/logos/logo-white.svg";
 import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
@@ -9,7 +9,7 @@ const Header = () => {
       <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center py-4">
           <Link to="/">
-            <img src={logo_white} alt="" className="w-36" />
+            <img src={logo_white} alt="" className="w-28" />
           </Link>
           <div>
             <ul>

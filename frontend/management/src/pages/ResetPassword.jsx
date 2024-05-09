@@ -27,7 +27,7 @@ const ResetPassword = () => {
           <div className="mb-4">
             <Link to="/">
               <img
-                src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/client/src/assets/logo.png"
+                src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/client/src/assets/logo.svg"
                 alt=""
                 className="w-44"
               />

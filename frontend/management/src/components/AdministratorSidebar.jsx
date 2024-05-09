@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 import SidebarLinkGroup from "../partials/dashboard/SidebarLinkGroup";
-import logo_white from "../../public/images/logos/logo-white.png";
+import logo_white from "../../public/images/logos/logo-white.svg";
 
 function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
   const location = useLocation();
