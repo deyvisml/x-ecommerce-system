@@ -156,7 +156,7 @@
                         <p>Su orden se ha cofirmado.</p>
                         <p>
                             Gracias por su compra en
-                            <a href="{{ config('app.frontend_url') }}">iFlorecer</a>.
+                            <a href="{{ config('app.frontend_url') }}">Florecer Contigo</a>.
                             Encuentre los detalles de su pedido a continuación.
                         </p>
                     </div>

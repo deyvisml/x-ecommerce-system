@@ -32,7 +32,7 @@ class OrderConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Confirmación de Orden - iFlorecer',
+            subject: 'Confirmación de Orden - Florecer Contigo',
         );
     }
 
