@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import AdministratorSidebar from "../components/AdministratorSidebar";
 import Header from "../partials/dashboard/Header";
@@ -6,6 +6,10 @@ import { Outlet } from "react-router-dom";
 
 function AdminDashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = `Administrador - Florecer Contigo`;
+  }, []);
 
   return (
     <div className="flex h-screen overflow-hidden">

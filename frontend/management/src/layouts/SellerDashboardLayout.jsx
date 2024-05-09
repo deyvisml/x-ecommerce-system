@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import SellerSidebar from "../components/SellerSidebar";
 import Header from "../partials/dashboard/Header";
@@ -6,6 +6,10 @@ import { Outlet } from "react-router-dom";
 
 function SellerDashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    document.title = `Vendedor - Florecer Contigo`;
+  }, []);
 
   return (
     <>

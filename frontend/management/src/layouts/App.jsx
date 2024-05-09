@@ -4,10 +4,6 @@ import { ToastContainer } from "react-toastify";
 import MainLoader from "../components/MainLoader";
 
 const App = () => {
-  useEffect(() => {
-    document.title = `Gestión - Florecer Contigo`;
-  }, []);
-
   return (
     <>
       <Outlet />

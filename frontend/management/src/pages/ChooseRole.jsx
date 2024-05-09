@@ -85,6 +85,10 @@ const ChooseRole = () => {
     }
   }, []);
 
+  useEffect(() => {
+    document.title = `Escoger rol - Florecer Contigo`;
+  }, []);
+
   return (
     !role && (
       <main className="flex flex-grow justify-center items-center bg-slate-200 min-h-screen">

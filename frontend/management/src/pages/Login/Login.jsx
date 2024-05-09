@@ -53,6 +53,10 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    document.title = `Iniciar sesión - Florecer Contigo`;
+  }, []);
+
   return (
     <div className="bg-neutral-100">
       <div className="flex h-screen">
