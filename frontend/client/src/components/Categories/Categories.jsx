@@ -59,7 +59,7 @@ const Categories = () => {
             })}
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           {categories
             .filter((category) => category.display_in_column == 2)
             .map((category) => {

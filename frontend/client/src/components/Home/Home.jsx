@@ -9,7 +9,7 @@ const Home = () => {
   const { cart } = useECommerce();
 
   useEffect(() => {
-    document.title = `Florecer Contigo`;
+    document.title = `Florecer Contigo | Envío de flores, peluches y regalos a Domicilio`;
   }, []);
 
   return (
