@@ -54,7 +54,7 @@ const Route = () => {
                   path: "pedido",
                   loader: () => {
                     const num_items =
-                      JSON.parse(localStorage.getItem("cart"))?.items?.length ??
+                      JSON.parse(localStorage.getItem("CART"))?.items?.length ??
                       0;
                     // if there is no products
                     if (!num_items) return redirect("/");

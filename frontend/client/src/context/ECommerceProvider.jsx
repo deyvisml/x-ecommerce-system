@@ -14,8 +14,8 @@ const ECommerceProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("TOKEN")) || null
   );
 
-  const [cart, setCart] = useState(
-    JSON.parse(localStorage.getItem("cart")) ?? {
+  const [cart, _set_cart] = useState(
+    JSON.parse(localStorage.getItem("CART")) ?? {
       items: [],
     }
   );
@@ -43,9 +43,15 @@ const ECommerceProvider = ({ children }) => {
     _set_token(token);
   };
 
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
+  const set_cart = (cart) => {
+    if (cart) {
+      localStorage.setItem("CART", JSON.stringify(cart));
+    } else {
+      localStorage.removeItem("CART");
+    }
+
+    _set_cart(cart);
+  };
 
   useEffect(() => {
     localStorage.setItem("order", JSON.stringify(order));
@@ -53,7 +59,7 @@ const ECommerceProvider = ({ children }) => {
 
   const clear_cart = () => {
     localStorage.removeItem("cart");
-    setCart({
+    set_cart({
       items: [],
     });
   };
@@ -69,7 +75,7 @@ const ECommerceProvider = ({ children }) => {
         token,
         user,
         cart,
-        setCart,
+        set_cart,
         order,
         setOrder,
         is_loading_main_loader,

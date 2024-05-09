@@ -20,7 +20,8 @@ const Product = () => {
   let navigate = useNavigate();
 
   const { category_id, product_id } = useParams();
-  const { cart, setCart } = useECommerce();
+  const { cart, set_cart } = useECommerce();
+  const [aux_cart, setAuxCart] = useState(cart);
   const [category, setCategory] = useState();
   const [product, setProduct] = useState();
   const [collection_id, setCollectionId] = useState();
@@ -157,16 +158,18 @@ const Product = () => {
       cart_copy.items = [];
       cart_copy.items.push(item);
 
-      setCart(cart_copy);
+      set_cart(cart_copy);
       toast.success("Con stock diponible!");
     } else {
       toast.error("No existe stock disponible.");
     }
 
-    navigate("/pedido");
-
     setAddToCartLoader(false);
   };
+
+  useEffect(() => {
+    if (cart != aux_cart) navigate("/pedido");
+  }, [cart]);
 
   useEffect(() => {
     if (product) {

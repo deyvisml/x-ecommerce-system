@@ -1,6 +1,6 @@
 import { cloneDeep } from "lodash";
 
-const addItemToCart = ({ id, product, quantity }, cart, setCart) => {
+const addItemToCart = ({ id, product, quantity }, cart, set_cart) => {
   const cart_copy = cloneDeep(cart); // usefull, copy a var state (to not change the state directly)
 
   let error_occurred = false;
@@ -10,7 +10,7 @@ const addItemToCart = ({ id, product, quantity }, cart, setCart) => {
     cart_copy.items = [];
     cart_copy.items.push({ id, product, quantity });
 
-    setCart(cart_copy);
+    set_cart(cart_copy);
   } else {
     error_occurred = true;
     message = "No existe stock disponible.";

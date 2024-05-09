@@ -9,27 +9,27 @@ import currency from "currency.js";
 const CartItem = ({ item }) => {
   console.log(item);
   const [quantity, setQuantity] = useState(item.quantity);
-  const { cart, setCart } = useECommerce();
+  const { cart, set_cart } = useECommerce();
 
   const update_quantity_cart_product = (
     new_quantity,
     item_id,
     cart,
-    setCart
+    set_cart
   ) => {
     const cart_copy = cloneDeep(cart);
 
     for (const item_x of cart_copy.items) {
       if (item_x.id == item_id) {
         item_x.quantity = new_quantity;
-        setCart(cart_copy);
+        set_cart(cart_copy);
       }
     }
   };
 
   useEffect(() => {
     if (quantity != item.quantity) {
-      update_quantity_cart_product(quantity, item.id, cart, setCart);
+      update_quantity_cart_product(quantity, item.id, cart, set_cart);
     }
   }, [quantity]);
 
@@ -38,7 +38,7 @@ const CartItem = ({ item }) => {
     const item_id = item.id;
 
     cart_copy.items = cart_copy.items.filter((itemx) => itemx.id !== item_id);
-    setCart(cart_copy);
+    set_cart(cart_copy);
   };
 
   return (
