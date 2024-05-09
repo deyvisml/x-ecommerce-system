@@ -113,7 +113,11 @@ function StoreList() {
       {
         accessorKey: "name",
         header: () => "Nombre",
-        cell: (info) => <span className="text-black">{info.getValue()}</span>,
+        cell: (info) => (
+          <span className="text-black dark:text-slate-400">
+            {info.getValue()}
+          </span>
+        ),
       },
       {
         accessorKey: "ruc",
@@ -315,7 +319,7 @@ function StoreList() {
   return (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">
+        <h3 className="font-semibold text-2xl text-slate-800 dark:text-slate-300">
           Listado de Tiendas
         </h3>
       </div>

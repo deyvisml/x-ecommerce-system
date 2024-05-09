@@ -141,7 +141,7 @@
                 <img
                     class="logo"
                     style="background-color: white"
-                    src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/src/assets/logo.png"
+                    src="{{ config('app.frontend_url') . '/images/logos/logo.png' }}"
                     alt=""
                 />
 
@@ -156,7 +156,7 @@
                         <p>Su orden se ha cofirmado.</p>
                         <p>
                             Gracias por su compra en
-                            <a href="http://localhost:5173/">iFlorecer</a>.
+                            <a href="{{ config('app.frontend_url') }}">iFlorecer</a>.
                             Encuentre los detalles de su pedido a continuación.
                         </p>
                     </div>
@@ -228,7 +228,7 @@
                                                     <td style="width: 80px">
                                                         <img
                                                             class="product_image"
-                                                            src="{{ config('app.url') . '/storage/images/products/large/'. $cart_product['product']->image_name }}"
+                                                            src="{{ config('app.url') . '/storage/images/products/small/'. $cart_product['product']->image_name }}"
                                                             alt=""
                                                         />
                                                     </td>

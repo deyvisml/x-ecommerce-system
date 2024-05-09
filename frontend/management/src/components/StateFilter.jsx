@@ -79,7 +79,7 @@ const StateFilter = ({
           return "";
         }
       })()}
-      className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
+      className="border-slate-200 focus:border-indigo-400 dark:bg-slate-700 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
     >
       <option value={""}>Estado</option>
       {states.map((state, i) => {

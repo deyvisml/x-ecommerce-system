@@ -342,7 +342,7 @@ function StoreApplications() {
   return (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">
+        <h3 className="font-semibold text-2xl text-slate-800 dark:text-slate-300">
           Solicitudes de Tiendas
         </h3>
       </div>

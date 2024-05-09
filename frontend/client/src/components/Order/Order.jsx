@@ -702,7 +702,7 @@ const Order = () => {
                       errors.delivery_region
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border border-gray-300 capitalize rounded-md w-full outline-none`}
                   >
                     <option value={0}>Seleccionar región</option>
                     {regions &&
@@ -734,7 +734,7 @@ const Order = () => {
                       errors.delivery_location
                         ? "border-red-400 focus:border-red-400"
                         : ""
-                    } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
+                    } px-2 py-2 border capitalize border-gray-300 rounded-md w-full outline-none`}
                   >
                     <option value="0">Seleccionar localidad</option>
                     {locations &&
