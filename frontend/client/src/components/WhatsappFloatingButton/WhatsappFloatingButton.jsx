@@ -6,7 +6,7 @@ const WhatsappFloatingButton = ({
 }) => {
   return (
     <a
-      href="https://web.whatsapp.com/send?phone=51975032529"
+      href="https://web.whatsapp.com/send?phone=56971359643"
       target="_blank"
       className={`${x_position} ${y_position} z-10 fixed cursor-pointer group`}
     >

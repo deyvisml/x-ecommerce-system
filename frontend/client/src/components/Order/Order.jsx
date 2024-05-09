@@ -291,7 +291,7 @@ const Order = () => {
       duration: 800,
       delay: 0,
       smooth: "easeInOutQuart",
-      offset: -80,
+      offset: -130,
     });
 
     setValue("payment_method", null); // when stage change so always set null value to payment_method
@@ -1020,13 +1020,13 @@ const Order = () => {
             </p>
 
             <a
-              href="tel:51975032529"
+              href="tel:56971359643"
               className="flex items-center gap-x-2 py-1 text-sm"
             >
               <span className="inline-block">
                 <FaPhone />
               </span>{" "}
-              +51 975032529
+              +56 971359643
             </a>
           </div>
         </div>

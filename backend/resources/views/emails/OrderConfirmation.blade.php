@@ -284,8 +284,8 @@
                     <p>
                         Para consultas llame a
                         <strong
-                            ><a href="tel:+519750322529"
-                                >+51 975032529</a
+                            ><a href="tel:+56971359643"
+                                >+56 971359643</a
                             ></strong
                         >
                         o responda este correo.
