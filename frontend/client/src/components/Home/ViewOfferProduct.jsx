@@ -31,13 +31,13 @@ const handle_go_offer_product_btn = async () => {
 const ViewOfferProduct = () => {
   return (
     <div className="bg-rose-700 p-4 w-full text-white">
-      <div className="flex md:flex-row flex-col justify-between items-center gap-3 mx-auto max-w-4xl">
-        <span className="text-base text-center md:text-xl md:text-left">
+      <div className="flex md:flex-row flex-col justify-between items-center gap-3 mx-auto max-w-4xl text-xs sm:text-base">
+        <span className="text-center md:text-xl md:text-left">
           Descubre la oferta de dia que tenemos para ti
         </span>
         <button
           onClick={handle_go_offer_product_btn}
-          className="border-2 hover:bg-white px-8 py-0 md:py-2 rounded-full text-white hover:text-rose-700 transition-all duration-300 ease-in-out"
+          className="border-2 hover:bg-white px-8 py-1 md:py-2 rounded-full text-white hover:text-rose-700 transition-all duration-300 ease-in-out"
         >
           Ofertas del dia
         </button>

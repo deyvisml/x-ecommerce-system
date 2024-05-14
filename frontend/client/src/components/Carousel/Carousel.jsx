@@ -49,7 +49,7 @@ export default function Carousel() {
             <p className="mt-2">Revisa nuestros arreglos temáticos</p>
             <Link
               to={"/"}
-              className="inline-block border-2 hover:bg-white mt-2 px-8 py-0 md:py-2 rounded-full text-white hover:text-rose-700 transition-all duration-300 ease-in-out"
+              className="sm:inline-block border-2 hidden hover:bg-white mt-2 px-8 py-0 md:py-2 rounded-full text-white hover:text-rose-700 transition-all duration-300 ease-in-out"
             >
               Ver arreglos temáticos
             </Link>
