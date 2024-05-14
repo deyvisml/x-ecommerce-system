@@ -346,7 +346,6 @@ class ProductController extends Controller
             'in_stock' => $request->boolean('in_stock'),
             'collection_id' => $request->collection_id,
             'category_id' => $request->category_id,
-            'store_id' => $request->store_id,
             'updater_id' => $user->id,
             'state_id' => $request->state_id,
         ]);
