@@ -92,31 +92,6 @@ const Header = () => {
     navigate(`/busqueda?search_value=${search_value}`);
   };
 
-  const handle_go_offer_product_btn = async () => {
-    const { data } = await axios_client(`api/products`, {
-      method: "get",
-      params: {
-        filtering: [
-          { column: "products.in_offer", values: [1] },
-          { column: "products.state_id", values: [1] },
-        ],
-        sorting: [{ column: null, way: "random" }],
-        limit: 1,
-      },
-    });
-
-    const offer_product = data.data[0];
-
-    if (!offer_product) {
-      alert("Sin productos en oferta.");
-      throw new Error("Sin productos en oferta.");
-    }
-
-    return navigate(
-      `/categorias/${offer_product.category_id}/productos/${offer_product.id}`
-    );
-  };
-
   return (
     <>
       <header className="md:block top-0 z-30 sticky flex flex-col bg-white bg-whtie shadow-gray-400 shadow-md border-b w-full">

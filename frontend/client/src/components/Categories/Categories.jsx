@@ -29,7 +29,7 @@ const Categories = () => {
 
   return (
     <div className="text-gray-800">
-      <div className="px-5 py-2 text-center">
+      <div className="py-2 text-center">
         <p className="text-2xl">
           ¿De que forma quieres sorprender el dia de hoy?
         </p>
