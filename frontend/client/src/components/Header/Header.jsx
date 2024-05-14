@@ -85,11 +85,11 @@ const Header = () => {
   ];
 
   const handle_search_products = (data) => {
-    const search_value = data.search_value;
-    console.log(search_value);
+    const search_query = data.search_query;
+    console.log(search_query);
     reset();
 
-    navigate(`/busqueda?search_value=${search_value}`);
+    navigate(`/busqueda?search_query=${search_query}`);
   };
 
   return (
@@ -110,7 +110,7 @@ const Header = () => {
               >
                 <input
                   placeholder="¿Qué estas buscando?"
-                  {...register("search_value", { required: true })}
+                  {...register("search_query", { required: true })}
                   className="border-gray-400 py-2 border rounded-full w-full outline-none pe-11 ps-3.5"
                 />
                 <button

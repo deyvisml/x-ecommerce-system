@@ -102,7 +102,7 @@ const StoreRegistration = () => {
         const schema_stage2 = schema.pick([
           "first_name",
           "last_name",
-          "phone_number",
+          "user_phone_number",
         ]);
 
         return schema_stage2

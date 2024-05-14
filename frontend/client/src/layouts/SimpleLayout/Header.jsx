@@ -9,7 +9,7 @@ const Header = () => {
       <div className="mx-auto px-4 max-w-7xl">
         <div className="flex justify-between items-center py-4">
           <Link to="/">
-            <img src={logo_white} alt="" className="w-28" />
+            <img src={logo_white} alt="" className="h-16" />
           </Link>
           <div>
             <ul>

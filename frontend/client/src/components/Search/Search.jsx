@@ -15,9 +15,9 @@ const Products = () => {
   const query_params = new URLSearchParams(location.search);
 
   // Obtiene el valor de un parámetro de consulta específico
-  const search_value = query_params.get("search_value");
+  const search_query = query_params.get("search_query");
 
-  console.log(search_value);
+  console.log(search_query);
 
   const [order_by, setOrderBy] = useState({
     column: "products.id",
@@ -27,11 +27,11 @@ const Products = () => {
   /* ====== FETCH PRODUCTS ====== */
   const [products, setProducts] = useState();
 
-  const fetch_products = async (search_value, order_by) => {
+  const fetch_products = async (search_query, order_by) => {
     const { data } = await axios_client(`api/products`, {
       method: "get",
       params: {
-        search_value: search_value,
+        search_query,
         sorting: [
           {
             column: order_by.column,
@@ -45,22 +45,22 @@ const Products = () => {
   };
 
   useEffect(() => {
-    if (search_value) {
+    if (search_query) {
       setProducts();
       setTimeout(() => {
-        fetch_products(search_value, order_by);
+        fetch_products(search_query, order_by);
       }, 1000);
     } else {
       setProducts([]);
     }
-  }, [order_by, search_value]);
+  }, [order_by, search_query]);
   /* ====== END FETCH PRODUCTS ====== */
 
   return (
     <div className="mx-auto px-4 max-w-7xl text-gray-800">
       <div className="my-5">
         Resultados de la búsqueda:{" "}
-        <span className="font-bold">{search_value}</span>
+        <span className="font-bold">{search_query}</span>
       </div>
       <hr className="mb-2" />
 
