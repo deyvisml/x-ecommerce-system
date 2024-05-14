@@ -93,35 +93,34 @@ class OrderStateController extends Controller
         $order = Order::find($order_id);
 
         if ($order->state_id < $request->state_id) {
-            // why only update order? because we have a trigger (observer), when the order is created or updated then we create or update a OrderState
             $order->update([
                 'updater_id' => $request->user()->id,
                 'state_id' => $request->state_id,
             ]);
-        } else {
-            $order_state = OrderState::firstOrNew(
-                [
-                    'order_id' => $order_id,
-                    'state_id2' => $request->state_id,
-                ],
-                [
-                    'date' => $request->date('date'),
-                    'time' => $request->time,
-                    'creator_id' => $request->user()->id,
-                    'updater_id' => $request->user()->id,
-                    'state_id' => 1,
-                ]
-            );
-
-            if ($order_state->exists) {
-                $order_state->date = $request->date('date');
-                $order_state->time = $request->time;
-                $order_state->updater_id = $request->user()->id;
-                $order_state->state_id = 1; // active
-            }
-
-            $order_state->save();
         }
+
+        $order_state = OrderState::firstOrNew(
+            [
+                'order_id' => $order_id,
+                'state_id2' => $request->state_id,
+            ],
+            [
+                'date' => $request->date('date'),
+                'time' => $request->time,
+                'creator_id' => $request->user()->id,
+                'updater_id' => $request->user()->id,
+                'state_id' => 1,
+            ]
+        );
+
+        if ($order_state->exists) {
+            $order_state->date = $request->date('date');
+            $order_state->time = $request->time;
+            $order_state->updater_id = $request->user()->id;
+            $order_state->state_id = 1; // active
+        }
+
+        $order_state->save();
 
         $response = ['status' => true, 'message' => "Registro creado exitosamente."];
 
@@ -177,14 +176,14 @@ class OrderStateController extends Controller
                 ->first();
 
             $order->update([
-                'state_id' => $previous_order_state ? $previous_order_state->state_id2 : 2,
-            ]);
-        } else {
-            $order_state->update([
-                'state_id' => $request->state_id,
-                'updater_id' => $request->user()->id,
+                'state_id' => $previous_order_state->state_id2,
             ]);
         }
+
+        $order_state->update([
+            'state_id' => $request->state_id,
+            'updater_id' => $request->user()->id,
+        ]);
 
         $response = ['status' => true, 'message' => 'Registro actualizado exitosamente.'];
 
