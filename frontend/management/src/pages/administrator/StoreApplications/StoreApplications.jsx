@@ -20,6 +20,7 @@ import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import AcceptStoreApplicationButton from "./AcceptStoreApplicationButton";
 import RejectStoreApplicationButton from "./RejectStoreApplicationButton";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 moment.locale("es");
 
@@ -123,38 +124,43 @@ function StoreApplications() {
         header: () => "Vendedor",
         cell: ({ row }) => {
           return (
-            <>
-              <span className="block capitalize">
-                {row.original.users_first_name +
-                  " " +
-                  (row.original.users_last_name ?? "")}
-              </span>
-              {(() => {
-                console.log(row.original);
-                switch (row.original.role_user_state_id) {
-                  case 1:
-                    return (
-                      <span className="bg-green-100 px-1 py-0.5 rounded text-green-500 text-xs capitalize">
-                        {row.original.role_user_state_name}
-                      </span>
-                    );
+            <div className="flex items-center gap-2">
+              <div className="flex justify-center items-center bg-slate-300 rounded-full w-6 h-6">
+                <UserIcon className="w-4 text-white" />
+              </div>
+              <div>
+                <span className="block capitalize">
+                  {row.original.users_first_name +
+                    " " +
+                    row.original.users_last_name}
+                </span>
+                {(() => {
+                  console.log(row.original);
+                  switch (row.original.role_user_state_id) {
+                    case 1:
+                      return (
+                        <span className="bg-green-100 px-1 py-0.5 rounded text-green-500 text-xs capitalize">
+                          {row.original.role_user_state_name}
+                        </span>
+                      );
 
-                  case 3:
-                    return (
-                      <span className="bg-red-100 px-1 py-0.5 rounded text-red-500 text-xs capitalize">
-                        {row.original.role_user_state_name}
-                      </span>
-                    );
+                    case 3:
+                      return (
+                        <span className="bg-red-100 px-1 py-0.5 rounded text-red-500 text-xs capitalize">
+                          {row.original.role_user_state_name}
+                        </span>
+                      );
 
-                  default:
-                    return (
-                      <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">
-                        {row.original.role_user_state_name}
-                      </span>
-                    );
-                }
-              })()}
-            </>
+                    default:
+                      return (
+                        <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">
+                          {row.original.role_user_state_name}
+                        </span>
+                      );
+                  }
+                })()}
+              </div>
+            </div>
           );
         },
       },

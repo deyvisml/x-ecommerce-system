@@ -24,6 +24,7 @@ import EditSellerButton from "./EditSellerButton";
 import { AnimatePresence } from "framer-motion";
 import EditSellerModal from "./EditSellerModal";
 import DeleteSellerButton from "./DeleteSellerButton";
+import { UserIcon } from "@heroicons/react/24/solid";
 
 moment.locale("es");
 
@@ -116,9 +117,14 @@ function SellerList() {
         cell: ({ row }) => {
           //console.log(row.original);
           return (
-            <span className="capitalize">
-              {row.original.first_name + " " + (row.original.last_name ?? "")}
-            </span>
+            <div className="flex items-center gap-2">
+              <div className="flex justify-center items-center bg-slate-300 rounded-full w-6 h-6">
+                <UserIcon className="w-4 text-white" />
+              </div>
+              <span className="capitalize">
+                {row.original.first_name + " " + row.original.last_name}
+              </span>
+            </div>
           );
         },
       },
