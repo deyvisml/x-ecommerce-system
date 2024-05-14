@@ -129,7 +129,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
           </button>
           {/* Logo */}
           <NavLink end to="/" className="block">
-            <img src={logo_white} className="w-28" alt="" />
+            <img src={logo_white} className="h-16" alt="" />
           </NavLink>
         </div>
 

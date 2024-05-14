@@ -371,7 +371,8 @@ class StoreController extends Controller
             return response()->json($response);
         }
 
-        // create (inactive) store
+        // create (requested) store
+        $requested_state_id = 4;
         Store::create([
             'name' => $request->store_name,
             'ruc' => $request->ruc,
@@ -381,7 +382,7 @@ class StoreController extends Controller
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,
-            'state_id' => 2,
+            'state_id' => $requested_state_id,
         ]);
 
         // create role_user
@@ -424,7 +425,7 @@ class StoreController extends Controller
         }
 
         // verify if the email already has an account (state_id = 1)
-        $user = User::where('email', $request->email)->where('state_id', 1)->first();
+        $user = User::where('email', $request->email)->where('state_id', 1)->where('state_id', 3)->first();
         if ($user) {
             $response = [
                 'status' => false,
@@ -445,7 +446,8 @@ class StoreController extends Controller
             'state_id' => 1,
         ]);
 
-        // create (inactive) store
+        // create (requested) store
+        $requested_state_id = 4;
         Store::create([
             'name' => $request->store_name,
             'ruc' => $request->ruc,
@@ -455,7 +457,7 @@ class StoreController extends Controller
             'bank_id' => $request->bank_id,
             'bank_account_number' => $request->bank_account_number,
             'user_id' => $user->id,
-            'state_id' => 2,
+            'state_id' => $requested_state_id,
         ]);
 
         // create role_user
