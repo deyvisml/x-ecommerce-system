@@ -21,6 +21,7 @@ use App\Http\Controllers\SellerController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,3 +92,9 @@ Route::get('/categories/{category_id}/products', [ProductController::class, 'pro
 Route::get('/categories/{category_id}/collections', [CollectionController::class, 'collections_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
+
+// replace php artisan store:link (run after each deployment)
+Route::get('/generate-link-storage', function () {
+    Artisan::call('storage:link');
+    echo 'ok';
+});
