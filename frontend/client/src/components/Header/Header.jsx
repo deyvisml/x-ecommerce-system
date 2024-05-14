@@ -123,7 +123,7 @@ const Header = () => {
         <div className="bg-rose-700 h-5 text-white text-xs"></div>
 
         <div className="mx-auto xl:px-0 p-2 w-full max-w-7xl">
-          <div className="flex flex-wrap justify-between items-center">
+          <div className="flex flex-wrap justify-center md:justify-between items-center gap-2">
             <Link to="/" className="inline-block order-1">
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>

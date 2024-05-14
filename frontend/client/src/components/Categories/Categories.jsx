@@ -8,7 +8,17 @@ const Categories = () => {
   const [categories, setCategories] = useState([]);
 
   const fetch_categories = async () => {
-    const { data } = await axios_client("/api/categories?order=asc");
+    const { data } = await axios_client("/api/categories", {
+      method: "get",
+      params: {
+        filtering: [
+          {
+            column: "state_id",
+            values: [1],
+          },
+        ],
+      },
+    });
 
     setCategories(data.data);
   };
@@ -19,62 +29,48 @@ const Categories = () => {
 
   return (
     <div className="text-gray-800">
-      <div className="mb-5 header-categories">
-        <h3 className="mb-2 font-bold text-xl">Florecer contigo</h3>
-        <p>Tienes para ti, el detalle que necesitas segun la ocasión.</p>
+      <div className="px-5 py-2 text-center">
+        <p className="text-2xl">
+          ¿De que forma quieres sorprender el dia de hoy?
+        </p>
+        <div className="relative m-auto mt-5 max-w-xl h-4">
+          <div className="flex items-center px-2 w-full h-full">
+            <span className="block bg-rose-600 w-full h-0.5"></span>
+          </div>
+          <p className="top-2.5 left-0 absolute text-rose-600 text-xl -translate-y-1/2">
+            ◆
+          </p>
+          <p className="top-2.5 right-0 absolute text-rose-600 text-xl -translate-y-1/2">
+            ◆
+          </p>
+        </div>
       </div>
 
-      <div className="gap-4 grid grid-cols-1 lg:grid-cols-3 h-auto">
-        <div className="flex flex-col gap-4">
-          {categories
-            .filter((category) => category.display_in_column == 0)
-            .map((category) => {
-              return (
-                <Category
-                  key={category.id}
-                  id={category.id}
-                  name={category.name}
-                  description={category.description}
-                  image_name={category.image_name}
-                  image_height={category.image_height}
-                />
-              );
-            })}
-        </div>
+      <div className="gap-x-4 gap-y-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-5 h-auto">
+        {categories.map((category) => {
+          return (
+            <Category
+              key={category.id}
+              id={category.id}
+              name={category.name}
+              description={category.description}
+              image_name={category.image_name}
+              image_height={category.image_height}
+            />
+          );
+        })}
+      </div>
 
-        <div className="flex flex-col gap-4">
-          {categories
-            .filter((category) => category.display_in_column == 1)
-            .map((category) => {
-              return (
-                <Category
-                  key={category.id}
-                  id={category.id}
-                  name={category.name}
-                  description={category.description}
-                  image_name={category.image_name}
-                  image_height={category.image_height}
-                />
-              );
-            })}
+      <div className="relative m-auto mt-5 max-w-xl h-4">
+        <div className="flex items-center px-2 w-full h-full">
+          <span className="block bg-rose-600 w-full h-0.5"></span>
         </div>
-
-        <div className="flex flex-col gap-4">
-          {categories
-            .filter((category) => category.display_in_column == 2)
-            .map((category) => {
-              return (
-                <Category
-                  key={category.id}
-                  id={category.id}
-                  name={category.name}
-                  description={category.description}
-                  image_name={category.image_name}
-                  image_height={category.image_height}
-                />
-              );
-            })}
-        </div>
+        <p className="top-2.5 left-0 absolute text-rose-600 text-xl -translate-y-1/2">
+          ◆
+        </p>
+        <p className="top-2.5 right-0 absolute text-rose-600 text-xl -translate-y-1/2">
+          ◆
+        </p>
       </div>
     </div>
   );
