@@ -222,16 +222,18 @@ function StoreList() {
                         </span>
                       )}
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <DeleteStoreButton
-                            record={row.original}
-                            setDataChanged={setDataChanged}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
+                    {row.original.state_id != 3 && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <DeleteStoreButton
+                              record={row.original}
+                              setDataChanged={setDataChanged}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 )}
               </>

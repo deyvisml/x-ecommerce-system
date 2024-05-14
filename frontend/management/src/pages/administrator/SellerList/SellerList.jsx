@@ -220,18 +220,6 @@ function SellerList() {
                         </span>
                       )}
                     </Menu.Item>
-                    {row.original.role_user_state_id != 3 && (
-                      <Menu.Item>
-                        {({ close }) => (
-                          <span onClick={close}>
-                            <DeleteSellerButton
-                              record={row.original}
-                              setDataChanged={setDataChanged}
-                            />
-                          </span>
-                        )}
-                      </Menu.Item>
-                    )}
                   </Menu.Items>
                 )}
               </>
@@ -328,7 +316,7 @@ function SellerList() {
         <li className="w-full">
           <StateFilter
             filter_column={"role_user.state_id"}
-            selectable_record_ids={[1, 2, 3]}
+            selectable_record_ids={[1, 2]}
             filtering={filtering}
             setFiltering={setFiltering}
           />
