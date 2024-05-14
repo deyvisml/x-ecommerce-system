@@ -232,26 +232,30 @@ function ProductList() {
                         Ver
                       </Link>
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <EditRecordLink
-                            to={`/vendedor/productos/${row.original.id}/editar`}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <DeleteRecordButton
-                            record={row.original}
-                            setDataChanged={setDataChanged}
-                            fn_delete_record={delete_product}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
+                    {row.original.state_id != 3 && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <EditRecordLink
+                              to={`/vendedor/productos/${row.original.id}/editar`}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
+                    {row.original.state_id != 3 && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <DeleteRecordButton
+                              record={row.original}
+                              setDataChanged={setDataChanged}
+                              fn_delete_record={delete_product}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 )}
               </>
