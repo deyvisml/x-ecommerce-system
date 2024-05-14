@@ -220,6 +220,7 @@ function OrderList() {
                 </span>
               );
               break;
+            case 3:
             case 5:
             case 17:
               value = (
@@ -269,17 +270,21 @@ function OrderList() {
                         Ver
                       </Link>
                     </Menu.Item>
-                    <Menu.Item>
-                      {({ close }) => (
-                        <span onClick={close}>
-                          <DeleteRecordButton
-                            record={row.original}
-                            setDataChanged={setDataChanged}
-                            fn_delete_record={delete_order}
-                          />
-                        </span>
-                      )}
-                    </Menu.Item>
+                    {((row.original.state_id != 3 &&
+                      row.original.state_id < 12) ||
+                      row.original.state_id > 16) && (
+                      <Menu.Item>
+                        {({ close }) => (
+                          <span onClick={close}>
+                            <DeleteRecordButton
+                              record={row.original}
+                              setDataChanged={setDataChanged}
+                              fn_delete_record={delete_order}
+                            />
+                          </span>
+                        )}
+                      </Menu.Item>
+                    )}
                   </Menu.Items>
                 )}
               </>
