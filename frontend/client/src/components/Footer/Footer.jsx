@@ -32,7 +32,7 @@ const Footer = () => {
                 <a href="tel:+51975032529">+51 975032529</a>
               </li>
               <li className="hover:text-white transition-all duration-200 ease-in-out">
-                <a href="mail:florecer.contigo.business@gmail.com">
+                <a href="mailto:florecer.contigo.business@gmail.com">
                   florecer.contigo.business@gmail.com
                 </a>
               </li>

@@ -3,7 +3,7 @@ import * as yup from "yup";
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
-export const edit_store_schema = yup.object({
+export const add_store_schema = yup.object({
   store_name: yup.string().max(600).required("El campo es requerido"),
   ruc: yup
     .number()

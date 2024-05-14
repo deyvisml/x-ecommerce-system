@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "../../../components/Modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { edit_store_schema } from "./edit_store_schema";
+import { add_store_schema } from "./add_store_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,7 +36,7 @@ const EditStoreModal = ({
       bank_account_number: record?.bank_account_number ?? undefined,
       state_id: record?.state_id ?? undefined,
     },
-    resolver: yupResolver(edit_store_schema),
+    resolver: yupResolver(add_store_schema),
   });
 
   const { token } = useManagement();

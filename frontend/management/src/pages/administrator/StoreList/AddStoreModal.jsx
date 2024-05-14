@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import Modal from "../../../components/Modal";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { edit_store_schema } from "./edit_store_schema";
+import { add_store_schema } from "./add_store_schema";
 import axios_client from "../../../helpers/axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,7 +23,7 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
       state_id: 1,
     },
     mode: "all",
-    resolver: yupResolver(edit_store_schema),
+    resolver: yupResolver(add_store_schema),
   });
 
   const { token } = useManagement();
@@ -108,6 +108,7 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log("aa");
     try {
       const response = await axios_client(`/api/stores`, {
         method: "post",
@@ -141,6 +142,13 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
       });
     }
   };
+
+  // watch what are the form errors
+  useEffect(() => {
+    if (errors) {
+      console.log(errors);
+    }
+  }, [errors]);
 
   return (
     fetches_finished == true && (
@@ -204,6 +212,25 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
               {errors.business_name && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
                   {errors.business_name.message}
+                </p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone_number" className="block font-semibold">
+                Numero de Teléfono
+              </label>
+              <input
+                {...register("phone_number")}
+                name="phone_number"
+                id="phone_number"
+                type="text"
+                placeholder="Razón social"
+                className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
+              />
+              {errors.phone_number && (
+                <p className="pt-1 text-red-500 text-xs ps-1">
+                  {errors.phone_number.message}
                 </p>
               )}
             </div>
