@@ -361,7 +361,7 @@ const ViewOrder = () => {
                                 <img
                                   src={`${
                                     import.meta.env.VITE_API_URL
-                                  }/storage/images/products/large/${
+                                  }/storage/images/products/small/${
                                     cart_product.product_log.image_name
                                   }`}
                                   alt=""

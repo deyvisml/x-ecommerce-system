@@ -13,7 +13,7 @@ const ProductItem = ({ product }) => {
           <img
             src={`${
               import.meta.env.VITE_API_URL
-            }/storage/images/products/large/${product.image_name}`}
+            }/storage/images/products/medium/${product.image_name}`}
             alt=""
             className="group-hover:scale-125 w-full h-full transform transition-transform object-contain"
           />

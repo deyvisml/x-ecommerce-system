@@ -358,7 +358,7 @@ const EditProduct = () => {
                         <img
                           src={`${
                             import.meta.env.VITE_API_URL
-                          }/storage/images/products/large/${
+                          }/storage/images/products/medium/${
                             product.image_name
                           }`}
                           className="m-auto w-32 h-32 object-cover"

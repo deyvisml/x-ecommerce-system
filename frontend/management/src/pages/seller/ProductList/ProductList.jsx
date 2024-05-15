@@ -120,7 +120,7 @@ function ProductList() {
                 <img
                   src={`${
                     import.meta.env.VITE_API_URL
-                  }/storage/images/products/large/${
+                  }/storage/images/products/small/${
                     info.row.original.image_name
                   }`}
                   alt=""

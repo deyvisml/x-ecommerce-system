@@ -1086,7 +1086,7 @@ const Order = () => {
                           <img
                             src={`${
                               import.meta.env.VITE_API_URL
-                            }/storage/images/products/large/${
+                            }/storage/images/products/small/${
                               item.product.image_name
                             }`}
                             alt="product image"
