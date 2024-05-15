@@ -135,8 +135,7 @@ const Route = () => {
             {
               loader: async () => {
                 return (await user_has_role("vendedor")) &&
-                  user_choose_role("vendedor") &&
-                  seller_has_set_store()
+                  user_choose_role("vendedor")
                   ? null
                   : redirect("/");
               },
