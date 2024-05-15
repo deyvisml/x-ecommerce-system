@@ -395,9 +395,21 @@ class OrderController extends Controller
             return response()->json($response);
         }
 
+        $paid_state_id = 12;
+
         $order->update([
             'paid' => true,
-            'state_id' => 12,
+            'state_id' => $paid_state_id,
+        ]);
+
+        OrderState::create([
+            'order_id' => $order_id,
+            'state_id2' => $paid_state_id,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'time' => Carbon::now()->format('H:i:s'),
+            'creator_id' => $order->customer_id,
+            'updater_id' => $order->customer_id,
+            'state_id' => 1,
         ]);
 
         $response = ['error_occurred' => false, 'message' => 'Registro actualizado exitosamente.'];
