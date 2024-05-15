@@ -281,7 +281,9 @@ const AddProduct = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Imagen del producto</h4>
+            <h4 className="font-semibold text-base">
+              Imagen del producto (800x800)
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">

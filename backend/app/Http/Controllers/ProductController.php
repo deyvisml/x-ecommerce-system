@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 
 class ProductController extends Controller
 {
@@ -191,7 +194,7 @@ class ProductController extends Controller
             'name' => 'required',
             'sku' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:png,jpeg,jpg|max:5120',
+            'image' => 'required|image|mimes:png,jpeg,jpg|max:5120|dimensions:min_width=800,min_height=800',
             'price' => 'required',
             'discount_rate' => 'required',
             'in_offer' => 'required',
@@ -216,10 +219,18 @@ class ProductController extends Controller
             return response()->json($response);
         }
 
-        // storing image
+        // storing image in different sizes
         $file = $request->file('image');
-        $path = $file->store('public/images/products/large'); // store image with a unique name
-        $file_name = basename($path); // get the generated file name
+
+        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+        $unique_hash = md5($file_name . '_' . time() . '_' . Str::random(10));
+
+        $full_file_name = $unique_hash . '.jpg';
+
+        $this->resize_and_save_image($file, 800, 800, 'public/storage/images/products/large/', $full_file_name);
+        $this->resize_and_save_image($file, 350, 350, 'public/storage/images/products/medium/', $full_file_name);
+        $this->resize_and_save_image($file, 150, 150, 'public/storage/images/products/small/', $full_file_name);
 
         $user = $request->user();
 
@@ -227,7 +238,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'sku' => $request->sku,
             'description' => $request->description,
-            'image_name' => $file_name,
+            'image_name' => $full_file_name,
             'price' => number_format($request->price, 2),
             'discount_rate' => $request->discount_rate,
             'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),
@@ -247,6 +258,18 @@ class ProductController extends Controller
         $response = ['status' => true, 'message' => "Registro creado exitosamente."];
 
         return response()->json($response);
+    }
+
+    private function resize_and_save_image($file, $width, $height, $path, $file_name)
+    {
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+
+        // read image from file system
+        $image = $manager->read($file);
+        $image = $image->resize($width, $height);
+
+        $image->toJpeg()->save(base_path($path . $file_name));
     }
 
     /**

@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import * as yup from "yup";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UploadImageDropzone = ({
   name,
@@ -11,14 +13,45 @@ const UploadImageDropzone = ({
   watch,
   schema,
 }) => {
-  const onDrop = useCallback((acceptedFiles) => {
-    const new_files = acceptedFiles.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      })
-    );
-    setValue(name, new_files);
-  }, []);
+  // https://chatgpt.com/c/9dd3d43c-aa60-4991-9abd-90a295dfabc0
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const validFilesPromises = acceptedFiles.map((file) => {
+        return new Promise((resolve, reject) => {
+          const img = new Image();
+          img.src = URL.createObjectURL(file);
+
+          img.onload = () => {
+            if (img.width >= 800 && img.height >= 800) {
+              resolve(
+                Object.assign(file, {
+                  preview: img.src,
+                })
+              );
+            } else {
+              reject(
+                new Error("Las dimensiones de la imagen son muy pequeñas")
+              );
+            }
+          };
+
+          img.onerror = () => {
+            reject(new Error("Error al cargar la imagen"));
+          };
+        });
+      });
+
+      Promise.all(validFilesPromises)
+        .then((newFiles) => {
+          setValue(name, newFiles);
+        })
+        .catch((error) => {
+          console.error(error.message);
+          toast.error(error.message);
+        });
+    },
+    [setValue, name]
+  );
 
   const bytes_to_mb = (bytes) => {
     return (bytes / (1024 * 1024)).toFixed(1); // 1 MB = 1024 * 1024 bytes
