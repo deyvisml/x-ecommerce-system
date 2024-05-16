@@ -10,10 +10,8 @@ export const schema = yup.object({
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
   document_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive("El campo debe ser positivo")
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   first_name: yup
     .string()
@@ -36,10 +34,8 @@ export const schema = yup.object({
     .transform((v) => (v instanceof Date && !isNaN(v) ? v : null))
     .optional(),
   phone_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   delivery_first_name: yup
     .string()
@@ -78,10 +74,8 @@ export const schema = yup.object({
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
   delivery_phone_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   payment_method: yup.string().required("El campo es requerido"),
   privacy_policies: yup

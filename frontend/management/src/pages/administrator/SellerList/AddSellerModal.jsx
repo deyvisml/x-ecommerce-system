@@ -229,6 +229,7 @@ const AddSellerModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
                 name="phone_number"
                 id="phone_number"
                 type="text"
+                maxLength={9}
                 placeholder="Teléfono"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />

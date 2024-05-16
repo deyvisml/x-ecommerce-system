@@ -4,19 +4,27 @@ const today = new Date();
 today.setHours(0, 0, 0, 0);
 
 export const add_store_schema = yup.object({
-  store_name: yup.string().max(600).required("El campo es requerido"),
-  ruc: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+  store_name: yup
+    .string()
+    .max(
+      80,
+      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
+    )
     .required("El campo es requerido"),
-  business_name: yup.string().max(600).required("El campo es requerido"),
+  ruc: yup
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
+    .required("El campo es requerido"),
+  business_name: yup
+    .string()
+    .max(
+      200,
+      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
+    )
+    .required("El campo es requerido"),
   phone_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   legal_representative: yup
     .string()
@@ -34,10 +42,8 @@ export const add_store_schema = yup.object({
     .typeError("Eliga una opción valida")
     .required("El campo es requerido"),
   bank_account_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   state_id: yup
     .number()

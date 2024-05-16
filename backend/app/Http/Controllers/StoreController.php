@@ -402,6 +402,8 @@ class StoreController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'user_phone_number' => 'required',
+            'document_type' => 'required',
+            'document_number' => 'required',
             'store_name' => 'required',
             'ruc' => 'required',
             'business_name' => 'required',
@@ -425,7 +427,7 @@ class StoreController extends Controller
         }
 
         // verify if the email already has an account (state_id = 1)
-        $user = User::where('email', $request->email)->where('state_id', 1)->where('state_id', 3)->first();
+        $user = User::where('email', $request->email)->where('state_id', 1)->orWhere('state_id', 3)->first();
         if ($user) {
             $response = [
                 'status' => false,
@@ -443,6 +445,8 @@ class StoreController extends Controller
             'last_name' => $request->last_name,
             'password' => $request->password,
             'phone_number' => $request->user_phone_number,
+            'document_type_id' => $request->document_type,
+            'document_number' => $request->document_number,
             'state_id' => 1,
         ]);
 

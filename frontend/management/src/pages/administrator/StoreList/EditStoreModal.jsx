@@ -202,6 +202,7 @@ const EditStoreModal = ({
                 name="ruc"
                 id="ruc"
                 type="text"
+                maxLength={11}
                 placeholder="ruc"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
@@ -240,6 +241,7 @@ const EditStoreModal = ({
                 name="phone_number"
                 id="phone_number"
                 type="text"
+                maxLength={9}
                 placeholder="Razón social"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
@@ -329,14 +331,14 @@ const EditStoreModal = ({
                 htmlFor="bank_account_number"
                 className="block font-semibold"
               >
-                Cuenta bancaria
+                Nº Cuenta bancaria
               </label>
               <input
                 {...register("bank_account_number")}
                 disabled={watch("bank_id") == 0}
-                name="bank_account_number"
                 id="bank_account_number"
                 type="text"
+                maxLength={25}
                 placeholder="Cuenta bancaria"
                 className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />

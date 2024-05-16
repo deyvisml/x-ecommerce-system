@@ -39,7 +39,7 @@ const Login = () => {
       const roles = response.data.data.user.roles.map((rol) => rol.name);
 
       if (!roles.includes("administrador") && !roles.includes("vendedor"))
-        throw new Error("User without a valid role.");
+        throw new Error("Usuario sin rol valido");
 
       set_token(response.data.data.token);
       set_user(response.data.data.user);

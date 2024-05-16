@@ -35,6 +35,7 @@ const StoreRegistration = () => {
   const [completed_stages, setCompletedStages] = useState(
     new Set(token ? null : store_registration.completed_stages)
   );
+  const [document_types, setDocumentTypes] = useState();
   const {
     watch,
     register,
@@ -97,12 +98,16 @@ const StoreRegistration = () => {
         const first_name = getValues("first_name");
         const last_name = getValues("last_name");
         const user_phone_number = getValues("user_phone_number");
+        const document_type = getValues("document_type");
+        const document_number = getValues("document_number");
 
         // getting a specific scheme
         const schema_stage2 = schema.pick([
           "first_name",
           "last_name",
           "user_phone_number",
+          "document_type",
+          "document_number",
         ]);
 
         return schema_stage2
@@ -110,7 +115,9 @@ const StoreRegistration = () => {
             {
               first_name,
               last_name,
-              user_phone_number: user_phone_number,
+              user_phone_number,
+              document_type,
+              document_number,
             },
             { abortEarly: false }
           )
@@ -171,6 +178,12 @@ const StoreRegistration = () => {
       default:
         break;
     }
+  };
+
+  const fetch_document_types = async () => {
+    const { data } = await axios_client(`api/document-types`);
+
+    setDocumentTypes(data.data);
   };
 
   useEffect(() => {
@@ -276,6 +289,7 @@ const StoreRegistration = () => {
   };
   useEffect(() => {
     fetch_banks();
+    fetch_document_types();
   }, []);
 
   const onSubmit = async (data) => {
@@ -471,12 +485,67 @@ const StoreRegistration = () => {
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
+                      maxLength={9}
                       id="user_phone_number"
                       {...register("user_phone_number", { required: true })}
                     />
                     {errors.user_phone_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
                         {errors.user_phone_number.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      className="block pb-1 font-semibold text-sm"
+                      htmlFor="document_type"
+                    >
+                      Tipo de documento
+                    </label>
+
+                    <select
+                      {...register("document_type")}
+                      id="document_type"
+                      className={
+                        "border-slate-300 focus:border-slate-500 px-2 py-[9px] border rounded w-full outline-none"
+                      }
+                    >
+                      <option value="0">Seleccionar</option>
+                      {document_types &&
+                        document_types.map(({ id, name }) => {
+                          return (
+                            <option key={id} value={id}>
+                              {name}
+                            </option>
+                          );
+                        })}
+                    </select>
+
+                    {errors.document_type && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.document_type.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      className="block pb-1 font-semibold text-sm"
+                      htmlFor="document_number"
+                    >
+                      Nro. de documento
+                    </label>
+                    <input
+                      className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
+                      type="text"
+                      maxLength={40}
+                      id="document_number"
+                      {...register("document_number", { required: true })}
+                    />
+                    {errors.document_number && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.document_number.message}
                       </p>
                     )}
                   </div>
@@ -546,6 +615,7 @@ const StoreRegistration = () => {
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
                       id="ruc"
+                      maxLength={11}
                       {...register("ruc", { required: true })}
                     />
                     {errors.ruc && (
@@ -586,6 +656,7 @@ const StoreRegistration = () => {
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
                       id="phone_number"
+                      maxLength={9}
                       {...register("phone_number", { required: true })}
                     />
                     {errors.phone_number && (
@@ -654,12 +725,13 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="bank_account_number"
                     >
-                      Nº Cuenta interbancaria (CCI)
+                      Nº Cuenta bancaria
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
                       id="bank_account_number"
+                      maxLength={25}
                       {...register("bank_account_number", { required: true })}
                     />
                     {errors.bank_account_number && (

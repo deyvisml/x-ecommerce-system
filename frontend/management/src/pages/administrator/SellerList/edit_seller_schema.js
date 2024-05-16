@@ -4,23 +4,30 @@ export const edit_seller_schema = yup.object({
   email: yup
     .string()
     .email("Ingrese un correo valido.")
-    .max(200)
+    .max(
+      100,
+      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
+    )
     .required("El campo es requerido."),
   first_name: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(50)
+    .max(
+      50,
+      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
+    )
     .required("El campo es requerido"),
   last_name: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(100)
+    .max(
+      100,
+      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
+    )
     .required("El campo es requerido"),
   phone_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .positive()
-    .integer()
+    .string()
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   document_type_id: yup
     .number()
