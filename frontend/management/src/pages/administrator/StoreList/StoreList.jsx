@@ -48,7 +48,7 @@ function IndeterminateCheckbox({ indeterminate, className = "", ...rest }) {
 }
 
 const INIT_PAGE_INDEX = 0;
-const PAGE_SIZES = [1, 2, 3, 10, 25, 50, 100];
+const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function StoreList() {
@@ -62,7 +62,7 @@ function StoreList() {
   const [search_query, setSearchQuery] = useState();
   const [sorting, setSorting] = useState([]);
   const [page_index, setPageIndex] = useState(INIT_PAGE_INDEX);
-  const [page_size, setPageSize] = useState(PAGE_SIZES[2]);
+  const [page_size, setPageSize] = useState(PAGE_SIZES[0]);
   const [pagination, setPagination] = useState({
     pageIndex: page_index, //initial page index
     pageSize: page_size, //default page size

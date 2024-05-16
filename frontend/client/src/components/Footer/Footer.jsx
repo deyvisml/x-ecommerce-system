@@ -29,7 +29,7 @@ const Footer = () => {
             <p className="mb-3 font-bold">CONTACTO</p>
             <ul className="flex flex-col gap-y-3 text-gray-400">
               <li className="hover:text-white transition-all duration-200 ease-in-out">
-                <a href="tel:+51975032529">+51 975032529</a>
+                <a href="tel:+56971359643">+56 971359643</a>
               </li>
               <li className="hover:text-white transition-all duration-200 ease-in-out">
                 <a href="mailto:florecer.contigo.business@gmail.com">
