@@ -24,7 +24,10 @@ const Home = () => {
       <ViewOfferProduct />
 
       <section>
-        <div className="m-auto mt-12 px-2 xl:p-0 max-w-7xl">
+        <div
+          id="categories_container"
+          className="m-auto mt-12 px-2 xl:p-0 max-w-7xl"
+        >
           <Categories />
         </div>
 
