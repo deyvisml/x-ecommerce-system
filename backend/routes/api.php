@@ -12,6 +12,7 @@ use App\Http\Controllers\DocumentTypeController;
 use App\Http\Controllers\ExchangeRateController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\NewsletterSubscriberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\OrderStateController;
@@ -92,6 +93,8 @@ Route::get('/categories/{category_id}/products', [ProductController::class, 'pro
 Route::get('/categories/{category_id}/collections', [CollectionController::class, 'collections_by_category']);
 
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
+
+Route::apiResource('newsletter-subscribers', NewsletterSubscriberController::class);
 
 // replace php artisan store:link (run after each deployment)
 Route::get('/generate-link-storage', function () {
