@@ -331,7 +331,7 @@ const StoreRegistration = () => {
 
   return (
     <main className="flex flex-grow justify-center items-center bg-slate-200">
-      <div className="py-4 w-full md:max-w-lg">
+      <div className="py-4 sm:py-20 w-full md:max-w-lg">
         <form
           onSubmit={handleSubmit(onSubmit)}
           noValidate
