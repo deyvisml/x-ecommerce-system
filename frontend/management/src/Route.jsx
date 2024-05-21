@@ -25,6 +25,7 @@ import ViewOrder from "./pages/seller/ViewOrder/ViewOrder";
 import useManagement from "./hooks/useManagement";
 import CustomerList from "./pages/seller/CustomerList/CustomerList";
 import ViewCustomer from "./pages/seller/ViewCustomer/ViewCustomer";
+import PasswordRecovery from "./pages/PasswordRecovery/PasswordRecovery";
 
 const Route = () => {
   const { store, set_store } = useManagement();
@@ -116,6 +117,10 @@ const Route = () => {
         {
           path: "cambiar-contraseña",
           element: <ResetPassword />,
+        },
+        {
+          path: "recuperar-contraseña",
+          element: <PasswordRecovery />,
         },
         {
           path: "escoger-rol",
