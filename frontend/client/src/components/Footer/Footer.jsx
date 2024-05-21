@@ -17,10 +17,14 @@ const Footer = () => {
             <p className="mb-3 font-bold">POLÍTICAS</p>
             <ul className="flex flex-col gap-y-3 text-gray-400">
               <li className="hover:text-white transition-all duration-200 ease-in-out">
-                <a href="">Términos y condiciones</a>
+                <Link to={"terminos-condiciones"} href="">
+                  Términos y condiciones
+                </Link>
               </li>
               <li className="hover:text-white transition-all duration-200 ease-in-out">
-                <a href="">Politicas de entrega y devolución</a>
+                <Link to={"politicas-entrega-devolución"} href="">
+                  Politicas de entrega y devolución
+                </Link>
               </li>
             </ul>
           </div>

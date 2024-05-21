@@ -17,6 +17,8 @@ import StoreRegistration from "./pages/StoreRegistration/StoreRegistration";
 import GeneralLayout from "./layouts/GeneralLayout";
 import SimpleLayout from "./layouts/SimpleLayout/SimpleLayout";
 import StoreRegistrationConfirmation from "./pages/StoreRegistrationConfirmation/StoreRegistrationConfirmation";
+import TermsAndConditions from "./components/TermsAndConditions";
+import DeliveryAndReturnPolicy from "./components/DeliveryAndReturnPolicy/";
 
 const Route = () => {
   const router = createBrowserRouter([
@@ -80,6 +82,14 @@ const Route = () => {
             {
               path: "/solicitud-registro-tienda/confirmación",
               element: <StoreRegistrationConfirmation />,
+            },
+            {
+              path: "/terminos-condiciones",
+              element: <TermsAndConditions />,
+            },
+            {
+              path: "/politicas-entrega-devolución",
+              element: <DeliveryAndReturnPolicy />,
             },
           ],
         },
