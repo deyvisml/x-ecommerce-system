@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,10 @@ const PasswordRecovery = () => {
   const onSubmit = async (data) => {
     console.log("in development.");
   };
+
+  useEffect(() => {
+    document.title = `Recupere su contraseña - Florecer Contigo`;
+  }, []);
 
   return (
     <div className="bg-neutral-100">
