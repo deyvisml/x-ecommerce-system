@@ -34,7 +34,7 @@
             .logo {
                 display: block;
                 margin: auto;
-                width: 200px;
+                height: 70px;
             }
             .title {
                 margin: 20px 0px;
@@ -141,7 +141,7 @@
                 <img
                     class="logo"
                     style="background-color: white"
-                    src="{{ config('app.frontend_url') . '/images/logos/logo.svg' }}"
+                    src="{{ config('app.frontend_url') . '/images/logos/logo.png' }}"
                     alt=""
                 />
 

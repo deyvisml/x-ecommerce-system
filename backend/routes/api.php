@@ -16,6 +16,7 @@ use App\Http\Controllers\NewsletterSubscriberController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\OrderStateController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SellerController;
@@ -95,6 +96,8 @@ Route::get('/categories/{category_id}/collections', [CollectionController::class
 Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send_order_confirmation_mail']);
 
 Route::apiResource('newsletter-subscribers', NewsletterSubscriberController::class);
+
+Route::post('cambiar-contraseña', [PasswordController::class, 'change_password']);
 
 // replace php artisan store:link (run after each deployment)
 Route::get('/generate-link-storage', function () {

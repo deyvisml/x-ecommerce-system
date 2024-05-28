@@ -10,5 +10,7 @@
       "path": "backend"
     }
   ],
-  "settings": {}
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "management"
+  }
 }

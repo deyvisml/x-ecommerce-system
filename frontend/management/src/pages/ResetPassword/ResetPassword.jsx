@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import axios_client from "../helpers/axios";
+import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import auth_decoration from "../../public/images/others/auth-decoration.png";
+import auth_decoration from "../../../public/images/others/auth-decoration.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginSchema } from "./Login/LoginSchema";
+import { reset_password_schema } from "./reset_password_schema";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 const ResetPassword = () => {
   let navigate = useNavigate();
@@ -13,11 +16,34 @@ const ResetPassword = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(LoginSchema) });
+  } = useForm({ resolver: yupResolver(reset_password_schema) });
 
   const onSubmit = async (data) => {
-    console.log("in development.");
+    try {
+      const response = await axios_client("/api/cambiar-contraseña", {
+        method: "post",
+        data: data,
+      });
+
+      if (!response.data.status) {
+        throw new Error(response.data.message);
+      }
+
+      Swal.fire({
+        icon: "success",
+        title: "Solicitud Recibida!",
+        text: response.data.message,
+        confirmButtonText: "Continuar",
+      });
+
+      reset();
+    } catch (error) {
+      toast.error(error?.response?.data?.message ?? error.message, {
+        autoClose: 4000,
+      });
+    }
   };
 
   useEffect(() => {

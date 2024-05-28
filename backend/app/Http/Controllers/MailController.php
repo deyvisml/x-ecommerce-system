@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OrderConfirmationMail;
+use App\Mail\RecoveryPasswordMail;
 use App\Models\Cart;
 use App\Models\CartProduct;
 use App\Models\Delivery;
@@ -43,6 +44,15 @@ class MailController extends Controller
         Mail::to($user->email)->send(new OrderConfirmationMail($user, $order, $delivery_full, $cart, $cart_products));
 
         $response = ['error_occurred' => false, 'message' => 'Mail sent successfully.'];
+
+        return response()->json($response);
+    }
+
+    public function send_recovery_password_mail($user, $url)
+    {
+        Mail::to($user->email)->send(new RecoveryPasswordMail($user, $url));
+
+        $response = ['error_occurred' => false, 'message' => 'Mail sent successfully.', 'data' => null];
 
         return response()->json($response);
     }

@@ -11,7 +11,7 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import AdminDashboardLayout from "./layouts/AdminDashboardLayout";
 import AdminDashboardHome from "./pages/administrator/AdminDashboardHome";
 import StoreList from "./pages/administrator/StoreList/StoreList";
-import ResetPassword from "./pages/ResetPassword";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import StoreApplications from "./pages/administrator/StoreApplications/StoreApplications";
 import SellerList from "./pages/administrator/SellerList/SellerList";
 import ChooseRole from "./pages/ChooseRole";
