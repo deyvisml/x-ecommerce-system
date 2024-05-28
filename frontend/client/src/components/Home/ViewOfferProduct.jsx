@@ -11,6 +11,9 @@ const handle_go_offer_product_btn = async () => {
         { column: "products.in_offer", values: [1] },
         { column: "products.state_id", values: [1] },
       ],
+      options: {
+        only_published: true,
+      },
       sorting: [{ column: null, way: "random" }],
       limit: 1,
     },

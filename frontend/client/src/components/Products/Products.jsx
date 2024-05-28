@@ -74,6 +74,10 @@ const Products = () => {
             column: "products.collection_id",
             values: [collection_id],
           },
+          {
+            column: "products.state_id",
+            values: [1],
+          },
         ],
         sorting: [
           {
@@ -81,6 +85,9 @@ const Products = () => {
             way: order_by.way,
           },
         ],
+        options: {
+          only_published: true,
+        },
       },
     });
 

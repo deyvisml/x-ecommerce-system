@@ -38,6 +38,9 @@ const Products = () => {
             way: order_by.way,
           },
         ],
+        options: {
+          only_published: true,
+        },
       },
     });
 

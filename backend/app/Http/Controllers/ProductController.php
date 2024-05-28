@@ -22,6 +22,7 @@ class ProductController extends Controller
         $excluding = $request->query('excluding');
         $search_query = $request->query('search_query');
         $sorting = $request->query('sorting');
+        $options = $request->query("options");
         $limit = $request->query('limit');
         $page_size = $request->query('page_size');
 
@@ -62,6 +63,12 @@ class ProductController extends Controller
                 if (isset($exclude['values'])) {
                     $query->whereNotIn($exclude['column'], $exclude['values']);
                 }
+            }
+        }
+        if ($options) {
+            if ($options['only_published'] == "true") {
+                $now = Carbon::now();
+                $query->where("published_at", "<=", $now);
             }
         }
         if ($search_query) {

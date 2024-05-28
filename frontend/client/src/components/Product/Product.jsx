@@ -46,6 +46,9 @@ const Product = () => {
             values: [product_id],
           },
         ],
+        options: {
+          only_published: true,
+        },
       },
     });
 
@@ -105,6 +108,9 @@ const Product = () => {
             way: "random",
           },
         ],
+        options: {
+          only_published: true,
+        },
       },
     });
 

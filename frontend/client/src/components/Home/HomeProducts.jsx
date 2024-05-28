@@ -24,6 +24,9 @@ const HomeProducts = () => {
             values: [1],
           },
         ],
+        options: {
+          only_published: true,
+        },
         limit: 15,
       },
     });
