@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import auth_decoration from "../../../public/images/others/auth-decoration.png";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { reset_password_schema } from "./reset_password_schema";
+import { change_password_request_schema } from "./change_password_request_schema";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import MainLoader from "../../components/MainLoader";
 
-const ResetPassword = () => {
+const ChangePasswordRequest = () => {
   const [showLoader, setShowLoader] = useState(false);
 
   const {
@@ -19,13 +19,13 @@ const ResetPassword = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(reset_password_schema) });
+  } = useForm({ resolver: yupResolver(change_password_request_schema) });
 
   const onSubmit = async (data) => {
     setShowLoader(true);
 
     try {
-      const response = await axios_client("/api/change-password", {
+      const response = await axios_client("/api/change-password-request", {
         method: "post",
         data: data,
       });
@@ -124,4 +124,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default ChangePasswordRequest;

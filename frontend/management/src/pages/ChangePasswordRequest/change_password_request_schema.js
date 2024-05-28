@@ -1,6 +1,6 @@
 import * as yup from "yup";
 
-export const reset_password_schema = yup.object({
+export const change_password_request_schema = yup.object({
   email: yup
     .string()
     .email("Ingrese un correo valido.")

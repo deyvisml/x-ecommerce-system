@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLoader from "../../components/MainLoader";
+import Swal from "sweetalert2";
 
 const PasswordRecovery = () => {
   const query_params = new URLSearchParams(location.search);
@@ -27,10 +28,6 @@ const PasswordRecovery = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(password_recovery_schema) });
-
-  const onSubmit = async (data) => {
-    console.log("in development.");
-  };
 
   const verifyRecoveryPasswordToken = async (token) => {
     try {
@@ -59,6 +56,35 @@ const PasswordRecovery = () => {
     setTimeout(() => {
       setValidationFinished(true);
     }, 2000);
+  };
+
+  const onSubmit = async (fields) => {
+    try {
+      const response = await axios_client("/api/recovery-password", {
+        method: "post",
+        data: {
+          password: fields.password,
+          password_confirmation: fields.password_confirmation,
+          token,
+          user_id,
+        },
+      });
+
+      console.log(response.data);
+
+      Swal.fire({
+        icon: "success",
+        title: "Contraseña cambiada!",
+        text: response.data.message,
+        confirmButtonText: "Continuar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          return navigate("/");
+        }
+      });
+    } catch (error) {
+      toast.error(error?.response?.data?.message ?? error.message);
+    }
   };
 
   useEffect(() => {

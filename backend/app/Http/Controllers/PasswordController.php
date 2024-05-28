@@ -7,6 +7,7 @@ use App\Models\PasswordRecoveryRequest;
 use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -60,7 +61,7 @@ class PasswordController extends Controller
         //
     }
 
-    public function change_password(Request $request)
+    public function change_password_request(Request $request)
     {
         $validation_rules = [
             'email' => 'required',
@@ -151,6 +152,53 @@ class PasswordController extends Controller
             'status' => true,
             'message' => 'Token valido.',
             'data' => User::find($user_id),
+        ];
+
+        return response()->json($response);
+    }
+
+    public function recovery_password(Request $request)
+    {
+        $validation_rules = [
+            "password" => "required",
+            "password_confirmation" => "required",
+            "token" => "required",
+            "user_id" => "required",
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = [
+                "status" => false,
+                "message" => "Error de validación.",
+                "data" => null,
+                "errors" => $validation->errors(),
+            ];
+
+            return response()->json($response);
+        }
+
+        $response2 = $this->verify_recovery_password_token(new Request(["token" => $request->token, "user_id" => $request->user_id]));
+        $response2 = json_decode($response2->getContent(), true);
+
+        if (!$response2["status"]) {
+            return response()->json($response2);
+        }
+
+        $user = User::find($request->user_id);
+        $user->update([
+            "password" => Hash::make($request->password),
+        ]);
+
+        PasswordRecoveryRequest::where("token", $request->token)->where("user_id", $request->user_id)->first()->update([
+            "state_id" => 2,
+        ]);
+
+        $response = [
+            "status" => true,
+            "message" => "Su contraseña fue cambiada exitosamente.",
+            "data" => null,
         ];
 
         return response()->json($response);
