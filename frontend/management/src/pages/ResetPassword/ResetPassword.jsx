@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +9,10 @@ import { reset_password_schema } from "./reset_password_schema";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import MainLoader from "../../components/MainLoader";
 
 const ResetPassword = () => {
-  let navigate = useNavigate();
+  const [showLoader, setShowLoader] = useState(false);
 
   const {
     register,
@@ -21,6 +22,8 @@ const ResetPassword = () => {
   } = useForm({ resolver: yupResolver(reset_password_schema) });
 
   const onSubmit = async (data) => {
+    setShowLoader(true);
+
     try {
       const response = await axios_client("/api/cambiar-contraseña", {
         method: "post",
@@ -44,6 +47,7 @@ const ResetPassword = () => {
         autoClose: 4000,
       });
     }
+    setShowLoader(false);
   };
 
   useEffect(() => {
@@ -115,6 +119,7 @@ const ResetPassword = () => {
       <div className="lg:block top-1/2 left-1/2 absolute hidden -translate-x-1/2 -translate-y-[160px]">
         <img src={auth_decoration} alt="" className="w-56" />
       </div>
+      {showLoader && <MainLoader />}
     </div>
   );
 };
