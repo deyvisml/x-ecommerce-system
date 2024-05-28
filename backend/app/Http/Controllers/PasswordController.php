@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\MailController;
 use App\Models\PasswordRecoveryRequest;
 use App\Models\RoleUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -107,6 +108,49 @@ class PasswordController extends Controller
             'status' => true,
             'message' => 'Te hemos enviado un correo con las instrucciones para restablecer tu contraseña.',
             'data' => null,
+        ];
+
+        return response()->json($response);
+    }
+
+    public function verify_recovery_password_token(Request $request)
+    {
+        $validation_rules = [
+            'token' => 'required',
+            'user_id' => 'required',
+        ];
+
+        $validation = Validator::make($request->all(), $validation_rules);
+
+        if ($validation->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Error de validación.',
+                'type_error' => 'validation-error',
+                'errors' => $validation->errors(),
+            ];
+
+            return response()->json($response);
+        }
+
+        $token = $request->token;
+        $user_id = $request->user_id;
+        $passwordRecoveryRequest = PasswordRecoveryRequest::where("token", $token)->where("user_id", $user_id)->where('state_id', 1)->first();
+
+        if (!isset($passwordRecoveryRequest)) {
+            $response = [
+                'status' => false,
+                'message' => 'Token invalido.',
+                'data' => null,
+            ];
+
+            return response()->json($response);
+        }
+
+        $response = [
+            'status' => true,
+            'message' => 'Token valido.',
+            'data' => User::find($user_id),
         ];
 
         return response()->json($response);

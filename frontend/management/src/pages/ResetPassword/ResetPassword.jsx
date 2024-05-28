@@ -25,7 +25,7 @@ const ResetPassword = () => {
     setShowLoader(true);
 
     try {
-      const response = await axios_client("/api/cambiar-contraseña", {
+      const response = await axios_client("/api/change-password", {
         method: "post",
         data: data,
       });

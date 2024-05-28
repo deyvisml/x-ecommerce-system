@@ -1,14 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios_client from "../../helpers/axios";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import auth_decoration from "../../../public/images/others/auth-decoration.png";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { password_recovery_schema } from "./password_recovery_schema";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import MainLoader from "../../components/MainLoader";
 
 const PasswordRecovery = () => {
+  const query_params = new URLSearchParams(location.search);
+  const token = query_params.get("t");
+  const user_id = query_params.get("user_id");
+  const [validationFinished, setValidationFinished] = useState(false);
+  const [user, setUser] = useState();
+
   let navigate = useNavigate();
+
+  console.log(token, user_id);
 
   const {
     register,
@@ -20,11 +32,46 @@ const PasswordRecovery = () => {
     console.log("in development.");
   };
 
+  const verifyRecoveryPasswordToken = async (token) => {
+    try {
+      const response = await axios_client(
+        "/api/verify-recovery-password-token",
+        {
+          method: "post",
+          data: {
+            token,
+            user_id,
+          },
+        }
+      );
+
+      if (!response.data.status) {
+        throw new Error(response.data.message);
+      }
+
+      setUser(response.data.data);
+      console.log(response.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message ?? error.message);
+      navigate("/");
+    }
+
+    setTimeout(() => {
+      setValidationFinished(true);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    verifyRecoveryPasswordToken(token);
+  }, [token]);
+
   useEffect(() => {
     document.title = `Recupere su contraseña - Florecer Contigo`;
   }, []);
 
-  return (
+  return !validationFinished ? (
+    <MainLoader />
+  ) : (
     <div className="bg-neutral-100">
       <div className="flex h-screen">
         <div className="flex flex-col flex-1 justify-center items-center">
@@ -51,7 +98,7 @@ const PasswordRecovery = () => {
                   className="block pb-1 font-semibold text-sm"
                   htmlFor="password"
                 >
-                  Correo: <span className="font-normal">admin@admin.com</span>
+                  Correo: <span className="font-normal">{user.email}</span>
                 </p>
               </div>
 

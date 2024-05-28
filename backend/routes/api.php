@@ -97,7 +97,9 @@ Route::post('/mails/send-order-confirmation-mail', [MailController::class, 'send
 
 Route::apiResource('newsletter-subscribers', NewsletterSubscriberController::class);
 
-Route::post('cambiar-contraseña', [PasswordController::class, 'change_password']);
+Route::post('/change-password', [PasswordController::class, 'change_password']);
+
+Route::post('/verify-recovery-password-token', [PasswordController::class, 'verify_recovery_password_token']);
 
 // replace php artisan store:link (run after each deployment)
 Route::get('/generate-link-storage', function () {
