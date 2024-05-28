@@ -75,13 +75,13 @@ const Footer = () => {
             </ul>
 
             <div className="complaints-book-container">
-              <Link
-                href=""
+              <a
+                href="mailto:florecer.contigo.business@gmail.com"
                 className="flex flex-col justify-cente items-center gap-y-2 border-gray-500 p-2 border text-center text-xs uppercase"
               >
                 <p>Libro de reclamaciones</p>
                 <img src={complaints_book} alt="" className="w-20" />
-              </Link>
+              </a>
             </div>
           </div>
         </div>
