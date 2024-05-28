@@ -204,7 +204,7 @@ class OrderController extends Controller
         $first_name = $request->input('first_name');
         $last_name = $request->input('last_name');
         $email = $request->input('email');
-        $birthdate = $request->input('birthdate');
+        $birthdate = $request->date('birthdate');
         $phone_number = $request->input('phone_number');
 
         $delivery_first_name = $request->input('delivery_first_name');

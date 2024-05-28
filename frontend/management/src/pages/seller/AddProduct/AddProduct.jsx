@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { schema } from "./schema";
+import { add_product_schema } from "./add_product_schema";
 import UploadImageDropzone from "./UploadImageDropzone";
 import SwitchInput from "../../../components/SwitchInput";
 import axios_client from "../../../helpers/axios";
@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
+import moment from "moment";
+import { format } from "date-fns";
 
 const AddProduct = () => {
   const { token, store } = useManagement();
@@ -31,8 +33,9 @@ const AddProduct = () => {
       discount_rate: 0,
       in_stock: true,
       state_id: 1,
+      publish_now: true,
     },
-    resolver: yupResolver(schema),
+    resolver: yupResolver(add_product_schema),
   });
 
   const [categories, setCategories] = useState([]);
@@ -89,7 +92,7 @@ const AddProduct = () => {
           filtering: [
             {
               column: "states.id",
-              values: [1, 2, 9],
+              values: [1, 2],
             },
           ],
         },
@@ -131,6 +134,11 @@ const AddProduct = () => {
     for (let key in data) {
       if (key == "image") {
         form_data.append(key, data[key][0]);
+      } else if (key == "publish_date") {
+        form_data.append(
+          key,
+          format(new Date(data[key]), "yyyy-MM-dd'T'HH:mm:ss.SSSxxx")
+        );
       } else {
         form_data.append(key, data[key]);
       }
@@ -294,7 +302,7 @@ const AddProduct = () => {
                   setError={setError}
                   clearErrors={clearErrors}
                   watch={watch}
-                  schema={schema}
+                  schema={add_product_schema}
                 />
                 {errors.image && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
@@ -469,7 +477,13 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
+            </div>
+          </div>
 
+          <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+            <h4 className="font-semibold text-base">Publicación</h4>
+
+            <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="state_id" className="block text-xs">
                   Estado
@@ -495,6 +509,66 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
+
+              <div className="col-span-full">
+                <div className="flex justify-between">
+                  <label htmlFor="in_offer" className="block text-base">
+                    Ahora mismo
+                  </label>
+
+                  <Controller
+                    name="publish_now"
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <SwitchInput value={value} onChange={onChange} />
+                    )}
+                  />
+                </div>
+                {errors.publish_now && (
+                  <p className="pt-1 text-red-500 text-xs ps-1">
+                    {errors.publish_now.message}
+                  </p>
+                )}
+              </div>
+
+              {!watch("publish_now") && (
+                <>
+                  <div className="col-span-1">
+                    <label htmlFor="publish_date" className="block text-xs">
+                      Fecha
+                    </label>
+                    <input
+                      {...register("publish_date")}
+                      id="publish_date"
+                      type="date"
+                      min={moment().format("YYYY-MM-DD")}
+                      className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
+                    />
+                    {errors.publish_date && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.publish_date.message}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="col-span-1">
+                    <label htmlFor="publish_time" className="block text-xs">
+                      Hora
+                    </label>
+                    <input
+                      {...register("publish_time")}
+                      id="publish_time"
+                      type="time"
+                      className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
+                    />
+                    {errors.publish_time && (
+                      <p className="pt-1 text-red-500 text-xs ps-1">
+                        {errors.publish_time.message}
+                      </p>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Models\Store;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Schema;
@@ -204,6 +205,7 @@ class ProductController extends Controller
             'collection_id' => 'required',
             'store_id' => 'required',
             'state_id' => 'required',
+            'publish_now' => 'required',
         ];
 
         $validation = Validator::make($request->all(), $validation_rules);
@@ -234,6 +236,16 @@ class ProductController extends Controller
 
         $user = $request->user();
 
+        $published_at = null;
+        if ($request->boolean('publish_now')) {
+            $published_at = Carbon::now()->format('Y-m-d H:i:s');
+        } else {
+            $date = $request->date("publish_date")->format('Y-m-d');
+            $time = $request->publish_time;
+
+            $published_at = Carbon::createFromFormat('Y-m-d H:i', "$date $time");
+        }
+
         Product::create([
             'name' => $request->name,
             'sku' => $request->sku,
@@ -243,6 +255,7 @@ class ProductController extends Controller
             'discount_rate' => $request->discount_rate,
             'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),
             'in_offer' => $request->boolean('in_offer'),
+            'publish_now' => $request->boolean('publish_now'),
             'quantity' => $request->quantity,
             'in_stock' => $request->boolean('in_stock'),
             'min_quantity_buy' => 1,
@@ -252,6 +265,7 @@ class ProductController extends Controller
             'store_id' => $request->store_id,
             'creator_id' => $user->id,
             'updater_id' => $user->id,
+            'published_at' => $published_at,
             'state_id' => $request->state_id,
         ]);
 

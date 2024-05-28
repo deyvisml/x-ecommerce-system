@@ -22,6 +22,7 @@ class Product extends Model
         'discount_rate',
         'offer_price',
         'in_offer',
+        'publish_now',
         'quantity',
         'in_stock',
         'min_quantity_buy',
@@ -31,6 +32,7 @@ class Product extends Model
         'store_id',
         'creator_id',
         'updater_id',
+        'published_at',
         'state_id',
     ];
 }

@@ -13,7 +13,7 @@
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
       }
       .bg-container {
-        padding: 0px;
+        padding: 15px 5px;
         background-color: #eeeeee;
       }
       .container {
