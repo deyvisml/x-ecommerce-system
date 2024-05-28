@@ -59,6 +59,7 @@ return [
 
     // my own definition
     'frontend_url' => env('FRONTEND_URL'),
+    'frontend_gestion_url' => env('FRONTEND_GESTION_URL'),
 
     'asset_url' => env('ASSET_URL'),
 
