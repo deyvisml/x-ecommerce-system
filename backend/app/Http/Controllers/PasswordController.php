@@ -211,7 +211,7 @@ class PasswordController extends Controller
 
     public function generate_recovery_password_url($user, $token)
     {
-        $url = config('app.frontend_gestion_url') . "/cambiar-contraseña?token=" . $token . "&user_id=" . $user->id;
+        $url = config('app.frontend_gestion_url') . "/recuperar-contraseña?t=" . $token . "&user_id=" . $user->id;
 
         return $url;
     }
