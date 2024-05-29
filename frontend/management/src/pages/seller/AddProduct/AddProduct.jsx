@@ -11,9 +11,11 @@ import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 import moment from "moment";
 import { format } from "date-fns";
+import MainLoader from "../../../components/MainLoader";
 
 const AddProduct = () => {
   const { token, store } = useManagement();
+  const [showLoader, setShowLoader] = useState(false);
 
   const {
     register,
@@ -129,6 +131,8 @@ const AddProduct = () => {
   const onSubmit = async (data) => {
     console.log(data);
 
+    setShowLoader(true);
+
     const form_data = new FormData();
 
     for (let key in data) {
@@ -178,6 +182,8 @@ const AddProduct = () => {
         autoClose: 5000,
       });
     }
+
+    setShowLoader(false);
   };
 
   const handle_click_discard_btn = () => {
@@ -573,6 +579,8 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+
+      {showLoader && <MainLoader />}
     </form>
   );
 };

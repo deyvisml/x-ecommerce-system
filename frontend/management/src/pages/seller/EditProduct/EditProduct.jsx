@@ -11,10 +11,13 @@ import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import MainLoader from "../../../components/MainLoader";
 
 const EditProduct = () => {
   const { token } = useManagement();
   const { product_id } = useParams();
+
+  const [showLoader, setShowLoader] = useState(false);
 
   let navigate = useNavigate();
 
@@ -180,6 +183,8 @@ const EditProduct = () => {
   const onSubmit = async (data) => {
     console.log(data);
 
+    setShowLoader(true);
+
     const form_data = new FormData();
 
     for (let key in data) {
@@ -226,6 +231,8 @@ const EditProduct = () => {
         autoClose: 5000,
       });
     }
+
+    setShowLoader(false);
   };
 
   return (
@@ -570,6 +577,8 @@ const EditProduct = () => {
           </div>
         </div>
       </div>
+
+      {showLoader && <MainLoader />}
     </form>
   );
 };
