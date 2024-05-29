@@ -12,18 +12,12 @@ export const edit_seller_schema = yup.object({
   first_name: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(
-      50,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
+    .max(50, ({ max }) => `Maximo ${max} caracteres)`)
     .required("El campo es requerido"),
   last_name: yup
     .string()
     .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(
-      100,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
+    .max(50, ({ max }) => `Maximo ${max} caracteres)`)
     .required("El campo es requerido"),
   phone_number: yup
     .string()
@@ -31,21 +25,14 @@ export const edit_seller_schema = yup.object({
     .required("El campo es requerido"),
   document_type_id: yup
     .number()
-    .typeError("El campo debe ser númerico")
-    .transform((v) => (!isNaN(v) ? v : null))
-    .nullable(),
+    .min(1, "Eliga una opción valida")
+    .typeError("Eliga una opción valida")
+    .required("El campo es requerido"),
   document_number: yup
-    .number()
-    .typeError("El campo debe ser númerico")
-    .when("document_type_id", {
-      is: (val) => {
-        return val;
-      },
-      then: (schema) =>
-        schema.positive().integer().required("El campo es requerido"),
-      otherwise: (schema) =>
-        schema.transform((v) => (!isNaN(v) ? v : null)).nullable(),
-    }),
+    .string()
+    .max(20, ({ max }) => `Maximo ${max} caracteres)`)
+    .matches(/^[0-9]+$/, "El campo debe ser númerico")
+    .required("El campo es requerido"),
   state_id: yup
     .number()
     .min(1, "Eliga una opción valida")

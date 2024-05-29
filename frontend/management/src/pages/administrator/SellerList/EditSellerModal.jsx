@@ -155,7 +155,6 @@ const EditSellerModal = ({
               <input
                 disabled
                 {...register("email")}
-                name="email"
                 id="email"
                 type="text"
                 placeholder="Correo electrónico"
@@ -174,9 +173,9 @@ const EditSellerModal = ({
               </label>
               <input
                 {...register("first_name")}
-                name="first_name"
                 id="first_name"
                 type="text"
+                maxLength={50}
                 placeholder="Nombres"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
@@ -193,9 +192,9 @@ const EditSellerModal = ({
               </label>
               <input
                 {...register("last_name")}
-                name="last_name"
                 id="last_name"
-                type="last_name"
+                type="text"
+                maxLength={50}
                 placeholder="Apellidos"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
@@ -212,7 +211,6 @@ const EditSellerModal = ({
               </label>
               <input
                 {...register("phone_number")}
-                name="phone_number"
                 id="phone_number"
                 type="text"
                 maxLength={9}
@@ -232,11 +230,10 @@ const EditSellerModal = ({
               </label>
               <select
                 {...register("document_type_id")}
-                name="document_type_id"
                 id="document_type_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
-                <option value={""}>Seleccionar</option>
+                <option value="0">Seleccionar</option>
                 {document_types.map((document_type, i) => {
                   return (
                     <option key={i} value={document_type.id}>
@@ -254,13 +251,12 @@ const EditSellerModal = ({
 
             <div>
               <label htmlFor="document_number" className="block font-semibold">
-                Documento
+                Nro. de Documento
               </label>
               <input
-                disabled={watch("document_type_id") == 0}
                 {...register("document_number")}
-                name="document_number"
                 id="document_number"
+                maxLength={20}
                 type="text"
                 placeholder="Documento"
                 className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
@@ -278,7 +274,6 @@ const EditSellerModal = ({
               </label>
               <select
                 {...register("state_id")}
-                name="state_id"
                 id="state_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0 capitalize"
               >

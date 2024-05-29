@@ -539,7 +539,7 @@ const StoreRegistration = () => {
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
-                      maxLength={40}
+                      maxLength={20}
                       id="document_number"
                       {...register("document_number", { required: true })}
                     />

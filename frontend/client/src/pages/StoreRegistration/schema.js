@@ -46,6 +46,7 @@ export const schema = yup.object({
     .required("El campo es requerido"),
   document_number: yup
     .string()
+    .max(20, ({ max }) => `Maximo ${max} caracteres)`)
     .matches(/^[0-9]+$/, "El campo debe ser númerico")
     .required("El campo es requerido"),
   store_name: yup
