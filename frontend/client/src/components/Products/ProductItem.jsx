@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import currency from "currency.js";
+import { useTranslation } from "react-i18next";
 
 const ProductItem = ({ product }) => {
+  const { t } = useTranslation();
+
   return (
     <article className="flex flex-col justify-between bg-white shadow shadow-gray-300 hover:shadow-lg rounded-md hover:text-rose-600 overflow-hidden group">
       <Link
@@ -50,7 +53,7 @@ const ProductItem = ({ product }) => {
           <span
             className={`inline-block bg-rose-500 hover:shadow-lg py-1.5 p-1 rounded-xl w-full font-semibold text-center text-white text-xs `}
           >
-            Ver producto
+            {t("product_item.show_product_button")}
           </span>
         </div>
       </Link>

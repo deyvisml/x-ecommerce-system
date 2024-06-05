@@ -68,5 +68,21 @@
       "name": "LIBRO DE RECLAMACIONES"
     },
     "rights_reserved": "2024 florecer contigo . Todos los derechos reservados"
+  },
+  "order_by": {
+    "title": "Ordenar por",
+    "options": {
+      "one": "Relevancia",
+      "two": "Nombre, A a Z",
+      "three": "Nombre, Z a A",
+      "four": "Precio: de más bajo a más alto",
+      "five": "Precio, de más alto a más bajo"
+    }
+  },
+  "filter": {
+    "title": "Filtrar por tipo"
+  },
+  "product_item": {
+    "show_product_button": "Ver producto"
   }
 }

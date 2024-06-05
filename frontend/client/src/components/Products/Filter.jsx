@@ -1,8 +1,11 @@
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { useTranslation } from "react-i18next";
 
 const Filter = ({ items, filter_item_id, setFilterItemId }) => {
+  const { t } = useTranslation();
+
   const handle_filter_item_click = (e) => {
     const filter_item_id = e.target.dataset.filterItemId;
     setFilterItemId(filter_item_id);
@@ -11,7 +14,7 @@ const Filter = ({ items, filter_item_id, setFilterItemId }) => {
   return (
     <div className="text-sm">
       <span className="block mb-1 font-semibold text-gray-700">
-        Filtrar por tipo:
+        {t("filter.title")}:
       </span>
 
       <ul className="flex flex-wrap gap-1 min-w-20 min-h-4 text-xs">

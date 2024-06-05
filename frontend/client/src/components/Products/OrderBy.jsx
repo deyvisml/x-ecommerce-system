@@ -1,36 +1,42 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useMemo } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
-
-const options = [
-  { id: 1, column: null, way: null, name: "Relevancia" },
-  {
-    id: 2,
-    column: "products.name",
-    way: "ASC",
-    name: "Nombre, A a Z",
-  },
-  {
-    id: 3,
-    column: "products.name",
-    way: "DESC",
-    name: "Nombre, Z a A",
-  },
-  {
-    id: 4,
-    column: "products.price",
-    way: "ASC",
-    name: "Precio: de más bajo a más alto",
-  },
-  {
-    id: 5,
-    column: "products.price",
-    way: "DESC",
-    name: "Precio, de más alto a más bajo",
-  },
-];
+import { useTranslation } from "react-i18next";
 
 const OrderBy = ({ setOrderBy }) => {
+  const { t } = useTranslation();
+
+  const options = useMemo(
+    () => [
+      { id: 1, column: null, way: null, name: t("order_by.options.one") },
+      {
+        id: 2,
+        column: "products.name",
+        way: "ASC",
+        name: t("order_by.options.two"),
+      },
+      {
+        id: 3,
+        column: "products.name",
+        way: "DESC",
+        name: t("order_by.options.three"),
+      },
+      {
+        id: 4,
+        column: "products.price",
+        way: "ASC",
+        name: t("order_by.options.four"),
+      },
+      {
+        id: 5,
+        column: "products.price",
+        way: "DESC",
+        name: t("order_by.options.five"),
+      },
+    ],
+    []
+  );
+
   const [selected, setSelected] = useState(options[0]);
 
   const handle_change_order_by_select = (e) => {
@@ -43,7 +49,7 @@ const OrderBy = ({ setOrderBy }) => {
       <Listbox value={selected} onChange={handle_change_order_by_select}>
         <div className="relative">
           <Listbox.Label className="block mb-1 font-bold text-sm">
-            Ordenar por:
+            {t("order_by.title")}:
           </Listbox.Label>
           <Listbox.Button className="relative border-gray-400 bg-white py-1.5 border rounded-lg w-full text-left text-xs pe-8 ps-1.5 focus:outline-none">
             <span className="block truncate">{selected.name}</span>
