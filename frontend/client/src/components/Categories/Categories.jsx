@@ -3,8 +3,11 @@ import axios_client from "../../helpers/axios";
 
 import Category from "./Category";
 import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 const Categories = () => {
+  const { t } = useTranslation();
+
   const [categories, setCategories] = useState([]);
 
   const fetch_categories = async () => {
@@ -30,9 +33,7 @@ const Categories = () => {
   return (
     <div className="text-gray-800">
       <div className="py-2 text-center">
-        <p className="text-2xl">
-          ¿De que forma quieres sorprender el dia de hoy?
-        </p>
+        <p className="text-2xl">{t("home.category_section.title")}</p>
         <div className="relative m-auto mt-5 max-w-xl h-4">
           <div className="flex items-center px-2 w-full h-full">
             <span className="block bg-rose-600 w-full h-0.5"></span>

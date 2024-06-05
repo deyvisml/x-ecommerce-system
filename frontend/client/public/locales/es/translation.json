@@ -1,0 +1,72 @@
+{
+  "header": {
+    "search": {
+      "placeholder": "¿Qué estas buscando?"
+    }
+  },
+  "home": {
+    "carousel": {
+      "title": {
+        "part1": "Tenemos todo",
+        "part2": "para esos momentos especiales"
+      },
+      "subtitle": "Revisa nuestros arreglos temáticos",
+      "show_button": "Ver arreglos temáticos"
+    },
+    "offer_section": {
+      "description": "Descubre la oferta de dia que tenemos para ti",
+      "button_text": "Ofertas del dia"
+    },
+    "category_section": {
+      "title": "¿De que forma quieres sorprender el dia de hoy?"
+    },
+    "product_section": {
+      "title": "Algunos de nuestros regalos recomendados"
+    },
+    "build_product_section": {
+      "title": "Arma el detalle perfecto para cada ocación",
+      "description": "Convierte tu idea en realidad diseñando el detalle perfecto con nuestra amplia gama de productos disponibles",
+      "button_text": "Manos a la obra"
+    }
+  },
+  "suscribe_newsletter": {
+    "title": "Suscríbete",
+    "description": "Recibe nuestros correos y se el primero en enterarte de nuestras ofertas exclusivas, promociones y mucho más.",
+    "email_input": {
+      "placeholder": "Tu correo electrónico"
+    },
+    "button_text": "Suscribirse"
+  },
+  "benefits_information": {
+    "benefit1": {
+      "title": "SERVICIO DE DELIVERY",
+      "description": "Envío de flores en Lima y Callao. Entregas para el mismo dia."
+    },
+    "benefit2": {
+      "title": "PAGOS SEGUROS",
+      "description": "Compras de manera simple y segura con unos clicks."
+    },
+    "benefit3": {
+      "title": "SERVICIOS PERSONALIZADOS",
+      "description": "Cuidamos cada detalle para ti y la persona que tienes en el corazón."
+    }
+  },
+  "footer": {
+    "policies": {
+      "title": "POLÍTICAS",
+      "terms": "Términos y condiciones",
+      "delivery": "Politicas de entrega y devolución"
+    },
+    "contact": {
+      "title": "CONTACTO"
+    },
+    "business_hours": {
+      "title": "HORARIOS DE ATENCIÓN",
+      "days": "Lunes - Sabado"
+    },
+    "complaint_book": {
+      "name": "LIBRO DE RECLAMACIONES"
+    },
+    "rights_reserved": "2024 florecer contigo . Todos los derechos reservados"
+  }
+}

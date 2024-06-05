@@ -10,8 +10,10 @@ import SubscribeNewsletter from "./SubscribeNewsletter";
 import BenefitsInformation from "../BenefitsInformation/BenefitsInformation";
 
 import build_perfect_detail_img from "../../../public/images/others/build-perfect-detail.jpg";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
+  const { t } = useTranslation();
   const { cart } = useECommerce();
 
   useEffect(() => {
@@ -47,14 +49,13 @@ const Home = () => {
             <div className="top-1/2 left-1/2 absolute p-2 w-full max-w-2xl -translate-x-1/2 -translate-y-1/2">
               <div className="flex flex-col items-center gap-y-2 text-center text-white">
                 <h2 className="text-xl sm:text-3xl">
-                  Arma el detalle perfecto para cada ocación
+                  {t("home.build_product_section.title")}
                 </h2>
                 <p className="text-xs sm:text-base">
-                  Convierte tu idea en realidad diseñando el detalle perfecto
-                  con nuestra amplia gama de productos disponibles
+                  {t("home.build_product_section.description")}
                 </p>
                 <Link className="block bg-rose-600 hover:bg-rose-700 p-2 rounded-lg w-full max-w-md text-sm sm:text-base transition-all duration-300 ease-in-out">
-                  Manos a la obra
+                  {t("home.build_product_section.button_text")}
                 </Link>
               </div>
             </div>

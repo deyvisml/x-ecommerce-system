@@ -1,7 +1,6 @@
 import React, { useRef, useState } from "react";
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link } from "react-router-dom";
 
 import carousel_image_01 from "../../../public/images/carousel/image-01.png";
 import carousel_image_02 from "../../../public/images/carousel/image-02.png";
@@ -16,7 +15,11 @@ import "swiper/css/pagination";
 // import required modules
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 
+import { useTranslation } from "react-i18next";
+
 export default function Carousel() {
+  const { t } = useTranslation();
+
   return (
     <>
       <Swiper
@@ -43,10 +46,11 @@ export default function Carousel() {
           <img src={carousel_image_01} className="w-full h-full object-cover" />
           <div className="top-1/2 left-3 md:left-16 absolute text-white -translate-y-1/2">
             <h2 className="font-bold text-base md:text-3xl">
-              Tenemos todo <br />
-              para esos momentos especiales
+              {t("home.carousel.title.part1")}
+              <br />
+              {t("home.carousel.title.part2")}
             </h2>
-            <p className="mt-2">Revisa nuestros arreglos temáticos</p>
+            <p className="mt-2">{t("home.carousel.subtitle")}</p>
             <button
               onClick={() => {
                 const targetElement = document.querySelector(
@@ -58,7 +62,7 @@ export default function Carousel() {
               }}
               className="sm:inline-block border-2 hidden hover:bg-white mt-2 px-8 py-0 md:py-2 rounded-full text-white hover:text-rose-700 transition-all duration-300 ease-in-out"
             >
-              Ver arreglos temáticos
+              {t("home.carousel.show_button")}
             </button>
           </div>
         </SwiperSlide>

@@ -5,8 +5,10 @@ import { subscribe_newsletter_schema } from "./subscribe_newsletter_schema";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios_client from "../../helpers/axios";
+import { useTranslation } from "react-i18next";
 
 const SubscribeNewsletter = () => {
+  const { t } = useTranslation();
   const {
     register,
     reset,
@@ -44,10 +46,9 @@ const SubscribeNewsletter = () => {
 
   return (
     <div className="flex flex-col items-center gap-y-4 bg-white px-4 sm:px-12 py-16 text-center">
-      <p className="text-3xl">Suscríbete</p>
+      <p className="text-3xl">{t("suscribe_newsletter.title")}</p>
       <p className="text-sm sm:text-base">
-        Recibe nuestros correos y se el primero en enterarte de nuestras ofertas
-        exclusivas, promociones y mucho más.
+        {t("suscribe_newsletter.description")}
       </p>
 
       <form className="w-full" noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -59,14 +60,14 @@ const SubscribeNewsletter = () => {
             className={`border-gray-400 px-3 p-2  ${
               errors.email ? "border-red-400 focus:border-red-400" : ""
             }  border rounded-xl w-full sm:max-w-sm outline-none`}
-            placeholder="Tu correo electrónico"
+            placeholder={t("suscribe_newsletter.email_input.placeholder")}
           />
 
           <button
             type="submit"
             className="hover:bg-rose-500 px-10 p-2 border border-rose-600 rounded-xl text-rose-600 hover:text-white transition-all duration-300 ease-in-out"
           >
-            Suscribirse
+            {t("suscribe_newsletter.button_text")}
           </button>
         </div>
       </form>

@@ -3,8 +3,10 @@ import { FaFacebookF, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import complaints_book from "../../../public/images/others/complaints-book.png";
 import { Link } from "react-router-dom";
 import logo_white_img from "../../../public/images/logos/logo-white.svg";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="text-sm text-white">
       <div className="bg-sky-950">
@@ -14,23 +16,23 @@ const Footer = () => {
 
         <div className="flex flex-wrap justify-center sm:justify-between gap-10 m-auto px-2 py-10 max-w-7xl text-center sm:text-left">
           <div>
-            <p className="mb-3 font-bold">POLÍTICAS</p>
+            <p className="mb-3 font-bold">{t("footer.policies.title")}</p>
             <ul className="flex flex-col gap-y-3 text-gray-400">
               <li className="hover:text-white transition-all duration-200 ease-in-out">
                 <Link to={"terminos-condiciones"} href="">
-                  Términos y condiciones
+                  {t("footer.policies.terms")}
                 </Link>
               </li>
               <li className="hover:text-white transition-all duration-200 ease-in-out">
                 <Link to={"politicas-entrega-devolución"} href="">
-                  Politicas de entrega y devolución
+                  {t("footer.policies.delivery")}
                 </Link>
               </li>
             </ul>
           </div>
 
           <div>
-            <p className="mb-3 font-bold">CONTACTO</p>
+            <p className="mb-3 font-bold">{t("footer.contact.title")}</p>
             <ul className="flex flex-col gap-y-3 text-gray-400">
               <li className="hover:text-white transition-all duration-200 ease-in-out">
                 <a href="tel:+56971359643">+56 971359643</a>
@@ -44,10 +46,10 @@ const Footer = () => {
           </div>
 
           <div>
-            <p className="mb-3 font-bold">HORARIOS DE ATENCIÓN</p>
+            <p className="mb-3 font-bold">{t("footer.business_hours.title")}</p>
             <ul className="flex flex-col gap-y-3 text-gray-400">
               <li className="hover:text-white transition-all duration-200 ease-in-out">
-                Lunes - Sabado
+                {t("footer.business_hours.days")}
               </li>
               <li className="hover:text-white transition-all duration-200 ease-in-out">
                 9:00 AM - 18:00 PM
@@ -79,7 +81,7 @@ const Footer = () => {
                 href="mailto:florecer.contigo.business@gmail.com"
                 className="flex flex-col justify-cente items-center gap-y-2 border-gray-500 p-2 border text-center text-xs uppercase"
               >
-                <p>Libro de reclamaciones</p>
+                <p>{t("footer.complaint_book.name")}</p>
                 <img src={complaints_book} alt="" className="w-20" />
               </a>
             </div>
@@ -88,9 +90,7 @@ const Footer = () => {
       </div>
 
       <div className="bg-rose-700 py-4 p-2 text-center">
-        <p className="text-slate-200 text-xs">
-          2024 florecer contigo . Todos los derechos reservados
-        </p>
+        <p className="text-slate-200 text-xs">{t("footer.rights_reserved")}</p>
       </div>
 
       {/*<div

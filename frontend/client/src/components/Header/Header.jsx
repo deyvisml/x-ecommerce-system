@@ -10,8 +10,10 @@ import logo from "../../../public/images/logos/logo.svg";
 import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import axios_client from "../../helpers/axios";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const { cart } = useECommerce();
   const [is_open_menu, setIsOpenMenu] = useState(false);
@@ -109,7 +111,7 @@ const Header = () => {
                 className="flex items-center w-full text-sm"
               >
                 <input
-                  placeholder="¿Qué estas buscando?"
+                  placeholder={t("header.search.placeholder")}
                   {...register("search_query", { required: true })}
                   className="border-gray-400 py-2 border rounded-full w-full outline-none pe-11 ps-3.5"
                 />

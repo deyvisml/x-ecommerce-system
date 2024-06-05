@@ -11,7 +11,10 @@ import "swiper/css/pagination";
 // import required modules
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
 
+import { useTranslation } from "react-i18next";
+
 const HomeProducts = () => {
+  const { t } = useTranslation();
   const [home_products, setHomeProducts] = useState([]);
 
   const fetch_categories = async () => {
@@ -42,7 +45,7 @@ const HomeProducts = () => {
   return (
     <div>
       <div className="text-center">
-        <p className="text-2xl">Algunos de nuestros regalos recomendados</p>
+        <p className="text-2xl">{t("home.product_section.title")}</p>
 
         <div className="mt-5">
           <Swiper
