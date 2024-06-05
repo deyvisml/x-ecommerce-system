@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const StoreRegistrationConfirmation = () => {
   return (
     <main className="flex flex-grow justify-center items-center">
-      <div className="flex flex-col gap-y-4 px-4 py-4 md:py-20 w-full max-w-md text-center text-slate-800">
+      <div className="flex flex-col gap-y-4 px-4 py-4 md:py-36 w-full max-w-md text-center text-slate-800">
         <div className="flex justify-center items-center">
           <AnimatePresence mode="wait">
             <motion.div

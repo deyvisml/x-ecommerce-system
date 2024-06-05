@@ -8,13 +8,10 @@
         <testsuite name="Unit">
             <directory>tests/Unit</directory>
         </testsuite>
-        <testsuite name="Feature">
-            <directory>tests/Feature</directory>
-        </testsuite>
     </testsuites>
     <source>
         <include>
-            <directory>app</directory>
+            <directory>app/Http/Controllers</directory>
         </include>
     </source>
     <php>

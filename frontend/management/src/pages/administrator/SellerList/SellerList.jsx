@@ -322,7 +322,7 @@ function SellerList() {
         <li className="w-full">
           <StateFilter
             filter_column={"role_user.state_id"}
-            selectable_record_ids={[1, 2]}
+            selectable_record_ids={[1, 2, 3, 4]}
             filtering={filtering}
             setFiltering={setFiltering}
           />

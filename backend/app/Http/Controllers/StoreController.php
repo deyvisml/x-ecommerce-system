@@ -386,8 +386,22 @@ class StoreController extends Controller
         ]);
 
         // create role_user
-        $seller_role_id = 2;
-        RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], []);
+        $seller_role_id = 2; // seller
+        $role_user = RoleUser::where('user_id', $user->id)->where('role_id', $seller_role_id)->first();
+
+        if ($role_user && in_array($role_user->state_id, [3, 5, 6])) {
+            $response = [
+                'status' => false,
+                'message' => 'El rol de vendedor esta restringido.',
+                'type_error' => 'general',
+                'errors' => "Su cuenta tiene el rol de vendedor suspendido.",
+            ];
+            return response()->json($response);
+        }
+
+        if (!$role_user || ($role_user && $role_user->state_id != 1)) {
+            RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], ['state_id' => 4]);
+        }
 
         $response = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
 
@@ -426,8 +440,8 @@ class StoreController extends Controller
             return response()->json($response);
         }
 
-        // verify if the email already has an account (state_id = 1)
-        $user = User::where('email', $request->email)->where('state_id', 1)->orWhere('state_id', 3)->first();
+        // verify if the email already has an account
+        $user = User::where('email', $request->email)->where('password', '<>', null)->first();
         if ($user) {
             $response = [
                 'status' => false,
@@ -438,7 +452,7 @@ class StoreController extends Controller
             return response()->json($response);
         }
 
-        // create or update (active) user
+        // create or update user
         $user = User::updateOrCreate([
             'email' => $request->email,
         ], ['first_name' => $request->first_name,
@@ -447,7 +461,7 @@ class StoreController extends Controller
             'phone_number' => $request->user_phone_number,
             'document_type_id' => $request->document_type,
             'document_number' => $request->document_number,
-            'state_id' => 1,
+            'state_id' => 1, // this state is irrelevant
         ]);
 
         // create (requested) store
@@ -465,8 +479,8 @@ class StoreController extends Controller
         ]);
 
         // create role_user
-        $seller_role_id = 2;
-        RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], []);
+        $seller_role_id = 2; // seller
+        RoleUser::updateOrCreate(['user_id' => $user->id, 'role_id' => $seller_role_id], ['state_id' => 4]);
 
         $response = ['status' => true, 'message' => "Registro de tienda realizado exitosamente."];
 

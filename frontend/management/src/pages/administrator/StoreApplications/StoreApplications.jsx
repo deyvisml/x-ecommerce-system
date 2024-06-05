@@ -151,6 +151,18 @@ function StoreApplications() {
                         </span>
                       );
 
+                    case 4:
+                      return (
+                        <span className="bg-orange-100 px-1 py-0.5 rounded text-orange-500 text-xs capitalize">
+                          {row.original.states_name}
+                        </span>
+                      );
+                    case 5:
+                      return (
+                        <span className="bg-red-100 px-1 py-0.5 rounded text-red-500 text-xs capitalize">
+                          {row.original.states_name}
+                        </span>
+                      );
                     default:
                       return (
                         <span className="bg-slate-200 px-1 py-0.5 rounded text-xs capitalize">

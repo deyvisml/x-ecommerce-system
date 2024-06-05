@@ -460,7 +460,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="last_name"
                     >
-                      Apelildos
+                      Apellidos
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -650,7 +650,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="phone_number"
                     >
-                      Numero de Teléfono
+                      Teléfono
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"

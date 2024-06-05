@@ -1,4 +1,6 @@
 import * as yup from "yup";
+import YupPassword from "yup-password";
+YupPassword(yup);
 
 const today = new Date();
 today.setHours(0, 0, 0, 0);
@@ -14,10 +16,14 @@ export const schema = yup.object({
     .required("El campo es requerido."),
   password: yup
     .string()
+    .min(8, ({ min }) => `Debe tener al menos ${min} caracteres`)
     .max(
       40,
       ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
     )
+    .minLowercase(1, "Debe tener al menos una minuscula")
+    .minUppercase(1, "Debe tener al menos una mayuscula")
+    .minNumbers(1, "Debe tener al menos un número")
     .required("El campo es requerido."),
   first_name: yup
     .string()

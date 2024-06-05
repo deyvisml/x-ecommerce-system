@@ -219,7 +219,7 @@ const AddStoreModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
 
             <div>
               <label htmlFor="phone_number" className="block font-semibold">
-                Numero de Teléfono
+                Teléfono
               </label>
               <input
                 {...register("phone_number")}
