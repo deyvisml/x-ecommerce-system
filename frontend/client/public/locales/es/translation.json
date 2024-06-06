@@ -84,5 +84,137 @@
   },
   "product_item": {
     "show_product_button": "Ver producto"
+  },
+  "product": {
+    "taxes": {
+      "description": "impuestos inc."
+    },
+    "description": "Descripción",
+    "availability": "Disponibilidad",
+    "stock": {
+      "yes": "En stock",
+      "no": "Agotado"
+    },
+    "quantity": "Cantidad",
+    "buy_now_button": "Comprar ahora",
+    "buy_wspp_button": "Comprar por WhatsApp",
+    "related_products_section": {
+      "title": "Productos relacionados"
+    }
+  },
+  "order": {
+    "sections": {
+      "one": {
+        "title": "Información Personal",
+        "description": "Datos para tu compra y contacto en caso de alguna consulta."
+      },
+      "two": {
+        "title": "Entrega",
+        "description": "Información de Delivery."
+      },
+      "three": {
+        "title": "Pago",
+        "description": "Seleccionar método de pago."
+      }
+    },
+    "payment_methods": {
+      "paypal": {
+        "title": "Pago mediante Paypal",
+        "description": "Visa, Mastercard, Maestro, American Express, Paypal"
+      }
+    },
+    "need_help_section": {
+      "title": "¿Necesitas ayuda?",
+      "description": "Contacta con nuestro canal de Atención al cliente en cualquier momento."
+    },
+    "summary": {
+      "title": "RESUMEN DE TU PEDIDO",
+      "delivery_date": "Fecha de Delivery",
+      "delivery_hour": "Hora de Delivery",
+      "unit_price": "Precio unitario",
+      "subtotal": "Subtotal",
+      "shipping": "Transporte",
+      "total": "Total",
+      "included_taxes": "impuestos inc.",
+      "empty_cart": "No existen productos en el carrito."
+    }
+  },
+  "general": {
+    "fields": {
+      "document_type": {
+        "label": "Tipo de documento",
+        "placeholder": "Seleccionar"
+      },
+      "document_number": {
+        "label": "Nro. de documento",
+        "placeholder": "Ingresar Nro. de documento"
+      },
+      "name": {
+        "label": "Nombres",
+        "placeholder": "Ingresar Nombres"
+      },
+      "last_name": {
+        "label": "Apellidos",
+        "placeholder": "Ingresar Apellidos"
+      },
+      "email": {
+        "label": "Correo electronico",
+        "placeholder": "Ingresar Correo electronico"
+      },
+      "birthdate": {
+        "label": "Fecha Nacimiento"
+      },
+      "phone_number": {
+        "label": "Número de teléfono",
+        "placeholder": "Ingresar Número de teléfono"
+      },
+      "region": {
+        "label": "Región"
+      },
+      "location": {
+        "label": "Localidad",
+        "placeholder": "Seleccionar",
+        "addition": "(costo de envio)"
+      },
+      "delivery_address": {
+        "label": "Dirección de entrega",
+        "placeholder": "Número de la casa y nombre la calle"
+      },
+      "delivery_address_reference": {
+        "label": "Referencia",
+        "placeholder": "Ingresar Referencia"
+      },
+      "delivery_date": {
+        "label": "Fecha de entrega"
+      },
+      "delivery_schedule": {
+        "label": "Hora de entrega",
+        "placeholder": "Seleccionar horario"
+      },
+      "coupon": {
+        "label": "¿Tienes un cupón o vale de descuento?",
+        "placeholder": "Ingrese su código."
+      },
+      "privacy_policies": {
+        "label": {
+          "part1": "He leído y aceptado la",
+          "part2": "Política de Privacidad"
+        }
+      },
+      "terms_service": {
+        "label": {
+          "part1": "Acepto los",
+          "part2": "términos de servicio"
+        }
+      },
+      "subscribe_newsletter": {
+        "label": "Suscribirse a nuestro boletín de noticias."
+      }
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "apply": "Aplicar"
+    }
   }
 }

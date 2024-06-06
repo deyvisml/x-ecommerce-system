@@ -16,8 +16,10 @@ import currency from "currency.js";
 import { cloneDeep } from "lodash";
 import { useNavigate } from "react-router-dom";
 import BenefitsInformation from "../BenefitsInformation/BenefitsInformation";
+import { useTranslation } from "react-i18next";
 
 const Product = () => {
+  const { t } = useTranslation();
   let navigate = useNavigate();
 
   const { category_id, product_id } = useParams();
@@ -228,33 +230,33 @@ const Product = () => {
                     }).format()
                   ))}
                 <span className="font-normal text-sm ms-2">
-                  (impuestos inc.)
+                  ({t("product.taxes.description")})
                 </span>
               </p>
               <div>
                 <span className="block mb-2 font-semibold text-sm uppercase">
-                  Descripción:
+                  {t("product.description")}:
                 </span>
                 <p className="text-sm">{product && product.description}</p>
               </div>
               <div>
                 <span className="block mb-2 font-semibold text-sm uppercase">
-                  Disponibilidad:
+                  {t("product.availability")}:
                 </span>
                 {product &&
                   (product.in_stock ? (
                     <p className="inline-block bg-green-500 px-2 py-1 rounded font-bold text-white text-xs">
-                      En stock 🗸
+                      {t("product.stock.yes")} 🗸
                     </p>
                   ) : (
                     <p className="inline-block bg-red-500 px-2 py-1 rounded font-bold text-white text-xs">
-                      Agotado ✗
+                      {t("product.stock.no")} ✗
                     </p>
                   ))}
               </div>
               <div>
                 <span className="block mb-2 font-semibold text-sm uppercase">
-                  Cantidad:
+                  {t("product.quantity")}:
                 </span>
                 {product && (
                   <QuantityButton
@@ -290,7 +292,7 @@ const Product = () => {
                         className="m-0 p-0 pt-1"
                       />
                     ) : (
-                      "Comprar ahora"
+                      t("product.buy_now_button")
                     )}
                   </button>
                   <a
@@ -308,7 +310,8 @@ const Product = () => {
                         : "bg-green-300 cursor-not-allowed"
                     }   flex items-center justify-center gap-x-2  h-11 px-2 border md:rounded-md w-full font-semibold text-center text-sm text-white uppercase transition-all duration-300 ease-in-out rounded`}
                   >
-                    <FaWhatsapp className="text-xl" /> Comprar por WhatsApp
+                    <FaWhatsapp className="text-xl" />{" "}
+                    {t("product.buy_wspp_button")}
                   </a>
                 </div>
               )}
@@ -319,7 +322,7 @@ const Product = () => {
         <div className="mt-14">
           <div className="relative flex justify-center mb-5">
             <p className="inline-block z-20 bg-white px-2 md:px-8 font-bold text-center text-xl md:text-2xl uppercase">
-              Productos relacionados
+              {t("product.related_products_section.title")}
             </p>
             <hr className="top-3 md:top-3.5 left-0 z-10 absolute border-gray-300 border w-full" />
           </div>

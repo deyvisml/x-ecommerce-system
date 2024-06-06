@@ -29,8 +29,10 @@ import {
   parseISO,
   startOfDay,
 } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const Order = () => {
+  const { t } = useTranslation();
   const { cart, order, setOrder } = useECommerce();
   const [document_types, setDocumentTypes] = useState();
   const [regions, setRegions] = useState();
@@ -425,10 +427,8 @@ const Order = () => {
           <div className="flex flex-col gap-y-2">
             <Stage
               stage={1}
-              title={"Información Personal"}
-              description={
-                "Datos para tu compra y contacto en caso de alguna consulta."
-              }
+              title={t("order.sections.one.title")}
+              description={t("order.sections.one.description")}
               border-gray-300
               current_stage={stage}
               set_current_stage={setStage}
@@ -441,7 +441,7 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="document_type"
                   >
-                    Tipo de documento <span>*</span>
+                    {t("general.fields.document_type.label")} <span>*</span>
                   </label>
                   <select
                     {...register("document_type")}
@@ -452,7 +452,9 @@ const Order = () => {
                         : ""
                     } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value="0">Seleccionar</option>
+                    <option value="0">
+                      {t("general.fields.document_type.placeholder")}
+                    </option>
                     {document_types &&
                       document_types.map(({ id, name }) => {
                         return (
@@ -473,13 +475,15 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="document_number"
                   >
-                    Nro. de documento <span>*</span>
+                    {t("general.fields.document_number.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("document_number")}
                     id="document_number"
-                    placeholder="Ingresar DNI"
+                    placeholder={t(
+                      "general.fields.document_number.placeholder"
+                    )}
                     className={`${
                       errors.document_number
                         ? "border-red-400 focus:border-red-400"
@@ -498,13 +502,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="first_name"
                   >
-                    Nombres <span>*</span>
+                    {t("general.fields.name.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("first_name")}
                     id="first_name"
-                    placeholder="Ingresar Nombres"
+                    placeholder={t("general.fields.name.placeholder")}
                     className={`${
                       errors.first_name
                         ? "border-red-400 focus:border-red-400"
@@ -522,13 +526,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="last_name"
                   >
-                    Apellidos <span>*</span>
+                    {t("general.fields.last_name.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("last_name")}
                     id="last_name"
-                    placeholder="Ingresar Apellidos"
+                    placeholder={t("general.fields.last_name.placeholder")}
                     className={`${
                       errors.last_name
                         ? "border-red-400 focus:border-red-400"
@@ -547,13 +551,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="email"
                   >
-                    Correo electronico <span>*</span>
+                    {t("general.fields.email.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("email")}
                     id="email"
-                    placeholder="Ingresar Correo electronico"
+                    placeholder={t("general.fields.email.placeholder")}
                     className={`${
                       errors.email ? "border-red-400 focus:border-red-400" : ""
                     } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
@@ -569,13 +573,12 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="birthdate"
                   >
-                    Fecha Nacimiento (opcional)
+                    {t("general.fields.birthdate.label")}
                   </label>
                   <input
                     type="date"
                     {...register("birthdate")}
                     id="birthdate"
-                    placeholder="Fecha nacimiento"
                     className={`${
                       errors.birthdate
                         ? "border-red-400 focus:border-red-400"
@@ -594,14 +597,14 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="phone_number"
                   >
-                    Celular <span>*</span>
+                    {t("general.fields.phone_number.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     name="phone_number"
                     {...register("phone_number")}
                     id="phone_number"
-                    placeholder="Ingresar Celular"
+                    placeholder={t("general.fields.phone_number.placeholder")}
                     className={`${
                       errors.phone_number
                         ? "border-red-400 focus:border-red-400"
@@ -623,7 +626,7 @@ const Order = () => {
                     }}
                     className="bg-rose-500 hover:bg-rose-600 px-10 py-2.5 rounded-md font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
                   >
-                    siguiente
+                    {t("general.buttons.next")}
                   </button>
                 </div>
               </div>
@@ -631,8 +634,8 @@ const Order = () => {
 
             <Stage
               stage={2}
-              title={"Entrega"}
-              description={"Información de Delivery."}
+              title={t("order.sections.two.title")}
+              description={t("order.sections.two.description")}
               current_stage={stage}
               set_current_stage={setStage}
             >
@@ -642,13 +645,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_first_name"
                   >
-                    Nombres <span>*</span>
+                    {t("general.fields.name.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("delivery_first_name")}
                     id="delivery_first_name"
-                    placeholder="Ingresar Nombres"
+                    placeholder={t("general.fields.name.placeholder")}
                     className={`${
                       errors.delivery_first_name
                         ? "border-red-400 focus:border-red-400"
@@ -666,13 +669,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_last_name"
                   >
-                    Apellidos <span>*</span>
+                    {t("general.fields.last_name.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("delivery_last_name")}
                     id="delivery_last_name"
-                    placeholder="Ingresar Apellidos"
+                    placeholder={t("general.fields.last_name.placeholder")}
                     className={`${
                       errors.delivery_last_name
                         ? "border-red-400 focus:border-red-400"
@@ -691,7 +694,7 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_region"
                   >
-                    Región <span>*</span>
+                    {t("general.fields.region.label")} <span>*</span>
                   </label>
                   <select
                     {...register("delivery_region", {
@@ -725,7 +728,8 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_location"
                   >
-                    Localidad (costo de envio) <span>*</span>
+                    {t("general.fields.location.label")} (
+                    {t("general.fields.location.addition")}) <span>*</span>
                   </label>
                   <select
                     {...register("delivery_location")}
@@ -736,7 +740,7 @@ const Order = () => {
                         : ""
                     } px-2 py-2 border capitalize border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value="0">Seleccionar localidad</option>
+                    <option value="0">Seleccionar</option>
                     {locations &&
                       locations.map(({ id, name, delivery_cost }) => {
                         return (
@@ -762,13 +766,15 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_address"
                   >
-                    Dirección de entrega <span>*</span>
+                    {t("general.fields.delivery_address.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("delivery_address")}
                     id="delivery_address"
-                    placeholder="Número de la casa y nombre la calle"
+                    placeholder={t(
+                      "general.fields.delivery_address.placeholder"
+                    )}
                     className={`${
                       errors.delivery_address
                         ? "border-red-400 focus:border-red-400"
@@ -786,13 +792,15 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_address_reference"
                   >
-                    Referencia <span>(opcional)</span>
+                    {t("general.fields.delivery_address_reference.label")}
                   </label>
                   <input
                     type="text"
                     {...register("delivery_address_reference")}
                     id="delivery_address_reference"
-                    placeholder="Ingresar Referencia"
+                    placeholder={t(
+                      "general.fields.delivery_address_reference.placeholder"
+                    )}
                     className={`${
                       errors.delivery_address_reference
                         ? "border-red-400 focus:border-red-400"
@@ -811,14 +819,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_date"
                   >
-                    Fecha de entrega <span>*</span>
+                    {t("general.fields.delivery_date.label")} <span>*</span>
                   </label>
                   <input
                     type="date"
                     min={moment().format("YYYY-MM-DD")}
                     {...register("delivery_date")}
                     id="delivery_date"
-                    placeholder="Fecha nacimiento"
                     className={`${
                       errors.delivery_date
                         ? "border-red-400 focus:border-red-400"
@@ -836,7 +843,7 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_schedule"
                   >
-                    Hora de entrega <span>*</span>
+                    {t("general.fields.delivery_schedule.label")} <span>*</span>
                   </label>
                   <select
                     {...register("delivery_schedule")}
@@ -847,7 +854,9 @@ const Order = () => {
                         : ""
                     } px-2 py-2 border border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value="">Seleccionar horario</option>
+                    <option value="">
+                      {t("general.fields.delivery_schedule.placeholder")}
+                    </option>
                     {delivery_schedules &&
                       delivery_schedules.map(({ id, start_hour, end_hour }) => {
                         return (
@@ -869,13 +878,13 @@ const Order = () => {
                     className="block text-gray-500 text-xs"
                     htmlFor="delivery_phone_number"
                   >
-                    Celular <span>*</span>
+                    {t("general.fields.phone_number.label")} <span>*</span>
                   </label>
                   <input
                     type="text"
                     {...register("delivery_phone_number")}
                     id="delivery_phone_number"
-                    placeholder="Ingresar Celular"
+                    placeholder={t("general.fields.phone_number.placeholder")}
                     className={`${
                       errors.delivery_phone_number
                         ? "border-red-400 focus:border-red-400"
@@ -897,7 +906,7 @@ const Order = () => {
                     }}
                     className="border-gray-300 bg-white hover:bg-gray-200 px-10 py-2.5 border rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
-                    Regresar
+                    {t("general.buttons.previous")}
                   </button>
 
                   <button
@@ -907,7 +916,7 @@ const Order = () => {
                     }}
                     className="bg-rose-500 hover:bg-rose-600 shadow px-10 py-2.5 rounded-md font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
                   >
-                    siguiente
+                    {t("general.buttons.next")}
                   </button>
                 </div>
               </div>
@@ -915,8 +924,8 @@ const Order = () => {
 
             <Stage
               stage={3}
-              title={"Pago"}
-              description={"Seleccionar método de pago."}
+              title={t("order.sections.three.title")}
+              description={t("order.sections.three.description")}
               current_stage={stage}
               set_current_stage={setStage}
             >
@@ -972,11 +981,10 @@ const Order = () => {
                           </span>
                           <div>
                             <p className="font-bold uppercase">
-                              Pago mediante Paypal
+                              {t("order.payment_methods.paypal.title")}
                             </p>
                             <p>
-                              Visa, Mastercard, Maestro, American Express,
-                              Paypal
+                              {t("order.payment_methods.paypal.description")}
                             </p>
                           </div>
                         </div>
@@ -1003,7 +1011,7 @@ const Order = () => {
                     }}
                     className="border-gray-300 bg-white hover:bg-gray-200 px-10 py-2.5 border rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
                   >
-                    Regresar
+                    {t("general.buttons.previous")}
                   </button>
                 </div>
               </div>
@@ -1013,11 +1021,8 @@ const Order = () => {
             name="my_testt"
             className="lg:flex flex-col gap-y-3 hidden bg-gray-200 mt-10 p-5 rounded-xl text-gray-700 text-xs"
           >
-            <p className="font-bold">¿Necesitas ayuda?</p>
-            <p>
-              Contacta con nuestro canal de Atención al cliente en cualquier
-              momento.
-            </p>
+            <p className="font-bold">{t("order.need_help_section.title")}</p>
+            <p>{t("order.need_help_section.description")}</p>
 
             <a
               href="tel:56971359643"
@@ -1032,7 +1037,7 @@ const Order = () => {
         </div>
         <div className="flex flex-col gap-y-2 border-gray-300 bg-gray-50 shadow-lg p-3 border rounded-md w-full lg:w-2/5 text-gray-700 text-sm">
           <div>
-            <h5 className="font-bold uppercase">Resumen de tu pedido</h5>
+            <h5 className="font-bold uppercase">{t("order.summary.title")}</h5>
             <span className="block bg-rose-800 mt-0.5 rounded-full w-10 h-[3px]"></span>
           </div>
 
@@ -1042,7 +1047,9 @@ const Order = () => {
                 <FaRegCalendarDays className="mb-1.5 text-2xl" />
               </span>
               <div>
-                <p className="m-0 p-0 text-sm leading-3">Fecha de Delivery:</p>
+                <p className="m-0 p-0 text-sm leading-3">
+                  {t("order.summary.delivery_date")}:
+                </p>
                 <span className="text-xs">
                   {watch("delivery_date")
                     ? format(parseISO(watch("delivery_date")), "dd/MM/yyyy")
@@ -1056,7 +1063,9 @@ const Order = () => {
                 <FaRegClock className="mb-1.5 text-2xl" />
               </span>
               <div>
-                <p className="m-0 p-0 text-sm leading-3">Hora de Delivery:</p>
+                <p className="m-0 p-0 text-sm leading-3">
+                  {t("order.summary.delivery_hour")}:
+                </p>
                 <span className="text-xs">
                   {watch("delivery_schedule") &&
                   delivery_schedules &&
@@ -1104,7 +1113,7 @@ const Order = () => {
                           {item.product.name}
                         </Link>
                         <p className="font-semibold text-xs">
-                          Precio unitario{" "}
+                          {t("order.summary.unit_price")}{" "}
                           <span>
                             {currency(
                               item.product.in_offer == true
@@ -1134,34 +1143,36 @@ const Order = () => {
                 })
               ) : (
                 <p className="bg-red-400 py-2 text-center text-white">
-                  No existen productos en el carrito.
+                  {t("order.summary.empty_cart")}
                 </p>
               )}
             </ul>
           </div>
 
           <div>
-            <p className="text-center">¿Tienes un cupón o vale de descuento?</p>
+            <label for="coupon" className="block text-center">
+              {t("general.fields.coupon.label")}
+            </label>
             <div className="flex gap-x-2 mt-2">
               <input
                 type="text"
                 name="coupon"
                 id="coupon"
-                placeholder="Ingrese su código."
+                placeholder={t("general.fields.coupon.placeholder")}
                 className={` focus:bg-gray-50 w-9/12 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md  transition-all duration-200 ease-in-out cursor-pointer outline-none`}
               />
               <button
                 type="button"
                 className="bg-white hover:bg-rose-50 px-5 py-2.5 border border-rose-600 rounded-md w-3/12 font-bold text-rose-500 text-xs uppercase transition-all duration-300 ease-in-out"
               >
-                Aplicar
+                {t("general.buttons.apply")}
               </button>
             </div>
           </div>
 
           <ul className="mt-2">
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
-              <p>Subtotal</p>
+              <p>{t("order.summary.subtotal")}</p>
               <p className="font-bold">
                 {currency(total_price_items, {
                   symbol: "S/ ",
@@ -1169,7 +1180,7 @@ const Order = () => {
               </p>
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
-              <p>Transporte</p>
+              <p>{t("order.summary.shipping")}</p>
               <p className="font-bold">
                 {delivery_cost
                   ? currency(delivery_cost, {
@@ -1179,7 +1190,9 @@ const Order = () => {
               </p>
             </li>
             <li className="flex justify-between items-center py-2.5 border-t text-sm">
-              <p>Total (impuestos inc.)</p>
+              <p>
+                {t("order.summary.total")} ({t("order.summary.included_taxes")})
+              </p>
               <p className="font-bold text-xl">
                 {currency(total_price_items + (delivery_cost || 0), {
                   symbol: "S/ ",
@@ -1200,9 +1213,9 @@ const Order = () => {
                   htmlFor="privacy_policies"
                   className="cursor-pointer ps-2"
                 >
-                  He leído y aceptado la{" "}
+                  {t("general.fields.privacy_policies.label.part1")}{" "}
                   <a href="" className="font-bold text-rose-500">
-                    Política de Privacidad
+                    {t("general.fields.privacy_policies.label.part2")}
                   </a>{" "}
                   (*)
                 </label>
@@ -1222,9 +1235,9 @@ const Order = () => {
                   id="terms_service"
                 />
                 <label htmlFor="terms_service" className="cursor-pointer ps-2">
-                  Acepto los{" "}
+                  {t("general.fields.terms_service.label.part1")}{" "}
                   <a href="" className="font-bold text-rose-500">
-                    términos de servicio
+                    {t("general.fields.terms_service.label.part2")}
                   </a>{" "}
                   (*)
                 </label>
@@ -1247,7 +1260,7 @@ const Order = () => {
                   htmlFor="subscribe_newsletter"
                   className="cursor-pointer ps-2"
                 >
-                  Suscribirse a nuestro boletín de noticias.
+                  {t("general.fields.subscribe_newsletter.label")}
                 </label>
               </div>
               {errors.subscribe_newsletter && (
