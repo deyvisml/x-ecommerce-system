@@ -11,6 +11,7 @@ import { Bars3Icon } from "@heroicons/react/24/outline";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import axios_client from "../../helpers/axios";
 import { useTranslation } from "react-i18next";
+import LocaleSwitcher from "../LocaleSwitcher";
 
 const Header = () => {
   const { t } = useTranslation();
@@ -105,7 +106,8 @@ const Header = () => {
               <img src={logo} className="w-36 h-16 object-contain" alt="" />
             </Link>
 
-            <div className="flex justify-end gap-x-4 order-3 md:order-2 w-full md:max-w-md text-gray-600">
+            <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 order-3 md:order-2 w-full md:max-w-xl text-gray-600">
+              <LocaleSwitcher />
               <form
                 onSubmit={handleSubmit(handle_search_products)}
                 className="flex items-center w-full text-sm"
