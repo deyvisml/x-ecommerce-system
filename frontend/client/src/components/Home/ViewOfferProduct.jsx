@@ -4,36 +4,37 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useTranslation } from "react-i18next";
 
-const handle_go_offer_product_btn = async () => {
-  const { data } = await axios_client(`api/products`, {
-    method: "get",
-    params: {
-      filtering: [
-        { column: "products.in_offer", values: [1] },
-        { column: "products.state_id", values: [1] },
-      ],
-      options: {
-        only_published: true,
-      },
-      sorting: [{ column: null, way: "random" }],
-      limit: 1,
-    },
-  });
-
-  const offer_product = data.data[0];
-
-  if (!offer_product) {
-    toast.error("Aun no hay productos en oferta.");
-    throw new Error("Sin productos en oferta.");
-  }
-
-  return navigate(
-    `/categorias/${offer_product.category_id}/productos/${offer_product.id}`
-  );
-};
-
 const ViewOfferProduct = () => {
   const { t } = useTranslation();
+
+  const handle_go_offer_product_btn = async () => {
+    try {
+      const response = await axios_client(`api/products`, {
+        params: {
+          filtering: [
+            { column: "products.in_offer", values: [1] },
+            { column: "products.state_id", values: [1] },
+          ],
+          options: {
+            only_published: true,
+          },
+          sorting: [{ column: null, way: "random" }],
+          limit: 1,
+        },
+      });
+
+      if (response.data.data.length == 0)
+        throw new Error(t("home.offer_section.no_products_in_offer"));
+
+      const offer_product = response.data.data[0];
+
+      return navigate(
+        `/categorias/${offer_product.category_id}/productos/${offer_product.id}`
+      );
+    } catch (error) {
+      toast.error(error?.response?.data?.message ?? error.message);
+    }
+  };
 
   return (
     <div className="bg-rose-700 p-4 w-full text-white">

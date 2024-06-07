@@ -707,7 +707,9 @@ const Order = () => {
                         : ""
                     } px-2 py-2 border border-gray-300 capitalize rounded-md w-full outline-none`}
                   >
-                    <option value={0}>Seleccionar región</option>
+                    <option value={0}>
+                      {t("general.fields.region.placeholder")}
+                    </option>
                     {regions &&
                       regions.map(({ id, name }) => {
                         return (
@@ -740,7 +742,9 @@ const Order = () => {
                         : ""
                     } px-2 py-2 border capitalize border-gray-300 rounded-md w-full outline-none`}
                   >
-                    <option value="0">Seleccionar</option>
+                    <option value="0">
+                      {t("general.fields.location.placeholder")}
+                    </option>
                     {locations &&
                       locations.map(({ id, name, delivery_cost }) => {
                         return (
@@ -1150,7 +1154,7 @@ const Order = () => {
           </div>
 
           <div>
-            <label for="coupon" className="block text-center">
+            <label htmlFor="coupon" className="block text-center">
               {t("general.fields.coupon.label")}
             </label>
             <div className="flex gap-x-2 mt-2">

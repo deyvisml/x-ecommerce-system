@@ -7,8 +7,10 @@ import axios_client from "../../helpers/axios";
 import OrderBy from "../Products/OrderBy";
 import ProductsGrid from "../ProductsGrid";
 import { useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Products = () => {
+  const { t } = useTranslation();
   const location = useLocation();
 
   // Extrae los parámetros de consulta de la ubicación
@@ -62,14 +64,14 @@ const Products = () => {
   return (
     <div className="mx-auto px-4 max-w-7xl text-gray-800">
       <div className="my-5">
-        Resultados de la búsqueda:{" "}
+        {t("search.search_results")}:{" "}
         <span className="font-bold">{search_query}</span>
       </div>
       <hr className="mb-2" />
 
       {products && products.length == 0 ? (
         <p className="block my-5 text-center text-sm">
-          No existen productos disponibles para esta busqueda.
+          {t("search.no_find_products")}
         </p>
       ) : (
         <div>
@@ -78,7 +80,8 @@ const Products = () => {
 
             {products ? (
               <p className="font-bold text-sm">
-                Hay {products && products.length} productos encontrados
+                {t("search.find_products.part1")} {products && products.length}{" "}
+                {t("search.find_products.part2")}
               </p>
             ) : (
               <Skeleton count={1} width={200} />

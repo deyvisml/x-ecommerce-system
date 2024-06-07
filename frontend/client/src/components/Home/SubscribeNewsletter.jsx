@@ -25,12 +25,12 @@ const SubscribeNewsletter = () => {
         data,
       });
 
-      if (response.data.status) {
-        toast.success(response.data.message);
-        reset();
-      } else {
+      if (!response.data.status) {
         throw new Error(response.data.message);
       }
+
+      toast.success(response.data.message);
+      reset();
     } catch (error) {
       toast.error(error?.response?.data?.message ?? error.message, {
         autoClose: 5000,

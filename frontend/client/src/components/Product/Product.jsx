@@ -145,9 +145,9 @@ const Product = () => {
       cart_copy.items.push(item);
 
       set_cart(cart_copy);
-      toast.success("Con stock diponible!");
+      toast.success(t("product.stock.with_stock"));
     } else {
-      toast.error("No existe stock disponible.");
+      toast.error(t("product.stock.without_stock"));
     }
 
     setAddToCartLoader(false);

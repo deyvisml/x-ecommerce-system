@@ -15,7 +15,8 @@
     },
     "offer_section": {
       "description": "Descubre la oferta de dia que tenemos para ti",
-      "button_text": "Ofertas del dia"
+      "button_text": "Ofertas del dia",
+      "no_products_in_offer": "Aun no hay productos en oferta."
     },
     "category_section": {
       "title": "¿De que forma quieres sorprender el dia de hoy?"
@@ -93,7 +94,9 @@
     "availability": "Disponibilidad",
     "stock": {
       "yes": "En stock",
-      "no": "Agotado"
+      "no": "Agotado",
+      "with_stock": "Con stock diponible!",
+      "without_stock": "No existe stock disponible."
     },
     "quantity": "Cantidad",
     "buy_now_button": "Comprar ahora",
@@ -139,6 +142,14 @@
       "empty_cart": "No existen productos en el carrito."
     }
   },
+  "search": {
+    "search_results": "Resultados de la búsqueda",
+    "no_find_products": "No existen productos disponibles para esta busqueda.",
+    "find_products": {
+      "part1": "Hay",
+      "part2": "productos encontrados"
+    }
+  },
   "general": {
     "fields": {
       "document_type": {
@@ -169,12 +180,13 @@
         "placeholder": "Ingresar Número de teléfono"
       },
       "region": {
-        "label": "Región"
+        "label": "Región",
+        "placeholder": "Seleccionar"
       },
       "location": {
         "label": "Localidad",
         "placeholder": "Seleccionar",
-        "addition": "(costo de envio)"
+        "addition": "costo de envio"
       },
       "delivery_address": {
         "label": "Dirección de entrega",
@@ -189,7 +201,7 @@
       },
       "delivery_schedule": {
         "label": "Hora de entrega",
-        "placeholder": "Seleccionar horario"
+        "placeholder": "Seleccionar"
       },
       "coupon": {
         "label": "¿Tienes un cupón o vale de descuento?",
@@ -215,6 +227,7 @@
       "next": "Siguiente",
       "previous": "Anterior",
       "apply": "Aplicar"
-    }
+    },
+    "schema": {}
   }
 }
