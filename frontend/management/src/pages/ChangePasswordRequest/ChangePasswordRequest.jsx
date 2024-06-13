@@ -10,8 +10,12 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
 import MainLoader from "../../components/MainLoader";
+import logo from "../../../public/images/logos/logo.svg";
+import { useTranslation } from "react-i18next";
+import LocaleSwitcher from "../../components/LocaleSwitcher/LocaleSwitcher";
 
 const ChangePasswordRequest = () => {
+  const { t } = useTranslation();
   const [showLoader, setShowLoader] = useState(false);
 
   const {
@@ -60,16 +64,12 @@ const ChangePasswordRequest = () => {
         <div className="flex flex-col flex-1 justify-center items-center">
           <div className="mb-4">
             <Link to="/">
-              <img
-                src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/client/src/assets/logo.svg"
-                alt=""
-                className="w-44"
-              />
+              <img src={logo} alt="" className="w-36 h-16 object-contain" />
             </Link>
           </div>
           <div className="bg-white px-4 py-6 rounded w-full max-w-md">
             <h2 className="mb-6 font-bold text-3xl text-slate-800">
-              Cambia tu contraseña ✨
+              {t("change_password_request.title")} ✨
             </h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -81,7 +81,7 @@ const ChangePasswordRequest = () => {
                   className="block pb-1 font-semibold text-sm"
                   htmlFor="email"
                 >
-                  Correo Electronico
+                  {t("general.fields.email.label")}
                 </label>
                 <input
                   className="border-slate-300 rounded w-full"
@@ -91,7 +91,7 @@ const ChangePasswordRequest = () => {
                 />
                 {errors.email && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.email.message}
+                    {t(errors.email.message)}
                   </p>
                 )}
               </div>
@@ -101,10 +101,16 @@ const ChangePasswordRequest = () => {
                   className="bg-rose-500 hover:bg-rose-600 px-6 py-2 rounded font-bold text-white transition-all duration-200 ease-in-out"
                   type="submit"
                 >
-                  Cambiar
+                  {t("general.buttons.change")}
                 </button>
               </div>
             </form>
+          </div>
+
+          <div className="flex justify-center mt-5 w-full">
+            <div className="inline-block w-40 text-xs">
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
         <div className="md:block hidden w-1/2">

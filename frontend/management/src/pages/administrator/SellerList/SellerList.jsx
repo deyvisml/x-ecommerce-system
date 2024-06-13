@@ -23,8 +23,8 @@ import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import EditSellerButton from "./EditSellerButton";
 import { AnimatePresence } from "framer-motion";
 import EditSellerModal from "./EditSellerModal";
-import DeleteSellerButton from "./DeleteSellerButton";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -53,6 +53,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function SellerList() {
+  const { t } = useTranslation();
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
     {
@@ -104,7 +105,7 @@ function SellerList() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <span className="font-semibold text-indigo-400">
             #{info.getValue().toString().padStart(4, "0")}
@@ -113,7 +114,7 @@ function SellerList() {
       },
       {
         accessorKey: "first_name",
-        header: () => "Nombre",
+        header: () => t("table.headers.name"),
         cell: ({ row }) => {
           //console.log(row.original);
           return (
@@ -130,22 +131,22 @@ function SellerList() {
       },
       {
         accessorKey: "email",
-        header: () => "Email",
+        header: () => t("table.headers.email"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "phone_number",
-        header: () => "Teléfono",
+        header: () => t("table.headers.phone_number"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "created_at",
-        header: () => "Creado",
+        header: () => t("table.headers.created"),
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -184,7 +185,7 @@ function SellerList() {
         },
       },
       {
-        header: "Acción",
+        header: t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -209,7 +210,7 @@ function SellerList() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     <Menu.Item>
@@ -314,7 +315,7 @@ function SellerList() {
     <>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800 dark:text-slate-300">
-          Vendedores
+          {t("seller_list.title")}
         </h3>
       </div>
 

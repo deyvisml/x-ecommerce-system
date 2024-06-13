@@ -1,5 +1,6 @@
 import React, { useEffect, forwardRef } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 // https://github.com/tailwindlabs/headlessui/issues/1512
 const EditRecordButton = forwardRef(
@@ -12,6 +13,7 @@ const EditRecordButton = forwardRef(
     },
     ref
   ) => {
+    const { t } = useTranslation();
     useEffect(() => {
       if (!is_edit_record_modal_open) {
         setEditRecord();
@@ -32,7 +34,7 @@ const EditRecordButton = forwardRef(
         className={` p-2 hover:bg-slate-100 w-full flex items-center gap-x-1`}
       >
         <PencilSquareIcon className="w-4" />
-        Editar
+        {t("general.buttons.edit")}
       </button>
     );
   }

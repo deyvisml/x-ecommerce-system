@@ -21,6 +21,7 @@ import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import AcceptStoreApplicationButton from "./AcceptStoreApplicationButton";
 import RejectStoreApplicationButton from "./RejectStoreApplicationButton";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -49,6 +50,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 4;
 
 function StoreApplications() {
+  const { t } = useTranslation();
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
     {
@@ -96,7 +98,7 @@ function StoreApplications() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <span className="font-semibold text-indigo-400">
             #{info.getValue().toString().padStart(4, "0")}
@@ -105,23 +107,23 @@ function StoreApplications() {
       },
       {
         accessorKey: "name",
-        header: () => "Nombre",
+        header: () => t("table.headers.name"),
         cell: (info) => <span className="text-black">{info.getValue()}</span>,
       },
       {
         accessorKey: "ruc",
-        header: () => "RUC",
+        header: () => t("table.headers.ruc"),
         cell: (info) => info.getValue(),
         enableSorting: false,
       },
       {
         accessorKey: "business_name",
-        header: () => "Razón social",
+        header: () => t("table.headers.business_name"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "users_first_name",
-        header: () => "Vendedor",
+        header: () => t("table.headers.seller"),
         cell: ({ row }) => {
           return (
             <div className="flex items-center gap-2">
@@ -178,12 +180,12 @@ function StoreApplications() {
       },
       {
         accessorKey: "created_at",
-        header: () => "Solicitado",
+        header: () => t("table.headers.requested"),
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -222,7 +224,7 @@ function StoreApplications() {
         },
       },
       {
-        header: "Acción",
+        header: t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -247,7 +249,7 @@ function StoreApplications() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     <Menu.Item>
@@ -361,7 +363,7 @@ function StoreApplications() {
     <>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800 dark:text-slate-300">
-          Solicitudes de Tiendas
+          {t("store_applications.title")}
         </h3>
       </div>
 

@@ -5,8 +5,10 @@ import { TrashIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
+import { useTranslation } from "react-i18next";
 
 const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
+  const { t } = useTranslation();
   const { token } = useManagement();
 
   const handle_click_delete_store_btn = (record) => {
@@ -64,7 +66,7 @@ const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
       className={` p-2 hover:bg-slate-100 flex w-full items-center gap-x-1`}
     >
       <TrashIcon className="w-4" />
-      Borrar
+      {t("general.buttons.delete")}
     </button>
   );
 });

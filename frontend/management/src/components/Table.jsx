@@ -1,8 +1,10 @@
 import React from "react";
 import { flexRender } from "@tanstack/react-table";
 import { ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 const Table = ({ table }) => {
+  const { t } = useTranslation();
   return (
     <table className="z-20 w-full">
       <thead>
@@ -49,7 +51,7 @@ const Table = ({ table }) => {
         {table.getRowModel().rows == 0 && (
           <tr className="border-slate-300 border-b text-sm">
             <td colSpan={999} className="px-2 py-2.5 text-center">
-              No se encontraron registros coincidentes
+              {t("table.without_records")}
             </td>
           </tr>
         )}

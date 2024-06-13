@@ -8,9 +8,10 @@ import useManagement from "../hooks/useManagement";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios_client from "../helpers/axios";
+import { useTranslation } from "react-i18next";
 
 const ChooseRole = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { token, set_token, user, role, set_role, set_store } = useManagement();
 
@@ -53,7 +54,7 @@ const ChooseRole = () => {
           transition={{ duration: 1 }}
           className="font-semibold text-2xl text-center"
         >
-          ¿Como deseas iniciar sesión?
+          {t("choose_role.title")}
         </motion.h4>
 
         <div className="flex flex-wrap justify-center items-center gap-8 mt-8">
@@ -73,7 +74,11 @@ const ChooseRole = () => {
                   ) : (
                     <UserIcon className="w-12" />
                   )}
-                  <span className="capitalize">{role.name}</span>
+                  <span className="capitalize">
+                    {role.id == 1
+                      ? t("choose_role.administrator_button")
+                      : t("choose_role.seller_button")}
+                  </span>
                 </motion.button>
               );
             })}

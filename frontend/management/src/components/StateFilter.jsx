@@ -3,6 +3,7 @@ import axios_client from "../helpers/axios";
 import { cloneDeep } from "lodash";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 const StateFilter = ({
   filter_column,
@@ -10,6 +11,7 @@ const StateFilter = ({
   filtering,
   setFiltering,
 }) => {
+  const { t } = useTranslation();
   const [states, setStates] = useState([]);
   const fetch_states = async () => {
     try {
@@ -81,7 +83,7 @@ const StateFilter = ({
       })()}
       className="border-slate-200 focus:border-indigo-400 dark:bg-slate-700 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
     >
-      <option value={""}>Estado</option>
+      <option value={""}>{t("table_filter.state_filter")}</option>
       {states.map((state, i) => {
         return (
           <option key={i} value={state.id}>

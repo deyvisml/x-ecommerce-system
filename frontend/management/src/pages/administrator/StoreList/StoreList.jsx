@@ -24,6 +24,7 @@ import EditRecordButton from "../../../components/EditRecordButton";
 import { AnimatePresence } from "framer-motion";
 import EditStoreModal from "./EditStoreModal";
 import DeleteStoreButton from "./DeleteStoreButton";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -52,6 +53,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function StoreList() {
+  const { t } = useTranslation();
   const [data_changed, setDataChanged] = useState(false);
   const [filtering, setFiltering] = useState([
     {
@@ -103,7 +105,7 @@ function StoreList() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <span className="font-semibold text-indigo-400">
             #{info.getValue().toString().padStart(4, "0")}
@@ -112,7 +114,7 @@ function StoreList() {
       },
       {
         accessorKey: "name",
-        header: () => "Nombre",
+        header: () => t("table.headers.name"),
         cell: (info) => (
           <span className="text-black dark:text-slate-400">
             {info.getValue()}
@@ -121,18 +123,18 @@ function StoreList() {
       },
       {
         accessorKey: "ruc",
-        header: () => "RUC",
+        header: () => t("table.headers.ruc"),
         cell: (info) => info.getValue(),
         enableSorting: false,
       },
       {
         accessorKey: "business_name",
-        header: () => "Razón social",
+        header: () => t("table.headers.business_name"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "users_first_name",
-        header: () => "Vendedor",
+        header: () => t("table.headers.seller"),
         cell: ({ row }) => {
           return (
             <span className="capitalize">
@@ -145,12 +147,12 @@ function StoreList() {
       },
       {
         accessorKey: "created_at",
-        header: () => "Creado",
+        header: () => t("table.headers.created"),
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -182,7 +184,7 @@ function StoreList() {
         },
       },
       {
-        header: "Acción",
+        header: t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -207,7 +209,7 @@ function StoreList() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     <Menu.Item>
@@ -322,7 +324,7 @@ function StoreList() {
     <>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800 dark:text-slate-300">
-          Listado de Tiendas
+          {t("store_list.title")}
         </h3>
       </div>
 

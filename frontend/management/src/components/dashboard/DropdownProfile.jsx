@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Transition from "../../utils/dashboard/Transition";
 import useManagement from "../../hooks/useManagement";
 import { UserIcon } from "@heroicons/react/24/solid";
@@ -7,8 +6,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios_client from "../../helpers/axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function DropdownProfile({ align }) {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const { token, user, role, set_token } = useManagement();
 
@@ -116,7 +117,9 @@ function DropdownProfile({ align }) {
               {user.first_name} {user.last_name}
             </div>
             <div className="text-slate-500 text-xs dark:text-slate-400 italic capitalize">
-              {role.name}
+              {role.id == 1
+                ? t("choose_role.administrator_button")
+                : t("choose_role.seller_button")}
             </div>
           </div>
           <ul>
@@ -134,7 +137,7 @@ function DropdownProfile({ align }) {
                 className="flex items-center px-3 py-1 w-full font-medium text-indigo-500 text-sm hover:text-indigo-600 dark:hover:text-indigo-400"
                 onClick={handle_click_exit_btn}
               >
-                Salir
+                {t("user_menu.exit")}
               </button>
             </li>
           </ul>

@@ -15,8 +15,21 @@ yup.setLocale({
   },
   string: {
     email: "schema.string.email",
+    min: ({ min }) => ({ key: "schema.string.min", values: { min } }),
     max: ({ max }) => ({ key: "schema.string.max", values: { max } }),
     matches: "schema.string.matches",
+    minLowercase: ({ length }) => ({
+      key: "schema.string.minLowercase",
+      values: { length },
+    }),
+    minUppercase: ({ length }) => ({
+      key: "schema.string.minUppercase",
+      values: { length },
+    }),
+    minNumbers: ({ length }) => ({
+      key: "schema.string.minNumbers",
+      values: { length },
+    }),
   },
   number: {
     min: "schema.number.min",

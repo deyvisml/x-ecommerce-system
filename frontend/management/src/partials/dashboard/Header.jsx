@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 
-import SearchModal from "../../components/dashboard/ModalSearch";
-import Notifications from "../../components/dashboard/DropdownNotifications";
-import Help from "../../components/dashboard/DropdownHelp";
 import UserMenu from "../../components/dashboard/DropdownProfile";
-import ThemeToggle from "../../components/dashboard/ThemeToggle";
+import LocaleSwitcher from "../../components/LocaleSwitcher/LocaleSwitcher";
 
 function Header({ sidebarOpen, setSidebarOpen }) {
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -40,6 +37,9 @@ function Header({ sidebarOpen, setSidebarOpen }) {
 
           {/* Header: Right side */}
           <div className="flex items-center space-x-3">
+            <div className="w-40 text-xs">
+              <LocaleSwitcher />
+            </div>
             {/*<ThemeToggle />*/}
             {/*  Divider */}
             <hr className="bg-slate-200 dark:bg-slate-700 border-none w-px h-6" />

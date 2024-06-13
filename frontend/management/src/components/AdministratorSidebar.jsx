@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
 import SidebarLinkGroup from "../partials/dashboard/SidebarLinkGroup";
 import logo_white from "../../public/images/logos/logo-white.svg";
+import { useTranslation } from "react-i18next";
 
 function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
+  const { t } = useTranslation();
   const location = useLocation();
   const { pathname } = location;
 
@@ -106,7 +107,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                 •••
               </span>
               <span className="lg:sidebar-expanded:block 2xl:block lg:hidden">
-                Páginas
+                {t("sidebar.pages")}
               </span>
             </h3>
             <ul className="mt-3">
@@ -168,7 +169,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Dashboard
+                              {t("sidebar.dashboard.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -198,7 +199,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Principal
+                                {t("sidebar.dashboard.main")}
                               </span>
                             </NavLink>
                           </li>
@@ -259,7 +260,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Tiendas
+                              {t("sidebar.stores.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -289,7 +290,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Tiendas
+                                {t("sidebar.stores.store_list")}
                               </span>
                             </NavLink>
                           </li>
@@ -305,7 +306,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Solicitudes
+                                {t("sidebar.stores.application_list")}
                               </span>
                             </NavLink>
                           </li>
@@ -321,7 +322,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Vendedores
+                                {t("sidebar.stores.seller_list")}
                               </span>
                             </NavLink>
                           </li>
@@ -376,7 +377,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Usuarios
+                              {t("sidebar.users.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -406,7 +407,7 @@ function AdministratorSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Usuarios
+                                {t("sidebar.users.user_list")}
                               </span>
                             </NavLink>
                           </li>

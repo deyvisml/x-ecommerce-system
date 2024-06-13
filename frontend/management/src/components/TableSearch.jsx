@@ -1,7 +1,9 @@
 import React from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 const TableSearch = ({ setPageIndex, setSearchQuery, INIT_PAGE_INDEX }) => {
+  const { t } = useTranslation();
   const handle_onchange_search_input = (e) => {
     setPageIndex(INIT_PAGE_INDEX);
     setSearchQuery(e.target.value);
@@ -12,7 +14,7 @@ const TableSearch = ({ setPageIndex, setSearchQuery, INIT_PAGE_INDEX }) => {
       <input
         type="text"
         onChange={handle_onchange_search_input}
-        placeholder="Buscar..."
+        placeholder={t("table_search.search.placeholder")}
         className="border-slate-300 bg-slate-100 py-2 border rounded-md w-full outline-none ps-8 focus:ring-transparent"
       />
       <MagnifyingGlassIcon

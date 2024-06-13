@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const EditSellerModal = ({
   record,
@@ -16,6 +17,7 @@ const EditSellerModal = ({
   is_modal_open,
   setIsModalOpen,
 }) => {
+  const { t } = useTranslation();
   const {
     register,
     watch,
@@ -150,90 +152,92 @@ const EditSellerModal = ({
           <div className="flex flex-col gap-2 text-slate-600 text-sm">
             <div>
               <label htmlFor="email" className="block font-semibold">
-                Email
+                {t("general.fields.email.label")}
               </label>
               <input
                 disabled
                 {...register("email")}
                 id="email"
                 type="text"
-                placeholder="Correo electrónico"
+                placeholder={t("general.fields.email.placeholder")}
                 className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.email && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.email.message}
+                  {t(errors.email.message)}
                 </p>
               )}
             </div>
 
             <div>
               <label htmlFor="first_name" className="block font-semibold">
-                Nombres
+                {t("general.fields.name.label")}
               </label>
               <input
                 {...register("first_name")}
                 id="first_name"
                 type="text"
                 maxLength={50}
-                placeholder="Nombres"
+                placeholder={t("general.fields.name.placeholder")}
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.first_name && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.first_name.message}
+                  {t(errors.first_name.message)}
                 </p>
               )}
             </div>
 
             <div>
               <label htmlFor="last_name" className="block font-semibold">
-                Apellidos
+                {t("general.fields.last_name.label")}
               </label>
               <input
                 {...register("last_name")}
                 id="last_name"
                 type="text"
                 maxLength={50}
-                placeholder="Apellidos"
+                placeholder={t("general.fields.last_name.placeholder")}
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.last_name && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.last_name.message}
+                  {t(errors.last_name.message)}
                 </p>
               )}
             </div>
 
             <div>
               <label htmlFor="phone_number" className="block font-semibold">
-                Teléfono
+                {t("general.fields.phone_number.label")}
               </label>
               <input
                 {...register("phone_number")}
                 id="phone_number"
                 type="text"
                 maxLength={9}
-                placeholder="Teléfono"
+                placeholder={t("general.fields.phone_number.placeholder")}
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.phone_number && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.phone_number.message}
+                  {t(errors.phone_number.message)}
                 </p>
               )}
             </div>
 
             <div>
               <label htmlFor="document_type_id" className="block font-semibold">
-                Tipo de documento
+                {t("general.fields.document_type.label")}
               </label>
               <select
                 {...register("document_type_id")}
                 id="document_type_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               >
-                <option value="0">Seleccionar</option>
+                <option value={0}>
+                  {t("general.fields.document_type.placeholder")}
+                </option>
                 {document_types.map((document_type, i) => {
                   return (
                     <option key={i} value={document_type.id}>
@@ -244,21 +248,21 @@ const EditSellerModal = ({
               </select>
               {errors.document_type_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.document_type_id.message}
+                  {t(errors.document_type_id.message)}
                 </p>
               )}
             </div>
 
             <div>
               <label htmlFor="document_number" className="block font-semibold">
-                Nro. de Documento
+                {t("general.fields.document_number.label")}
               </label>
               <input
                 {...register("document_number")}
                 id="document_number"
                 maxLength={20}
                 type="text"
-                placeholder="Documento"
+                placeholder={t("general.fields.document_number.placeholder")}
                 className="border-slate-200 focus:border-indigo-400 disabled:bg-slate-100 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
               />
               {errors.document_number && (
@@ -270,14 +274,17 @@ const EditSellerModal = ({
 
             <div>
               <label htmlFor="state_id" className="block font-semibold">
-                Estado
+                {t("general.fields.state.label")}
               </label>
               <select
                 {...register("state_id")}
                 id="state_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0 capitalize"
               >
-                <option value={0}>Seleccionar</option>
+                <option value={0}>
+                  {" "}
+                  {t("general.fields.state.placeholder")}
+                </option>
                 {states.map((state, i) => {
                   return (
                     <option key={i} value={state.id}>
@@ -288,7 +295,7 @@ const EditSellerModal = ({
               </select>
               {errors.state_id && (
                 <p className="pt-1 text-red-500 text-xs ps-1">
-                  {errors.state_id.message}
+                  {t(errors.state_id.message)}
                 </p>
               )}
             </div>
@@ -300,13 +307,13 @@ const EditSellerModal = ({
               type="button"
               className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded"
             >
-              Cancelar
+              {t("general.buttons.cancel")}
             </button>
             <button
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
             >
-              Editar
+              {t("general.buttons.edit")}
             </button>
           </div>
         </form>

@@ -1,177 +1,86 @@
 {
   "login": {
-    "title": "Bienvenido de nuevo!"
+    "title": "Bienvenido de nuevo!",
+    "forgot_password": "¿Olvidaste tu contraseña?"
   },
-  "header": {
+  "change_password_request": {
+    "title": "Cambia tu contraseña"
+  },
+  "choose_role": {
+    "title": "¿Como deseas iniciar sesión?",
+    "administrator_button": "Administrador",
+    "seller_button": "Vendedor"
+  },
+  "sidebar": {
+    "pages": "Páginas",
+    "dashboard": {
+      "title": "Dashboard",
+      "main": "Principal"
+    },
+    "stores": {
+      "title": "Tiendas",
+      "store_list": "Listado de Tiendas",
+      "application_list": "Listado de Solicitudes",
+      "seller_list": "Listado de Vendedores"
+    },
+    "users": {
+      "title": "Listado de Usuarios",
+      "user_list": "Listado de Usuarios"
+    }
+  },
+  "user_menu": {
+    "exit": "Salir"
+  },
+  "store_list": {
+    "title": "Listado de Tiendas",
+    "add_store": "Añadir tienda"
+  },
+  "store_applications": {
+    "title": "Solicitudes de Tiendas"
+  },
+  "seller_list": {
+    "title": "Vendedores"
+  },
+  "add_store_modal": {
+    "title": "Crear tienda"
+  },
+  "edit_store_modal": {
+    "title": "Editar tienda"
+  },
+  "add_seller_modal": {
+    "title": "Crear vendedor"
+  },
+  "table_filter": {
+    "title": "Filtro",
+    "state_filter": "Estado"
+  },
+  "table_search": {
     "search": {
-      "placeholder": "¿Qué estas buscando?"
+      "placeholder": "Buscar..."
     }
   },
-  "home": {
-    "carousel": {
-      "title": {
-        "part1": "Tenemos todo",
-        "part2": "para esos momentos especiales"
-      },
-      "subtitle": "Revisa nuestros arreglos temáticos",
-      "show_button": "Ver arreglos temáticos"
+  "table": {
+    "headers": {
+      "id": "Id",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "phone_number": "Número de teléfono",
+      "ruc": "RUC",
+      "business_name": "Razón social",
+      "seller": "Vendedor",
+      "created": "Creado",
+      "requested": "Solicitado",
+      "state": "Estado",
+      "action": "Acción"
     },
-    "offer_section": {
-      "description": "Descubre la oferta de dia que tenemos para ti",
-      "button_text": "Ofertas del dia",
-      "no_products_in_offer": "Aun no hay productos en oferta."
-    },
-    "category_section": {
-      "title": "¿De que forma quieres sorprender el dia de hoy?"
-    },
-    "product_section": {
-      "title": "Algunos de nuestros regalos recomendados"
-    },
-    "build_product_section": {
-      "title": "Arma el detalle perfecto para cada ocación",
-      "description": "Convierte tu idea en realidad diseñando el detalle perfecto con nuestra amplia gama de productos disponibles",
-      "button_text": "Manos a la obra"
-    }
-  },
-  "suscribe_newsletter": {
-    "title": "Suscríbete",
-    "description": "Recibe nuestros correos y se el primero en enterarte de nuestras ofertas exclusivas, promociones y mucho más.",
-    "email_input": {
-      "placeholder": "Tu correo electrónico"
-    },
-    "button_text": "Suscribirse"
-  },
-  "benefits_information": {
-    "benefit1": {
-      "title": "SERVICIO DE DELIVERY",
-      "description": "Envío de flores en Lima y Callao. Entregas para el mismo dia."
-    },
-    "benefit2": {
-      "title": "PAGOS SEGUROS",
-      "description": "Compras de manera simple y segura con unos clicks."
-    },
-    "benefit3": {
-      "title": "SERVICIOS PERSONALIZADOS",
-      "description": "Cuidamos cada detalle para ti y la persona que tienes en el corazón."
-    }
-  },
-  "footer": {
-    "policies": {
-      "title": "POLÍTICAS",
-      "terms": "Términos y condiciones",
-      "delivery": "Politicas de entrega y devolución"
-    },
-    "contact": {
-      "title": "CONTACTO"
-    },
-    "business_hours": {
-      "title": "HORARIOS DE ATENCIÓN",
-      "days": "Lunes - Sabado"
-    },
-    "complaint_book": {
-      "name": "LIBRO DE RECLAMACIONES"
-    },
-    "rights_reserved": "2024 florecer contigo . Todos los derechos reservados"
-  },
-  "order_by": {
-    "title": "Ordenar por",
-    "options": {
-      "one": "Relevancia",
-      "two": "Nombre, A a Z",
-      "three": "Nombre, Z a A",
-      "four": "Precio: de más bajo a más alto",
-      "five": "Precio, de más alto a más bajo"
-    }
-  },
-  "filter": {
-    "title": "Filtrar por tipo"
-  },
-  "product_item": {
-    "show_product_button": "Ver producto"
-  },
-  "product": {
-    "taxes": {
-      "description": "impuestos inc."
-    },
-    "description": "Descripción",
-    "availability": "Disponibilidad",
-    "stock": {
-      "yes": "En stock",
-      "no": "Agotado",
-      "with_stock": "Con stock diponible!",
-      "without_stock": "No existe stock disponible."
-    },
-    "quantity": "Cantidad",
-    "buy_now_button": "Comprar ahora",
-    "buy_wspp_button": "Comprar por WhatsApp",
-    "related_products_section": {
-      "title": "Productos relacionados"
-    }
-  },
-  "order": {
-    "sections": {
-      "one": {
-        "title": "Información Personal",
-        "description": "Datos para tu compra y contacto en caso de alguna consulta."
-      },
-      "two": {
-        "title": "Entrega",
-        "description": "Información de Delivery."
-      },
-      "three": {
-        "title": "Pago",
-        "description": "Seleccionar método de pago."
+    "without_records": "No se encontraron registros coincidentes",
+    "total_records_label": {
+      "parts": {
+        "one": "Mostrando del",
+        "two": "al",
+        "three": "de",
+        "four": "entradas."
       }
-    },
-    "payment_methods": {
-      "paypal": {
-        "title": "Pago mediante Paypal",
-        "description": "Visa, Mastercard, Maestro, American Express, Paypal"
-      }
-    },
-    "need_help_section": {
-      "title": "¿Necesitas ayuda?",
-      "description": "Contacta con nuestro canal de Atención al cliente en cualquier momento."
-    },
-    "summary": {
-      "title": "RESUMEN DE TU PEDIDO",
-      "delivery_date": "Fecha de Delivery",
-      "delivery_hour": "Hora de Delivery",
-      "unit_price": "Precio unitario",
-      "subtotal": "Subtotal",
-      "shipping": "Transporte",
-      "total": "Total",
-      "included_taxes": "impuestos inc.",
-      "empty_cart": "No existen productos en el carrito."
-    }
-  },
-  "search": {
-    "search_results": "Resultados de la búsqueda",
-    "no_find_products": "No existen productos disponibles para esta busqueda.",
-    "find_products": {
-      "part1": "Hay",
-      "part2": "productos encontrados"
-    }
-  },
-  "store_registration": {
-    "title": "Solicitud registro de tienda",
-    "stages": {
-      "one": {
-        "title": "Datos de acceso",
-        "subtitle": "Datos de acceso",
-        "description": "Información para el inicio de sesión."
-      },
-      "two": {
-        "title": "Datos personales",
-        "subtitle": "Datos personales",
-        "description": "Información del representante de la tienda."
-      },
-      "three": {
-        "title": "Datos de la tienda",
-        "subtitle": "Datos de la tienda",
-        "description": "Información legal de la tienda."
-      },
-      "request_registration_button": "Solicitar registro"
     }
   },
   "general": {
@@ -201,7 +110,8 @@
         "placeholder": "Ingresar Correo electronico"
       },
       "password": {
-        "label": "Contraseña"
+        "label": "Contraseña",
+        "placeholder": "Ingresar Contraseña"
       },
       "birthdate": {
         "label": "Fecha Nacimiento"
@@ -250,6 +160,14 @@
         "label": "Representante legal",
         "placeholder": "Ingresar Nombres y apellidos"
       },
+      "seller": {
+        "label": "Vendedor",
+        "placeholder": "Seleccionar"
+      },
+      "state": {
+        "label": "Estado",
+        "placeholder": "Seleccionar"
+      },
       "bank": {
         "label": "Entidad bancaria",
         "placeholder": "Seleccionar"
@@ -279,7 +197,16 @@
       "previous": "Anterior",
       "apply": "Aplicar",
       "complete": "Completar",
-      "continue": "Continuar"
+      "continue": "Continuar",
+      "enter": "Ingresar",
+      "change": "Cambiar",
+      "export": "Exportar",
+      "view": "Ver",
+      "cancel": "Cancelar",
+      "create": "Crear",
+      "edit": "Editar",
+      "delete": "Borrar",
+      "accept": "Aceptar"
     }
   },
   "schema": {

@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "./LoginSchema";
 import { useTranslation } from "react-i18next";
+import LocaleSwitcher from "../../components/LocaleSwitcher/LocaleSwitcher";
+import logo from "../../../public/images/logos/logo.svg";
 
 const Login = () => {
   const { t } = useTranslation();
@@ -65,11 +67,7 @@ const Login = () => {
         <div className="flex flex-col flex-1 justify-center items-center">
           <div className="mb-4">
             <Link to="/">
-              <img
-                src="https://raw.githubusercontent.com/deyvisml/x-ecommerce-system/main/frontend/client/src/assets/logo.svg"
-                alt=""
-                className="w-44"
-              />
+              <img src={logo} alt="" className="w-36 h-16 object-contain" />
             </Link>
           </div>
           <div className="bg-white px-4 py-6 rounded w-full max-w-md">
@@ -86,7 +84,7 @@ const Login = () => {
                   className="block pb-1 font-semibold text-sm"
                   htmlFor="email"
                 >
-                  Correo Electrónico
+                  {t("general.fields.email.label")}
                 </label>
                 <input
                   className="border-slate-300 rounded w-full"
@@ -96,7 +94,7 @@ const Login = () => {
                 />
                 {errors.email && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.email.message}
+                    {t(errors.email.message)}
                   </p>
                 )}
               </div>
@@ -106,7 +104,7 @@ const Login = () => {
                   className="block pb-1 font-semibold text-sm"
                   htmlFor="password"
                 >
-                  Contraseña
+                  {t("general.fields.password.label")}
                 </label>
                 <input
                   className="border-slate-300 rounded w-full"
@@ -115,20 +113,20 @@ const Login = () => {
                 />
                 {errors.password && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.password.message}
+                    {t(errors.password.message)}
                   </p>
                 )}
               </div>
 
               <div className="flex justify-between items-center">
                 <Link to="cambiar-contraseña" className="underline">
-                  Olvidaste tu contraseña?
+                  {t("login.forgot_password")}
                 </Link>
                 <button
                   className="bg-rose-500 hover:bg-rose-600 px-6 py-2 rounded font-bold text-white transition-all duration-200 ease-in-out"
                   type="submit"
                 >
-                  Ingresar
+                  {t("general.buttons.enter")}
                 </button>
               </div>
             </form>
@@ -140,6 +138,12 @@ const Login = () => {
                 Registrate
               </Link>
             </div>*/}
+          </div>
+
+          <div className="flex justify-center mt-5 w-full">
+            <div className="inline-block w-40 text-xs">
+              <LocaleSwitcher />
+            </div>
           </div>
         </div>
         <div className="md:block hidden w-1/2">

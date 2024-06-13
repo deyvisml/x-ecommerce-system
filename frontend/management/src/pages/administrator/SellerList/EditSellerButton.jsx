@@ -1,5 +1,6 @@
 import React, { useEffect, forwardRef } from "react";
 import { PencilSquareIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 // https://github.com/tailwindlabs/headlessui/issues/1512
 const EditSellerButton = forwardRef(
@@ -12,6 +13,7 @@ const EditSellerButton = forwardRef(
     },
     ref
   ) => {
+    const { t } = useTranslation();
     useEffect(() => {
       if (!is_edit_seller_modal_open) {
         setEditSeller();
@@ -32,7 +34,7 @@ const EditSellerButton = forwardRef(
         className={` p-2 hover:bg-slate-100 w-full flex items-center gap-x-1`}
       >
         <PencilSquareIcon className="w-4" />
-        Editar
+        {t("general.buttons.edit")}
       </button>
     );
   }
