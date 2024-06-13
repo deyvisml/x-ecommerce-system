@@ -109,18 +109,18 @@ const AddSellerModal = ({ setDataChanged, is_modal_open, setIsModalOpen }) => {
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Creado!",
+          title: t("alerts.titles.created"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
         setDataChanged(true);
         setIsModalOpen(false);
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
 
         if (response.data.errors?.email) {

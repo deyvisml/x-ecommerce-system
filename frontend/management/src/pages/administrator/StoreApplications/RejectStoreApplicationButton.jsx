@@ -5,22 +5,24 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
+import { useTranslation } from "react-i18next";
 
 const RejectStoreApplicationButton = forwardRef(
   ({ store, setDataChanged }, ref) => {
+    const { t } = useTranslation();
     const { token } = useManagement();
     console.log(store);
 
     const handle_click_accept_store_application_btn = (record) => {
       Swal.fire({
         icon: "warning",
-        title: "¿Estas seguro?",
-        text: "La solicitud sera rechazada!",
+        title: t("alerts.titles.are_you_sure"),
+        text: t("alerts.texts.request_reject"),
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, rechazar!",
-        cancelButtonText: "Cancelar",
+        confirmButtonText: t("alerts.confirmation_button.yes_reject"),
+        cancelButtonText: t("alerts.cancel_button.cancel"),
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
@@ -40,17 +42,17 @@ const RejectStoreApplicationButton = forwardRef(
             if (response.data.status) {
               Swal.fire({
                 icon: "success",
-                title: "Rechazado!",
+                title: t("alerts.titles.rejected"),
                 text: response.data.message,
-                confirmButtonText: "Continuar",
+                confirmButtonText: t("alerts.confirmation_button.continue"),
               });
               setDataChanged(true);
             } else {
               Swal.fire({
                 icon: "error",
-                title: "Error!",
+                title: t("alerts.titles.error"),
                 text: response.data.message,
-                confirmButtonText: "Continuar",
+                confirmButtonText: t("alerts.confirmation_button.continue"),
               });
             }
           } catch (error) {

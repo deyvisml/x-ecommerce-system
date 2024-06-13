@@ -12,8 +12,10 @@ import Swal from "sweetalert2";
 import moment from "moment";
 import { format } from "date-fns";
 import MainLoader from "../../../components/MainLoader";
+import { useTranslation } from "react-i18next";
 
 const AddProduct = () => {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
   const [showLoader, setShowLoader] = useState(false);
 
@@ -163,17 +165,17 @@ const AddProduct = () => {
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Creado!",
+          title: t("alerts.titles.created"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
         reset();
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
       }
     } catch (error) {

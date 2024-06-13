@@ -11,8 +11,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MainLoader from "../../components/MainLoader";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 const PasswordRecovery = () => {
+  const { t } = useTranslation();
   const query_params = new URLSearchParams(location.search);
   const token = query_params.get("t");
   const user_id = query_params.get("user_id");
@@ -74,9 +76,9 @@ const PasswordRecovery = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Contraseña cambiada!",
+        title: t("alerts.titles.password_changed"),
         text: response.data.message,
-        confirmButtonText: "Continuar",
+        confirmButtonText: t("alerts.confirmation_button.continue"),
       }).then((result) => {
         if (result.isConfirmed) {
           return navigate("/");

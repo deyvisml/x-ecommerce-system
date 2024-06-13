@@ -209,6 +209,37 @@
       "accept": "Aceptar"
     }
   },
+  "alerts": {
+    "titles": {
+      "created": "Creado!",
+      "deleted": "Eliminado!",
+      "updated": "Actualizado!",
+      "accepted": "Aceptado!",
+      "rejected": "Rechazado!",
+      "canceled": "Cancelado!",
+      "uploaded": "Subido!",
+      "error": "Error!",
+      "request_received": "Solicitud Recibida!",
+      "are_you_sure": "¿Estas seguro?",
+      "password_changed": "Contraseña cambiada!"
+    },
+    "texts": {
+      "irreversible_action": "No sera posible revertir esta acción!",
+      "request_accept": "La solicitud sera aceptada!",
+      "request_reject": "La solicitud sera rechazada!",
+      "record_delete": "El registro sera eliminado!"
+    },
+    "confirmation_button": {
+      "continue": "Continuar",
+      "yes_delete": "Si, eliminar!",
+      "yes_accept": "Si, aceptar!",
+      "yes_reject": "Si, rechazar!",
+      "yes_continue": "Si, continuar!"
+    },
+    "cancel_button": {
+      "cancel": "Cancelar"
+    }
+  },
   "schema": {
     "mixed": {
       "required": "El campo es requerido",

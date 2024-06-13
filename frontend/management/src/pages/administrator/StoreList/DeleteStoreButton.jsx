@@ -14,13 +14,13 @@ const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
   const handle_click_delete_store_btn = (record) => {
     Swal.fire({
       icon: "warning",
-      title: "¿Estas seguro?",
-      text: "No sera posible revertir esta acción!",
+      title: t("alerts.titles.are_you_sure"),
+      text: t("alerts.texts.record_delete"),
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminarlo!",
-      cancelButtonText: "Cancelar",
+      confirmButtonText: t("alerts.confirmation_button.yes_delete"),
+      cancelButtonText: t("alerts.cancel_button.cancel"),
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
@@ -34,17 +34,17 @@ const DeleteStoreButton = forwardRef(({ record, setDataChanged }, ref) => {
           if (response.data.status) {
             Swal.fire({
               icon: "success",
-              title: "Eliminado!",
+              title: t("alerts.titles.deleted"),
               text: response.data.message,
-              confirmButtonText: "Continuar",
+              confirmButtonText: t("alerts.confirmation_button.continue"),
             });
             setDataChanged(true);
           } else {
             Swal.fire({
               icon: "error",
-              title: "Error!",
+              title: t("alerts.titles.error"),
               text: response.data.message,
-              confirmButtonText: "Continuar",
+              confirmButtonText: t("alerts.confirmation_button.continue"),
             });
           }
         } catch (error) {

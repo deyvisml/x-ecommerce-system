@@ -145,18 +145,18 @@ const EditStoreModal = ({
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: t("alerts.titles.updated"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
         setDataChanged(true);
         setIsModalOpen(false);
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
       }
     } catch (error) {

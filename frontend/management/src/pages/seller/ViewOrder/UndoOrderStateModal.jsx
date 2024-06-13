@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
 import Swal from "sweetalert2";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -20,6 +21,7 @@ const UndoOrderStateModal = ({
   is_modal_open,
   setIsModalOpen,
 }) => {
+  const { t } = useTranslation();
   const {
     register,
     watch,
@@ -59,9 +61,9 @@ const UndoOrderStateModal = ({
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: t("alerts.titles.updated"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
 
         setDataChanged(true);
@@ -69,9 +71,9 @@ const UndoOrderStateModal = ({
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
 
         if (response.data.errors?.email) {

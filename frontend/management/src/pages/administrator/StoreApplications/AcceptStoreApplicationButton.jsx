@@ -15,13 +15,13 @@ const AcceptStoreApplicationButton = forwardRef(
     const handle_click_accept_store_application_btn = (record) => {
       Swal.fire({
         icon: "warning",
-        title: "¿Estas seguro?",
-        text: "La solicitud sera aceptada!",
+        title: t("alerts.titles.are_you_sure"),
+        text: t("alerts.texts.request_accept"),
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Si, aceptar!",
-        cancelButtonText: "Cancelar",
+        confirmButtonText: t("alerts.confirmation_button.yes_accept"),
+        cancelButtonText: t("alerts.cancel_button.cancel"),
       }).then(async (result) => {
         if (result.isConfirmed) {
           try {
@@ -41,17 +41,17 @@ const AcceptStoreApplicationButton = forwardRef(
             if (response.data.status) {
               Swal.fire({
                 icon: "success",
-                title: "Aceptado!",
+                title: t("alerts.titles.accepted"),
                 text: response.data.message,
-                confirmButtonText: "Continuar",
+                confirmButtonText: t("alerts.confirmation_button.continue"),
               });
               setDataChanged(true);
             } else {
               Swal.fire({
                 icon: "error",
-                title: "Error!",
+                title: t("alerts.titles.error"),
                 text: response.data.message,
-                confirmButtonText: "Continuar",
+                confirmButtonText: t("alerts.confirmation_button.continue"),
               });
             }
           } catch (error) {

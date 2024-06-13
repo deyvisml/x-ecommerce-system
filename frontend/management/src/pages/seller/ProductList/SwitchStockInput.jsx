@@ -5,8 +5,10 @@ import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../../../hooks/useManagement";
+import { useTranslation } from "react-i18next";
 
 const SwitchStockInput = ({ record, state }) => {
+  const { t } = useTranslation();
   const { token } = useManagement();
   const [is_enabled, setIsEnabled] = useState(state);
 
@@ -34,18 +36,18 @@ const SwitchStockInput = ({ record, state }) => {
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: t("alerts.titles.updated"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
 
         setIsEnabled(new_state);
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
       }
     } catch (error) {

@@ -12,8 +12,10 @@ import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import MainLoader from "../../../components/MainLoader";
+import { useTranslation } from "react-i18next";
 
 const EditProduct = () => {
+  const { t } = useTranslation();
   const { token } = useManagement();
   const { product_id } = useParams();
 
@@ -211,18 +213,18 @@ const EditProduct = () => {
       if (response.data.status) {
         Swal.fire({
           icon: "success",
-          title: "Actualizado!",
+          title: t("alerts.titles.updated"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
 
         return navigate("/vendedor/productos/listado");
       } else {
         Swal.fire({
           icon: "error",
-          title: "Error!",
+          title: t("alerts.titles.error"),
           text: response.data.message,
-          confirmButtonText: "Continuar",
+          confirmButtonText: t("alerts.confirmation_button.continue"),
         });
       }
     } catch (error) {

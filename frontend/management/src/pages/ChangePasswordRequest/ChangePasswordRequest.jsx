@@ -40,9 +40,9 @@ const ChangePasswordRequest = () => {
 
       Swal.fire({
         icon: "success",
-        title: "Solicitud Recibida!",
+        title: t("alerts.titles.request_received"),
         text: response.data.message,
-        confirmButtonText: "Continuar",
+        confirmButtonText: t("alerts.confirmation_button.continue"),
       });
 
       reset();

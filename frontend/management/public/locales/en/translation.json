@@ -1,211 +1,124 @@
 {
-  "header": {
+  "login": {
+    "title": "Welcome back!",
+    "forgot_password": "Forgot your password?"
+  },
+  "change_password_request": {
+    "title": "Change your password"
+  },
+  "choose_role": {
+    "title": "How do you want to log in?",
+    "administrator_button": "Administrator",
+    "seller_button": "Seller"
+  },
+  "sidebar": {
+    "pages": "Pages",
+    "dashboard": {
+      "title": "Dashboard",
+      "main": "Main"
+    },
+    "stores": {
+      "title": "Stores",
+      "store_list": "Store List",
+      "application_list": "Application List",
+      "seller_list": "Seller List"
+    },
+    "users": {
+      "title": "User List",
+      "user_list": "User List"
+    }
+  },
+  "user_menu": {
+    "exit": "Exit"
+  },
+  "store_list": {
+    "title": "Store List",
+    "add_store": "Add store"
+  },
+  "store_applications": {
+    "title": "Store Applications"
+  },
+  "seller_list": {
+    "title": "Sellers"
+  },
+  "add_store_modal": {
+    "title": "Create store"
+  },
+  "edit_store_modal": {
+    "title": "Edit store"
+  },
+  "add_seller_modal": {
+    "title": "Create seller"
+  },
+  "table_filter": {
+    "title": "Filter",
+    "state_filter": "State"
+  },
+  "table_search": {
     "search": {
-      "placeholder": "What are you looking for?"
+      "placeholder": "Search..."
     }
   },
-  "home": {
-    "carousel": {
-      "title": {
-        "part1": "We have everything",
-        "part2": "for those special moments"
-      },
-      "subtitle": "Check out our themed arrangements",
-      "show_button": "View themed arrangements"
+  "table": {
+    "headers": {
+      "id": "Id",
+      "name": "Name",
+      "email": "Email",
+      "phone_number": "Phone Number",
+      "ruc": "RUC",
+      "business_name": "Business Name",
+      "seller": "Seller",
+      "created": "Created",
+      "requested": "Requested",
+      "state": "State",
+      "action": "Action"
     },
-    "offer_section": {
-      "description": "Discover the daily offer we have for you",
-      "button_text": "Daily offers",
-      "no_products_in_offer": "There are no products on offer yet."
-    },
-    "category_section": {
-      "title": "How do you want to surprise today?"
-    },
-    "product_section": {
-      "title": "Some of our recommended gifts"
-    },
-    "build_product_section": {
-      "title": "Create the perfect detail for every occasion",
-      "description": "Turn your idea into reality by designing the perfect detail with our wide range of available products",
-      "button_text": "Get started"
-    }
-  },
-  "suscribe_newsletter": {
-    "title": "Subscribe",
-    "description": "Receive our emails and be the first to know about our exclusive offers, promotions, and more.",
-    "email_input": {
-      "placeholder": "Your email"
-    },
-    "button_text": "Subscribe"
-  },
-  "benefits_information": {
-    "benefit1": {
-      "title": "DELIVERY SERVICE",
-      "description": "Flower delivery in Lima and Callao. Same day deliveries."
-    },
-    "benefit2": {
-      "title": "SECURE PAYMENTS",
-      "description": "Shop simply and securely with a few clicks."
-    },
-    "benefit3": {
-      "title": "PERSONALIZED SERVICES",
-      "description": "We take care of every detail for you and the person you have in your heart."
-    }
-  },
-  "footer": {
-    "policies": {
-      "title": "POLICIES",
-      "terms": "Terms and conditions",
-      "delivery": "Delivery and return policies"
-    },
-    "contact": {
-      "title": "CONTACT"
-    },
-    "business_hours": {
-      "title": "BUSINESS HOURS",
-      "days": "Monday - Saturday"
-    },
-    "complaint_book": {
-      "name": "COMPLAINT BOOK"
-    },
-    "rights_reserved": "2024 blooming with you. All rights reserved"
-  },
-  "order_by": {
-    "title": "Sort by",
-    "options": {
-      "one": "Relevance",
-      "two": "Name, A to Z",
-      "three": "Name, Z to A",
-      "four": "Price: low to high",
-      "five": "Price: high to low"
-    }
-  },
-  "filter": {
-    "title": "Filter by type"
-  },
-  "product_item": {
-    "show_product_button": "View product"
-  },
-  "product": {
-    "taxes": {
-      "description": "taxes incl."
-    },
-    "description": "Description",
-    "availability": "Availability",
-    "stock": {
-      "yes": "In stock",
-      "no": "Out of stock",
-      "with_stock": "Available in stock!",
-      "without_stock": "No stock available."
-    },
-    "quantity": "Quantity",
-    "buy_now_button": "Buy now",
-    "buy_wspp_button": "Buy on WhatsApp",
-    "related_products_section": {
-      "title": "Related products"
-    }
-  },
-  "order": {
-    "sections": {
-      "one": {
-        "title": "Personal Information",
-        "description": "Purchase details and contact information in case of any queries."
-      },
-      "two": {
-        "title": "Delivery",
-        "description": "Delivery information."
-      },
-      "three": {
-        "title": "Payment",
-        "description": "Select payment method."
+    "without_records": "No matching records found",
+    "total_records_label": {
+      "parts": {
+        "one": "Showing from",
+        "two": "to",
+        "three": "of",
+        "four": "entries."
       }
-    },
-    "payment_methods": {
-      "paypal": {
-        "title": "Payment via Paypal",
-        "description": "Visa, Mastercard, Maestro, American Express, Paypal"
-      }
-    },
-    "need_help_section": {
-      "title": "Need help?",
-      "description": "Contact our Customer Service channel at any time."
-    },
-    "summary": {
-      "title": "YOUR ORDER SUMMARY",
-      "delivery_date": "Delivery Date",
-      "delivery_hour": "Delivery Time",
-      "unit_price": "Unit price",
-      "subtotal": "Subtotal",
-      "shipping": "Shipping",
-      "total": "Total",
-      "included_taxes": "taxes incl.",
-      "empty_cart": "No products in the cart."
-    }
-  },
-  "search": {
-    "search_results": "Search results",
-    "no_find_products": "No products available for this search.",
-    "find_products": {
-      "part1": "There are",
-      "part2": "products found"
-    }
-  },
-  "store_registration": {
-    "title": "Store registration request",
-    "stages": {
-      "one": {
-        "title": "Access data",
-        "subtitle": "Access data",
-        "description": "Login information."
-      },
-      "two": {
-        "title": "Personal data",
-        "subtitle": "Personal data",
-        "description": "Store representative information."
-      },
-      "three": {
-        "title": "Store data",
-        "subtitle": "Store data",
-        "description": "Legal information of the store."
-      },
-      "request_registration_button": "Request registration"
     }
   },
   "general": {
     "fields": {
       "document_type": {
-        "label": "Document type",
+        "label": "Document Type",
         "placeholder": "Select"
       },
       "document_number": {
-        "label": "Document number",
-        "placeholder": "Enter document number"
+        "label": "Document Number",
+        "placeholder": "Enter Document Number"
       },
       "name": {
-        "label": "Names",
-        "placeholder": "Enter names"
+        "label": "First Name",
+        "placeholder": "Enter First Name"
       },
       "name2": {
         "label": "Name",
-        "placeholder": "Enter name"
+        "placeholder": "Enter Name"
       },
       "last_name": {
-        "label": "Last name",
-        "placeholder": "Enter last name"
+        "label": "Last Name",
+        "placeholder": "Enter Last Name"
       },
       "email": {
         "label": "Email",
-        "placeholder": "Enter email"
+        "placeholder": "Enter Email"
       },
       "password": {
-        "label": "Password"
+        "label": "Password",
+        "placeholder": "Enter Password"
       },
       "birthdate": {
         "label": "Birthdate"
       },
       "phone_number": {
-        "label": "Phone number",
-        "placeholder": "Enter phone number"
+        "label": "Phone Number",
+        "placeholder": "Enter Phone Number"
       },
       "region": {
         "label": "Region",
@@ -217,18 +130,18 @@
         "addition": "shipping cost"
       },
       "delivery_address": {
-        "label": "Delivery address",
+        "label": "Delivery Address",
         "placeholder": "House number and street name"
       },
       "delivery_address_reference": {
         "label": "Reference",
-        "placeholder": "Enter reference"
+        "placeholder": "Enter Reference"
       },
       "delivery_date": {
-        "label": "Delivery date"
+        "label": "Delivery Date"
       },
       "delivery_schedule": {
-        "label": "Delivery time",
+        "label": "Delivery Schedule",
         "placeholder": "Select"
       },
       "coupon": {
@@ -240,20 +153,28 @@
         "placeholder": "Enter RUC"
       },
       "business_name": {
-        "label": "Business name",
-        "placeholder": "Enter business name"
+        "label": "Business Name",
+        "placeholder": "Enter Business Name"
       },
       "legal_representative": {
-        "label": "Legal representative",
-        "placeholder": "Enter names and last names"
+        "label": "Legal Representative",
+        "placeholder": "Enter First and Last Name"
+      },
+      "seller": {
+        "label": "Seller",
+        "placeholder": "Select"
+      },
+      "state": {
+        "label": "State",
+        "placeholder": "Select"
       },
       "bank": {
         "label": "Bank",
         "placeholder": "Select"
       },
       "bank_account_number": {
-        "label": "Bank account number",
-        "placeholder": "Enter bank account number"
+        "label": "Bank Account Number",
+        "placeholder": "Enter Bank Account Number"
       },
       "privacy_policies": {
         "label": {
@@ -276,23 +197,50 @@
       "previous": "Previous",
       "apply": "Apply",
       "complete": "Complete",
-      "continue": "Continue"
+      "continue": "Continue",
+      "enter": "Enter",
+      "change": "Change",
+      "export": "Export",
+      "view": "View",
+      "cancel": "Cancel",
+      "create": "Create",
+      "edit": "Edit",
+      "delete": "Delete",
+      "accept": "Accept"
+    },
+    "alerts": {
+      "titles": {
+        "created": "Created!",
+        "deleted": "Deleted!",
+        "updated": "Updated!",
+        "accepted": "Accepted!",
+        "rejected": "Rejected!",
+        "request_received": "Request Received!"
+      },
+      "error": "Error!",
+      "are_you_sure": "Are you sure?",
+      "irreversible_action": "This action cannot be undone!",
+      "request_accept": "The request will be accepted!",
+      "request_reject": "The request will be rejected!",
+      "yes_delete": "Yes, delete it!",
+      "yes_accept": "Yes, accept it!",
+      "yes_reject": "Yes, reject it!"
     }
   },
   "schema": {
     "mixed": {
-      "required": "The field is required",
+      "required": "This field is required",
       "typeError": "The field value is incorrect",
-      "oneOfTrue": "The field must be checked",
-      "oneOfFalse": "The field must not be checked"
+      "oneOfTrue": "This field must be checked",
+      "oneOfFalse": "This field must not be checked"
     },
     "string": {
       "email": "Enter a valid email",
       "min": "Minimum: {{min}} characters",
       "max": "Maximum: {{max}} characters",
       "matches": "Enter a valid value",
-      "minLowercase": "Must have at least {{length}} lowercase(s)",
-      "minUppercase": "Must have at least {{length}} uppercase(s)",
+      "minLowercase": "Must have at least {{length}} lowercase letter(s)",
+      "minUppercase": "Must have at least {{length}} uppercase letter(s)",
       "minNumbers": "Must have at least {{length}} number(s)"
     },
     "number": {
