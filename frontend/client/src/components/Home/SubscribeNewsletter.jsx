@@ -40,7 +40,12 @@ const SubscribeNewsletter = () => {
 
   useEffect(() => {
     if (errors.email) {
-      toast.error(errors.email.message);
+      console.log(errors);
+      const message = errors.email.message;
+
+      typeof message === "string"
+        ? toast.error(t(message))
+        : toast.error(t(message.key, message.values));
     }
   }, [errors]);
 

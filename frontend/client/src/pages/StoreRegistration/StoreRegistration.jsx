@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { schema } from "./schema";
 import { schema_with_token } from "./schema_with_token";
-
 import useECommerce from "../../hooks/useECommerce";
 import {
   LockClosedIcon,
@@ -18,10 +17,11 @@ import {
   BuildingStorefrontIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
-
 import Stage from "./Stage";
+import { useTranslation } from "react-i18next";
 
 const StoreRegistration = () => {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const { token } = useECommerce();
   console.log("token", token);
@@ -142,7 +142,9 @@ const StoreRegistration = () => {
         const bank_account_number = getValues("bank_account_number");
 
         // getting a specific scheme
-        const schema_stage3 = schema.pick([
+        const schema_aux = token ? schema_with_token : schema;
+
+        const schema_stage3 = schema_aux.pick([
           "store_name",
           "ruc",
           "business_name",
@@ -357,7 +359,7 @@ const StoreRegistration = () => {
                         <ArrowLeftIcon className="w-4" />
                       </button>
                       <h4 className="font-semibold text-base">
-                        Datos de acceso
+                        {t("store_registration.stages.one.subtitle")}
                       </h4>
                     </div>
                     <hr />
@@ -368,7 +370,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="email"
                     >
-                      Correo electrónico
+                      {t("general.fields.email.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -378,7 +380,7 @@ const StoreRegistration = () => {
                     />
                     {errors.email && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.email.message}
+                        {t(errors.email.message)}
                       </p>
                     )}
                   </div>
@@ -388,7 +390,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="password"
                     >
-                      Contraseña
+                      {t("general.fields.password.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -397,7 +399,15 @@ const StoreRegistration = () => {
                     />
                     {errors.password && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.password.message}
+                        {(() => {
+                          console.log(errors.password);
+                        })()}
+                        {typeof errors.password.message === "string"
+                          ? t(errors.password.message)
+                          : t(
+                              errors.password.message.key,
+                              errors.password.message.values
+                            )}
                       </p>
                     )}
                   </div>
@@ -409,7 +419,7 @@ const StoreRegistration = () => {
                     type="button"
                     className="bg-rose-400 hover:bg-rose-500 mt-2 px-3 py-[9px] rounded font-semibold text-white transition-all duration-200 ease-in-out"
                   >
-                    Continuar
+                    {t("general.buttons.continue")}
                   </button>
                 </motion.div>
               ) : show_stage == 2 ? (
@@ -430,7 +440,7 @@ const StoreRegistration = () => {
                         <ArrowLeftIcon className="w-4" />
                       </button>
                       <h4 className="font-semibold text-base">
-                        Datos personales
+                        {t("store_registration.stages.two.subtitle")}
                       </h4>
                     </div>
                     <hr />
@@ -441,7 +451,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="first_name"
                     >
-                      Nombre
+                      {t("general.fields.name.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -451,7 +461,7 @@ const StoreRegistration = () => {
                     />
                     {errors.first_name && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.first_name.message}
+                        {t(errors.first_name.message)}
                       </p>
                     )}
                   </div>
@@ -460,7 +470,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="last_name"
                     >
-                      Apellidos
+                      {t("general.fields.last_name.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -470,7 +480,7 @@ const StoreRegistration = () => {
                     />
                     {errors.last_name && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.last_name.message}
+                        {t(errors.last_name.message)}
                       </p>
                     )}
                   </div>
@@ -480,7 +490,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="user_phone_number"
                     >
-                      Teléfono
+                      {t("general.fields.phone_number.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -491,7 +501,7 @@ const StoreRegistration = () => {
                     />
                     {errors.user_phone_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.user_phone_number.message}
+                        {t(errors.user_phone_number.message)}
                       </p>
                     )}
                   </div>
@@ -501,7 +511,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="document_type"
                     >
-                      Tipo de documento
+                      {t("general.fields.document_type.label")}
                     </label>
 
                     <select
@@ -511,7 +521,9 @@ const StoreRegistration = () => {
                         "border-slate-300 focus:border-slate-500 px-2 py-[9px] border rounded w-full outline-none"
                       }
                     >
-                      <option value="0">Seleccionar</option>
+                      <option value="0">
+                        {t("general.fields.document_type.placeholder")}
+                      </option>
                       {document_types &&
                         document_types.map(({ id, name }) => {
                           return (
@@ -524,7 +536,7 @@ const StoreRegistration = () => {
 
                     {errors.document_type && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.document_type.message}
+                        {t(errors.document_type.message)}
                       </p>
                     )}
                   </div>
@@ -534,7 +546,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="document_number"
                     >
-                      Nro. de documento
+                      {t("general.fields.document_number.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -545,7 +557,7 @@ const StoreRegistration = () => {
                     />
                     {errors.document_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.document_number.message}
+                        {t(errors.document_number.message)}
                       </p>
                     )}
                   </div>
@@ -557,7 +569,7 @@ const StoreRegistration = () => {
                     type="button"
                     className="bg-rose-400 hover:bg-rose-500 mt-2 px-3 py-[9px] rounded font-semibold text-white transition-all duration-200 ease-in-out"
                   >
-                    Continuar
+                    {t("general.buttons.continue")}
                   </button>
                 </motion.div>
               ) : (
@@ -578,7 +590,7 @@ const StoreRegistration = () => {
                         <ArrowLeftIcon className="w-4" />
                       </button>
                       <h4 className="font-semibold text-base">
-                        Datos de la tienda
+                        {t("store_registration.stages.three.subtitle")}
                       </h4>
                     </div>
                     <hr />
@@ -589,7 +601,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="store_name"
                     >
-                      Nombre
+                      {t("general.fields.name2.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -599,7 +611,7 @@ const StoreRegistration = () => {
                     />
                     {errors.store_name && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.store_name.message}
+                        {t(errors.store_name.message)}
                       </p>
                     )}
                   </div>
@@ -609,7 +621,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="ruc"
                     >
-                      RUC
+                      {t("general.fields.ruc.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -620,7 +632,7 @@ const StoreRegistration = () => {
                     />
                     {errors.ruc && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.ruc.message}
+                        {t(errors.ruc.message)}
                       </p>
                     )}
                   </div>
@@ -630,7 +642,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="business_name"
                     >
-                      Razón social
+                      {t("general.fields.business_name.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -640,7 +652,7 @@ const StoreRegistration = () => {
                     />
                     {errors.business_name && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.business_name.message}
+                        {t(errors.business_name.message)}
                       </p>
                     )}
                   </div>
@@ -650,7 +662,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="phone_number"
                     >
-                      Teléfono
+                      {t("general.fields.phone_number.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -661,7 +673,7 @@ const StoreRegistration = () => {
                     />
                     {errors.phone_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.phone_number.message}
+                        {t(errors.phone_number.message)}
                       </p>
                     )}
                   </div>
@@ -671,18 +683,20 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="legal_representative"
                     >
-                      Representante legal
+                      {t("general.fields.legal_representative.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
                       type="text"
                       id="legal_representative"
                       {...register("legal_representative", { required: true })}
-                      placeholder="Nombres y Apellidos"
+                      placeholder={t(
+                        "general.fields.legal_representative.placeholder"
+                      )}
                     />
                     {errors.legal_representative && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.legal_representative.message}
+                        {t(errors.legal_representative.message)}
                       </p>
                     )}
                   </div>
@@ -692,7 +706,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="bank_id"
                     >
-                      Entidad bancaria
+                      {t("general.fields.bank.label")}
                     </label>
 
                     <select
@@ -702,7 +716,10 @@ const StoreRegistration = () => {
                         "border-slate-300 focus:border-slate-500 px-2 py-[9px] border rounded w-full outline-none"
                       }
                     >
-                      <option value="0">Seleccionar</option>
+                      <option value="0">
+                        {" "}
+                        {t("general.fields.bank.placeholder")}
+                      </option>
                       {banks &&
                         banks.map(({ id, name }) => {
                           return (
@@ -715,7 +732,7 @@ const StoreRegistration = () => {
 
                     {errors.bank_id && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.bank_id.message}
+                        {t(errors.bank_id.message)}
                       </p>
                     )}
                   </div>
@@ -725,7 +742,7 @@ const StoreRegistration = () => {
                       className="block pb-1 font-semibold text-sm"
                       htmlFor="bank_account_number"
                     >
-                      Nº Cuenta bancaria
+                      {t("general.fields.bank_account_number.label")}
                     </label>
                     <input
                       className="border-slate-300 focus:border-slate-500 px-3 py-2 border rounded w-full outline-none"
@@ -736,7 +753,7 @@ const StoreRegistration = () => {
                     />
                     {errors.bank_account_number && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.bank_account_number.message}
+                        {t(errors.bank_account_number.message)}
                       </p>
                     )}
                   </div>
@@ -748,7 +765,7 @@ const StoreRegistration = () => {
                     type="button"
                     className="bg-rose-400 hover:bg-rose-500 mt-2 px-3 py-[9px] rounded font-semibold text-white transition-all duration-200 ease-in-out"
                   >
-                    Continuar
+                    {t("general.buttons.continue")}
                   </button>
                 </motion.div>
               )
@@ -762,7 +779,7 @@ const StoreRegistration = () => {
                 className="bg-white px-8 py-10 rounded-md"
               >
                 <h2 className="mb-4 font-bold text-2xl text-slate-800">
-                  Solicitud registro de tienda
+                  {t("store_registration.title")}
                 </h2>
                 <ul>
                   {!token && (
@@ -771,8 +788,10 @@ const StoreRegistration = () => {
                         stage={1}
                         completed_stages={completed_stages}
                         setShowStage={setShowStage}
-                        name={"Datos de acceso"}
-                        description={"Información para el inicio de sesión."}
+                        name={t("store_registration.stages.one.title")}
+                        description={t(
+                          "store_registration.stages.one.description"
+                        )}
                         icon={
                           <LockClosedIcon className="inline-block w-6 text-rose-600" />
                         }
@@ -781,10 +800,10 @@ const StoreRegistration = () => {
                         stage={2}
                         completed_stages={completed_stages}
                         setShowStage={setShowStage}
-                        name={"Datos personales"}
-                        description={
-                          "Información del representante de la tienda."
-                        }
+                        name={t("store_registration.stages.two.title")}
+                        description={t(
+                          "store_registration.stages.two.description"
+                        )}
                         icon={
                           <UserIcon className="inline-block w-6 text-rose-600" />
                         }
@@ -795,8 +814,10 @@ const StoreRegistration = () => {
                     stage={3}
                     completed_stages={completed_stages}
                     setShowStage={setShowStage}
-                    name={"Datos de la tienda"}
-                    description={"Información legal de la tienda."}
+                    name={t("store_registration.stages.three.title")}
+                    description={t(
+                      "store_registration.stages.three.description"
+                    )}
                     icon={
                       <BuildingStorefrontIcon className="inline-block w-6 text-rose-600" />
                     }

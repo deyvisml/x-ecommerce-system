@@ -107,7 +107,9 @@ const Header = () => {
             </Link>
 
             <div className="flex flex-wrap md:flex-nowrap items-center gap-x-4 gap-y-2 order-3 md:order-2 w-full md:max-w-xl text-gray-600">
-              <LocaleSwitcher />
+              <div className="min-w-40">
+                <LocaleSwitcher />
+              </div>
               <form
                 onSubmit={handleSubmit(handle_search_products)}
                 className="flex items-center w-full text-sm"

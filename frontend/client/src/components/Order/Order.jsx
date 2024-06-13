@@ -466,7 +466,7 @@ const Order = () => {
                   </select>
                   {errors.document_type && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.document_type.message}
+                      {t(errors.document_type.message)}
                     </p>
                   )}
                 </div>
@@ -492,7 +492,7 @@ const Order = () => {
                   />
                   {errors.document_number && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.document_number.message}
+                      {t(errors.document_number.message)}
                     </p>
                   )}
                 </div>
@@ -517,7 +517,7 @@ const Order = () => {
                   />
                   {errors.first_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.first_name.message}
+                      {t(errors.first_name.message)}
                     </p>
                   )}
                 </div>
@@ -541,7 +541,7 @@ const Order = () => {
                   />
                   {errors.last_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.last_name.message}
+                      {t(errors.last_name.message)}
                     </p>
                   )}
                 </div>
@@ -564,7 +564,7 @@ const Order = () => {
                   />
                   {errors.email && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.email.message}
+                      {t(errors.email.message)}
                     </p>
                   )}
                 </div>
@@ -587,7 +587,7 @@ const Order = () => {
                   />
                   {errors.birthdate && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.birthdate.message}
+                      {t(errors.birthdate.message)}
                     </p>
                   )}
                 </div>
@@ -613,7 +613,7 @@ const Order = () => {
                   />
                   {errors.phone_number && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.phone_number.message}
+                      {t(errors.phone_number.message)}
                     </p>
                   )}
                 </div>
@@ -660,7 +660,7 @@ const Order = () => {
                   />
                   {errors.delivery_first_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_first_name.message}
+                      {t(errors.delivery_first_name.message)}
                     </p>
                   )}
                 </div>
@@ -684,7 +684,7 @@ const Order = () => {
                   />
                   {errors.delivery_last_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_last_name.message}
+                      {t(errors.delivery_last_name.message)}
                     </p>
                   )}
                 </div>
@@ -721,7 +721,7 @@ const Order = () => {
                   </select>
                   {errors.delivery_region && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_region.message}
+                      {t(errors.delivery_region.message)}
                     </p>
                   )}
                 </div>
@@ -760,7 +760,7 @@ const Order = () => {
                   </select>
                   {errors.delivery_location && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_location.message}
+                      {t(errors.delivery_location.message)}
                     </p>
                   )}
                 </div>
@@ -787,7 +787,7 @@ const Order = () => {
                   />
                   {errors.delivery_address && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_address.message}
+                      {t(errors.delivery_address.message)}
                     </p>
                   )}
                 </div>
@@ -813,7 +813,7 @@ const Order = () => {
                   />
                   {errors.delivery_address_reference && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_address_reference.message}
+                      {t(errors.delivery_address_reference.message)}
                     </p>
                   )}
                 </div>
@@ -838,7 +838,7 @@ const Order = () => {
                   />
                   {errors.delivery_date && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_date.message}
+                      {t(errors.delivery_date.message)}
                     </p>
                   )}
                 </div>
@@ -872,7 +872,7 @@ const Order = () => {
                   </select>
                   {errors.delivery_schedule && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_schedule.message}
+                      {t(errors.delivery_schedule.message)}
                     </p>
                   )}
                 </div>
@@ -897,7 +897,7 @@ const Order = () => {
                   />
                   {errors.delivery_phone_number && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.delivery_phone_number.message}
+                      {t(errors.delivery_phone_number.message)}
                     </p>
                   )}
                 </div>
@@ -1002,7 +1002,7 @@ const Order = () => {
                   </ul>
                   {errors.payment_method && (
                     <p className="text-red-500 text-xs ps-2">
-                      {errors.payment_method.message}
+                      {t(errors.payment_method.message)}
                     </p>
                   )}
                 </div>
@@ -1226,7 +1226,7 @@ const Order = () => {
               </div>
               {errors.privacy_policies && (
                 <p className="text-red-500 text-xs">
-                  {errors.privacy_policies.message}
+                  {t(errors.privacy_policies.message)}
                 </p>
               )}
             </li>
@@ -1248,7 +1248,7 @@ const Order = () => {
               </div>
               {errors.terms_service && (
                 <p className="text-red-500 text-xs">
-                  {errors.terms_service.message}
+                  {t(errors.terms_service.message)}
                 </p>
               )}
             </li>
@@ -1269,7 +1269,7 @@ const Order = () => {
               </div>
               {errors.subscribe_newsletter && (
                 <p className="text-red-500 text-xs">
-                  {errors.subscribe_newsletter.message}
+                  {t(errors.subscribe_newsletter.message)}
                 </p>
               )}
             </li>

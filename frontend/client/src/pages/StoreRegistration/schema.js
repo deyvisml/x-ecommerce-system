@@ -5,93 +5,90 @@ YupPassword(yup);
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 
+yup.setLocale({
+  mixed: {
+    required: "schema.mixed.required",
+    notType: "schema.mixed.typeError",
+    oneOf: ({ values }) => {
+      return values.includes(true)
+        ? "schema.mixed.oneOfTrue"
+        : "schema.mixed.oneOfFalse";
+    },
+  },
+  string: {
+    email: "schema.string.email",
+    min: ({ min }) => ({ key: "schema.string.min", values: { min } }),
+    max: ({ max }) => ({ key: "schema.string.max", values: { max } }),
+    matches: "schema.string.matches",
+    minLowercase: ({ length }) => ({
+      key: "schema.string.minLowercase",
+      values: { length },
+    }),
+    minUppercase: ({ length }) => ({
+      key: "schema.string.minUppercase",
+      values: { length },
+    }),
+    minNumbers: ({ length }) => ({
+      key: "schema.string.minNumbers",
+      values: { length },
+    }),
+  },
+  number: {
+    min: "schema.number.min",
+  },
+  date: {
+    min: "schema.date.min",
+  },
+});
+
 export const schema = yup.object({
-  email: yup
-    .string()
-    .email("Ingrese un correo valido.")
-    .max(
-      100,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido."),
+  email: yup.string().email().max(100).required(),
   password: yup
     .string()
-    .min(8, ({ min }) => `Debe tener al menos ${min} caracteres`)
-    .max(
-      40,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .minLowercase(1, "Debe tener al menos una minuscula")
-    .minUppercase(1, "Debe tener al menos una mayuscula")
-    .minNumbers(1, "Debe tener al menos un número")
-    .required("El campo es requerido."),
+    .min(8)
+    .max(40)
+    .minLowercase(1)
+    .minUppercase(1)
+    .minNumbers(1)
+    .required(),
   first_name: yup
     .string()
-    .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(
-      50,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido"),
+    .matches(/^[^\d]*$/)
+    .max(50)
+    .required(),
   last_name: yup
     .string()
-    .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(
-      100,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido"),
+    .matches(/^[^\d]*$/)
+    .max(100)
+    .required(),
   user_phone_number: yup
     .string()
-    .matches(/^[0-9]+$/, "El campo debe ser númerico")
-    .required("El campo es requerido"),
-  document_type: yup
-    .number()
-    .min(1, "Eliga una opción valida")
-    .typeError("Eliga una opción valida")
-    .required("El campo es requerido"),
+    .matches(/^[0-9]+$/)
+    .required(),
+  document_type: yup.number().min(1).required(),
   document_number: yup
     .string()
-    .max(20, ({ max }) => `Maximo ${max} caracteres)`)
-    .matches(/^[0-9]+$/, "El campo debe ser númerico")
-    .required("El campo es requerido"),
-  store_name: yup
-    .string()
-    .max(
-      80,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido"),
+    .max(20)
+    .matches(/^[0-9]+$/)
+    .required(),
+  store_name: yup.string().max(80).required(),
   ruc: yup
     .string()
-    .matches(/^[0-9]+$/, "El campo debe ser númerico")
-    .required("El campo es requerido"),
-  business_name: yup
-    .string()
-    .max(
-      200,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido"),
+    .matches(/^[0-9]+$/)
+    .required(),
+  business_name: yup.string().max(200).required(),
   phone_number: yup
     .string()
-    .matches(/^[0-9]+$/, "El campo debe ser númerico")
-    .required("El campo es requerido"),
+    .matches(/^[0-9]+$/)
+    .required(),
   legal_representative: yup
     .string()
-    .matches(/^[^\d]*$/, "Ingrese un valor valido")
-    .max(
-      100,
-      ({ max }) => `El contenido es demasiado largo (max: ${max} caracteres)`
-    )
-    .required("El campo es requerido"),
-  bank_id: yup
-    .number()
-    .min(1, "Eliga una opción valida")
-    .typeError("Eliga una opción valida")
-    .required("El campo es requerido"),
+    .matches(/^[^\d]*$/)
+    .max(100)
+    .required(),
+  bank_id: yup.number().min(1).required(),
   bank_account_number: yup
     .string()
-    .matches(/^[0-9]+$/, "El campo debe ser númerico")
-    .required("El campo es requerido"),
+    .matches(/^[0-9]+$/)
+    .required(),
 });

@@ -1,6 +1,7 @@
 import React from "react";
 import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import { PencilIcon } from "@heroicons/react/24/outline";
+import { useTranslation } from "react-i18next";
 
 const Stage = ({
   stage,
@@ -10,6 +11,7 @@ const Stage = ({
   description,
   icon,
 }) => {
+  const { t } = useTranslation();
   const handle_complete_btn = () => {
     setShowStage(stage);
   };
@@ -41,7 +43,7 @@ const Stage = ({
             onClick={handle_complete_btn}
             className="bg-rose-500 hover:bg-rose-600 px-3 py-2 rounded font-semibold text-white text-xs transition-all duration-200 ease-in-out"
           >
-            Completar
+            {t("general.buttons.complete")}
           </button>
         )}
       </div>

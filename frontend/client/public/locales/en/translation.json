@@ -15,10 +15,11 @@
     },
     "offer_section": {
       "description": "Discover the daily offer we have for you",
-      "button_text": "Daily deals"
+      "button_text": "Daily offers",
+      "no_products_in_offer": "There are no products on offer yet."
     },
     "category_section": {
-      "title": "How would you like to surprise today?"
+      "title": "How do you want to surprise today?"
     },
     "product_section": {
       "title": "Some of our recommended gifts"
@@ -26,14 +27,14 @@
     "build_product_section": {
       "title": "Create the perfect detail for every occasion",
       "description": "Turn your idea into reality by designing the perfect detail with our wide range of available products",
-      "button_text": "Let's get started"
+      "button_text": "Get started"
     }
   },
   "suscribe_newsletter": {
     "title": "Subscribe",
     "description": "Receive our emails and be the first to know about our exclusive offers, promotions, and more.",
     "email_input": {
-      "placeholder": "Your email address"
+      "placeholder": "Your email"
     },
     "button_text": "Subscribe"
   },
@@ -48,7 +49,7 @@
     },
     "benefit3": {
       "title": "PERSONALIZED SERVICES",
-      "description": "We take care of every detail for you and the person you hold dear."
+      "description": "We take care of every detail for you and the person you have in your heart."
     }
   },
   "footer": {
@@ -67,7 +68,7 @@
     "complaint_book": {
       "name": "COMPLAINT BOOK"
     },
-    "rights_reserved": "2024 bloom with you . All rights reserved"
+    "rights_reserved": "2024 blooming with you. All rights reserved"
   },
   "order_by": {
     "title": "Sort by",
@@ -87,13 +88,15 @@
   },
   "product": {
     "taxes": {
-      "description": "taxes included"
+      "description": "taxes incl."
     },
     "description": "Description",
     "availability": "Availability",
     "stock": {
       "yes": "In stock",
-      "no": "Out of stock"
+      "no": "Out of stock",
+      "with_stock": "Available in stock!",
+      "without_stock": "No stock available."
     },
     "quantity": "Quantity",
     "buy_now_button": "Buy now",
@@ -106,11 +109,11 @@
     "sections": {
       "one": {
         "title": "Personal Information",
-        "description": "Details for your purchase and contact in case of any queries."
+        "description": "Purchase details and contact information in case of any queries."
       },
       "two": {
         "title": "Delivery",
-        "description": "Delivery Information."
+        "description": "Delivery information."
       },
       "three": {
         "title": "Payment",
@@ -119,24 +122,53 @@
     },
     "payment_methods": {
       "paypal": {
-        "title": "Payment via PayPal",
-        "description": "Visa, Mastercard, Maestro, American Express, PayPal"
+        "title": "Payment via Paypal",
+        "description": "Visa, Mastercard, Maestro, American Express, Paypal"
       }
     },
     "need_help_section": {
       "title": "Need help?",
-      "description": "Contact our Customer Support channel at any time."
+      "description": "Contact our Customer Service channel at any time."
     },
     "summary": {
       "title": "YOUR ORDER SUMMARY",
       "delivery_date": "Delivery Date",
-      "delivery_hour": "Delivery Hour",
-      "unit_price": "Unit Price",
+      "delivery_hour": "Delivery Time",
+      "unit_price": "Unit price",
       "subtotal": "Subtotal",
       "shipping": "Shipping",
       "total": "Total",
-      "included_taxes": "taxes included",
-      "empty_cart": "There are no products in the cart."
+      "included_taxes": "taxes incl.",
+      "empty_cart": "No products in the cart."
+    }
+  },
+  "search": {
+    "search_results": "Search results",
+    "no_find_products": "No products available for this search.",
+    "find_products": {
+      "part1": "There are",
+      "part2": "products found"
+    }
+  },
+  "store_registration": {
+    "title": "Store registration request",
+    "stages": {
+      "one": {
+        "title": "Access data",
+        "subtitle": "Access data",
+        "description": "Login information."
+      },
+      "two": {
+        "title": "Personal data",
+        "subtitle": "Personal data",
+        "description": "Store representative information."
+      },
+      "three": {
+        "title": "Store data",
+        "subtitle": "Store data",
+        "description": "Legal information of the store."
+      },
+      "request_registration_button": "Request registration"
     }
   },
   "general": {
@@ -150,8 +182,12 @@
         "placeholder": "Enter document number"
       },
       "name": {
-        "label": "First name",
-        "placeholder": "Enter first name"
+        "label": "Names",
+        "placeholder": "Enter names"
+      },
+      "name2": {
+        "label": "Name",
+        "placeholder": "Enter name"
       },
       "last_name": {
         "label": "Last name",
@@ -161,8 +197,11 @@
         "label": "Email",
         "placeholder": "Enter email"
       },
+      "password": {
+        "label": "Password"
+      },
       "birthdate": {
-        "label": "Birth date"
+        "label": "Birthdate"
       },
       "phone_number": {
         "label": "Phone number",
@@ -196,9 +235,29 @@
         "label": "Do you have a coupon or discount voucher?",
         "placeholder": "Enter your code."
       },
+      "ruc": {
+        "label": "RUC",
+        "placeholder": "Enter RUC"
+      },
+      "business_name": {
+        "label": "Business name",
+        "placeholder": "Enter business name"
+      },
+      "legal_representative": {
+        "label": "Legal representative",
+        "placeholder": "Enter names and last names"
+      },
+      "bank": {
+        "label": "Bank",
+        "placeholder": "Select"
+      },
+      "bank_account_number": {
+        "label": "Bank account number",
+        "placeholder": "Enter bank account number"
+      },
       "privacy_policies": {
         "label": {
-          "part1": "I have read and accept the",
+          "part1": "I have read and accepted the",
           "part2": "Privacy Policy"
         }
       },
@@ -215,7 +274,32 @@
     "buttons": {
       "next": "Next",
       "previous": "Previous",
-      "apply": "Apply"
+      "apply": "Apply",
+      "complete": "Complete",
+      "continue": "Continue"
+    }
+  },
+  "schema": {
+    "mixed": {
+      "required": "The field is required",
+      "typeError": "The field value is incorrect",
+      "oneOfTrue": "The field must be checked",
+      "oneOfFalse": "The field must not be checked"
+    },
+    "string": {
+      "email": "Enter a valid email",
+      "min": "Minimum: {{min}} characters",
+      "max": "Maximum: {{max}} characters",
+      "matches": "Enter a valid value",
+      "minLowercase": "Must have at least {{length}} lowercase(s)",
+      "minUppercase": "Must have at least {{length}} uppercase(s)",
+      "minNumbers": "Must have at least {{length}} number(s)"
+    },
+    "number": {
+      "min": "Choose a valid option"
+    },
+    "date": {
+      "min": "Choose a valid date"
     }
   }
 }
