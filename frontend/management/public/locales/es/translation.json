@@ -1,0 +1,308 @@
+{
+  "login": {
+    "title": "Bienvenido de nuevo!"
+  },
+  "header": {
+    "search": {
+      "placeholder": "¿Qué estas buscando?"
+    }
+  },
+  "home": {
+    "carousel": {
+      "title": {
+        "part1": "Tenemos todo",
+        "part2": "para esos momentos especiales"
+      },
+      "subtitle": "Revisa nuestros arreglos temáticos",
+      "show_button": "Ver arreglos temáticos"
+    },
+    "offer_section": {
+      "description": "Descubre la oferta de dia que tenemos para ti",
+      "button_text": "Ofertas del dia",
+      "no_products_in_offer": "Aun no hay productos en oferta."
+    },
+    "category_section": {
+      "title": "¿De que forma quieres sorprender el dia de hoy?"
+    },
+    "product_section": {
+      "title": "Algunos de nuestros regalos recomendados"
+    },
+    "build_product_section": {
+      "title": "Arma el detalle perfecto para cada ocación",
+      "description": "Convierte tu idea en realidad diseñando el detalle perfecto con nuestra amplia gama de productos disponibles",
+      "button_text": "Manos a la obra"
+    }
+  },
+  "suscribe_newsletter": {
+    "title": "Suscríbete",
+    "description": "Recibe nuestros correos y se el primero en enterarte de nuestras ofertas exclusivas, promociones y mucho más.",
+    "email_input": {
+      "placeholder": "Tu correo electrónico"
+    },
+    "button_text": "Suscribirse"
+  },
+  "benefits_information": {
+    "benefit1": {
+      "title": "SERVICIO DE DELIVERY",
+      "description": "Envío de flores en Lima y Callao. Entregas para el mismo dia."
+    },
+    "benefit2": {
+      "title": "PAGOS SEGUROS",
+      "description": "Compras de manera simple y segura con unos clicks."
+    },
+    "benefit3": {
+      "title": "SERVICIOS PERSONALIZADOS",
+      "description": "Cuidamos cada detalle para ti y la persona que tienes en el corazón."
+    }
+  },
+  "footer": {
+    "policies": {
+      "title": "POLÍTICAS",
+      "terms": "Términos y condiciones",
+      "delivery": "Politicas de entrega y devolución"
+    },
+    "contact": {
+      "title": "CONTACTO"
+    },
+    "business_hours": {
+      "title": "HORARIOS DE ATENCIÓN",
+      "days": "Lunes - Sabado"
+    },
+    "complaint_book": {
+      "name": "LIBRO DE RECLAMACIONES"
+    },
+    "rights_reserved": "2024 florecer contigo . Todos los derechos reservados"
+  },
+  "order_by": {
+    "title": "Ordenar por",
+    "options": {
+      "one": "Relevancia",
+      "two": "Nombre, A a Z",
+      "three": "Nombre, Z a A",
+      "four": "Precio: de más bajo a más alto",
+      "five": "Precio, de más alto a más bajo"
+    }
+  },
+  "filter": {
+    "title": "Filtrar por tipo"
+  },
+  "product_item": {
+    "show_product_button": "Ver producto"
+  },
+  "product": {
+    "taxes": {
+      "description": "impuestos inc."
+    },
+    "description": "Descripción",
+    "availability": "Disponibilidad",
+    "stock": {
+      "yes": "En stock",
+      "no": "Agotado",
+      "with_stock": "Con stock diponible!",
+      "without_stock": "No existe stock disponible."
+    },
+    "quantity": "Cantidad",
+    "buy_now_button": "Comprar ahora",
+    "buy_wspp_button": "Comprar por WhatsApp",
+    "related_products_section": {
+      "title": "Productos relacionados"
+    }
+  },
+  "order": {
+    "sections": {
+      "one": {
+        "title": "Información Personal",
+        "description": "Datos para tu compra y contacto en caso de alguna consulta."
+      },
+      "two": {
+        "title": "Entrega",
+        "description": "Información de Delivery."
+      },
+      "three": {
+        "title": "Pago",
+        "description": "Seleccionar método de pago."
+      }
+    },
+    "payment_methods": {
+      "paypal": {
+        "title": "Pago mediante Paypal",
+        "description": "Visa, Mastercard, Maestro, American Express, Paypal"
+      }
+    },
+    "need_help_section": {
+      "title": "¿Necesitas ayuda?",
+      "description": "Contacta con nuestro canal de Atención al cliente en cualquier momento."
+    },
+    "summary": {
+      "title": "RESUMEN DE TU PEDIDO",
+      "delivery_date": "Fecha de Delivery",
+      "delivery_hour": "Hora de Delivery",
+      "unit_price": "Precio unitario",
+      "subtotal": "Subtotal",
+      "shipping": "Transporte",
+      "total": "Total",
+      "included_taxes": "impuestos inc.",
+      "empty_cart": "No existen productos en el carrito."
+    }
+  },
+  "search": {
+    "search_results": "Resultados de la búsqueda",
+    "no_find_products": "No existen productos disponibles para esta busqueda.",
+    "find_products": {
+      "part1": "Hay",
+      "part2": "productos encontrados"
+    }
+  },
+  "store_registration": {
+    "title": "Solicitud registro de tienda",
+    "stages": {
+      "one": {
+        "title": "Datos de acceso",
+        "subtitle": "Datos de acceso",
+        "description": "Información para el inicio de sesión."
+      },
+      "two": {
+        "title": "Datos personales",
+        "subtitle": "Datos personales",
+        "description": "Información del representante de la tienda."
+      },
+      "three": {
+        "title": "Datos de la tienda",
+        "subtitle": "Datos de la tienda",
+        "description": "Información legal de la tienda."
+      },
+      "request_registration_button": "Solicitar registro"
+    }
+  },
+  "general": {
+    "fields": {
+      "document_type": {
+        "label": "Tipo de documento",
+        "placeholder": "Seleccionar"
+      },
+      "document_number": {
+        "label": "Nro. de documento",
+        "placeholder": "Ingresar Nro. de documento"
+      },
+      "name": {
+        "label": "Nombres",
+        "placeholder": "Ingresar Nombres"
+      },
+      "name2": {
+        "label": "Nombre",
+        "placeholder": "Ingresar Nombre"
+      },
+      "last_name": {
+        "label": "Apellidos",
+        "placeholder": "Ingresar Apellidos"
+      },
+      "email": {
+        "label": "Correo electronico",
+        "placeholder": "Ingresar Correo electronico"
+      },
+      "password": {
+        "label": "Contraseña"
+      },
+      "birthdate": {
+        "label": "Fecha Nacimiento"
+      },
+      "phone_number": {
+        "label": "Número de teléfono",
+        "placeholder": "Ingresar Número de teléfono"
+      },
+      "region": {
+        "label": "Región",
+        "placeholder": "Seleccionar"
+      },
+      "location": {
+        "label": "Localidad",
+        "placeholder": "Seleccionar",
+        "addition": "costo de envio"
+      },
+      "delivery_address": {
+        "label": "Dirección de entrega",
+        "placeholder": "Número de la casa y nombre la calle"
+      },
+      "delivery_address_reference": {
+        "label": "Referencia",
+        "placeholder": "Ingresar Referencia"
+      },
+      "delivery_date": {
+        "label": "Fecha de entrega"
+      },
+      "delivery_schedule": {
+        "label": "Hora de entrega",
+        "placeholder": "Seleccionar"
+      },
+      "coupon": {
+        "label": "¿Tienes un cupón o vale de descuento?",
+        "placeholder": "Ingrese su código."
+      },
+      "ruc": {
+        "label": "RUC",
+        "placeholder": "Ingresar RUC"
+      },
+      "business_name": {
+        "label": "Razón social",
+        "placeholder": "Ingresar Razón social"
+      },
+      "legal_representative": {
+        "label": "Representante legal",
+        "placeholder": "Ingresar Nombres y apellidos"
+      },
+      "bank": {
+        "label": "Entidad bancaria",
+        "placeholder": "Seleccionar"
+      },
+      "bank_account_number": {
+        "label": "Nº Cuenta bancaria",
+        "placeholder": "Ingresar Nº Cuenta bancaria"
+      },
+      "privacy_policies": {
+        "label": {
+          "part1": "He leído y aceptado la",
+          "part2": "Política de Privacidad"
+        }
+      },
+      "terms_service": {
+        "label": {
+          "part1": "Acepto los",
+          "part2": "términos de servicio"
+        }
+      },
+      "subscribe_newsletter": {
+        "label": "Suscribirse a nuestro boletín de noticias."
+      }
+    },
+    "buttons": {
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "apply": "Aplicar",
+      "complete": "Completar",
+      "continue": "Continuar"
+    }
+  },
+  "schema": {
+    "mixed": {
+      "required": "El campo es requerido",
+      "typeError": "El valor del campo es incorrecto",
+      "oneOfTrue": "El campo debe estar marcado",
+      "oneOfFalse": "El campo no debe estar marcado"
+    },
+    "string": {
+      "email": "Ingresa un correo valido",
+      "min": "Minimo: {{min}} caracteres",
+      "max": "Máximo: {{max}} caracteres",
+      "matches": "Ingrese un valor valido",
+      "minLowercase": "Debe tener al menos {{length}} minuscula(s)",
+      "minUppercase": "Debe tener al menos {{length}} mayuscula(s)",
+      "minNumbers": "Debe tener al menos {{length}} número(s)"
+    },
+    "number": {
+      "min": "Eliga una opción valida"
+    },
+    "date": {
+      "min": "Eliga una fecha valida"
+    }
+  }
+}

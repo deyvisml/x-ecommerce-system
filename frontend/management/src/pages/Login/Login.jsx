@@ -9,8 +9,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginSchema } from "./LoginSchema";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const { set_token, set_user, set_role, set_store } = useManagement();
 
@@ -72,7 +74,7 @@ const Login = () => {
           </div>
           <div className="bg-white px-4 py-6 rounded w-full max-w-md">
             <h2 className="mb-6 font-bold text-3xl text-slate-800">
-              Bienvenido de nuevo! ✨
+              {t("login.title")} ✨
             </h2>
             <form
               onSubmit={handleSubmit(onSubmit)}
