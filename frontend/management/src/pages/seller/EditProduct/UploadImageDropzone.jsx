@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import * as yup from "yup";
+import { useTranslation } from "react-i18next";
 
 const UploadImageDropzone = ({
   name,
@@ -11,6 +12,7 @@ const UploadImageDropzone = ({
   watch,
   schema,
 }) => {
+  const { t } = useTranslation();
   const onDrop = useCallback((acceptedFiles) => {
     const new_files = acceptedFiles.map((file) =>
       Object.assign(file, {
@@ -68,10 +70,12 @@ const UploadImageDropzone = ({
 
       {(!watch(name) || watch(name).length == 0) && (
         <div className="flex flex-col justify-center items-center py-16">
-          <p>Arrastra tu imagen aqui</p>
-          <span className="block text-center">o</span>
+          <p>{t("upload_image_dropzone.drag_image_here")}</p>
+          <span className="block text-center">
+            {t("upload_image_dropzone.or")}
+          </span>
           <div className="bg-indigo-100 hover:bg-indigo-200 mt-1 text-indigo-500 btn">
-            Selecciona una imagen
+            {t("upload_image_dropzone.choose_image")}
           </div>
         </div>
       )}
@@ -109,7 +113,7 @@ const UploadImageDropzone = ({
                     }}
                     className="block hover:bg-slate-200 p-1 w-full font-bold text-red-400 transition-all duration-300 ease-in-out"
                   >
-                    Eliminar
+                    {t("general.buttons.remove")}
                   </button>
                 </div>
               </div>

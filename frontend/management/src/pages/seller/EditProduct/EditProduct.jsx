@@ -179,7 +179,7 @@ const EditProduct = () => {
     const category_id = e.target.value;
     fetch_collections_by_category(category_id);
 
-    setValue("collection_id", "");
+    setValue("collection_id", 0);
   };
 
   const onSubmit = async (data) => {
@@ -241,7 +241,7 @@ const EditProduct = () => {
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800">
-          Editar Producto
+          {t("edit_product.title")}
         </h3>
       </div>
 
@@ -253,7 +253,7 @@ const EditProduct = () => {
               onClick={handle_click_discard_btn}
               className="bg-indigo-50 hover:bg-indigo-100 text-gray-400 btn"
             >
-              Descartar
+              {t("general.buttons.discard")}
             </button>
           </li>
           <li>
@@ -261,7 +261,7 @@ const EditProduct = () => {
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 text-white btn"
             >
-              Editar producto
+              {t("edit_product.edit_product")}
             </button>
           </li>
         </ul>
@@ -271,50 +271,54 @@ const EditProduct = () => {
         <div className="flex flex-col gap-6 col-span-full lg:col-span-2">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <h4 className="font-semibold text-base">
-              Información del producto
+              {t("edit_product.product_information")}
             </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="name" className="block text-xs">
-                  Nombre
+                  {t("general.fields.name3.label")}
                 </label>
                 <input
                   {...register("name")}
                   name="name"
                   id="name"
                   type="text"
-                  placeholder="Nombre del producto"
+                  placeholder={t("general.fields.name3.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.name && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.name.message}
+                    {typeof t(errors.name.message) === "string"
+                      ? t(errors.name.message)
+                      : t(errors.name.message.key, errors.name.message.values)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="sku" className="block text-xs">
-                  SKU
+                  {t("general.fields.sku.label")}
                 </label>
                 <input
                   {...register("sku")}
                   name="sku"
                   id="sku"
                   type="text"
-                  placeholder="SKU"
+                  placeholder={t("general.fields.sku.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.sku && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.sku.message}
+                    {typeof t(errors.sku.message) === "string"
+                      ? t(errors.sku.message)
+                      : t(errors.sku.message.key, errors.sku.message.values)}
                   </p>
                 )}
               </div>
               <div className="col-span-full">
                 <label htmlFor="description" className="block text-xs">
-                  Descripción
+                  {t("general.fields.description.label")}
                 </label>
                 <textarea
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
@@ -326,7 +330,12 @@ const EditProduct = () => {
                 ></textarea>
                 {errors.description && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.description.message}
+                    {typeof t(errors.description.message) === "string"
+                      ? t(errors.description.message)
+                      : t(
+                          errors.description.message.key,
+                          errors.description.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -335,7 +344,7 @@ const EditProduct = () => {
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <h4 className="font-semibold text-base">
-              Nueva imagen del producto
+              {t("edit_product.product_image")}
             </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
@@ -351,14 +360,14 @@ const EditProduct = () => {
                 />
                 {errors.image && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.image.message}
+                    {t(errors.image.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
-                <label htmlFor="price" className="block text-xs">
-                  Imagen actual
+                <label className="block text-xs">
+                  {t("edit_product.current_image")}
                 </label>
                 <div className="gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-1">
                   {product && (
@@ -384,43 +393,50 @@ const EditProduct = () => {
 
         <div className="flex flex-col gap-6 col-span-full lg:col-span-1">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Precio</h4>
+            <h4 className="font-semibold text-base">
+              {t("edit_product.price")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="price" className="block text-xs">
-                  Precio base
+                  {t("general.fields.price.label")}
                 </label>
                 <input
                   {...register("price")}
                   name="price"
                   id="price"
                   type="number"
-                  placeholder="Precio"
+                  placeholder={t("general.fields.price.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.price && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.price.message}
+                    {t(errors.price.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="discount_rate" className="block text-xs">
-                  Descuento (%)
+                  {t("general.fields.discount_rate.label")}
                 </label>
                 <input
                   {...register("discount_rate")}
                   name="discount_rate"
                   id="discount_rate"
                   type="number"
-                  placeholder="Descuento"
+                  placeholder={t("general.fields.discount_rate.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.discount_rate && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.discount_rate.message}
+                    {typeof t(errors.discount_rate.message) === "string"
+                      ? t(errors.discount_rate.message)
+                      : t(
+                          errors.discount_rate.message.key,
+                          errors.discount_rate.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -428,7 +444,7 @@ const EditProduct = () => {
               <div className="col-span-full">
                 <div className="flex justify-between">
                   <label htmlFor="in_offer" className="block text-base">
-                    En oferta
+                    {t("general.fields.in_offer.label")}
                   </label>
 
                   <Controller
@@ -442,7 +458,7 @@ const EditProduct = () => {
                 </div>
                 {errors.in_offer && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.in_offer.message}
+                    {t(errors.in_offer.message)}
                   </p>
                 )}
               </div>
@@ -451,19 +467,24 @@ const EditProduct = () => {
 
               <div className="col-span-full">
                 <label htmlFor="quantity" className="block text-xs">
-                  Cantidad
+                  {t("general.fields.quantity.label")}
                 </label>
                 <input
                   {...register("quantity")}
                   name="quantity"
                   id="quantity"
                   type="number"
-                  placeholder="Cantidad"
+                  placeholder={t("general.fields.discount_rate.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.quantity && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.quantity.message}
+                    {typeof t(errors.quantity.message) === "string"
+                      ? t(errors.quantity.message)
+                      : t(
+                          errors.quantity.message.key,
+                          errors.quantity.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -471,7 +492,7 @@ const EditProduct = () => {
               <div className="col-span-full">
                 <div className="flex justify-between">
                   <label htmlFor="in_stock" className="block text-base">
-                    En stock
+                    {t("general.fields.in_stock.label")}
                   </label>
 
                   <Controller
@@ -485,7 +506,7 @@ const EditProduct = () => {
                 </div>
                 {errors.in_stock && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.in_stock.message}
+                    {t(errors.in_stock.message)}
                   </p>
                 )}
               </div>
@@ -493,12 +514,14 @@ const EditProduct = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Organizar</h4>
+            <h4 className="font-semibold text-base">
+              {t("edit_product.organize")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="category_id" className="block text-xs">
-                  Categoria
+                  {t("general.fields.category.label")}
                 </label>
                 <select
                   {...register("category_id")}
@@ -507,7 +530,10 @@ const EditProduct = () => {
                   id="category_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={""}>
+                    {" "}
+                    {t("general.fields.category.placeholder")}
+                  </option>
                   {categories.map((category, i) => {
                     return (
                       <option key={i} value={category.id}>
@@ -518,14 +544,14 @@ const EditProduct = () => {
                 </select>
                 {errors.category_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.category_id.message}
+                    {t(errors.category_id.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="collection_id" className="block text-xs">
-                  Colección
+                  {t("general.fields.collection.label")}
                 </label>
                 <select
                   {...register("collection_id")}
@@ -533,7 +559,10 @@ const EditProduct = () => {
                   id="collection_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={0}>
+                    {" "}
+                    {t("general.fields.collection.placeholder")}
+                  </option>
                   {collections &&
                     collections.map((collection, i) => {
                       return (
@@ -545,14 +574,14 @@ const EditProduct = () => {
                 </select>
                 {errors.collection_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.collection_id.message}
+                    {t(errors.collection_id.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="state_id" className="block text-xs">
-                  Estado
+                  {t("general.fields.state.label")}
                 </label>
                 <select
                   {...register("state_id")}
@@ -560,7 +589,10 @@ const EditProduct = () => {
                   id="state_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={0}>
+                    {" "}
+                    {t("general.fields.state.placeholder")}
+                  </option>
                   {states.map((state, i) => {
                     return (
                       <option key={i} value={state.id}>
@@ -571,7 +603,7 @@ const EditProduct = () => {
                 </select>
                 {errors.state_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.state_id.message}
+                    {t(errors.state_id.message)}
                   </p>
                 )}
               </div>

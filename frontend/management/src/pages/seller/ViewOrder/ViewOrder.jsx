@@ -23,10 +23,12 @@ import UndoOrderStateModal from "./UndoOrderStateModal";
 import UpdateOrderStateModal from "./UpdateOrderStateModal";
 import CancelOrderButton from "./CancelOrderButton";
 import MainLoader from "../../../components/MainLoader";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
 const ViewOrder = () => {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
   const { order_id } = useParams();
 
@@ -139,14 +141,16 @@ const ViewOrder = () => {
   ) : (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">Ver Orden</h3>
+        <h3 className="font-semibold text-2xl text-slate-800">
+          {t("view_order.title")}
+        </h3>
       </div>
 
       <div className="gap-6 grid grid-cols-12 mt-6">
         <div className="col-span-full xl:col-span-3 h-40">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded h-full">
             <div className="flex justify-between font-semibold text-base">
-              <h4>Detalles de Envio</h4>
+              <h4>{t("view_order.shipping_details")}</h4>
               <span className="flex justify-center items-center bg-purple-100 rounded w-11 h-11">
                 <PaperAirplaneIcon
                   className="w-6 text-purple-600"
@@ -170,7 +174,7 @@ const ViewOrder = () => {
         <div className="col-span-full xl:col-span-3 h-40">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded h-full">
             <div className="flex justify-between font-semibold text-base">
-              <h4>Detalles de Facturación</h4>
+              <h4>{t("view_order.billing_details")}</h4>
               <span className="flex justify-center items-center bg-orange-100 rounded w-11 h-11">
                 <CreditCardIcon
                   className="w-6 text-orange-600"
@@ -194,7 +198,7 @@ const ViewOrder = () => {
         <div className="col-span-full xl:col-span-3 bg-red-100 h-40">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded h-full">
             <div className="flex justify-between font-semibold text-base">
-              <h4>Detalles de Pago</h4>
+              <h4>{t("view_order.payment_details")}</h4>
               <span className="flex justify-center items-center bg-sky-100 rounded w-11 h-11">
                 <CurrencyDollarIcon
                   className="w-6 text-sky-600"
@@ -208,7 +212,7 @@ const ViewOrder = () => {
                 {order.customers_first_name + " " + order.customers_last_name}
               </p>
               <p>
-                Metodo de pago:{" "}
+                {t("view_order.payment_method")}:{" "}
                 <b className="capitalize">{order.payment_method}</b>{" "}
               </p>
             </div>
@@ -218,7 +222,7 @@ const ViewOrder = () => {
         <div className="col-span-full xl:col-span-3 bg-red-100 h-40">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded h-full">
             <div className="flex justify-between font-semibold text-base">
-              <h4>Información de Cliente</h4>
+              <h4>{t("view_order.customer_information")}</h4>
               <span className="flex justify-center items-center bg-yellow-100 rounded w-11 h-11">
                 <UserIcon className="w-6 text-yellow-600" strokeWidth={2} />
               </span>
@@ -241,7 +245,9 @@ const ViewOrder = () => {
                 <p className="text-black">
                   #{order.id.toString().padStart(4, "0")}
                 </p>
-                <p className="text-slate-500 uppercase">ID ORDEN</p>
+                <p className="text-slate-500 uppercase">
+                  {t("view_order.order_id")}
+                </p>
               </div>
             </div>
             <div className="col-span-full xl:col-span-1">
@@ -249,7 +255,10 @@ const ViewOrder = () => {
                 <p className="text-black">
                   {moment(order.created_at).format("DD [de] MMM, YYYY")}
                 </p>
-                <p className="text-slate-500 uppercase">FECHA ORDEN</p>
+                <p className="text-slate-500 uppercase">
+                  {" "}
+                  {t("view_order.order_date")}
+                </p>
               </div>
             </div>
             <div className="col-span-full xl:col-span-1">
@@ -257,7 +266,9 @@ const ViewOrder = () => {
                 <p className="text-black">
                   {moment(order.deliveries_date).format("DD [de] MMM, YYYY")}
                 </p>
-                <p className="text-slate-500 uppercase">FECHA DELIVERY</p>
+                <p className="text-slate-500 uppercase">
+                  {t("view_order.delivery_date")}
+                </p>
               </div>
             </div>
             <div className="col-span-full xl:col-span-1">
@@ -266,7 +277,9 @@ const ViewOrder = () => {
                   {order.delivery_schedule_logs_start_hour.slice(0, -3)}-
                   {order.delivery_schedule_logs_end_hour.slice(0, -3)}
                 </p>
-                <p className="text-slate-500 uppercase">HORA DELIVERY</p>
+                <p className="text-slate-500 uppercase">
+                  {t("view_order.delivery_hour")}
+                </p>
               </div>
             </div>
             <div className="col-span-full xl:col-span-1">
@@ -329,23 +342,35 @@ const ViewOrder = () => {
 
                   return element;
                 })()}
-                <p className="text-slate-500 uppercase">ESTADO ORDEN</p>
+                <p className="text-slate-500 uppercase">
+                  {t("view_order.order_state")}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Detalles de la Orden</h4>
+            <h4 className="font-semibold text-base">
+              {t("view_order.order_details")}
+            </h4>
 
             <div className="mt-4">
               <div className="overflow-y-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-slate-300 border-b text-left text-xs uppercase">
-                      <th className="px-2 py-3">Nombre</th>
-                      <th className="px-2 py-3">Precio Unitario</th>
-                      <th className="px-2 py-3">Cantidad</th>
-                      <th className="px-2 py-3">Total</th>
+                      <th className="px-2 py-3">
+                        {t("view_order.table.headers.name")}
+                      </th>
+                      <th className="px-2 py-3">
+                        {t("view_order.table.headers.unit_price")}
+                      </th>
+                      <th className="px-2 py-3">
+                        {t("view_order.table.headers.quantity")}
+                      </th>
+                      <th className="px-2 py-3">
+                        {t("view_order.table.headers.total")}
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -401,7 +426,9 @@ const ViewOrder = () => {
             <div className="flex justify-end mt-4">
               <ul className="block space-y-1 w-48 text-sm">
                 <li>
-                  <span className="inline-block w-1/2">Subtotal:</span>
+                  <span className="inline-block w-1/2">
+                    {t("view_order.subtotal")}:
+                  </span>
                   <span className="inline-block text-right w-1/2 font-semibold">
                     {currency(order.cart.total_price, {
                       symbol: "S/ ",
@@ -409,7 +436,9 @@ const ViewOrder = () => {
                   </span>
                 </li>
                 <li>
-                  <span className="inline-block w-1/2">Descuento:</span>
+                  <span className="inline-block w-1/2">
+                    {t("view_order.discount")}:
+                  </span>
                   <span className="inline-block text-right w-1/2 font-semibold">
                     {currency(order.discount, {
                       symbol: "S/ ",
@@ -417,7 +446,9 @@ const ViewOrder = () => {
                   </span>
                 </li>
                 <li>
-                  <span className="inline-block w-1/2">Envio:</span>
+                  <span className="inline-block w-1/2">
+                    {t("view_order.shipping")}:
+                  </span>
                   <span className="inline-block text-right w-1/2 font-semibold">
                     {currency(order.location_logs_delivery_cost, {
                       symbol: "S/ ",
@@ -425,7 +456,9 @@ const ViewOrder = () => {
                   </span>
                 </li>
                 <li>
-                  <span className="inline-block w-1/2">Impuesto:</span>
+                  <span className="inline-block w-1/2">
+                    {t("view_order.tax")}:
+                  </span>
                   <span className="inline-block text-right w-1/2 font-semibold">
                     {currency(order.tax, {
                       symbol: "S/ ",
@@ -434,7 +467,7 @@ const ViewOrder = () => {
                 </li>
                 <li>
                   <span className="inline-block w-1/2 font-semibold">
-                    Total:
+                    {t("view_order.total")}:
                   </span>
                   <span className="inline-block text-right w-1/2 font-semibold">
                     {currency(order.total_price, {
@@ -449,17 +482,17 @@ const ViewOrder = () => {
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <div className="flex justify-between">
               <h4 className="font-semibold text-base">
-                Historico del estado de la Orden
+                {t("view_order.order_status_history")}
               </h4>
               {order.state_id != 17 && (
                 <div className="flex gap-2">
                   <ModalButton2
-                    label={"Deshacer estado"}
+                    label={t("view_order.undo_state")}
                     setIsModalOpen={setIsUndoOrderStateModalOpen}
                     className="bg-red-100 hover:bg-red-200 px-6 py-2 rounded text-red-700 text-xs"
                   />
                   <ModalButton2
-                    label={"Actualizar estado"}
+                    label={t("view_order.update_state")}
                     setIsModalOpen={setIsUpdateOrderStateModalOpen}
                     className="bg-indigo-100 hover:bg-indigo-200 px-6 py-2 rounded text-indigo-700 text-xs"
                   />
@@ -482,7 +515,7 @@ const ViewOrder = () => {
                           {order_state_i.name}{" "}
                           {order_state_done && (
                             <p className="font-normal text-xs normal-case">
-                              Ultima actualización:{" "}
+                              {t("view_order.last_update")}:{" "}
                               <span className="capitalize">
                                 {order_state_done.updater.first_name}{" "}
                                 {order_state_done.updater.last_name}
@@ -491,7 +524,7 @@ const ViewOrder = () => {
                           )}
                         </div>
                         <span className="mt-2 normal-case">
-                          {"Pedido " + order_state_i.name}
+                          {t("view_order.order") + " " + order_state_i.name}
                         </span>
                       </div>
                       <span className="text-right w-1/2 text-slate-400">
@@ -537,7 +570,9 @@ const ViewOrder = () => {
         <div className="flex flex-col gap-6 col-span-full xl:col-span-3">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <div className="flex justify-between">
-              <h4 className="font-semibold text-base">Documentos</h4>
+              <h4 className="font-semibold text-base">
+                {t("view_order.documents")}
+              </h4>
               {order.state_id != 17 && (
                 <ModalButton2
                   label={"Subir"}
@@ -590,7 +625,7 @@ const ViewOrder = () => {
                           </a>
                         ) : (
                           <span className="mb-0 p-0 text-red-500 text-xs">
-                            Sin existencias
+                            {t("view_order.out_of_stock")}
                           </span>
                         )}
                       </span>
@@ -605,7 +640,7 @@ const ViewOrder = () => {
 
                   return (
                     <li className="flex">
-                      <span className="w-1/2">Envio</span>
+                      <span className="w-1/2">{t("view_order.shipping")}</span>
                       <span className="w-1/2">
                         {shipping_document ? (
                           <a
@@ -624,7 +659,7 @@ const ViewOrder = () => {
                           </a>
                         ) : (
                           <span className="mb-0 p-0 text-red-500 text-xs">
-                            Sin existencias
+                            {t("view_order.out_of_stock")}
                           </span>
                         )}
                       </span>
@@ -636,7 +671,9 @@ const ViewOrder = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Acciones</h4>
+            <h4 className="font-semibold text-base">
+              {t("view_order.actions")}
+            </h4>
 
             <div className="mt-4">
               {order.state_id != 17 && (

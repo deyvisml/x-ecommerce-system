@@ -92,7 +92,7 @@ const UndoOrderStateModal = ({
 
   return (
     <Modal
-      title={"Deshacer estado de la orden"}
+      title={t("undo_order_state_modal.title")}
       is_open_modal={is_modal_open}
       setIsOpenModal={setIsModalOpen}
     >
@@ -100,14 +100,14 @@ const UndoOrderStateModal = ({
         <div className="flex flex-col gap-2 text-slate-600 text-sm">
           <div>
             <label htmlFor="order_state_id" className="block font-semibold">
-              Estado
+              {t("undo_order_state_modal.state")}
             </label>
             <select
               {...register("order_state_id")}
               id="order_state_id"
               className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
             >
-              <option value={""}>Seleccionar</option>
+              <option value={""}>{t("undo_order_state_modal.choose")}</option>
               {order_state.map((order_state_i, i) => {
                 return (
                   <option key={i} value={order_state_i.id}>
@@ -130,13 +130,13 @@ const UndoOrderStateModal = ({
             type="button"
             className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded"
           >
-            Cancelar
+            {t("general.buttons.cancel")}
           </button>
           <button
             type="submit"
             className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
           >
-            Deshacer
+            {t("general.buttons.undo")}
           </button>
         </div>
       </form>

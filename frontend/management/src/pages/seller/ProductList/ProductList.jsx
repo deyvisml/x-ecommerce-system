@@ -10,7 +10,6 @@ import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import currency from "currency.js";
 import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
-
 import TableFilter from "../../../components/TableFilter";
 import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
@@ -26,6 +25,7 @@ import SwitchStockInput from "./SwitchStockInput";
 import useManagement from "../../../hooks/useManagement";
 import CategoryFilter from "../../../components/CategoryFilter";
 import StockFilter from "../../../components/StockFilter";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -54,6 +54,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 1;
 
 function ProductList() {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -103,7 +104,7 @@ function ProductList() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <span className="font-semibold text-indigo-400">
             #{info.getValue().toString().padStart(4, "0")}
@@ -112,7 +113,7 @@ function ProductList() {
       },
       {
         accessorKey: "name",
-        header: () => "Producto",
+        header: () => t("table.headers.product"),
         cell: (info) => {
           return (
             <div className="flex items-center gap-x-2">
@@ -134,7 +135,7 @@ function ProductList() {
       },
       {
         accessorKey: "categories_name",
-        header: () => "Categoria",
+        header: () => t("table.headers.category"),
         cell: (info) => {
           return (
             <span className="bg-slate-100 px-2 py-1 rounded text-xs capitalize">
@@ -145,7 +146,7 @@ function ProductList() {
       },
       {
         accessorKey: "price",
-        header: () => "Precio",
+        header: () => t("table.headers.price"),
         cell: (info) => {
           return currency(info.getValue(), {
             symbol: "S/ ",
@@ -154,7 +155,7 @@ function ProductList() {
       },
       {
         accessorKey: "in_stock",
-        header: () => "Stock",
+        header: () => t("table.headers.stock"),
         cell: (info) => {
           return (
             <SwitchStockInput
@@ -167,12 +168,12 @@ function ProductList() {
       },
       {
         accessorKey: "quantity",
-        header: () => "Cantidad",
+        header: () => t("table.headers.quantity"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -204,7 +205,8 @@ function ProductList() {
         },
       },
       {
-        header: "Acción",
+        id: "action",
+        header: () => t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -229,7 +231,7 @@ function ProductList() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     {row.original.state_id != 3 && (
@@ -355,7 +357,7 @@ function ProductList() {
     <>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800">
-          Listado de Productos
+          {t("product_list.title")}
         </h3>
       </div>
 
@@ -408,7 +410,7 @@ function ProductList() {
             <ExportTableDataButton />
 
             <LinkComponent
-              label={"Añadir producto"}
+              label={t("product_list.add_product")}
               to={"/vendedor/productos/añadir"}
             />
           </div>

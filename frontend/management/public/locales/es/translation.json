@@ -26,6 +26,18 @@
     "users": {
       "title": "Listado de Usuarios",
       "user_list": "Listado de Usuarios"
+    },
+    "products": {
+      "title": "Productos",
+      "product_list": "Listado de Productos"
+    },
+    "orders": {
+      "title": "Ordenes",
+      "order_list": "Listado de Ordenes"
+    },
+    "clients": {
+      "title": "Clientes",
+      "client_list": "Listado de Clientes"
     }
   },
   "user_menu": {
@@ -41,6 +53,98 @@
   "seller_list": {
     "title": "Vendedores"
   },
+  "product_list": {
+    "title": "Listado de Productos",
+    "add_product": "Añadir producto"
+  },
+  "add_product": {
+    "title": "Añadir Producto",
+    "publish_product": "Publicar producto",
+    "product_information": "Información del producto",
+    "product_image": "Imagen del producto (800x800)",
+    "price": "Precio",
+    "organize": "Organizar",
+    "publication": "Publicación"
+  },
+  "upload_image_dropzone": {
+    "drag_image_here": "Arrastra tu imagen aqui",
+    "or": "o",
+    "choose_image": "Selecciona una imagen"
+  },
+  "edit_product": {
+    "title": "Editar Producto",
+    "edit_product": "Editar producto",
+    "product_information": "Información del producto",
+    "product_image": "Nueva imagen del producto (800x800)",
+    "current_image": "Imagen actual",
+    "price": "Precio",
+    "organize": "Organizar"
+  },
+  "order_list": {
+    "title": "Listado de Ordenes",
+    "paid": "Pagado",
+    "failed": "Fallido"
+  },
+  "view_order": {
+    "title": "Ver Orden",
+    "shipping_details": "Detalles de Envio",
+    "billing_details": "Detalles de Facturación",
+    "payment_details": "Detalles de Pago",
+    "payment_method": "Método de pago",
+    "customer_information": "Información de Cliente",
+    "order_id": "ID ORDEN",
+    "order_date": "FECHA ORDEN",
+    "delivery_date": "FECHA DELIVERY",
+    "delivery_hour": "HORA DELIVERY",
+    "order_state": "ESTADO ORDEN",
+    "order_details": "Detalles de la Orden",
+    "table": {
+      "headers": {
+        "name": "Nombre",
+        "unit_price": "Precio Unitario",
+        "quantity": "Cantidad",
+        "total": "Total"
+      }
+    },
+    "subtotal": "Subtotal",
+    "discount": "Descuento",
+    "shipping": "Envio",
+    "tax": "Impuesto",
+    "total": "Total",
+    "order_status_history": "Histórico del estado de la Orden",
+    "last_update": "Ultima actualización",
+    "order": "Pedido",
+    "documents": "Documentos",
+    "out_of_stock": "Sin existencias",
+    "actions": "Acciones",
+    "cancel_order": "Cancelar orden",
+    "undo_state": "Deshacer estado",
+    "update_state": "Actualizar estado"
+  },
+  "undo_order_state_modal": {
+    "title": "Deshacer estado de la orden",
+    "state": "Estado",
+    "choose": "Seleccionar"
+  },
+  "update_order_state_modal": {
+    "title": "Actualizar estado de la orden",
+    "current_state": "Estado actual",
+    "state": "Estado",
+    "choose": "Seleccionar",
+    "date": "Fecha",
+    "hour": "Hora"
+  },
+  "view_customer": {
+    "title": "Ver Cliente",
+    "profile": "Perfil",
+    "id": "Id",
+    "name": "Nombres",
+    "email": "Email",
+    "phone_number": "Número de teléfono",
+    "address": "Dirección",
+    "state": "Estado",
+    "completed_orders": "Ordenes realizadas"
+  },
   "add_store_modal": {
     "title": "Crear tienda"
   },
@@ -52,7 +156,9 @@
   },
   "table_filter": {
     "title": "Filtro",
-    "state_filter": "Estado"
+    "state_filter": "Estado",
+    "category_filter": "Categoria",
+    "stock_filter": "Stock"
   },
   "table_search": {
     "search": {
@@ -69,9 +175,18 @@
       "business_name": "Razón social",
       "seller": "Vendedor",
       "created": "Creado",
+      "time": "Hora",
       "requested": "Solicitado",
       "state": "Estado",
-      "action": "Acción"
+      "action": "Acción",
+      "product": "Producto",
+      "category": "Categoria",
+      "price": "Precio",
+      "stock": "Stock",
+      "quantity": "Cantidad",
+      "amount": "Monto",
+      "client": "Cliente",
+      "pay": "Pago"
     },
     "without_records": "No se encontraron registros coincidentes",
     "total_records_label": {
@@ -100,6 +215,49 @@
       "name2": {
         "label": "Nombre",
         "placeholder": "Ingresar Nombre"
+      },
+      "name3": {
+        "label": "Nombre",
+        "placeholder": "Nombre del producto"
+      },
+      "sku": {
+        "label": "SKU",
+        "placeholder": "SKU"
+      },
+      "price": {
+        "label": "Precio base",
+        "placeholder": "Precio"
+      },
+      "discount_rate": {
+        "label": "Descuento (%)",
+        "placeholder": "Descuento"
+      },
+      "in_offer": {
+        "label": "En oferta"
+      },
+      "quantity": {
+        "label": "Cantidad",
+        "placeholder": "Cantidad"
+      },
+      "in_stock": {
+        "label": "En stock"
+      },
+      "category": {
+        "label": "Categoria",
+        "placeholder": "Seleccionar"
+      },
+      "collection": {
+        "label": "Colección",
+        "placeholder": "Seleccionar"
+      },
+      "publish_now": {
+        "label": "Ahora mismo"
+      },
+      "publish_date": {
+        "label": "Fecha"
+      },
+      "publish_time": {
+        "label": "Hora"
       },
       "last_name": {
         "label": "Apellidos",
@@ -176,6 +334,10 @@
         "label": "Nº Cuenta bancaria",
         "placeholder": "Ingresar Nº Cuenta bancaria"
       },
+      "description": {
+        "label": "Descripción",
+        "placeholder": "Ingresar Descripción"
+      },
       "privacy_policies": {
         "label": {
           "part1": "He leído y aceptado la",
@@ -206,7 +368,11 @@
       "create": "Crear",
       "edit": "Editar",
       "delete": "Borrar",
-      "accept": "Aceptar"
+      "accept": "Aceptar",
+      "discard": "Descartar",
+      "remove": "Eliminar",
+      "undo": "Deshacer",
+      "update": "Actualizar"
     }
   },
   "alerts": {
@@ -257,10 +423,17 @@
       "minNumbers": "Debe tener al menos {{length}} número(s)"
     },
     "number": {
-      "min": "Eliga una opción valida"
+      "min": "Eliga una opción valida",
+      "min2": "Valor mínimo: {{min}}",
+      "max": "Valor máximo: {{max}}",
+      "integer": "El campo debe ser un numero entero",
+      "positive": "El campo debe ser positivo"
     },
     "date": {
       "min": "Eliga una fecha valida"
+    },
+    "image": {
+      "length": "Seleccione un archivo"
     }
   }
 }

@@ -9,7 +9,6 @@ import { EllipsisHorizontalIcon, EyeIcon } from "@heroicons/react/24/outline";
 import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
-
 import TableSearch from "../../../components/TableSearch";
 import PageSize from "../../../components/PageSize";
 import ExportTableDataButton from "../../../components/ExportTableDataButton";
@@ -18,6 +17,7 @@ import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import useManagement from "../../../hooks/useManagement";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -45,6 +45,7 @@ const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [5, 10, 25, 50, 100];
 
 function CustomerList() {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -94,7 +95,7 @@ function CustomerList() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <Link
             to={`/vendedor/clientes/${info.row.original.id}`}
@@ -106,7 +107,7 @@ function CustomerList() {
       },
       {
         accessorKey: "first_name",
-        header: () => "Nombre",
+        header: () => t("table.headers.name"),
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <div className="flex justify-center items-center bg-slate-300 rounded-full w-6 h-6">
@@ -120,17 +121,17 @@ function CustomerList() {
       },
       {
         accessorKey: "email",
-        header: () => "Correo",
+        header: () => t("table.headers.email"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "phone_number",
-        header: () => "Teléfono",
+        header: () => t("table.headers.phone_number"),
         cell: (info) => info.getValue(),
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -171,7 +172,8 @@ function CustomerList() {
         },
       },
       {
-        header: "Acción",
+        id: "action",
+        header: () => t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -196,7 +198,7 @@ function CustomerList() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                   </Menu.Items>

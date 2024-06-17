@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
 import SidebarLinkGroup from "../partials/dashboard/SidebarLinkGroup";
 import logo_white from "../../public/images/logos/logo-white.svg";
 import { Listbox, Transition } from "@headlessui/react";
@@ -10,8 +9,10 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useManagement from "../hooks/useManagement";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
+  const { t } = useTranslation();
   let navigate = useNavigate();
   const { token, store, set_store } = useManagement();
 
@@ -145,7 +146,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                   •••
                 </span>
                 <span className="lg:sidebar-expanded:block 2xl:block lg:hidden">
-                  Tiendas
+                  {t("sidebar.stores.title")}
                 </span>
               </h3>
 
@@ -213,7 +214,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                 •••
               </span>
               <span className="lg:sidebar-expanded:block 2xl:block lg:hidden">
-                Páginas
+                {t("sidebar.pages")}
               </span>
             </h3>
             <ul className="mt-3">
@@ -275,7 +276,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Dashboard
+                              {t("sidebar.dashboard.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -305,7 +306,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Principal
+                                {t("sidebar.dashboard.main")}
                               </span>
                             </NavLink>
                           </li>
@@ -384,7 +385,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Productos
+                              {t("sidebar.products.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -414,7 +415,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Productos
+                                {t("sidebar.products.product_list")}
                               </span>
                             </NavLink>
                           </li>
@@ -475,7 +476,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Ordenes
+                              {t("sidebar.orders.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -505,7 +506,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Ordenes
+                                {t("sidebar.orders.order_list")}
                               </span>
                             </NavLink>
                           </li>
@@ -558,7 +559,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               />
                             </svg>
                             <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 ml-3 font-medium text-sm duration-200">
-                              Clientes
+                              {t("sidebar.clients.title")}
                             </span>
                           </div>
                           {/* Icon */}
@@ -588,7 +589,7 @@ function SellerSidebar({ sidebarOpen, setSidebarOpen }) {
                               }
                             >
                               <span className="lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 font-medium text-sm duration-200">
-                                Listado de Clientes
+                                {t("sidebar.clients.client_list")}
                               </span>
                             </NavLink>
                           </li>

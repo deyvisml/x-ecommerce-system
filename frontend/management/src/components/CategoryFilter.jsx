@@ -3,6 +3,7 @@ import axios_client from "../helpers/axios";
 import { cloneDeep } from "lodash";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 const CategoryFilter = ({
   filter_column,
@@ -10,6 +11,7 @@ const CategoryFilter = ({
   filtering,
   setFiltering,
 }) => {
+  const { t } = useTranslation();
   const [categories, setCategories] = useState([]);
   const fetch_categories = async () => {
     try {
@@ -84,7 +86,7 @@ const CategoryFilter = ({
       })()}
       className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
     >
-      <option value={""}>Categoria</option>
+      <option value={""}>{t("table_filter.category_filter")}</option>
       {categories.map((category, i) => {
         return (
           <option key={i} value={category.id}>

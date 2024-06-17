@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 const UploadImageDropzone = ({
   name,
@@ -13,6 +14,7 @@ const UploadImageDropzone = ({
   watch,
   schema,
 }) => {
+  const { t } = useTranslation();
   // https://chatgpt.com/c/9dd3d43c-aa60-4991-9abd-90a295dfabc0
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -101,10 +103,12 @@ const UploadImageDropzone = ({
 
       {(!watch(name) || watch(name).length == 0) && (
         <div className="flex flex-col justify-center items-center py-16">
-          <p>Arrastra tu imagen aqui</p>
-          <span className="block text-center">o</span>
+          <p>{t("upload_image_dropzone.drag_image_here")}</p>
+          <span className="block text-center">
+            {t("upload_image_dropzone.or")}
+          </span>
           <div className="bg-indigo-100 hover:bg-indigo-200 mt-1 text-indigo-500 btn">
-            Selecciona una imagen
+            {t("upload_image_dropzone.choose_image")}
           </div>
         </div>
       )}

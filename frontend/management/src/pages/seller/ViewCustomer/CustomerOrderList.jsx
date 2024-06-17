@@ -21,7 +21,7 @@ import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
 import DeleteRecordButton from "../../../components/DeleteRecordButton";
 import useManagement from "../../../hooks/useManagement";
-import { UserIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -49,6 +49,7 @@ const INIT_PAGE_INDEX = 0;
 const PAGE_SIZES = [5, 10, 25, 50, 100];
 
 const CustomerOrderList = ({ customer }) => {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -103,7 +104,7 @@ const CustomerOrderList = ({ customer }) => {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <Link
             to={`/vendedor/ordenes/${info.row.original.id}`}
@@ -115,26 +116,28 @@ const CustomerOrderList = ({ customer }) => {
       },
       {
         accessorKey: "created_at",
-        header: () => "Fecha",
+        header: () => t("table.headers.created"),
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
         id: "time",
         accessorKey: "created_at",
-        header: () => "Hora",
+        header: () => t("table.headers.time"),
         cell: (info) => moment(info.getValue()).format("HH:mm"),
         enableSorting: false,
       },
       {
         accessorKey: "paid",
-        header: () => "Pago",
+        header: () => t("table.headers.pay"),
         cell: (info) => {
           switch (info.getValue()) {
             case 1:
               return (
                 <div className="flex items-center gap-2">
                   <span className="bg-green-500 rounded-full w-2 h-2"></span>
-                  <span className="font-semibold text-green-400">Pagado</span>
+                  <span className="font-semibold text-green-400">
+                    {t("order_list.paid")}
+                  </span>
                 </div>
               );
               break;
@@ -143,7 +146,9 @@ const CustomerOrderList = ({ customer }) => {
               return (
                 <div className="flex items-center gap-2">
                   <span className="bg-red-500 rounded-full w-2 h-2"></span>
-                  <span className="font-semibold text-red-400">Fallido</span>
+                  <span className="font-semibold text-red-400">
+                    {t("order_list.failed")}
+                  </span>
                 </div>
               );
               break;
@@ -152,7 +157,7 @@ const CustomerOrderList = ({ customer }) => {
       },
       {
         accessorKey: "total_price",
-        header: () => "Cantidad",
+        header: () => t("table.headers.amount"),
         cell: (info) => {
           return currency(info.getValue(), {
             symbol: "S/ ",
@@ -161,7 +166,7 @@ const CustomerOrderList = ({ customer }) => {
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -223,7 +228,8 @@ const CustomerOrderList = ({ customer }) => {
         },
       },
       {
-        header: "Acción",
+        id: "action",
+        header: () => t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -248,7 +254,7 @@ const CustomerOrderList = ({ customer }) => {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     <Menu.Item>

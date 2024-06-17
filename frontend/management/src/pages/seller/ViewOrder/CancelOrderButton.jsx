@@ -57,7 +57,7 @@ const CancelOrderButton = forwardRef(({ record, setDataChanged, fn }, ref) => {
       className={` p-2 bg-red-100 hover:bg-red-200 text-sm rounded text-red-600 flex w-full justify-center items-center gap-x-1`}
     >
       <XMarkIcon className="inline-block w-4" strokeWidth={2.5} />
-      Cancelar orden
+      {t("view_order.cancel_order")}
     </button>
   );
 });

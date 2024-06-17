@@ -123,11 +123,11 @@ const AddProduct = () => {
   }, []);
 
   useEffect(() => {
-    if (watch("category_id") !== undefined) {
+    if (watch("category_id") > 0) {
       fetch_collections_by_category(watch("category_id"));
     }
 
-    setValue("collection_id", "");
+    setValue("collection_id", 0);
   }, [watch("category_id")]);
 
   const onSubmit = async (data) => {
@@ -196,7 +196,7 @@ const AddProduct = () => {
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div>
         <h3 className="font-semibold text-2xl text-slate-800">
-          Añadir Producto
+          {t("add_product.title")}
         </h3>
       </div>
 
@@ -208,7 +208,7 @@ const AddProduct = () => {
               onClick={handle_click_discard_btn}
               className="bg-indigo-50 hover:bg-indigo-100 text-gray-400 btn"
             >
-              Descartar
+              {t("general.buttons.discard")}
             </button>
           </li>
           {/*<li>
@@ -224,7 +224,7 @@ const AddProduct = () => {
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 text-white btn"
             >
-              Publicar producto
+              {t("add_product.publish_product")}
             </button>
           </li>
         </ul>
@@ -234,50 +234,50 @@ const AddProduct = () => {
         <div className="flex flex-col gap-6 col-span-full lg:col-span-2">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <h4 className="font-semibold text-base">
-              Información del producto
+              {t("add_product.product_information")}
             </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="name" className="block text-xs">
-                  Nombre
+                  {t("general.fields.name3.label")}
                 </label>
                 <input
                   {...register("name")}
                   name="name"
                   id="name"
                   type="text"
-                  placeholder="Nombre del producto"
+                  placeholder={t("general.fields.name3.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.name && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.name.message}
+                    {t(errors.name.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="sku" className="block text-xs">
-                  SKU
+                  {t("general.fields.sku.label")}
                 </label>
                 <input
                   {...register("sku")}
                   name="sku"
                   id="sku"
                   type="text"
-                  placeholder="SKU"
+                  placeholder={t("general.fields.sku.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.sku && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.sku.message}
+                    {t(errors.sku.message)}
                   </p>
                 )}
               </div>
               <div className="col-span-full">
                 <label htmlFor="description" className="block text-xs">
-                  Descripción
+                  {t("general.fields.description.label")}
                 </label>
                 <textarea
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
@@ -289,7 +289,7 @@ const AddProduct = () => {
                 ></textarea>
                 {errors.description && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.description.message}
+                    {t(errors.description.message)}
                   </p>
                 )}
               </div>
@@ -298,7 +298,7 @@ const AddProduct = () => {
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <h4 className="font-semibold text-base">
-              Imagen del producto (800x800)
+              {t("add_product.product_image")}
             </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
@@ -314,7 +314,7 @@ const AddProduct = () => {
                 />
                 {errors.image && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.image.message}
+                    {t(errors.image.message)}
                   </p>
                 )}
               </div>
@@ -324,43 +324,51 @@ const AddProduct = () => {
 
         <div className="flex flex-col gap-6 col-span-full lg:col-span-1">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Precio</h4>
+            <h4 className="font-semibold text-base">
+              {" "}
+              {t("add_product.price")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="price" className="block text-xs">
-                  Precio base
+                  {t("general.fields.price.label")}
                 </label>
                 <input
                   {...register("price")}
                   name="price"
                   id="price"
                   type="number"
-                  placeholder="Precio"
+                  placeholder={t("general.fields.price.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.price && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.price.message}
+                    {t(errors.price.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="discount_rate" className="block text-xs">
-                  Descuento (%)
+                  {t("general.fields.discount_rate.label")}
                 </label>
                 <input
                   {...register("discount_rate")}
                   name="discount_rate"
                   id="discount_rate"
                   type="number"
-                  placeholder="Descuento"
+                  placeholder={t("general.fields.discount_rate.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.discount_rate && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.discount_rate.message}
+                    {typeof errors.discount_rate.message === "string"
+                      ? t(errors.discount_rate.message)
+                      : t(
+                          errors.discount_rate.message.key,
+                          errors.discount_rate.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -368,7 +376,7 @@ const AddProduct = () => {
               <div className="col-span-full">
                 <div className="flex justify-between">
                   <label htmlFor="in_offer" className="block text-base">
-                    En oferta
+                    {t("general.fields.in_offer.label")}
                   </label>
 
                   <Controller
@@ -381,7 +389,7 @@ const AddProduct = () => {
                 </div>
                 {errors.in_offer && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.in_offer.message}
+                    {t(errors.in_offer.message)}
                   </p>
                 )}
               </div>
@@ -390,19 +398,24 @@ const AddProduct = () => {
 
               <div className="col-span-full">
                 <label htmlFor="quantity" className="block text-xs">
-                  Cantidad
+                  {t("general.fields.quantity.label")}
                 </label>
                 <input
                   {...register("quantity")}
                   name="quantity"
                   id="quantity"
                   type="number"
-                  placeholder="Cantidad"
+                  placeholder={t("general.fields.quantity.placeholder")}
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                 />
                 {errors.quantity && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.quantity.message}
+                    {typeof errors.quantity.message === "string"
+                      ? t(errors.quantity.message)
+                      : t(
+                          errors.quantity.message.key,
+                          errors.quantity.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -410,7 +423,7 @@ const AddProduct = () => {
               <div className="col-span-full">
                 <div className="flex justify-between">
                   <label htmlFor="in_stock" className="block text-base">
-                    En stock
+                    {t("general.fields.in_stock.label")}
                   </label>
 
                   <Controller
@@ -423,7 +436,7 @@ const AddProduct = () => {
                 </div>
                 {errors.in_stock && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.in_stock.message}
+                    {t(errors.in_stock.message)}
                   </p>
                 )}
               </div>
@@ -431,12 +444,15 @@ const AddProduct = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Organizar</h4>
+            <h4 className="font-semibold text-base">
+              {" "}
+              {t("add_product.organize")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="category_id" className="block text-xs">
-                  Categoria
+                  {t("general.fields.category.label")}
                 </label>
                 <select
                   {...register("category_id")}
@@ -444,7 +460,9 @@ const AddProduct = () => {
                   id="category_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={0}>
+                    {t("general.fields.category.placeholder")}
+                  </option>
                   {categories.map((category, i) => {
                     return (
                       <option key={i} value={category.id}>
@@ -455,14 +473,14 @@ const AddProduct = () => {
                 </select>
                 {errors.category_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.category_id.message}
+                    {t(errors.category_id.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <label htmlFor="collection_id" className="block text-xs">
-                  Colección
+                  {t("general.fields.collection.label")}
                 </label>
                 <select
                   {...register("collection_id")}
@@ -470,7 +488,10 @@ const AddProduct = () => {
                   id="collection_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={0}>
+                    {" "}
+                    {t("general.fields.collection.placeholder")}
+                  </option>
                   {collections.map((collection, i) => {
                     return (
                       <option key={i} value={collection.id}>
@@ -481,7 +502,7 @@ const AddProduct = () => {
                 </select>
                 {errors.collection_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.collection_id.message}
+                    {t(errors.collection_id.message)}
                   </p>
                 )}
               </div>
@@ -489,12 +510,15 @@ const AddProduct = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Publicación</h4>
+            <h4 className="font-semibold text-base">
+              {" "}
+              {t("add_product.publication")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <label htmlFor="state_id" className="block text-xs">
-                  Estado
+                  {t("general.fields.state.label")}
                 </label>
                 <select
                   {...register("state_id")}
@@ -502,7 +526,9 @@ const AddProduct = () => {
                   id="state_id"
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
                 >
-                  <option value={""}>Seleccionar</option>
+                  <option value={0}>
+                    {t("general.fields.state.placeholder")}
+                  </option>
                   {states.map((state, i) => {
                     return (
                       <option key={i} value={state.id}>
@@ -513,15 +539,15 @@ const AddProduct = () => {
                 </select>
                 {errors.state_id && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.state_id.message}
+                    {t(errors.state_id.message)}
                   </p>
                 )}
               </div>
 
               <div className="col-span-full">
                 <div className="flex justify-between">
-                  <label htmlFor="in_offer" className="block text-base">
-                    Ahora mismo
+                  <label htmlFor="publish_now" className="block text-base">
+                    {t("general.fields.publish_now.label")}
                   </label>
 
                   <Controller
@@ -534,7 +560,7 @@ const AddProduct = () => {
                 </div>
                 {errors.publish_now && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {errors.publish_now.message}
+                    {t(errors.publish_now.message)}
                   </p>
                 )}
               </div>
@@ -543,7 +569,7 @@ const AddProduct = () => {
                 <>
                   <div className="col-span-1">
                     <label htmlFor="publish_date" className="block text-xs">
-                      Fecha
+                      {t("general.fields.publish_date.label")}
                     </label>
                     <input
                       {...register("publish_date")}
@@ -554,14 +580,14 @@ const AddProduct = () => {
                     />
                     {errors.publish_date && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.publish_date.message}
+                        {t(errors.publish_date.message)}
                       </p>
                     )}
                   </div>
 
                   <div className="col-span-1">
                     <label htmlFor="publish_time" className="block text-xs">
-                      Hora
+                      {t("general.fields.publish_time.label")}
                     </label>
                     <input
                       {...register("publish_time")}
@@ -571,7 +597,7 @@ const AddProduct = () => {
                     />
                     {errors.publish_time && (
                       <p className="pt-1 text-red-500 text-xs ps-1">
-                        {errors.publish_time.message}
+                        {t(errors.publish_time.message)}
                       </p>
                     )}
                   </div>

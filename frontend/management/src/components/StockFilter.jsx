@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios_client from "../helpers/axios";
 import { cloneDeep } from "lodash";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useTranslation } from "react-i18next";
 
 const StockFilter = ({
   filter_column,
@@ -10,6 +9,7 @@ const StockFilter = ({
   filtering,
   setFiltering,
 }) => {
+  const { t } = useTranslation();
   const [stocks, setStocks] = useState([]);
   const fetch_stocks = async () => {
     setStocks([
@@ -75,7 +75,7 @@ const StockFilter = ({
       })()}
       className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-2 rounded w-full text-sm capitalize focus:ring-0"
     >
-      <option value={""}>Stock</option>
+      <option value={""}>{t("table_filter.stock_filter")}</option>
       {stocks.map((stock, i) => {
         return (
           <option key={i} value={stock.id}>

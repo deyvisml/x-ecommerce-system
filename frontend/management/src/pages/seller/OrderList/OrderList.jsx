@@ -10,7 +10,6 @@ import { Menu } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import currency from "currency.js";
 import { format_react_table_sorting } from "../../../utils/dashboard/Utils";
-
 import TableFilter from "../../../components/TableFilter";
 import StateFilter from "../../../components/StateFilter";
 import TableSearch from "../../../components/TableSearch";
@@ -19,10 +18,10 @@ import ExportTableDataButton from "../../../components/ExportTableDataButton";
 import Table from "../../../components/Table";
 import TablePagination from "../../../components/TablePagination";
 import TotalRecordsLabel from "../../../components/TotalRecordsLabel";
-import EditRecordLink from "../../../components/EditRecordLink";
 import DeleteRecordButton from "../../../components/DeleteRecordButton";
 import useManagement from "../../../hooks/useManagement";
 import { UserIcon } from "@heroicons/react/24/solid";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
@@ -51,6 +50,7 @@ const PAGE_SIZES = [5, 10, 25, 50, 100];
 const FILTER_STATE = 12;
 
 function OrderList() {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
 
   const [data_changed, setDataChanged] = useState(false);
@@ -105,7 +105,7 @@ function OrderList() {
       },
       {
         accessorKey: "id",
-        header: () => "Id",
+        header: () => t("table.headers.id"),
         cell: (info) => (
           <Link
             to={`/vendedor/ordenes/${info.row.original.id}`}
@@ -117,19 +117,19 @@ function OrderList() {
       },
       {
         accessorKey: "created_at",
-        header: () => "Fecha",
+        header: () => t("table.headers.created"),
         cell: (info) => moment(info.getValue()).format("DD [de] MMM, YYYY"),
       },
       {
         id: "time",
         accessorKey: "created_at",
-        header: () => "Hora",
+        header: () => t("table.headers.time"),
         cell: (info) => moment(info.getValue()).format("HH:mm"),
         enableSorting: false,
       },
       {
         accessorKey: "users_first_name",
-        header: () => "Cliente",
+        header: () => t("table.headers.client"),
         cell: ({ row }) => (
           <div className="flex items-center gap-2">
             <div className="flex justify-center items-center bg-slate-300 rounded-full w-6 h-6">
@@ -145,14 +145,16 @@ function OrderList() {
       },
       {
         accessorKey: "paid",
-        header: () => "Pago",
+        header: () => t("table.headers.pay"),
         cell: (info) => {
           switch (info.getValue()) {
             case 1:
               return (
                 <div className="flex items-center gap-2">
                   <span className="bg-green-500 rounded-full w-2 h-2"></span>
-                  <span className="font-semibold text-green-400">Pagado</span>
+                  <span className="font-semibold text-green-400">
+                    {t("order_list.paid")}
+                  </span>
                 </div>
               );
               break;
@@ -161,7 +163,9 @@ function OrderList() {
               return (
                 <div className="flex items-center gap-2">
                   <span className="bg-red-500 rounded-full w-2 h-2"></span>
-                  <span className="font-semibold text-red-400">Fallido</span>
+                  <span className="font-semibold text-red-400">
+                    {t("order_list.failed")}
+                  </span>
                 </div>
               );
               break;
@@ -170,7 +174,7 @@ function OrderList() {
       },
       {
         accessorKey: "total_price",
-        header: () => "Cantidad",
+        header: () => t("table.headers.quantity"),
         cell: (info) => {
           return currency(info.getValue(), {
             symbol: "S/ ",
@@ -179,7 +183,7 @@ function OrderList() {
       },
       {
         accessorKey: "states_name",
-        header: () => "Estado",
+        header: () => t("table.headers.state"),
         cell: ({ row }) => {
           let value = undefined;
 
@@ -242,7 +246,8 @@ function OrderList() {
         },
       },
       {
-        header: "Acción",
+        id: "action",
+        header: () => t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (
@@ -267,7 +272,7 @@ function OrderList() {
                         className={` p-2 hover:bg-slate-100 flex items-center gap-x-1`}
                       >
                         <EyeIcon className="w-4" />
-                        Ver
+                        {t("general.buttons.view")}
                       </Link>
                     </Menu.Item>
                     {((row.original.state_id != 3 &&

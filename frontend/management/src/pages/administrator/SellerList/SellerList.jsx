@@ -185,7 +185,8 @@ function SellerList() {
         },
       },
       {
-        header: t("table.headers.action"),
+        id: "action",
+        header: () => t("table.headers.action"),
         cell: ({ row }) => (
           <Menu as="div" className="inline-block relative">
             {({ open }) => (

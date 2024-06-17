@@ -58,7 +58,7 @@ const DeleteRecordButton = forwardRef(
         className={` p-2 hover:bg-slate-100 flex w-full items-center gap-x-1`}
       >
         <TrashIcon className="w-4" />
-        Borrar
+        {t("general.buttons.delete")}
       </button>
     );
   }

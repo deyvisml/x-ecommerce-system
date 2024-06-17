@@ -26,6 +26,18 @@
     "users": {
       "title": "User List",
       "user_list": "User List"
+    },
+    "products": {
+      "title": "Products",
+      "product_list": "Product List"
+    },
+    "orders": {
+      "title": "Orders",
+      "order_list": "Order List"
+    },
+    "clients": {
+      "title": "Clients",
+      "client_list": "Client List"
     }
   },
   "user_menu": {
@@ -41,6 +53,98 @@
   "seller_list": {
     "title": "Sellers"
   },
+  "product_list": {
+    "title": "Product List",
+    "add_product": "Add product"
+  },
+  "add_product": {
+    "title": "Add Product",
+    "publish_product": "Publish product",
+    "product_information": "Product information",
+    "product_image": "Product image (800x800)",
+    "price": "Price",
+    "organize": "Organize",
+    "publication": "Publication"
+  },
+  "upload_image_dropzone": {
+    "drag_image_here": "Drag your image here",
+    "or": "or",
+    "choose_image": "Choose an image"
+  },
+  "edit_product": {
+    "title": "Edit Product",
+    "edit_product": "Edit product",
+    "product_information": "Product information",
+    "product_image": "New product image (800x800)",
+    "current_image": "Current image",
+    "price": "Price",
+    "organize": "Organize"
+  },
+  "order_list": {
+    "title": "Order List",
+    "paid": "Paid",
+    "failed": "Failed"
+  },
+  "view_order": {
+    "title": "View Order",
+    "shipping_details": "Shipping Details",
+    "billing_details": "Billing Details",
+    "payment_details": "Payment Details",
+    "payment_method": "Payment method",
+    "customer_information": "Customer Information",
+    "order_id": "ORDER ID",
+    "order_date": "ORDER DATE",
+    "delivery_date": "DELIVERY DATE",
+    "delivery_hour": "DELIVERY HOUR",
+    "order_state": "ORDER STATE",
+    "order_details": "Order Details",
+    "table": {
+      "headers": {
+        "name": "Name",
+        "unit_price": "Unit Price",
+        "quantity": "Quantity",
+        "total": "Total"
+      }
+    },
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "tax": "Tax",
+    "total": "Total",
+    "order_status_history": "Order Status History",
+    "last_update": "Last update",
+    "order": "Order",
+    "documents": "Documents",
+    "out_of_stock": "Out of stock",
+    "actions": "Actions",
+    "cancel_order": "Cancel order",
+    "undo_state": "Undo state",
+    "update_state": "Update state"
+  },
+  "undo_order_state_modal": {
+    "title": "Undo order state",
+    "state": "State",
+    "choose": "Choose"
+  },
+  "update_order_state_modal": {
+    "title": "Update order state",
+    "current_state": "Current state",
+    "state": "State",
+    "choose": "Choose",
+    "date": "Date",
+    "hour": "Hour"
+  },
+  "view_customer": {
+    "title": "View Customer",
+    "profile": "Profile",
+    "id": "Id",
+    "name": "Name",
+    "email": "Email",
+    "phone_number": "Phone number",
+    "address": "Address",
+    "state": "State",
+    "completed_orders": "Completed orders"
+  },
   "add_store_modal": {
     "title": "Create store"
   },
@@ -52,7 +156,9 @@
   },
   "table_filter": {
     "title": "Filter",
-    "state_filter": "State"
+    "state_filter": "State",
+    "category_filter": "Category",
+    "stock_filter": "Stock"
   },
   "table_search": {
     "search": {
@@ -64,14 +170,23 @@
       "id": "Id",
       "name": "Name",
       "email": "Email",
-      "phone_number": "Phone Number",
+      "phone_number": "Phone number",
       "ruc": "RUC",
-      "business_name": "Business Name",
+      "business_name": "Business name",
       "seller": "Seller",
       "created": "Created",
+      "time": "Time",
       "requested": "Requested",
       "state": "State",
-      "action": "Action"
+      "action": "Action",
+      "product": "Product",
+      "category": "Category",
+      "price": "Price",
+      "stock": "Stock",
+      "quantity": "Quantity",
+      "amount": "Amount",
+      "client": "Client",
+      "pay": "Pay"
     },
     "without_records": "No matching records found",
     "total_records_label": {
@@ -86,39 +201,82 @@
   "general": {
     "fields": {
       "document_type": {
-        "label": "Document Type",
+        "label": "Document type",
         "placeholder": "Select"
       },
       "document_number": {
-        "label": "Document Number",
-        "placeholder": "Enter Document Number"
+        "label": "Document number",
+        "placeholder": "Enter document number"
       },
       "name": {
-        "label": "First Name",
-        "placeholder": "Enter First Name"
+        "label": "Name",
+        "placeholder": "Enter name"
       },
       "name2": {
         "label": "Name",
-        "placeholder": "Enter Name"
+        "placeholder": "Enter name"
+      },
+      "name3": {
+        "label": "Name",
+        "placeholder": "Product name"
+      },
+      "sku": {
+        "label": "SKU",
+        "placeholder": "SKU"
+      },
+      "price": {
+        "label": "Base price",
+        "placeholder": "Price"
+      },
+      "discount_rate": {
+        "label": "Discount (%)",
+        "placeholder": "Discount"
+      },
+      "in_offer": {
+        "label": "On offer"
+      },
+      "quantity": {
+        "label": "Quantity",
+        "placeholder": "Quantity"
+      },
+      "in_stock": {
+        "label": "In stock"
+      },
+      "category": {
+        "label": "Category",
+        "placeholder": "Select"
+      },
+      "collection": {
+        "label": "Collection",
+        "placeholder": "Select"
+      },
+      "publish_now": {
+        "label": "Right now"
+      },
+      "publish_date": {
+        "label": "Date"
+      },
+      "publish_time": {
+        "label": "Time"
       },
       "last_name": {
-        "label": "Last Name",
-        "placeholder": "Enter Last Name"
+        "label": "Last name",
+        "placeholder": "Enter last name"
       },
       "email": {
         "label": "Email",
-        "placeholder": "Enter Email"
+        "placeholder": "Enter email"
       },
       "password": {
         "label": "Password",
-        "placeholder": "Enter Password"
+        "placeholder": "Enter password"
       },
       "birthdate": {
         "label": "Birthdate"
       },
       "phone_number": {
-        "label": "Phone Number",
-        "placeholder": "Enter Phone Number"
+        "label": "Phone number",
+        "placeholder": "Enter phone number"
       },
       "region": {
         "label": "Region",
@@ -130,18 +288,18 @@
         "addition": "shipping cost"
       },
       "delivery_address": {
-        "label": "Delivery Address",
+        "label": "Delivery address",
         "placeholder": "House number and street name"
       },
       "delivery_address_reference": {
         "label": "Reference",
-        "placeholder": "Enter Reference"
+        "placeholder": "Enter reference"
       },
       "delivery_date": {
-        "label": "Delivery Date"
+        "label": "Delivery date"
       },
       "delivery_schedule": {
-        "label": "Delivery Schedule",
+        "label": "Delivery time",
         "placeholder": "Select"
       },
       "coupon": {
@@ -153,12 +311,12 @@
         "placeholder": "Enter RUC"
       },
       "business_name": {
-        "label": "Business Name",
-        "placeholder": "Enter Business Name"
+        "label": "Business name",
+        "placeholder": "Enter business name"
       },
       "legal_representative": {
-        "label": "Legal Representative",
-        "placeholder": "Enter First and Last Name"
+        "label": "Legal representative",
+        "placeholder": "Enter first and last name"
       },
       "seller": {
         "label": "Seller",
@@ -169,12 +327,16 @@
         "placeholder": "Select"
       },
       "bank": {
-        "label": "Bank",
+        "label": "Bank entity",
         "placeholder": "Select"
       },
       "bank_account_number": {
-        "label": "Bank Account Number",
-        "placeholder": "Enter Bank Account Number"
+        "label": "Bank account number",
+        "placeholder": "Enter bank account number"
+      },
+      "description": {
+        "label": "Description",
+        "placeholder": "Enter description"
       },
       "privacy_policies": {
         "label": {
@@ -206,33 +368,50 @@
       "create": "Create",
       "edit": "Edit",
       "delete": "Delete",
-      "accept": "Accept"
-    },
-    "alerts": {
-      "titles": {
-        "created": "Created!",
-        "deleted": "Deleted!",
-        "updated": "Updated!",
-        "accepted": "Accepted!",
-        "rejected": "Rejected!",
-        "request_received": "Request Received!"
-      },
+      "accept": "Accept",
+      "discard": "Discard",
+      "remove": "Remove",
+      "undo": "Undo",
+      "update": "Update"
+    }
+  },
+  "alerts": {
+    "titles": {
+      "created": "Created!",
+      "deleted": "Deleted!",
+      "updated": "Updated!",
+      "accepted": "Accepted!",
+      "rejected": "Rejected!",
+      "canceled": "Canceled!",
+      "uploaded": "Uploaded!",
       "error": "Error!",
+      "request_received": "Request Received!",
       "are_you_sure": "Are you sure?",
+      "password_changed": "Password changed!"
+    },
+    "texts": {
       "irreversible_action": "This action cannot be undone!",
       "request_accept": "The request will be accepted!",
       "request_reject": "The request will be rejected!",
-      "yes_delete": "Yes, delete it!",
-      "yes_accept": "Yes, accept it!",
-      "yes_reject": "Yes, reject it!"
+      "record_delete": "The record will be deleted!"
+    },
+    "confirmation_button": {
+      "continue": "Continue",
+      "yes_delete": "Yes, delete!",
+      "yes_accept": "Yes, accept!",
+      "yes_reject": "Yes, reject!",
+      "yes_continue": "Yes, continue!"
+    },
+    "cancel_button": {
+      "cancel": "Cancel"
     }
   },
   "schema": {
     "mixed": {
       "required": "This field is required",
       "typeError": "The field value is incorrect",
-      "oneOfTrue": "This field must be checked",
-      "oneOfFalse": "This field must not be checked"
+      "oneOfTrue": "The field must be checked",
+      "oneOfFalse": "The field must not be checked"
     },
     "string": {
       "email": "Enter a valid email",
@@ -244,10 +423,17 @@
       "minNumbers": "Must have at least {{length}} number(s)"
     },
     "number": {
-      "min": "Choose a valid option"
+      "min": "Choose a valid option",
+      "min2": "Minimum value: {{min}}",
+      "max": "Maximum value: {{max}}",
+      "integer": "The field must be an integer",
+      "positive": "The field must be positive"
     },
     "date": {
       "min": "Choose a valid date"
+    },
+    "image": {
+      "length": "Select a file"
     }
   }
 }

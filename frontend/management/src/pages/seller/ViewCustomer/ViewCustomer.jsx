@@ -9,10 +9,12 @@ import { useParams } from "react-router-dom";
 import { UserIcon } from "@heroicons/react/24/solid";
 import CustomerOrderList from "./CustomerOrderList";
 import MainLoader from "../../../components/MainLoader";
+import { useTranslation } from "react-i18next";
 
 moment.locale("es");
 
 const ViewCustomer = () => {
+  const { t } = useTranslation();
   const { token, store } = useManagement();
   const { customer_id } = useParams();
 
@@ -64,13 +66,17 @@ const ViewCustomer = () => {
   ) : (
     <>
       <div>
-        <h3 className="font-semibold text-2xl text-slate-800">Ver Cliente</h3>
+        <h3 className="font-semibold text-2xl text-slate-800">
+          {t("view_customer.title")}
+        </h3>
       </div>
 
       <div className="gap-6 grid grid-cols-12 mt-6">
         <div className="flex flex-col gap-6 col-span-full xl:col-span-3">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Perfil</h4>
+            <h4 className="font-semibold text-base">
+              {t("view_customer.profile")}
+            </h4>
 
             <div className="mt-4 text-sm">
               <div>
@@ -81,29 +87,39 @@ const ViewCustomer = () => {
               <div className="mt-4">
                 <ul className="flex flex-col gap-y-2 text-xs">
                   <li>
-                    <strong className="block">ID</strong>
+                    <strong className="block uppercase">
+                      {t("view_customer.id")}
+                    </strong>
                     <span>{customer.id}</span>
                   </li>
                   <li>
-                    <strong className="block">Nombres</strong>
+                    <strong className="block">{t("view_customer.name")}</strong>
                     <span className="capitalize">
                       {customer.first_name} {customer.last_name}
                     </span>
                   </li>
                   <li>
-                    <strong className="block">Email</strong>
+                    <strong className="block">
+                      {t("view_customer.email")}
+                    </strong>
                     <span>{customer.email}</span>
                   </li>
                   <li>
-                    <strong className="block">Teléfono</strong>
+                    <strong className="block">
+                      {t("view_customer.phone_number")}
+                    </strong>
                     <span>{customer.phone_number}</span>
                   </li>
                   <li>
-                    <strong className="block">Dirección</strong>
+                    <strong className="block">
+                      {t("view_customer.address")}
+                    </strong>
                     <span>{customer.addresses_name}</span>
                   </li>
                   <li>
-                    <strong className="block">Estado</strong>
+                    <strong className="block">
+                      {t("view_customer.state")}
+                    </strong>
                     {(() => {
                       let value = undefined;
 
@@ -151,7 +167,9 @@ const ViewCustomer = () => {
 
         <div className="flex flex-col gap-6 col-span-full xl:col-span-9">
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Ordenes realizadas</h4>
+            <h4 className="font-semibold text-base">
+              {t("view_customer.completed_orders")}
+            </h4>
 
             <div className="mt-4">
               <CustomerOrderList customer={customer} />

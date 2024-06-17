@@ -129,14 +129,16 @@ const UpdateOrderStateModal = ({
   return (
     fetches_finished == true && (
       <Modal
-        title={"Actualizar estado de la orden"}
+        title={t("update_order_state_modal.title")}
         is_open_modal={is_modal_open}
         setIsOpenModal={setIsModalOpen}
       >
         <form onSubmit={handleSubmit(onSubmit)} noValidate>
           <div className="flex flex-col gap-2 text-slate-600 text-sm">
             <div>
-              <label className="block font-semibold">Estado actual</label>
+              <label className="block font-semibold">
+                {t("update_order_state_modal.current_state")}
+              </label>
               <div className="gap-2 grid grid-cols-3">
                 <input
                   className="border-slate-200 focus:border-slate-200 read-only:bg-slate-100 mt-1 px-2 py-1.5 border rounded w-full text-sm capitalize cursor-default focus:ring-0"
@@ -160,14 +162,16 @@ const UpdateOrderStateModal = ({
 
             <div>
               <label htmlFor="state_id" className="block font-semibold">
-                Estado
+                {t("update_order_state_modal.state")}
               </label>
               <select
                 {...register("state_id")}
                 id="state_id"
                 className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm capitalize focus:ring-0"
               >
-                <option value={""}>Seleccionar</option>
+                <option value={""}>
+                  {t("update_order_state_modal.choose")}
+                </option>
                 {order_state.map((state, i) => {
                   return (
                     <option key={i} value={state.id}>
@@ -186,7 +190,7 @@ const UpdateOrderStateModal = ({
             <div className="gap-2 grid grid-cols-2">
               <div className="col-span-1">
                 <label htmlFor="date" className="block font-semibold">
-                  Fecha
+                  {t("update_order_state_modal.date")}
                 </label>
                 <input
                   {...register("date")}
@@ -203,7 +207,7 @@ const UpdateOrderStateModal = ({
 
               <div className="col-span-1">
                 <label htmlFor="time" className="block font-semibold">
-                  Hora
+                  {t("update_order_state_modal.hour")}
                 </label>
                 <input
                   {...register("time")}
@@ -226,13 +230,13 @@ const UpdateOrderStateModal = ({
               type="button"
               className="bg-slate-100 hover:bg-slate-200 px-4 py-2 rounded"
             >
-              Cancelar
+              {t("general.buttons.cancel")}
             </button>
             <button
               type="submit"
               className="bg-indigo-500 hover:bg-indigo-600 px-8 py-2 rounded text-white"
             >
-              Actualizar
+              {t("general.buttons.update")}
             </button>
           </div>
         </form>
