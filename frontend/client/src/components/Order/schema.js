@@ -55,7 +55,7 @@ export const schema = yup.object({
     .matches(/^[^\d]*$/)
     .max(100)
     .required(),
-  email: yup.string().email().max(200).required(),
+  email: yup.string().email().max(100).required(),
   birthdate: yup
     .date()
     .nullable()
@@ -77,10 +77,10 @@ export const schema = yup.object({
     .required(),
   delivery_region: yup.number().min(1).required(),
   delivery_location: yup.number().min(1).required(),
-  delivery_address: yup.string().max(300).required(),
+  delivery_address: yup.string().max(200).required(),
   delivery_address_reference: yup
     .string()
-    .max(300)
+    .max(200)
     .nullable()
     .transform((value) => (value ? value : null))
     .optional(),

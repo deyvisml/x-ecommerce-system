@@ -481,6 +481,7 @@ const Order = () => {
                     type="text"
                     {...register("document_number")}
                     id="document_number"
+                    maxLength={20}
                     placeholder={t(
                       "general.fields.document_number.placeholder"
                     )}
@@ -508,6 +509,7 @@ const Order = () => {
                     type="text"
                     {...register("first_name")}
                     id="first_name"
+                    maxLength={50}
                     placeholder={t("general.fields.name.placeholder")}
                     className={`${
                       errors.first_name
@@ -517,7 +519,12 @@ const Order = () => {
                   />
                   {errors.first_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.first_name.message)}
+                      {typeof errors.first_name.message === "string"
+                        ? t(errors.first_name.message)
+                        : t(
+                            errors.first_name.message.key,
+                            errors.first_name.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -531,6 +538,7 @@ const Order = () => {
                   <input
                     type="text"
                     {...register("last_name")}
+                    maxLength={50}
                     id="last_name"
                     placeholder={t("general.fields.last_name.placeholder")}
                     className={`${
@@ -541,7 +549,12 @@ const Order = () => {
                   />
                   {errors.last_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.last_name.message)}
+                      {typeof errors.last_name.message === "string"
+                        ? t(errors.last_name.message)
+                        : t(
+                            errors.last_name.message.key,
+                            errors.last_name.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -557,6 +570,7 @@ const Order = () => {
                     type="text"
                     {...register("email")}
                     id="email"
+                    maxLength={100}
                     placeholder={t("general.fields.email.placeholder")}
                     className={`${
                       errors.email ? "border-red-400 focus:border-red-400" : ""
@@ -578,6 +592,7 @@ const Order = () => {
                   <input
                     type="date"
                     {...register("birthdate")}
+                    max={moment().subtract(18, "years").format("YYYY-MM-DD")}
                     id="birthdate"
                     className={`${
                       errors.birthdate
@@ -601,8 +616,8 @@ const Order = () => {
                   </label>
                   <input
                     type="text"
-                    name="phone_number"
                     {...register("phone_number")}
+                    maxLength={9}
                     id="phone_number"
                     placeholder={t("general.fields.phone_number.placeholder")}
                     className={`${
@@ -651,6 +666,7 @@ const Order = () => {
                     type="text"
                     {...register("delivery_first_name")}
                     id="delivery_first_name"
+                    maxLength={50}
                     placeholder={t("general.fields.name.placeholder")}
                     className={`${
                       errors.delivery_first_name
@@ -660,7 +676,12 @@ const Order = () => {
                   />
                   {errors.delivery_first_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.delivery_first_name.message)}
+                      {typeof errors.delivery_first_name.message === "string"
+                        ? t(errors.delivery_first_name.message)
+                        : t(
+                            errors.delivery_first_name.message.key,
+                            errors.delivery_first_name.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -674,6 +695,7 @@ const Order = () => {
                   <input
                     type="text"
                     {...register("delivery_last_name")}
+                    maxLength={100}
                     id="delivery_last_name"
                     placeholder={t("general.fields.last_name.placeholder")}
                     className={`${
@@ -684,7 +706,12 @@ const Order = () => {
                   />
                   {errors.delivery_last_name && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.delivery_last_name.message)}
+                      {typeof errors.delivery_last_name.message === "string"
+                        ? t(errors.delivery_last_name.message)
+                        : t(
+                            errors.delivery_last_name.message.key,
+                            errors.delivery_last_name.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -776,6 +803,7 @@ const Order = () => {
                     type="text"
                     {...register("delivery_address")}
                     id="delivery_address"
+                    maxLength={200}
                     placeholder={t(
                       "general.fields.delivery_address.placeholder"
                     )}
@@ -787,7 +815,12 @@ const Order = () => {
                   />
                   {errors.delivery_address && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.delivery_address.message)}
+                      {typeof errors.delivery_address.message === "string"
+                        ? t(errors.delivery_address.message)
+                        : t(
+                            errors.delivery_address.message.key,
+                            errors.delivery_address.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -801,6 +834,7 @@ const Order = () => {
                   <input
                     type="text"
                     {...register("delivery_address_reference")}
+                    maxLength={200}
                     id="delivery_address_reference"
                     placeholder={t(
                       "general.fields.delivery_address_reference.placeholder"
@@ -813,7 +847,13 @@ const Order = () => {
                   />
                   {errors.delivery_address_reference && (
                     <p className="text-red-500 text-xs ps-2">
-                      {t(errors.delivery_address_reference.message)}
+                      {typeof errors.delivery_address_reference.message ===
+                      "string"
+                        ? t(errors.delivery_address_reference.message)
+                        : t(
+                            errors.delivery_address_reference.message.key,
+                            errors.delivery_address_reference.message.values
+                          )}
                     </p>
                   )}
                 </div>
@@ -889,6 +929,7 @@ const Order = () => {
                     {...register("delivery_phone_number")}
                     id="delivery_phone_number"
                     placeholder={t("general.fields.phone_number.placeholder")}
+                    maxLength={9}
                     className={`${
                       errors.delivery_phone_number
                         ? "border-red-400 focus:border-red-400"
