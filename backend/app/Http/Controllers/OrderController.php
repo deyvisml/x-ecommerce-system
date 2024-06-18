@@ -397,6 +397,19 @@ class OrderController extends Controller
 
         $paid_state_id = 12;
 
+        // update product stock
+        try {
+            $cart_products = $order->cart_products;
+            $cart_product = $cart_products[0];
+            $product_id = $cart_product->product_id;
+            $quantity = $cart_product->quantity;
+            $product = Product::find($product_id);
+            $product->update(["quantity" => $product->quantity - $quantity]);
+        } catch (\Throwable $e) {
+            $response = ['status' => false, 'message' => 'Error en la obtención del producto.'];
+            return response()->json($response);
+        }
+
         $order->update([
             'paid' => true,
             'state_id' => $paid_state_id,
