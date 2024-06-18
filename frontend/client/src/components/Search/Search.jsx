@@ -33,13 +33,19 @@ const Products = () => {
     const { data } = await axios_client(`api/products`, {
       method: "get",
       params: {
-        search_query,
+        filtering: [
+          {
+            column: "products.state_id",
+            values: [1],
+          },
+        ],
         sorting: [
           {
             column: order_by.column,
             way: order_by.way,
           },
         ],
+        search_query,
         options: {
           only_published: true,
         },

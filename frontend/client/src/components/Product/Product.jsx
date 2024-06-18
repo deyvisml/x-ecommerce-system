@@ -39,29 +39,43 @@ const Product = () => {
   };
 
   const fetch_product = async (product_id) => {
-    const { data } = await axios_client(`api/products`, {
-      method: "get",
-      params: {
-        filtering: [
-          {
-            column: "products.id",
-            values: [product_id],
+    try {
+      const { data } = await axios_client(`api/products`, {
+        method: "get",
+        params: {
+          filtering: [
+            {
+              column: "products.id",
+              values: [product_id],
+            },
+            {
+              column: "products.state_id",
+              values: [1],
+            },
+          ],
+          options: {
+            only_published: true,
           },
-        ],
-        options: {
-          only_published: true,
         },
-      },
-    });
+      });
 
-    const product = data.data[0];
+      console.log("debug", data);
 
-    console.log(product);
+      if (data.data.length == 0) throw new Error("Producto no disponible");
 
-    setProduct(product);
-    setQuantityToBuy(1);
+      const product = data.data[0];
 
-    setCollectionId(product.collection_id);
+      setProduct(product);
+      setQuantityToBuy(1);
+
+      setCollectionId(product.collection_id);
+    } catch (error) {
+      toast.error(error.message ?? error?.response?.data?.message, {
+        autoClose: 5000,
+      });
+
+      navigate("/");
+    }
   };
 
   useEffect(() => {
