@@ -198,6 +198,9 @@
       }
     }
   },
+  "password_recovery": {
+    "title": "Forgot your password?"
+  },
   "general": {
     "fields": {
       "document_type": {
@@ -270,6 +273,14 @@
       "password": {
         "label": "Password",
         "placeholder": "Enter password"
+      },
+      "new_password": {
+        "label": "New password",
+        "placeholder": "Enter new password"
+      },
+      "password_confirmation": {
+        "label": "Confirmation",
+        "placeholder": "Enter confirmation"
       },
       "birthdate": {
         "label": "Birthdate"
@@ -411,7 +422,8 @@
       "required": "This field is required",
       "typeError": "The field value is incorrect",
       "oneOfTrue": "The field must be checked",
-      "oneOfFalse": "The field must not be checked"
+      "oneOfFalse": "The field must not be checked",
+      "oneOfPassword": "Passwords do not match"
     },
     "string": {
       "email": "Enter a valid email",

@@ -23,7 +23,10 @@ const ChangePasswordRequest = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(change_password_request_schema) });
+  } = useForm({
+    resolver: yupResolver(change_password_request_schema),
+    mode: "all",
+  });
 
   const onSubmit = async (data) => {
     setShowLoader(true);
@@ -86,12 +89,18 @@ const ChangePasswordRequest = () => {
                 <input
                   className="border-slate-300 rounded w-full"
                   type="email"
+                  maxLength={100}
                   id="email"
                   {...register("email", { required: true })}
                 />
                 {errors.email && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {t(errors.email.message)}
+                    {typeof errors.email.message === "string"
+                      ? t(errors.email.message)
+                      : t(
+                          errors.email.message.key,
+                          errors.email.message.values
+                        )}
                   </p>
                 )}
               </div>

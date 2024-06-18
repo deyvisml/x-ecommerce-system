@@ -198,6 +198,9 @@
       }
     }
   },
+  "password_recovery": {
+    "title": "¿Olvidó su contraseña?"
+  },
   "general": {
     "fields": {
       "document_type": {
@@ -270,6 +273,14 @@
       "password": {
         "label": "Contraseña",
         "placeholder": "Ingresar Contraseña"
+      },
+      "new_password": {
+        "label": "Nueva contraseña",
+        "placeholder": "Ingresar Nueva contraseña"
+      },
+      "password_confirmation": {
+        "label": "Confirmación",
+        "placeholder": "Ingresar confirmación"
       },
       "birthdate": {
         "label": "Fecha Nacimiento"
@@ -411,7 +422,8 @@
       "required": "El campo es requerido",
       "typeError": "El valor del campo es incorrecto",
       "oneOfTrue": "El campo debe estar marcado",
-      "oneOfFalse": "El campo no debe estar marcado"
+      "oneOfFalse": "El campo no debe estar marcado",
+      "oneOfPassword": "Las contraseñas no coinciden"
     },
     "string": {
       "email": "Ingresa un correo valido",

@@ -37,5 +37,5 @@ yup.setLocale({
 });
 
 export const change_password_request_schema = yup.object({
-  email: yup.string().email().max(150).required(),
+  email: yup.string().email().max(100).required(),
 });

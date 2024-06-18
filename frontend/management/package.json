@@ -34,7 +34,8 @@
     "react-toastify": "^10.0.5",
     "react-transition-group": "^4.4.5",
     "sweetalert2": "^11.10.7",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "yup-password": "^0.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
