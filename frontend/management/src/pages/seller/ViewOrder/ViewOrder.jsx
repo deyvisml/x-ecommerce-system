@@ -494,33 +494,33 @@ const ViewOrder = () => {
               </h4>
 
               <div className="mt-4 text-sm">
-                {order.no_send_message_card ? (
-                  <span className="bg-orange-400 px-3 p-1.5 rounded-md text-white text-xs">
-                    {t("view_order.no_dedication")}
-                  </span>
-                ) : (
-                  <div className="flex flex-col gap-y-2">
-                    <div>
-                      <p>
-                        <span className="font-semibold">
-                          {t("view_order.purchase_occasion")}:
-                        </span>{" "}
-                        <span
-                          className="px-2 py-1 rounded-md text-xs"
-                          style={{
-                            color: order.purchase_occasions_text_color,
-                            backgroundColor: order.purchase_occasions_bg_color,
-                          }}
-                        >
-                          {order.purchase_occasions_name}
-                        </span>
-                      </p>
-                    </div>
-                    <div>
-                      <label
-                        className="block font-semibold"
-                        htmlFor="dedication_message"
+                <div className="flex flex-col gap-y-2">
+                  <div>
+                    <p>
+                      <span className="">
+                        {t("view_order.purchase_occasion")}:
+                      </span>{" "}
+                      <span
+                        className="px-2 py-1 rounded-md text-xs"
+                        style={{
+                          color: order.purchase_occasions_text_color,
+                          backgroundColor: order.purchase_occasions_bg_color,
+                        }}
                       >
+                        {order.purchase_occasions_name}
+                      </span>
+                    </p>
+                  </div>
+
+                  {order.no_send_message_card ? (
+                    <div>
+                      <span className="inline-block bg-orange-400 px-3 p-1.5 rounded-md text-white text-xs">
+                        {t("view_order.no_dedication")}
+                      </span>
+                    </div>
+                  ) : (
+                    <div>
+                      <label className="block" htmlFor="dedication_message">
                         {t("view_order.message")}:
                       </label>
                       <textarea
@@ -532,8 +532,8 @@ const ViewOrder = () => {
                         value={order.dedication_message}
                       ></textarea>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </div>
             </div>
           </div>
