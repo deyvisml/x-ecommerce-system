@@ -115,6 +115,13 @@
         "title": "Delivery",
         "description": "Delivery information."
       },
+      "dedication_stage": {
+        "title": "Dedication",
+        "description": "Personalize your card",
+        "purchase_occasion": "Purchase occasion",
+        "custom_messages_by_occasion": "We help you with personalized messages according to the purchase occasion.",
+        "no_message_card": "I don't want to send a message card"
+      },
       "three": {
         "title": "Payment",
         "description": "Select payment method."
@@ -149,6 +156,12 @@
       "part1": "There are",
       "part2": "products found"
     }
+  },
+  "order_success": {
+    "title": "Your order is confirmed!",
+    "thanks": "Thank you",
+    "description": "You will shortly receive an email with the details of your purchase.",
+    "continue_shopping": "Continue shopping"
   },
   "store_registration": {
     "title": "Store registration request",
@@ -269,6 +282,14 @@
       },
       "subscribe_newsletter": {
         "label": "Subscribe to our newsletter."
+      },
+      "custom_messages": {
+        "label": "Custom Messages",
+        "placeholder": "Select"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Enter a nice message here"
       }
     },
     "buttons": {

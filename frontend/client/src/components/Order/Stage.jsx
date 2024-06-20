@@ -1,5 +1,5 @@
 import React from "react";
-import { Fa1, Fa2, Fa3 } from "react-icons/fa6";
+import { Fa1, Fa2, Fa3, Fa4 } from "react-icons/fa6";
 import { Element } from "react-scroll";
 
 const Stage = ({
@@ -40,8 +40,14 @@ const Stage = ({
                 current_stage == stage ? "text-rose-700" : "text-rose-400"
               }`}
             />
-          ) : (
+          ) : stage == 3 ? (
             <Fa3
+              className={`${
+                current_stage == stage ? "text-rose-700" : "text-rose-400"
+              }`}
+            />
+          ) : (
+            <Fa4
               className={`${
                 current_stage == stage ? "text-rose-700" : "text-rose-400"
               }`}

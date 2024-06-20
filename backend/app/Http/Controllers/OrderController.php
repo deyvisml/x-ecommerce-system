@@ -217,6 +217,11 @@ class OrderController extends Controller
         $delivery_schedule = $request->input('delivery_schedule');
         $delivery_phone_number = $request->input('delivery_phone_number');
 
+        $purchase_occasion_id = $request->input('purchase_occasion_id');
+        $no_send_message_card = $request->input('no_send_message_card');
+        $dedication_message_id = $request->input('dedication_message_id') == 0 ? null : $request->input('dedication_message_id');
+        $dedication_message = $request->input('dedication_message');
+
         $payment_method = $request->input('payment_method');
 
         $privacy_policies = $request->input('privacy_policies');
@@ -268,6 +273,10 @@ class OrderController extends Controller
             'delivery_id' => $created_delivery->id,
             'customer_id' => $created_user->id,
             'store_id' => Product::find($cart['items'][0]['product']['id'])->store_id,
+            'purchase_occasion_id' => $purchase_occasion_id,
+            'no_send_message_card' => $no_send_message_card,
+            'dedication_message_id' => $dedication_message_id,
+            'dedication_message' => $dedication_message,
             'creator_id' => $created_user->id,
             'updater_id' => $created_user->id,
             'state_id' => 11, // not paid
@@ -331,6 +340,12 @@ class OrderController extends Controller
         foreach (Schema::getColumnListing('stores') as $column) {
             $query->addSelect('stores.' . $column . ' as stores_' . $column);
         }
+        foreach (Schema::getColumnListing('purchase_occasions') as $column) {
+            $query->addSelect('purchase_occasions.' . $column . ' as purchase_occasions_' . $column);
+        }
+        foreach (Schema::getColumnListing('dedication_messages') as $column) {
+            $query->addSelect('dedication_messages.' . $column . ' as dedication_messages_' . $column);
+        }
         foreach (Schema::getColumnListing('states') as $column) {
             $query->addSelect('states.' . $column . ' as states_' . $column);
         }
@@ -343,6 +358,8 @@ class OrderController extends Controller
         $query->leftJoin('regions', 'deliveries.region_id', '=', 'regions.id');
         $query->leftJoin('users', 'orders.customer_id', '=', 'users.id');
         $query->leftJoin('stores', 'orders.store_id', '=', 'stores.id');
+        $query->leftJoin('purchase_occasions', 'orders.purchase_occasion_id', '=', 'purchase_occasions.id');
+        $query->leftJoin('dedication_messages', 'orders.dedication_message_id', '=', 'dedication_messages.id');
         $query->leftJoin('states', 'orders.state_id', '=', 'states.id');
 
         // ------------------ getting data ------------------

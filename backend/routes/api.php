@@ -18,6 +18,7 @@ use App\Http\Controllers\OrderDocumentController;
 use App\Http\Controllers\OrderStateController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOccasionController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\StateController;
@@ -102,6 +103,8 @@ Route::post('/change-password-request', [PasswordController::class, 'change_pass
 Route::post('/verify-recovery-password-token', [PasswordController::class, 'verify_recovery_password_token']);
 
 Route::post('/recovery-password', [PasswordController::class, 'recovery_password']);
+
+Route::get("/purchase-occasions", [PurchaseOccasionController::class, 'index']);
 
 // replace php artisan store:link (run after each deployment)
 Route::get('/generate-link-storage', function () {

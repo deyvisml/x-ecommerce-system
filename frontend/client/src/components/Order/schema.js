@@ -90,6 +90,14 @@ export const schema = yup.object({
     .string()
     .matches(/^[0-9]+$/)
     .required(),
+  purchase_occasion_id: yup.number().min(1).required(),
+  no_send_message_card: yup.boolean().required(),
+  dedication_message_id: yup.number().nullable(),
+  dedication_message: yup.string().when("no_send_message_card", {
+    is: false,
+    then: (schema) => schema.max(500).required(),
+    otherwise: (schema) => schema.nullable(),
+  }),
   payment_method: yup.string().required(),
   privacy_policies: yup.bool().oneOf([true]),
   terms_service: yup.bool().oneOf([true]),

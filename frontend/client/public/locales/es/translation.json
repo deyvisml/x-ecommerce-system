@@ -115,6 +115,13 @@
         "title": "Entrega",
         "description": "Información de Delivery."
       },
+      "dedication_stage": {
+        "title": "Dedicatoria",
+        "description": "Personaliza tu tarjeta",
+        "purchase_occasion": "Ocación de compra",
+        "custom_messages_by_occasion": "Te ayudamos con mensajes personalizados según ocasión de compra.",
+        "no_message_card": "No deseo enviar tarjeta de mensaje"
+      },
       "three": {
         "title": "Pago",
         "description": "Seleccionar método de pago."
@@ -149,6 +156,12 @@
       "part1": "Hay",
       "part2": "productos encontrados"
     }
+  },
+  "order_success": {
+    "title": "Su orden esta confirmada!",
+    "thanks": "Gracias",
+    "description": "En breve recibira un correo electronico con los detalles de su compra.",
+    "continue_shopping": "Continuar comprando"
   },
   "store_registration": {
     "title": "Solicitud registro de tienda",
@@ -269,6 +282,14 @@
       },
       "subscribe_newsletter": {
         "label": "Suscribirse a nuestro boletín de noticias."
+      },
+      "custom_messages": {
+        "label": "Mensajes Personalizados",
+        "placeholder": "Seleccionar"
+      },
+      "message": {
+        "label": "Mensaje",
+        "placeholder": "Ingresa un bonito mensaje aquí"
       }
     },
     "buttons": {

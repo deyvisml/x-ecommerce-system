@@ -479,6 +479,65 @@ const ViewOrder = () => {
             </div>
           </div>
 
+          <div className="gap-6 grid grid-cols-2">
+            <div className="border-slate-200 dark:border-slate-700 col-span-full md:col-span-1 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+              <h4 className="font-semibold text-base">
+                {t("view_order.customization")}
+              </h4>
+
+              <div className="mt-4 text-sm">...</div>
+            </div>
+
+            <div className="border-slate-200 dark:border-slate-700 col-span-full md:col-span-1 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+              <h4 className="font-semibold text-base">
+                {t("view_order.dedication")}
+              </h4>
+
+              <div className="mt-4 text-sm">
+                {order.no_send_message_card ? (
+                  <span className="bg-orange-400 px-3 p-1.5 rounded-md text-white text-xs">
+                    {t("view_order.no_dedication")}
+                  </span>
+                ) : (
+                  <div className="flex flex-col gap-y-2">
+                    <div>
+                      <p>
+                        <span className="font-semibold">
+                          {t("view_order.purchase_occasion")}:
+                        </span>{" "}
+                        <span
+                          className="px-2 py-1 rounded-md text-xs"
+                          style={{
+                            color: order.purchase_occasions_text_color,
+                            backgroundColor: order.purchase_occasions_bg_color,
+                          }}
+                        >
+                          {order.purchase_occasions_name}
+                        </span>
+                      </p>
+                    </div>
+                    <div>
+                      <label
+                        className="block font-semibold"
+                        htmlFor="dedication_message"
+                      >
+                        {t("view_order.message")}:
+                      </label>
+                      <textarea
+                        className={`focus:bg-gray-50 px-3 py-2 text-sm border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                        id="dedication_message"
+                        cols="30"
+                        rows="5"
+                        disabled
+                        value={order.dedication_message}
+                      ></textarea>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
             <div className="flex justify-between">
               <h4 className="font-semibold text-base">

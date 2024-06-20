@@ -15,6 +15,7 @@ import {
   FaRegCalendarDays,
   FaRegClock,
 } from "react-icons/fa6";
+import { CheckCircleIcon } from "@heroicons/react/24/solid";
 import paypal_method from "../../../public/images/payment-methods/paypal-method.png";
 import niubiz_method from "../../../public/images/payment-methods/niubiz-method.jpg";
 import Stage from "./Stage";
@@ -30,6 +31,7 @@ import {
   startOfDay,
 } from "date-fns";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 
 const Order = () => {
   const { t } = useTranslation();
@@ -40,6 +42,8 @@ const Order = () => {
   const [delivery_schedules, setDeliverySchedules] = useState();
   const [delivery_cost, setDeliveryCost] = useState();
   const [delivery_schedule, setDeliverySchedule] = useState();
+  const [purchase_occasions, setPurchaseOccasions] = useState([]);
+  const [dedication_messages, setCustomMessages] = useState([]);
 
   const {
     register,
@@ -48,6 +52,7 @@ const Order = () => {
     setValue,
     getValues,
     reset,
+    clearErrors,
     formState: { errors },
     handleSubmit,
   } = useForm({
@@ -70,6 +75,7 @@ const Order = () => {
       delivery_date: undefined,
       delivery_schedule: undefined,
       delivery_phone_number: order?.data?.delivery_phone_number ?? undefined,
+      purchase_occasion_id: 0,
       payment_method: undefined,
       privacy_policies: true,
       terms_service: true,
@@ -121,6 +127,19 @@ const Order = () => {
     setDeliverySchedules(delivery_schedules);
   };
 
+  const fetch_purchase_occasions = async () => {
+    try {
+      const { data } = await axios_client(`api/purchase-occasions`);
+
+      if (!data.status) throw new Error("Error getting purchase occacions.");
+
+      console.log("debuggg", data);
+      setPurchaseOccasions(data.data);
+    } catch (error) {
+      toast.error(error?.response?.data?.message ?? error.message);
+    }
+  };
+
   const is_start_hour_valid = (start_hour, min_difference_time) => {
     const min_difference_time_parse = parse(
       min_difference_time,
@@ -155,6 +174,8 @@ const Order = () => {
       await fetch_locations_by_region(watch("delivery_region"));
 
       await fetch_delivery_schedules();
+
+      await fetch_purchase_occasions();
 
       reset();
     })();
@@ -269,7 +290,41 @@ const Order = () => {
             });
           });
         break;
+      case 3:
+        // fields to validate
+        const purchase_occasion_id = getValues("purchase_occasion_id");
+        const no_send_message_card = getValues("no_send_message_card");
+        const dedication_message_id = getValues("dedication_message_id");
+        const dedication_message = getValues("dedication_message");
 
+        const schema_stage3 = schema.pick([
+          "purchase_occasion_id",
+          "no_send_message_card",
+          "dedication_message_id",
+          "dedication_message",
+        ]);
+
+        schema_stage3
+          .validate(
+            {
+              purchase_occasion_id,
+              no_send_message_card,
+              dedication_message_id,
+              dedication_message,
+            },
+            { abortEarly: false }
+          )
+          .then((valid) => {
+            console.log(valid);
+            setStage(stage + 1);
+          })
+          .catch((errors) => {
+            errors.inner.forEach(({ message, path }) => {
+              console.log(message, path);
+              setError(path, { type: "custom", message });
+            });
+          });
+        break;
       default:
         break;
     }
@@ -412,6 +467,38 @@ const Order = () => {
       fetch_delivery_schedules();
     }
   }, [watch("delivery_date")]);
+
+  useEffect(() => {
+    if (watch("purchase_occasion_id") > 0) {
+      const purchase_occasion = purchase_occasions.find(
+        (purchase_occasion) =>
+          purchase_occasion.id == watch("purchase_occasion_id")
+      );
+      setCustomMessages(purchase_occasion.dedication_messages);
+
+      setValue("dedication_message_id", 0);
+      clearErrors("purchase_occasion_id");
+    }
+  }, [watch("purchase_occasion_id")]);
+
+  useEffect(() => {
+    if (watch("no_send_message_card")) {
+      setValue("dedication_message_id", 0);
+      setValue("dedication_message", "");
+    }
+  }, [watch("no_send_message_card")]);
+
+  useEffect(() => {
+    if (watch("dedication_message_id") > 0) {
+      const dedication_message = dedication_messages.find(
+        (dedication_message) =>
+          dedication_message.id == watch("dedication_message_id")
+      );
+      setValue("dedication_message", dedication_message.message);
+    }
+
+    clearErrors("dedication_message");
+  }, [watch("dedication_message_id")]);
 
   useEffect(() => {
     document.title = `Orden - Florecer Contigo`;
@@ -969,6 +1056,187 @@ const Order = () => {
 
             <Stage
               stage={3}
+              title={t("order.sections.dedication_stage.title")}
+              description={t("order.sections.dedication_stage.description")}
+              current_stage={stage}
+              set_current_stage={setStage}
+            >
+              <div className="gap-4 grid grid-cols-1 md:grid-cols-2 mt-2 py-3 text-gray-600">
+                <div className="col-span-2">
+                  <div>
+                    <label
+                      className="block font-semibold text-gray-500 text-sm"
+                      htmlFor="purchase_occasion_id"
+                    >
+                      {t("order.sections.dedication_stage.purchase_occasion")}{" "}
+                      <span>*</span>
+                    </label>
+                    <span className="text-xs">
+                      {t(
+                        "order.sections.dedication_stage.custom_messages_by_occasion"
+                      )}
+                    </span>
+                  </div>
+
+                  <input
+                    type="number"
+                    {...register("purchase_occasion_id")}
+                    id="purchase_occasion_id"
+                    hidden
+                  />
+
+                  <ul className="flex flex-wrap gap-3 mt-3">
+                    {purchase_occasions.map((purchase_occasion, i) => (
+                      <li key={i} className="inline-block relative">
+                        <div
+                          className="border rounded-2xl overflow-hidden"
+                          style={{
+                            backgroundColor: purchase_occasion.bg_color,
+                            color: purchase_occasion.text_color,
+                          }}
+                        >
+                          <button
+                            type="button"
+                            onClick={() => {
+                              console.log(purchase_occasion);
+                              setValue(
+                                "purchase_occasion_id",
+                                purchase_occasion.id
+                              );
+                            }}
+                            className="px-6 py-1.5"
+                          >
+                            {purchase_occasion.name}
+                          </button>
+                        </div>
+                        {watch("purchase_occasion_id") ==
+                          purchase_occasion.id && (
+                          <span className="-top-2 right-0 absolute">
+                            <CheckCircleIcon className="w-5 text-green-500" />
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  {errors.purchase_occasion_id && (
+                    <p className="text-red-500 text-xs ps-2">
+                      {typeof errors.purchase_occasion_id.message === "string"
+                        ? t(errors.purchase_occasion_id.message)
+                        : t(
+                            errors.purchase_occasion_id.message.key,
+                            errors.purchase_occasion_id.message.values
+                          )}
+                    </p>
+                  )}
+                </div>
+
+                <div className="col-span-2">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      {...register("no_send_message_card")}
+                      id="no_send_message_card"
+                    />
+                    <label
+                      htmlFor="no_send_message_card"
+                      className="font-bold cursor-pointer ps-2"
+                    >
+                      {t("order.sections.dedication_stage.no_message_card")}
+                    </label>
+                  </div>
+                </div>
+
+                {!watch("no_send_message_card") && (
+                  <>
+                    <div className="">
+                      <label
+                        className="block text-gray-500 text-xs"
+                        htmlFor="dedication_message_id"
+                      >
+                        {t("general.fields.custom_messages.label")}
+                      </label>
+                      <select
+                        {...register("dedication_message_id")}
+                        id="dedication_message_id"
+                        className={`${
+                          errors.dedication_message_id
+                            ? "border-red-400 focus:border-red-400"
+                            : ""
+                        } px-2 py-2 border capitalize border-gray-300 rounded-md w-full outline-none`}
+                      >
+                        <option value="0">
+                          {t("general.fields.custom_messages.placeholder")}
+                        </option>
+                        {dedication_messages &&
+                          dedication_messages.map(({ id, name }) => {
+                            return (
+                              <option key={id} value={id}>
+                                {name}
+                              </option>
+                            );
+                          })}
+                      </select>
+                    </div>
+
+                    <div className="col-span">
+                      <label
+                        className="block text-gray-500 text-xs"
+                        htmlFor="dedication_message"
+                      >
+                        {t("general.fields.message.label")}
+                      </label>
+                      <textarea
+                        className={`${
+                          errors.dedication_message
+                            ? "border-red-400 focus:border-red-400"
+                            : ""
+                        } focus:bg-gray-50 px-3 py-2 border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
+                        {...register("dedication_message")}
+                        placeholder={t("general.fields.message.placeholder")}
+                        id="dedication_message"
+                        cols="30"
+                        rows="5"
+                      ></textarea>
+                      {errors.dedication_message && (
+                        <p className="text-red-500 text-xs ps-2">
+                          {typeof errors.dedication_message.message === "string"
+                            ? t(errors.dedication_message.message)
+                            : t(
+                                errors.dedication_message.message.key,
+                                errors.dedication_message.message.values
+                              )}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                )}
+
+                <div className="flex justify-between md:col-span-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handle_click_previous_btn();
+                    }}
+                    className="border-gray-300 bg-white hover:bg-gray-200 px-10 py-2.5 border rounded-md font-bold text-gray-700 text-xs uppercase transition-all duration-300 ease-in-out"
+                  >
+                    {t("general.buttons.previous")}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handle_click_next_btn(3);
+                    }}
+                    className="bg-rose-500 hover:bg-rose-600 shadow px-10 py-2.5 rounded-md font-bold text-white text-xs uppercase transition-all duration-300 ease-in-out"
+                  >
+                    {t("general.buttons.next")}
+                  </button>
+                </div>
+              </div>
+            </Stage>
+
+            <Stage
+              stage={4}
               title={t("order.sections.three.title")}
               description={t("order.sections.three.description")}
               current_stage={stage}
