@@ -22,6 +22,8 @@ class Product extends Model
         'discount_rate',
         'offer_price',
         'in_offer',
+        'is_customizable',
+        'customization_label',
         'publish_now',
         'quantity',
         'in_stock',

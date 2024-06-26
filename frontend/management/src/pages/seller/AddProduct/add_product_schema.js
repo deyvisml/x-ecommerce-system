@@ -62,6 +62,12 @@ export const add_product_schema = yup.object({
     .integer()
     .required(),
   in_stock: yup.boolean().required(),
+  is_customizable: yup.boolean().required(),
+  customization_label: yup.string().when("is_customizable", {
+    is: true,
+    then: (schema) => schema.max(150).required(),
+    otherwise: (schema) => schema.nullable(),
+  }),
   category_id: yup.number().min(1).required(),
   collection_id: yup.number().min(1).required(),
   state_id: yup.number().min(1).required(),

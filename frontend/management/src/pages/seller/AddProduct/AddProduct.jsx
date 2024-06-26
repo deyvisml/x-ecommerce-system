@@ -36,6 +36,7 @@ const AddProduct = () => {
       quantity: 1,
       discount_rate: 0,
       in_stock: true,
+      is_customizable: false,
       state_id: 1,
       publish_now: true,
     },
@@ -282,7 +283,6 @@ const AddProduct = () => {
                 <textarea
                   className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full text-sm placeholder-gray-400 focus:ring-0"
                   {...register("description")}
-                  name="description"
                   id="description"
                   cols="30"
                   rows="5"
@@ -440,6 +440,55 @@ const AddProduct = () => {
                   </p>
                 )}
               </div>
+            </div>
+          </div>
+
+          <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
+            <h4 className="font-semibold text-base">Personalización</h4>
+
+            <div className="gap-4 grid grid-cols-2 mt-4">
+              <div className="col-span-full">
+                <div className="flex justify-between">
+                  <label htmlFor="is_customizable" className="block text-base">
+                    Permitir personalización
+                  </label>
+
+                  <Controller
+                    name="is_customizable"
+                    control={control}
+                    render={({ field: { value, onChange } }) => (
+                      <SwitchInput value={value} onChange={onChange} />
+                    )}
+                  />
+                </div>
+                {errors.is_customizable && (
+                  <p className="pt-1 text-red-500 text-xs ps-1">
+                    {t(errors.is_customizable.message)}
+                  </p>
+                )}
+              </div>
+              {watch("is_customizable") == true && (
+                <div className="col-span-full">
+                  <label
+                    htmlFor="customization_label"
+                    className="block text-xs"
+                  >
+                    Pregunta
+                  </label>
+                  <textarea
+                    className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full min-h-[40px] text-sm placeholder-gray-400 focus:ring-0"
+                    {...register("customization_label")}
+                    maxLength={150}
+                    id="customization_label"
+                    rows="3"
+                  ></textarea>
+                  {errors.customization_label && (
+                    <p className="pt-1 text-red-500 text-xs ps-1">
+                      {t(errors.customization_label.message)}
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 

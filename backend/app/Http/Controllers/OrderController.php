@@ -277,6 +277,7 @@ class OrderController extends Controller
             'no_send_message_card' => $no_send_message_card,
             'dedication_message_id' => $dedication_message_id,
             'dedication_message' => $dedication_message,
+            'customization_message' => $cart['items'][0]['customization_message'],
             'creator_id' => $created_user->id,
             'updater_id' => $created_user->id,
             'state_id' => 11, // not paid
@@ -375,6 +376,7 @@ class OrderController extends Controller
 
         foreach ($cart_products as $cart_product) {
             $cart_product->product_log;
+            $cart_product->product;
         }
 
         // get order_state

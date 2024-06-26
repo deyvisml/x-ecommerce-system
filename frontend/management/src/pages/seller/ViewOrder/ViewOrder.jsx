@@ -56,7 +56,7 @@ const ViewOrder = () => {
       );
 
       const order = response.data.data;
-      console.log(order);
+      console.log("order:", order);
 
       setOrder(order);
     } catch (error) {
@@ -485,7 +485,31 @@ const ViewOrder = () => {
                 {t("view_order.customization")}
               </h4>
 
-              <div className="mt-4 text-sm">...</div>
+              <div className="mt-4 text-sm">
+                <div className="flex flex-col gap-y-2">
+                  {order.cart_products[0].product.is_customizable ? (
+                    <div>
+                      <label className="block" htmlFor="customization_message">
+                        {order.cart_products[0].product.customization_label}:
+                      </label>
+                      <textarea
+                        className={`focus:bg-gray-50 px-3 py-2 text-sm border border-gray-300 focus:border-blue-600 min-h-[40px] rounded-md w-full transition-colors duration-200 ease-in-out cursor-pointer outline-none`}
+                        id="customization_message"
+                        cols="30"
+                        rows="3"
+                        disabled
+                        value={order.customization_message}
+                      ></textarea>
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="inline-block bg-orange-400 px-3 p-1.5 rounded-md text-white text-xs">
+                        Producto no personalizable
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="border-slate-200 dark:border-slate-700 col-span-full md:col-span-1 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
@@ -527,7 +551,7 @@ const ViewOrder = () => {
                         className={`focus:bg-gray-50 px-3 py-2 text-sm border border-gray-300 focus:border-blue-600 rounded-md w-full transition-all duration-200 ease-in-out cursor-pointer outline-none`}
                         id="dedication_message"
                         cols="30"
-                        rows="5"
+                        rows="3"
                         disabled
                         value={order.dedication_message}
                       ></textarea>

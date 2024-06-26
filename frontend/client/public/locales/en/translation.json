@@ -92,6 +92,9 @@
     },
     "description": "Description",
     "availability": "Availability",
+    "personalization": "Personalización",
+    "personalization_information": "No olvide guardar su personalización para poder añadirla al carrito",
+    "personalization_write_here": "Escriba aquí",
     "stock": {
       "yes": "In stock",
       "no": "Out of stock",
@@ -297,7 +300,8 @@
       "previous": "Previous",
       "apply": "Apply",
       "complete": "Complete",
-      "continue": "Continue"
+      "continue": "Continue",
+      "save": "Save"
     }
   },
   "schema": {

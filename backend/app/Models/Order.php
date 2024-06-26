@@ -27,6 +27,7 @@ class Order extends Model
         'no_send_message_card',
         'dedication_message_id',
         'dedication_message',
+        'customization_message',
         'creator_id',
         'updater_id',
         'state_id',

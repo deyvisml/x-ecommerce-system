@@ -17,6 +17,9 @@ import { cloneDeep } from "lodash";
 import { useNavigate } from "react-router-dom";
 import BenefitsInformation from "../BenefitsInformation/BenefitsInformation";
 import { useTranslation } from "react-i18next";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { schema } from "./schema";
 
 const Product = () => {
   const { t } = useTranslation();
@@ -31,6 +34,18 @@ const Product = () => {
   const [quantity_to_buy, setQuantityToBuy] = useState(1);
   const [add_to_cart_loader, setAddToCartLoader] = useState(false);
   const [path_parts, setPathParts] = useState();
+  const [customization_message_saved, setCustomizationMessageSaved] =
+    useState(false);
+  const [customization_message, setCustomizationMessage] = useState();
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const fetch_category = async (category_id) => {
     const { data } = await axios_client(`api/categories/${category_id}`);
@@ -59,11 +74,10 @@ const Product = () => {
         },
       });
 
-      console.log("debug", data);
-
       if (data.data.length == 0) throw new Error("Producto no disponible");
 
       const product = data.data[0];
+      console.log("debug", product);
 
       setProduct(product);
       setQuantityToBuy(1);
@@ -145,11 +159,17 @@ const Product = () => {
   /* ====== END FETCH PRODUCTS ====== */
 
   const handle_buy_now_btn = () => {
+    if (product.is_customizable && !customization_message_saved) {
+      toast.error("Primero debe completar la personalización");
+      return;
+    }
+
     setAddToCartLoader(true);
 
     const item = {
       id: uuidv4(),
       product,
+      customization_message: customization_message,
       quantity: quantity_to_buy,
     };
 
@@ -165,6 +185,12 @@ const Product = () => {
     }
 
     setAddToCartLoader(false);
+  };
+
+  const saveCustomization = (data) => {
+    setCustomizationMessageSaved(true);
+    setCustomizationMessage(data.customization_message);
+    toast.success("Peronalización guardada!");
   };
 
   useEffect(() => {
@@ -268,6 +294,59 @@ const Product = () => {
                     </p>
                   ))}
               </div>
+              {product && product.is_customizable == true && (
+                <div className="bg-slate-100 p-4">
+                  <form onSubmit={handleSubmit(saveCustomization)}>
+                    <span className="block mb-2 font-semibold text-sm uppercase">
+                      {t("product.personalization")}:
+                    </span>
+                    <div className="text-sm">
+                      <span className="text-xs">
+                        {t("product.personalization_information")}
+                      </span>
+                      <div className="mt-2">
+                        <label
+                          htmlFor="customization_message"
+                          className="block"
+                        >
+                          {product && product.customization_label}{" "}
+                          <span className="">*</span>
+                        </label>
+                        <textarea
+                          className={` focus:bg-gray-50 px-3 py-2 border min-h-10 border-gray-300 focus:border-blue-600 rounded-md w-full  cursor-pointer outline-none`}
+                          id="customization_message"
+                          {...register("customization_message")}
+                          placeholder="Escriba aqui"
+                          rows="1"
+                        ></textarea>
+                        {errors.customization_message && (
+                          <p className="text-red-500 text-xs ps-2">
+                            {t(errors.customization_message.message)}
+                          </p>
+                        )}
+                      </div>
+                      {customization_message_saved && (
+                        <div className="mt-2">
+                          <p>
+                            <span className="font-bold">
+                              {t("product.personalization")}:{" "}
+                            </span>
+                            {customization_message}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="bg-slate-500 hover:bg-slate-600 px-4 py-2 rounded-md text-white text-xs transition-all duration-300 ease-in-out"
+                      >
+                        {t("general.buttons.save")}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
               <div>
                 <span className="block mb-2 font-semibold text-sm uppercase">
                   {t("product.quantity")}:
