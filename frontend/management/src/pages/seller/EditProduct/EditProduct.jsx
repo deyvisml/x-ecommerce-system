@@ -386,7 +386,7 @@ const EditProduct = () => {
                           <img
                             src={`${
                               import.meta.env.VITE_API_URL
-                            }/storage/images/products/medium/${image_name}`}
+                            }/storage/images/products/large/${image_name}`}
                             className="m-auto w-32 h-32 object-contain"
                           />
                         </li>

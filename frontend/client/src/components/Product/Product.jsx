@@ -327,7 +327,7 @@ const Product = () => {
                     </p>
                   ))}
               </div>
-              {product && product.is_customizable && (
+              {product && product.is_customizable == true && (
                 <div className="bg-slate-100 p-4">
                   <form onSubmit={handleSubmit(saveCustomization)}>
                     <span className="block mb-2 font-semibold text-sm uppercase">
