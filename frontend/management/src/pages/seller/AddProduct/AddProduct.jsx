@@ -139,8 +139,10 @@ const AddProduct = () => {
     const form_data = new FormData();
 
     for (let key in data) {
-      if (key == "image") {
-        form_data.append(key, data[key][0]);
+      if (key == "images") {
+        for (let i = 0; i < data[key].length; i++) {
+          form_data.append(`images[]`, data[key][i]);
+        }
       } else if (key == "publish_date") {
         form_data.append(
           key,
@@ -304,7 +306,7 @@ const AddProduct = () => {
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <UploadImageDropzone
-                  name={"image"}
+                  name={"images"}
                   register={register}
                   setValue={setValue}
                   setError={setError}
@@ -312,9 +314,14 @@ const AddProduct = () => {
                   watch={watch}
                   schema={add_product_schema}
                 />
-                {errors.image && (
+                {errors.images && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {t(errors.image.message)}
+                    {typeof errors.images.message === "string"
+                      ? t(errors.images.message)
+                      : t(
+                          errors.images.message.key,
+                          errors.images.message.values
+                        )}
                   </p>
                 )}
               </div>

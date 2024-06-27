@@ -48,7 +48,9 @@ const CartItem = ({ item }) => {
           <img
             src={`${
               import.meta.env.VITE_API_URL
-            }/storage/images/products/medium/${item.product.image_name}`}
+            }/storage/images/products/medium/${
+              item.product.image_names.split(",")[0]
+            }`}
             alt="product image"
             className="block w-full h-full overflow-hidden object-contain"
           />

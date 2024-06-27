@@ -124,7 +124,7 @@ class ProductSeeder extends Seeder
                 'id' => $i + 1,
                 'name' => $faker->sentence(3),
                 'description' => $faker->paragraph(),
-                'image_name' => $image_names[array_rand($image_names)],
+                'image_names' => $image_names[array_rand($image_names)],
                 'price' => $price,
                 'offer_price' => $price,
                 'quantity' => $faker->numberBetween(0, 30),

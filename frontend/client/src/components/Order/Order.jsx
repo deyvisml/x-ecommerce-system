@@ -1409,7 +1409,7 @@ const Order = () => {
                             src={`${
                               import.meta.env.VITE_API_URL
                             }/storage/images/products/small/${
-                              item.product.image_name
+                              item.product.image_names.split(",")[0]
                             }`}
                             alt="product image"
                             className="border rounded-md w-16 h-16 object-contain"

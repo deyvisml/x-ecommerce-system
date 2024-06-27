@@ -202,7 +202,7 @@ class ProductController extends Controller
             'name' => 'required',
             'sku' => 'required',
             'description' => 'required',
-            'image' => 'required|image|mimes:png,jpeg,jpg|max:5120|dimensions:min_width=800,min_height=800',
+            'images' => 'required',
             'price' => 'required',
             'discount_rate' => 'required',
             'in_offer' => 'required',
@@ -229,18 +229,24 @@ class ProductController extends Controller
             return response()->json($response);
         }
 
-        // storing image in different sizes
-        $file = $request->file('image');
+        $files = $request->images;
+        $image_names = [];
+        foreach ($files as $index => $file) {
+            $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+            $unique_hash = md5($file_name . '_' . time() . '_' . Str::random(10));
 
-        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-        $unique_hash = md5($file_name . '_' . time() . '_' . Str::random(10));
+            $full_file_name = $unique_hash . '.jpg';
 
-        $full_file_name = $unique_hash . '.jpg';
+            $this->resize_and_save_image($file, 800, 800, 'public/storage/images/products/large/', $full_file_name);
+            if ($index == 0) { // only for the "main" image
+                $this->resize_and_save_image($file, 350, 350, 'public/storage/images/products/medium/', $full_file_name);
+                $this->resize_and_save_image($file, 150, 150, 'public/storage/images/products/small/', $full_file_name);
+            }
 
-        $this->resize_and_save_image($file, 800, 800, 'public/storage/images/products/large/', $full_file_name);
-        $this->resize_and_save_image($file, 350, 350, 'public/storage/images/products/medium/', $full_file_name);
-        $this->resize_and_save_image($file, 150, 150, 'public/storage/images/products/small/', $full_file_name);
+            $image_names[] = $full_file_name;
+        }
+        $image_names = implode(",", $image_names);
 
         $user = $request->user();
 
@@ -258,7 +264,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'sku' => $request->sku,
             'description' => $request->description,
-            'image_name' => $full_file_name,
+            'image_names' => $image_names,
             'price' => number_format($request->price, 2),
             'discount_rate' => $request->discount_rate,
             'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),
@@ -349,8 +355,7 @@ class ProductController extends Controller
             'name' => 'required',
             'sku' => 'required',
             'description' => 'required',
-            'image' => 'sometimes|nullable|image|mimes:png,jpeg,jpg|max:5120',
-            'image_name' => 'required',
+            'image_names' => 'required',
             'price' => 'required',
             'discount_rate' => 'required',
             'in_offer' => 'required',
@@ -369,22 +374,30 @@ class ProductController extends Controller
             return response()->json($response);
         }
 
-        $full_file_name = null;
-        if ($request->hasFile("image")) {
-            // storing image
-            $file = $request->file('image');
+        $image_names = null;
+        if ($request->has("images")) {
+            $files = $request->images;
 
-            $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
-            $unique_hash = md5($file_name . '_' . time() . '_' . Str::random(10));
+            $image_names = [];
+            foreach ($files as $index => $file) {
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+                $unique_hash = md5($file_name . '_' . time() . '_' . Str::random(10));
 
-            $full_file_name = $unique_hash . '.jpg';
+                $full_file_name = $unique_hash . '.jpg';
 
-            $this->resize_and_save_image($file, 800, 800, 'public/storage/images/products/large/', $full_file_name);
-            $this->resize_and_save_image($file, 350, 350, 'public/storage/images/products/medium/', $full_file_name);
-            $this->resize_and_save_image($file, 150, 150, 'public/storage/images/products/small/', $full_file_name);
+                $this->resize_and_save_image($file, 800, 800, 'public/storage/images/products/large/', $full_file_name);
+                if ($index == 0) { // only for the "main" image
+                    $this->resize_and_save_image($file, 350, 350, 'public/storage/images/products/medium/', $full_file_name);
+                    $this->resize_and_save_image($file, 150, 150, 'public/storage/images/products/small/', $full_file_name);
+                }
+
+                $image_names[] = $full_file_name;
+            }
+
+            $image_names = implode(",", $image_names);
         } else {
-            $full_file_name = $request->image_name;
+            $image_names = $request->image_names;
         }
 
         $user = $request->user();
@@ -393,7 +406,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'sku' => $request->sku,
             'description' => $request->description,
-            'image_name' => $full_file_name,
+            'image_names' => $image_names,
             'price' => number_format($request->price, 2),
             'discount_rate' => $request->discount_rate,
             'offer_price' => number_format($request->price * (100 - $request->discount_rate) / 100, 2),

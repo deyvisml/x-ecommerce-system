@@ -387,7 +387,9 @@ const ViewOrder = () => {
                                   src={`${
                                     import.meta.env.VITE_API_URL
                                   }/storage/images/products/small/${
-                                    cart_product.product_log.image_name
+                                    cart_product.product_log.image_names.split(
+                                      ","
+                                    )[0]
                                   }`}
                                   alt=""
                                   className="w-full h-full object-cover"

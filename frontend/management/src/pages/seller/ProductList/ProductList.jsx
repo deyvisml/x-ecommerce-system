@@ -122,7 +122,7 @@ function ProductList() {
                   src={`${
                     import.meta.env.VITE_API_URL
                   }/storage/images/products/small/${
-                    info.row.original.image_name
+                    info.row.original.image_names.split(",")[0]
                   }`}
                   alt=""
                   className="w-full h-full object-cover"

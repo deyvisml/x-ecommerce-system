@@ -228,7 +228,7 @@
                                                     <td style="width: 80px">
                                                         <img
                                                             class="product_image"
-                                                            src="{{ config('app.url') . '/storage/images/products/small/'. $cart_product['product']->image_name }}"
+                                                            src="{{ config('app.url') . '/storage/images/products/small/'. $cart_product['product']->image_names }}"
                                                             alt=""
                                                         />
                                                     </td>

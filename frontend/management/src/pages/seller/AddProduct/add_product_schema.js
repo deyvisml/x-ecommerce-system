@@ -38,6 +38,10 @@ yup.setLocale({
     integer: "schema.number.integer",
     positive: "schema.number.positive",
   },
+  array: {
+    min: ({ min }) => ({ key: "schema.array.min", values: { min } }),
+    max: ({ max }) => ({ key: "schema.array.max", values: { max } }),
+  },
   date: {
     min: "schema.date.min",
   },
@@ -48,7 +52,7 @@ export const add_product_schema = yup.object({
   name: yup.string().max(200).required(),
   sku: yup.string().max(20).required(),
   description: yup.string().max(600).required(),
-  image: yup.array().length(1, "Seleccione un archivo").required(),
+  images: yup.array().min(1).max(3).required(),
   price: yup.number().positive().required(),
   discount_rate: yup
     .number()

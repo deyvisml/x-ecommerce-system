@@ -42,7 +42,7 @@ const EditProduct = () => {
         name: product.name,
         sku: product.sku,
         description: product.description,
-        image_name: product.image_name,
+        image_names: product.image_names,
         price: product.price,
         discount_rate: product.discount_rate,
         in_offer: product.in_offer,
@@ -192,8 +192,10 @@ const EditProduct = () => {
     const form_data = new FormData();
 
     for (let key in data) {
-      if (key == "image") {
-        form_data.append(key, data[key] ? data[key][0] : "");
+      if (key == "images") {
+        for (let i = 0; i < data[key].length; i++) {
+          form_data.append(`images[]`, data[key][i]);
+        }
       } else {
         form_data.append(key, data[key]);
       }
@@ -352,7 +354,7 @@ const EditProduct = () => {
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <UploadImageDropzone
-                  name={"image"}
+                  name={"images"}
                   register={register}
                   setValue={setValue}
                   setError={setError}
@@ -360,9 +362,14 @@ const EditProduct = () => {
                   watch={watch}
                   schema={schema}
                 />
-                {errors.image && (
+                {errors.images && (
                   <p className="pt-1 text-red-500 text-xs ps-1">
-                    {t(errors.image.message)}
+                    {typeof errors.images.message === "string"
+                      ? t(errors.images.message)
+                      : t(
+                          errors.images.message.key,
+                          errors.images.message.values
+                        )}
                   </p>
                 )}
               </div>
@@ -371,22 +378,22 @@ const EditProduct = () => {
                 <label className="block text-xs">
                   {t("edit_product.current_image")}
                 </label>
-                <div className="gap-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-1">
+                <div className="mt-4">
                   {product && (
-                    <div className="justify-center items-center shadow border rounded divide-y divide-gray-300 text-center text-xs">
-                      <div className="p-2">
-                        <img
-                          src={`${
-                            import.meta.env.VITE_API_URL
-                          }/storage/images/products/medium/${
-                            product.image_name
-                          }`}
-                          className="m-auto w-32 h-32 object-cover"
-                        />
-                      </div>
-                    </div>
+                    <ul className="flex flex-wrap gap-4">
+                      {product.image_names.split(",").map((image_name) => (
+                        <li className="border-2 shadow p-2 rounded">
+                          <img
+                            src={`${
+                              import.meta.env.VITE_API_URL
+                            }/storage/images/products/medium/${image_name}`}
+                            className="m-auto w-32 h-32 object-contain"
+                          />
+                        </li>
+                      ))}
+                    </ul>
                   )}
-                  <input type="hidden" {...register("image_name")} />
+                  <input type="hidden" {...register("image_names")} />
                 </div>
               </div>
             </div>

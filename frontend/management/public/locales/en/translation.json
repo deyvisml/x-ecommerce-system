@@ -61,7 +61,7 @@
     "title": "Add Product",
     "publish_product": "Publish product",
     "product_information": "Product information",
-    "product_image": "Product image (800x800)",
+    "product_image": "Product image (800x800) (max: 3 images)",
     "price": "Price",
     "customization": "Customization",
     "allow_customization": "Allow customization",
@@ -78,7 +78,7 @@
     "title": "Edit Product",
     "edit_product": "Edit product",
     "product_information": "Product information",
-    "product_image": "New product image (800x800)",
+    "product_image": "New product image (800x800) (max: 3 images)",
     "current_image": "Current image",
     "price": "Price",
     "customization": "Customization",
@@ -451,6 +451,10 @@
       "max": "Maximum value: {{max}}",
       "integer": "The field must be an integer",
       "positive": "The field must be positive"
+    },
+    "array": {
+      "min": "Minimum: {{max}} file(s)",
+      "max": "Maximum: {{max}} file(s)"
     },
     "date": {
       "min": "Choose a valid date"

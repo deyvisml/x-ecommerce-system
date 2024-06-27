@@ -37,6 +37,7 @@ const Product = () => {
   const [customization_message_saved, setCustomizationMessageSaved] =
     useState(false);
   const [customization_message, setCustomizationMessage] = useState();
+  const [display_image_index, setDisplayImageIndex] = useState();
 
   const {
     register,
@@ -199,6 +200,12 @@ const Product = () => {
 
   useEffect(() => {
     if (product) {
+      setDisplayImageIndex(0);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    if (product) {
       document.title = `${product.name} - Florecer Contigo`;
     }
   }, [product]);
@@ -211,13 +218,15 @@ const Product = () => {
         </div>
 
         <div className="flex md:flex-row flex-col flex-wrap items-start gap-y-5">
-          <div className="flex justify-center items-center w-full md:w-1/2">
+          <div className="flex flex-col justify-center items-center w-full md:w-1/2">
             <div className="sm:mx-5 w-full leading-none">
               {product && (
                 <img
                   src={`${
                     import.meta.env.VITE_API_URL
-                  }/storage/images/products/large/${product.image_name}`}
+                  }/storage/images/products/large/${
+                    product.image_names.split(",")[display_image_index]
+                  }`}
                   alt="product image"
                   className="border-2 shadow w-full"
                 />
@@ -225,13 +234,37 @@ const Product = () => {
 
               {/* product && (
               <ImageZoom
-                src={`${import.meta.env.VITE_API_URL}/storage/images/products/large/${product.image_name}`}
+                src={`${import.meta.env.VITE_API_URL}/storage/images/products/large/${product.image_names.split(",")[0]}`}
                 alt="Product image"
                 className="border-2 border-gray-400"
                 width="50%"
                 zoom="180"
               />
             ) */}
+            </div>
+
+            <div className="mt-5 w-full">
+              {product && (
+                <ul className="flex flex-wrap gap-3">
+                  {product.image_names.split(",").map((image_name, i) => (
+                    <li
+                      className={`${
+                        i == display_image_index &&
+                        " box-border border-slate-500"
+                      } border-4 rounded transition-all duration-300 ease-in-out`}
+                      onClick={() => setDisplayImageIndex(i)}
+                    >
+                      <img
+                        src={`${
+                          import.meta.env.VITE_API_URL
+                        }/storage/images/products/large/${image_name}`}
+                        alt="product image"
+                        className="border-2 w-20 h-20 cursor-pointer object-contain"
+                      />
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
 

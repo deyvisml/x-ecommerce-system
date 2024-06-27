@@ -45,14 +45,20 @@ const UploadImageDropzone = ({
 
       Promise.all(validFilesPromises)
         .then((newFiles) => {
-          setValue(name, newFiles);
+          const current_files = watch(name);
+          let aux_files = null;
+          if (current_files && current_files.length > 0)
+            aux_files = [...current_files, ...newFiles];
+          else aux_files = newFiles;
+
+          setValue(name, aux_files);
         })
         .catch((error) => {
           console.error(error.message);
           toast.error(error.message);
         });
     },
-    [setValue, name]
+    [setValue, watch, name]
   );
 
   const bytes_to_mb = (bytes) => {
@@ -63,7 +69,7 @@ const UploadImageDropzone = ({
     onDrop,
     accept: { "image/png": [".png"], "image/jpeg": [".jpeg", ".jpg"] },
     maxSize: 1024 * 1024 * 5,
-    maxFiles: 1,
+    maxFiles: 3,
   });
 
   useEffect(() => {
@@ -133,7 +139,7 @@ const UploadImageDropzone = ({
                 </div>
                 <div className="p-2 text-left">
                   <span title={file.name} className="block">
-                    {file.name.substring(0, 20)}...
+                    {file && file.name?.substring(0, 20)}...
                   </span>
                   <span className="block font-bold text-gray-400 italic">
                     {bytes_to_mb(file.size)} MB

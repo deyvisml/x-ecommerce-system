@@ -18,7 +18,7 @@ class ProductLog extends Model
         'name',
         'sku',
         'description',
-        'image_name',
+        'image_names',
         'price',
         'discount_rate',
         'offer_price',

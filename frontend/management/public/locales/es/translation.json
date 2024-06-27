@@ -61,7 +61,7 @@
     "title": "Añadir Producto",
     "publish_product": "Publicar producto",
     "product_information": "Información del producto",
-    "product_image": "Imagen del producto (800x800)",
+    "product_image": "Imagen del producto (800x800) (max: 3 imagenes)",
     "price": "Precio",
     "customization": "Personalización",
     "allow_customization": "Permitir personalización",
@@ -78,7 +78,7 @@
     "title": "Editar Producto",
     "edit_product": "Editar producto",
     "product_information": "Información del producto",
-    "product_image": "Nueva imagen del producto (800x800)",
+    "product_image": "Nueva imagen del producto (800x800) (max: 3 imagenes)",
     "current_image": "Imagen actual",
     "price": "Precio",
     "customization": "Personalización",
@@ -451,6 +451,10 @@
       "max": "Valor máximo: {{max}}",
       "integer": "El campo debe ser un numero entero",
       "positive": "El campo debe ser positivo"
+    },
+    "array": {
+      "min": "Mínimo: {{max}} archivo(s)",
+      "max": "Máximo: {{max}} archivo(s)"
     },
     "date": {
       "min": "Eliga una fecha valida"
