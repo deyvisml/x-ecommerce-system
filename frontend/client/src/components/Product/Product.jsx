@@ -294,7 +294,7 @@ const Product = () => {
                     </p>
                   ))}
               </div>
-              {product && product.is_customizable == true && (
+              {product && product.is_customizable && (
                 <div className="bg-slate-100 p-4">
                   <form onSubmit={handleSubmit(saveCustomization)}>
                     <span className="block mb-2 font-semibold text-sm uppercase">
@@ -316,7 +316,7 @@ const Product = () => {
                           className={` focus:bg-gray-50 px-3 py-2 border min-h-10 border-gray-300 focus:border-blue-600 rounded-md w-full  cursor-pointer outline-none`}
                           id="customization_message"
                           {...register("customization_message")}
-                          placeholder="Escriba aqui"
+                          placeholder={t("product.personalization_write_here")}
                           rows="1"
                         ></textarea>
                         {errors.customization_message && (

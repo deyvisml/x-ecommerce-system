@@ -63,6 +63,9 @@
     "product_information": "Información del producto",
     "product_image": "Imagen del producto (800x800)",
     "price": "Precio",
+    "customization": "Personalización",
+    "allow_customization": "Permitir personalización",
+    "customization_question": "Pregunta",
     "organize": "Organizar",
     "publication": "Publicación"
   },
@@ -78,6 +81,9 @@
     "product_image": "Nueva imagen del producto (800x800)",
     "current_image": "Imagen actual",
     "price": "Precio",
+    "customization": "Personalización",
+    "allow_customization": "Permitir personalización",
+    "customization_question": "Pregunta",
     "organize": "Organizar"
   },
   "order_list": {

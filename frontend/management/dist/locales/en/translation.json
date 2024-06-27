@@ -63,6 +63,9 @@
     "product_information": "Product information",
     "product_image": "Product image (800x800)",
     "price": "Price",
+    "customization": "Customization",
+    "allow_customization": "Allow customization",
+    "customization_question": "Question",
     "organize": "Organize",
     "publication": "Publication"
   },

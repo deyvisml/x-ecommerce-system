@@ -516,13 +516,15 @@ const EditProduct = () => {
           </div>
 
           <div className="border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg p-5 border rounded-sm">
-            <h4 className="font-semibold text-base">Personalización</h4>
+            <h4 className="font-semibold text-base">
+              {t("edit_product.customization")}
+            </h4>
 
             <div className="gap-4 grid grid-cols-2 mt-4">
               <div className="col-span-full">
                 <div className="flex justify-between">
                   <label htmlFor="is_customizable" className="block text-base">
-                    Permitir personalización
+                    {t("edit_product.allow_customization")}
                   </label>
 
                   <Controller
@@ -545,7 +547,7 @@ const EditProduct = () => {
                     htmlFor="customization_label"
                     className="block text-xs"
                   >
-                    Pregunta
+                    {t("edit_product.customization_question")}
                   </label>
                   <textarea
                     className="border-slate-200 focus:border-indigo-400 mt-1 px-2 py-1.5 rounded w-full min-h-[40px] text-sm placeholder-gray-400 focus:ring-0"
